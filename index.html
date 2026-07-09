@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Präparat 01 – Pflanzenzelle und Tierzelle</title>
+<style>
+  :root{
+    --okular:#101A1E;
+    --tisch:#17242A;
+    --tisch-hoch:#1D2E35;
+    --hairline:#2C3D45;
+    --schrift:#E8EDE9;
+    --leise:#93A4A2;
+    --sehfeld:#EFF3E6;
+
+    --wand:#C9B573;
+    --membran:#3D6FA8;
+    --kern:#6B4FA1;
+    --mito:#C0453F;
+    --chloro:#3F7E3A;
+    --vakuole:#5FA3B8;
+    --plasma-p:#E4EBD5;
+    --plasma-t:#E3EAF3;
+
+    --richtig:#5FA36B;
+    --falsch:#C0453F;
+
+    --mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
+    --sans: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--okular);
+    color:var(--schrift);
+    font-family:var(--sans);
+    font-size:17px;
+    line-height:1.55;
+    padding:0 20px 64px;
+  }
+  .seite{max-width:1120px;margin:0 auto}
+
+  /* ---------- Kopf: Etikett des Objektträgers ---------- */
+  .etikett{
+    display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px;
+    border-bottom:1px solid var(--hairline);
+    padding:26px 0 16px;margin-bottom:26px;
+  }
+  .etikett .nr{
+    font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--leise);
+  }
+  h1{
+    font-family:var(--mono);font-weight:600;font-size:clamp(22px,3.4vw,34px);
+    letter-spacing:.14em;text-transform:uppercase;margin:0;flex:1 1 100%;
+  }
+  .etikett p{margin:0;color:var(--leise);flex:1 1 100%;max-width:62ch}
+
+  /* ---------- Objektträger-Wahl ---------- */
+  .traeger{display:flex;gap:10px;margin:0 0 20px}
+  .traeger button{
+    font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    background:var(--tisch);color:var(--leise);
+    border:1px solid var(--hairline);border-radius:2px;
+    padding:11px 16px;cursor:pointer;
+  }
+  .traeger button:hover{color:var(--schrift)}
+  .traeger button[aria-pressed="true"]{
+    background:var(--tisch-hoch);color:var(--schrift);
+    box-shadow:inset 0 -3px 0 var(--akzent, var(--chloro));
+  }
+
+  /* ---------- Werkbank ---------- */
+  .bank{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:26px;align-items:start}
+  @media (max-width:920px){.bank{grid-template-columns:1fr}}
+
+  .sehfeld-box{background:var(--tisch);border:1px solid var(--hairline);border-radius:2px;padding:10px}
+  svg#praeparat{display:block;width:100%;height:auto;transition:filter .35s ease, opacity .35s ease}
+  svg#praeparat.scharfstellen{filter:blur(5px);opacity:.55}
+
+  .werkzeug{
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+    padding:8px 6px 2px;border-top:1px solid var(--hairline);margin-top:8px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--leise);
+  }
+  .werkzeug label{display:flex;align-items:center;gap:8px;cursor:pointer;color:var(--leise)}
+  .werkzeug input{accent-color:var(--membran);width:15px;height:15px}
+
+  .organelle{cursor:pointer}
+  .organelle:focus{outline:none}
+  .organelle:focus-visible .treffer,
+  .organelle:hover .treffer{stroke:#fff;stroke-width:3;stroke-dasharray:4 3}
+  .beschriftung{opacity:0;transition:opacity .2s ease}
+  .beschriftung.an{opacity:1}
+  .lbl{font-family:var(--mono);font-size:13.5px;letter-spacing:.1em;fill:var(--schrift)}
+  .lbl.fehlt{fill:#63767D}
+  .leader{stroke:#8FA0A6;stroke-width:1;fill:none}
+  .guide{stroke:#39505A;stroke-width:1}
+
+  /* ---------- Karte ---------- */
+  .karte{background:var(--tisch);border:1px solid var(--hairline);border-radius:2px;padding:22px 22px 24px;min-height:100%}
+  .karte .leer{color:var(--leise);margin:0}
+  .karte h2{
+    font-family:var(--mono);font-size:19px;letter-spacing:.1em;text-transform:uppercase;
+    margin:0 0 12px;padding-bottom:12px;border-bottom:2px solid var(--akzent,var(--membran));
+  }
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+  .chip{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+    border:1px solid var(--hairline);color:var(--leise);padding:4px 8px;border-radius:2px;
+  }
+  .chip.ja{color:var(--schrift);border-color:var(--akzent,var(--membran))}
+  .feld{margin-bottom:16px}
+  .feld h3{
+    font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--leise);margin:0 0 4px;font-weight:500;
+  }
+  .feld p{margin:0}
+  .bruecke{
+    border-left:2px solid var(--akzent,var(--membran));
+    padding:10px 0 10px 14px;margin-top:20px;background:rgba(255,255,255,.02);
+  }
+  .bruecke strong{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;display:block;color:var(--leise);font-weight:500;margin-bottom:2px}
+  .hinweis{margin-top:16px;font-size:14.5px;color:var(--leise);border-top:1px dashed var(--hairline);padding-top:12px}
+
+  /* ---------- Tabelle ---------- */
+  section{margin-top:46px}
+  section > h2{
+    font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--leise);font-weight:500;margin:0 0 14px;
+  }
+  table{width:100%;border-collapse:collapse;font-size:16px}
+  th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--hairline);vertical-align:top}
+  thead th{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--leise);font-weight:500}
+  tbody tr{cursor:pointer}
+  tbody tr:hover{background:var(--tisch)}
+  tbody tr[aria-selected="true"]{background:var(--tisch-hoch)}
+  td.zeichen{font-family:var(--mono);width:130px}
+  .ja-z{color:var(--richtig)}
+  .nein-z{color:#63767D}
+  td small{display:block;color:var(--leise);font-size:13px}
+
+  /* ---------- Test ---------- */
+  .test{background:var(--tisch);border:1px solid var(--hairline);border-radius:2px;padding:22px}
+  .test .zaehler{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--leise)}
+  .test .frage{font-size:19px;margin:8px 0 14px;max-width:60ch}
+  .test .rueck{min-height:1.6em;margin:0 0 16px}
+  .test .rueck.richtig{color:var(--richtig)}
+  .test .rueck.falsch{color:var(--falsch)}
+  .test button{
+    font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    background:transparent;color:var(--schrift);border:1px solid var(--hairline);
+    border-radius:2px;padding:11px 18px;cursor:pointer;
+  }
+  .test button:hover{border-color:var(--schrift)}
+
+  footer{
+    margin-top:46px;padding-top:16px;border-top:1px solid var(--hairline);
+    color:var(--leise);font-size:14.5px;max-width:78ch;
+  }
+  footer strong{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--schrift);font-weight:500}
+
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none !important;animation:none !important}
+    svg#praeparat.scharfstellen{filter:none;opacity:1}
+  }
+</style>
+</head>
+<body>
+<div class="seite">
+
+  <header class="etikett">
+    <span class="nr">Präparat 01 · Biologie · Klasse 5/6</span>
+    <h1>Zelle unter dem Mikroskop</h1>
+    <p>Lege einen Objektträger ein und klicke im Sehfeld auf ein Bauteil. Du erfährst, <em>wie es gebaut ist</em> und <em>welche Aufgabe es hat</em>. Am Ende wartet ein kurzer Test.</p>
+  </header>
+
+  <div class="traeger" role="group" aria-label="Objektträger wählen">
+    <button id="btn-pflanze" aria-pressed="true">Objektträger A · Pflanzenzelle</button>
+    <button id="btn-tier" aria-pressed="false">Objektträger B · Tierzelle</button>
+  </div>
+
+  <div class="bank">
+    <div class="sehfeld-box">
+      <svg id="praeparat" viewBox="0 0 640 440" role="img" aria-label="Modellzeichnung einer Zelle im Sehfeld des Mikroskops">
+        <defs>
+          <clipPath id="sehfeld"><circle cx="220" cy="220" r="190"/></clipPath>
+          <radialGradient id="rand" cx="50%" cy="50%" r="50%">
+            <stop offset="72%" stop-color="#000" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#000" stop-opacity=".35"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Sehfeld -->
+        <circle cx="220" cy="220" r="190" fill="var(--sehfeld)"/>
+
+        <!-- ============ PFLANZENZELLE ============ -->
+        <g id="zelle-pflanze" clip-path="url(#sehfeld)">
+          <g class="organelle" data-id="zellwand" tabindex="0" role="button" aria-label="Zellwand">
+            <rect class="treffer" x="52" y="62" width="336" height="316" rx="22" fill="var(--wand)" stroke="#8E7E42" stroke-width="2"/>
+          </g>
+          <g class="organelle" data-id="zellplasma" tabindex="0" role="button" aria-label="Zellplasma">
+            <rect class="treffer" x="70" y="80" width="300" height="280" rx="14" fill="var(--plasma-p)" stroke="none"/>
+          </g>
+          <g class="organelle" data-id="zellmembran" tabindex="0" role="button" aria-label="Zellmembran">
+            <rect class="treffer" x="70" y="80" width="300" height="280" rx="14" fill="none" stroke="var(--membran)" stroke-width="4"/>
+          </g>
+          <g class="organelle" data-id="vakuole" tabindex="0" role="button" aria-label="Vakuole">
+            <ellipse class="treffer" cx="225" cy="210" rx="100" ry="88" fill="var(--vakuole)" fill-opacity=".35" stroke="var(--vakuole)" stroke-width="2.5"/>
+          </g>
+          <g class="organelle" data-id="chloroplast" tabindex="0" role="button" aria-label="Chloroplasten">
+            <g class="treffer" fill="var(--chloro)" fill-opacity=".85" stroke="#2C5C29" stroke-width="1.5">
+              <ellipse cx="98" cy="142" rx="21" ry="12" transform="rotate(-20 98 142)"/>
+              <ellipse cx="340" cy="130" rx="21" ry="12" transform="rotate(18 340 130)"/>
+              <ellipse cx="350" cy="256" rx="21" ry="12" transform="rotate(72 350 256)"/>
+              <ellipse cx="214" cy="342" rx="21" ry="12" transform="rotate(4 214 342)"/>
+              <ellipse cx="292" cy="336" rx="21" ry="12" transform="rotate(-24 292 336)"/>
+              <ellipse cx="96" cy="252" rx="21" ry="12" transform="rotate(84 96 252)"/>
+            </g>
+          </g>
+          <g class="organelle" data-id="mitochondrium" tabindex="0" role="button" aria-label="Mitochondrien">
+            <g class="treffer">
+              <g transform="rotate(14 250 102)">
+                <ellipse cx="250" cy="102" rx="17" ry="9" fill="var(--mito)" fill-opacity=".8" stroke="#8A2F2B" stroke-width="1.5"/>
+                <path d="M238 102 q6 -6 10 0 q6 6 12 0" fill="none" stroke="#8A2F2B" stroke-width="1.4"/>
+              </g>
+              <g transform="rotate(96 92 200)">
+                <ellipse cx="92" cy="200" rx="17" ry="9" fill="var(--mito)" fill-opacity=".8" stroke="#8A2F2B" stroke-width="1.5"/>
+                <path d="M80 200 q6 -6 10 0 q6 6 12 0" fill="none" stroke="#8A2F2B" stroke-width="1.4"/>
+              </g>
+            </g>
+          </g>
+          <g class="organelle" data-id="zellkern" tabindex="0" role="button" aria-label="Zellkern">
+            <g class="treffer">
+              <circle cx="120" cy="316" r="31" fill="var(--kern)" fill-opacity=".75" stroke="#4A3573" stroke-width="2"/>
+              <circle cx="130" cy="308" r="10" fill="#4A3573"/>
+            </g>
+          </g>
+        </g>
+
+        <!-- ============ TIERZELLE ============ -->
+        <g id="zelle-tier" clip-path="url(#sehfeld)" style="display:none">
+          <g class="organelle" data-id="zellplasma" tabindex="0" role="button" aria-label="Zellplasma">
+            <path class="treffer" d="M220,55 C300,50 360,95 372,160 C384,225 350,300 290,345 C235,386 145,378 100,325 C55,272 52,190 90,130 C120,84 165,60 220,55 Z"
+                  fill="var(--plasma-t)" stroke="none"/>
+          </g>
+          <g class="organelle" data-id="zellmembran" tabindex="0" role="button" aria-label="Zellmembran">
+            <path class="treffer" d="M220,55 C300,50 360,95 372,160 C384,225 350,300 290,345 C235,386 145,378 100,325 C55,272 52,190 90,130 C120,84 165,60 220,55 Z"
+                  fill="none" stroke="var(--membran)" stroke-width="4"/>
+          </g>
+          <g class="organelle" data-id="mitochondrium" tabindex="0" role="button" aria-label="Mitochondrien">
+            <g class="treffer">
+              <g transform="rotate(-22 132 152)">
+                <ellipse cx="132" cy="152" rx="18" ry="9.5" fill="var(--mito)" fill-opacity=".8" stroke="#8A2F2B" stroke-width="1.5"/>
+                <path d="M119 152 q6 -6 11 0 q6 6 13 0" fill="none" stroke="#8A2F2B" stroke-width="1.4"/>
+              </g>
+              <g transform="rotate(26 300 268)">
+                <ellipse cx="300" cy="268" rx="18" ry="9.5" fill="var(--mito)" fill-opacity=".8" stroke="#8A2F2B" stroke-width="1.5"/>
+                <path d="M287 268 q6 -6 11 0 q6 6 13 0" fill="none" stroke="#8A2F2B" stroke-width="1.4"/>
+              </g>
+              <g transform="rotate(8 168 302)">
+                <ellipse cx="168" cy="302" rx="18" ry="9.5" fill="var(--mito)" fill-opacity=".8" stroke="#8A2F2B" stroke-width="1.5"/>
+                <path d="M155 302 q6 -6 11 0 q6 6 13 0" fill="none" stroke="#8A2F2B" stroke-width="1.4"/>
+              </g>
+            </g>
+          </g>
+          <g class="organelle" data-id="zellkern" tabindex="0" role="button" aria-label="Zellkern">
+            <g class="treffer">
+              <circle cx="215" cy="205" r="52" fill="var(--kern)" fill-opacity=".75" stroke="#4A3573" stroke-width="2"/>
+              <circle cx="230" cy="194" r="15" fill="#4A3573"/>
+            </g>
+          </g>
+        </g>
+
+        <circle cx="220" cy="220" r="190" fill="url(#rand)" pointer-events="none"/>
+        <circle cx="220" cy="220" r="190" fill="none" stroke="#0B1215" stroke-width="3" pointer-events="none"/>
+
+        <!-- Beschriftungslinien rechts -->
+        <line class="guide" x1="424" y1="46" x2="424" y2="400"/>
+        <g id="labels" pointer-events="none"></g>
+      </svg>
+
+      <div class="werkzeug">
+        <span id="praeparat-name">Objektträger A · Pflanzenzelle</span>
+        <label><input type="checkbox" id="alle-labels"> Alle beschriften</label>
+      </div>
+    </div>
+
+    <div class="karte" id="karte">
+      <p class="leer">Klicke im Sehfeld auf ein Bauteil.</p>
+    </div>
+  </div>
+
+  <section>
+    <h2>Vergleich · was steckt in welcher Zelle?</h2>
+    <table>
+      <thead>
+        <tr><th>Bauteil</th><th>Pflanzenzelle</th><th>Tierzelle</th><th>Aufgabe in kurz</th></tr>
+      </thead>
+      <tbody id="tabelle"></tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Mikroskop-Test · klicke die Antwort im Sehfeld an</h2>
+    <div class="test">
+      <div class="zaehler" id="test-zaehler">Aufgabe 1 von 7</div>
+      <p class="frage" id="test-frage">Ich enthalte die Erbinformation und steuere die ganze Zelle.</p>
+      <p class="rueck" id="test-rueck">&nbsp;</p>
+      <button id="test-neu">Test von vorn</button>
+    </div>
+  </section>
+
+  <footer>
+    <strong>Denk daran: das ist ein Modell</strong>
+    Die Farben sind erfunden – in Wirklichkeit sind die meisten Bauteile durchsichtig und werden erst durch Färben sichtbar. Die Zelle ist außerdem flach gezeichnet, obwohl sie räumlich ist, und die Bauteile sind unterschiedlich stark vergrößert. Mitochondrien kannst du im Schulmikroskop gar nicht erkennen.
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var akzent = { pflanze:"var(--chloro)", tier:"var(--membran)" };
+
+  var daten = {
+    zellwand: {
+      name:"Zellwand", farbe:"var(--wand)",
+      pflanze:true, tier:false,
+      bau:"Eine feste, dicke Hülle aus Zellulose. Sie liegt ganz außen, um die Zellmembran herum.",
+      aufgabe:"Sie gibt der Zelle Halt und ihre eckige Form und schützt sie – so kann ein Baum aufrecht stehen.",
+      bruecke:"Weil die Zellwand fest und starr ist, kann die Zelle ihre Form behalten.",
+      hinweis:"Tierzellen haben keine Zellwand. Deshalb sind sie rundlich und weich."
+    },
+    zellmembran: {
+      name:"Zellmembran", farbe:"var(--membran)",
+      pflanze:true, tier:true,
+      bau:"Eine hauchdünne, biegsame Haut direkt um das Zellplasma.",
+      aufgabe:"Sie grenzt die Zelle nach außen ab und lässt nur bestimmte Stoffe hinein und hinaus.",
+      bruecke:"Weil die Membran nur bestimmte Stoffe durchlässt, bleibt im Inneren alles geordnet.",
+      hinweis:"Jede Zelle hat eine Zellmembran – auch die Pflanzenzelle, dort liegt sie unter der Zellwand."
+    },
+    zellplasma: {
+      name:"Zellplasma", farbe:"#9DAF8C",
+      pflanze:true, tier:true,
+      bau:"Eine zähflüssige, klare Masse, die die Zelle ausfüllt. Sie ist ständig in Bewegung.",
+      aufgabe:"Darin liegen alle Bauteile, und hier laufen viele Lebensvorgänge der Zelle ab.",
+      bruecke:"Weil das Plasma flüssig ist und strömt, werden Stoffe in der ganzen Zelle verteilt.",
+      hinweis:""
+    },
+    zellkern: {
+      name:"Zellkern", farbe:"var(--kern)",
+      pflanze:true, tier:true,
+      bau:"Ein rundliches Bauteil mit eigener Hülle. Er lässt sich gut anfärben und ist im Mikroskop leicht zu finden.",
+      aufgabe:"Er enthält die Erbinformation und steuert alles, was in der Zelle passiert.",
+      bruecke:"Weil im Kern die Baupläne liegen, weiß die Zelle, was sie herstellen soll.",
+      hinweis:"In der Pflanzenzelle wird der Kern von der großen Vakuole an den Rand gedrückt."
+    },
+    mitochondrium: {
+      name:"Mitochondrium", farbe:"var(--mito)",
+      pflanze:true, tier:true,
+      bau:"Winzig und länglich, innen stark gefaltet. Es gibt viele davon in einer Zelle.",
+      aufgabe:"Hier wird Traubenzucker mit Sauerstoff verbraucht. Dabei entsteht Energie für die Zelle.",
+      bruecke:"Weil die Innenwand stark gefaltet ist, passt viel „Arbeitsfläche“ auf kleinen Raum.",
+      hinweis:"Man nennt Mitochondrien die Kraftwerke der Zelle. Im Schulmikroskop sind sie zu klein – sie werden erst im Elektronenmikroskop sichtbar."
+    },
+    chloroplast: {
+      name:"Chloroplast", farbe:"var(--chloro)",
+      pflanze:true, tier:false,
+      bau:"Linsenförmig und grün. Die grüne Farbe kommt vom Blattgrün (Chlorophyll).",
+      aufgabe:"Hier findet die Fotosynthese statt: aus Licht, Wasser und Kohlenstoffdioxid entsteht Traubenzucker.",
+      bruecke:"Weil das Blattgrün Licht aufnehmen kann, kann die Pflanze aus Licht Nahrung bauen.",
+      hinweis:"Nur grüne Pflanzenteile haben Chloroplasten. In einer Wurzelzelle findest du keine – dort ist es dunkel."
+    },
+    vakuole: {
+      name:"Vakuole", farbe:"var(--vakuole)",
+      pflanze:true, tier:false,
+      bau:"Ein sehr großer Raum, gefüllt mit Zellsaft (Wasser und gelöste Stoffe). Sie nimmt fast die ganze Zelle ein.",
+      aufgabe:"Sie speichert Wasser und Stoffe und drückt von innen gegen die Zellwand. Dieser Druck hält die Pflanze prall.",
+      bruecke:"Weil die Vakuole prall mit Wasser gefüllt ist, steht der Salat aufrecht – fehlt Wasser, welkt er.",
+      hinweis:"Tierzellen haben höchstens kleine Bläschen, aber keine große Vakuole."
+    }
+  };
+
+  // Beschriftungen: Ankerpunkt am Bauteil -> Zeigerlinie -> Etikett rechts
+  var labelPlan = {
+    pflanze: [
+      {id:"zellwand",       ax:170, ay:66,  y:60},
+      {id:"mitochondrium",  ax:250, ay:100, y:106},
+      {id:"chloroplast",    ax:340, ay:128, y:152},
+      {id:"zellmembran",    ax:370, ay:192, y:198},
+      {id:"vakuole",        ax:284, ay:216, y:244},
+      {id:"zellplasma",     ax:216, ay:316, y:296},
+      {id:"zellkern",       ax:120, ay:320, y:348}
+    ],
+    tier: [
+      {id:"zellmembran",    ax:352, ay:126, y:104},
+      {id:"zellplasma",     ax:128, ay:118, y:172},
+      {id:"zellkern",       ax:246, ay:182, y:240},
+      {id:"mitochondrium",  ax:300, ay:266, y:308}
+    ]
+  };
+  var fehltImTier = ["Zellwand", "Chloroplasten", "Große Vakuole"];
+
+  var SVGNS = "http://www.w3.org/2000/svg";
+  var svg = document.getElementById("praeparat");
+  var labelBox = document.getElementById("labels");
+  var karte = document.getElementById("karte");
+  var praeparatName = document.getElementById("praeparat-name");
+  var btnP = document.getElementById("btn-pflanze");
+  var btnT = document.getElementById("btn-tier");
+  var alleLabels = document.getElementById("alle-labels");
+
+  var prep = "pflanze";
+  var gewaehlt = null;
+
+  /* ---------- Beschriftungen zeichnen ---------- */
+  function baueLabels(){
+    while(labelBox.firstChild) labelBox.removeChild(labelBox.firstChild);
+
+    labelPlan[prep].forEach(function(l){
+      var g = document.createElementNS(SVGNS,"g");
+      g.setAttribute("class","beschriftung");
+      g.setAttribute("data-fuer", l.id);
+
+      var pl = document.createElementNS(SVGNS,"polyline");
+      pl.setAttribute("class","leader");
+      pl.setAttribute("points", l.ax+","+l.ay+" 412,"+l.y+" 424,"+l.y);
+      g.appendChild(pl);
+
+      var pt = document.createElementNS(SVGNS,"circle");
+      pt.setAttribute("cx",l.ax); pt.setAttribute("cy",l.ay); pt.setAttribute("r",3);
+      pt.setAttribute("fill","#3A4E56");
+      g.appendChild(pt);
+
+      var t = document.createElementNS(SVGNS,"text");
+      t.setAttribute("class","lbl");
+      t.setAttribute("x",436); t.setAttribute("y",l.y+5);
+      t.textContent = (l.id === "chloroplast" ? "CHLOROPLASTEN"
+                     : l.id === "mitochondrium" ? "MITOCHONDRIEN"
+                     : daten[l.id].name.toUpperCase());
+      g.appendChild(t);
+
+      labelBox.appendChild(g);
+    });
+
+    if(prep === "tier"){
+      var kopf = document.createElementNS(SVGNS,"text");
+      kopf.setAttribute("class","lbl fehlt");
+      kopf.setAttribute("x",436); kopf.setAttribute("y",370);
+      kopf.setAttribute("font-size","11");
+      kopf.setAttribute("letter-spacing","0.16em");
+      kopf.textContent = "NICHT VORHANDEN:";
+      labelBox.appendChild(kopf);
+
+      fehltImTier.forEach(function(name,i){
+        var t = document.createElementNS(SVGNS,"text");
+        t.setAttribute("class","lbl fehlt");
+        t.setAttribute("x",436); t.setAttribute("y",392 + i*20);
+        t.setAttribute("font-size","12.5");
+        t.textContent = "\u2715 " + name.toUpperCase();
+        labelBox.appendChild(t);
+      });
+    }
+    labelsAktualisieren();
+  }
+
+  function labelsAktualisieren(){
+    var alle = alleLabels.checked;
+    Array.prototype.forEach.call(labelBox.querySelectorAll(".beschriftung"), function(g){
+      var an = alle || g.getAttribute("data-fuer") === gewaehlt;
+      g.classList.toggle("an", an);
+    });
+  }
+
+  /* ---------- Karte füllen ---------- */
+  function zeigeKarte(id){
+    var d = daten[id];
+    karte.style.setProperty("--akzent", d.farbe);
+
+    var html = "";
+    html += '<h2>' + d.name + '</h2>';
+    html += '<div class="chips">';
+    html += '<span class="chip ' + (d.pflanze ? "ja" : "") + '">' + (d.pflanze ? "✓" : "✗") + ' Pflanzenzelle</span>';
+    html += '<span class="chip ' + (d.tier ? "ja" : "") + '">' + (d.tier ? "✓" : "✗") + ' Tierzelle</span>';
+    html += '</div>';
+    html += '<div class="feld"><h3>So ist es gebaut</h3><p>' + d.bau + '</p></div>';
+    html += '<div class="feld"><h3>Das ist seine Aufgabe</h3><p>' + d.aufgabe + '</p></div>';
+    html += '<div class="bruecke"><strong>Bau → Aufgabe</strong>' + d.bruecke + '</div>';
+    if(d.hinweis) html += '<p class="hinweis">' + d.hinweis + '</p>';
+    karte.innerHTML = html;
+  }
+
+  /* ---------- Auswahl ---------- */
+  function waehle(id){
+    gewaehlt = id;
+    zeigeKarte(id);
+    labelsAktualisieren();
+
+    Array.prototype.forEach.call(svg.querySelectorAll(".organelle"), function(g){
+      var aktiv = (g.getAttribute("data-id") === id);
+      g.style.opacity = aktiv ? "1" : "0.42";
+    });
+
+    Array.prototype.forEach.call(document.querySelectorAll("#tabelle tr"), function(tr){
+      tr.setAttribute("aria-selected", tr.getAttribute("data-id") === id ? "true" : "false");
+    });
+
+    if(testLaeuft) pruefe(id);
+  }
+
+  function ruecksetzenHelligkeit(){
+    Array.prototype.forEach.call(svg.querySelectorAll(".organelle"), function(g){ g.style.opacity = "1"; });
+  }
+
+  /* ---------- Objektträger wechseln ---------- */
+  function setzePraeparat(neu, still){
+    if(prep === neu && !still) return;
+    prep = neu;
+    document.body.style.setProperty("--akzent", akzent[prep]);
+
+    svg.classList.add("scharfstellen");
+    window.setTimeout(function(){
+      document.getElementById("zelle-pflanze").style.display = (prep === "pflanze") ? "" : "none";
+      document.getElementById("zelle-tier").style.display    = (prep === "tier")    ? "" : "none";
+      baueLabels();
+      svg.classList.remove("scharfstellen");
+    }, 180);
+
+    btnP.setAttribute("aria-pressed", prep === "pflanze" ? "true" : "false");
+    btnT.setAttribute("aria-pressed", prep === "tier" ? "true" : "false");
+    praeparatName.textContent = prep === "pflanze" ? "Objektträger A · Pflanzenzelle" : "Objektträger B · Tierzelle";
+
+    gewaehlt = null;
+    ruecksetzenHelligkeit();
+    karte.innerHTML = '<p class="leer">Klicke im Sehfeld auf ein Bauteil.</p>';
+  }
+
+  btnP.addEventListener("click", function(){ setzePraeparat("pflanze"); });
+  btnT.addEventListener("click", function(){ setzePraeparat("tier"); });
+  alleLabels.addEventListener("change", labelsAktualisieren);
+
+  /* ---------- Klicks im Sehfeld ---------- */
+  Array.prototype.forEach.call(svg.querySelectorAll(".organelle"), function(g){
+    g.addEventListener("click", function(){ waehle(g.getAttribute("data-id")); });
+    g.addEventListener("keydown", function(e){
+      if(e.key === "Enter" || e.key === " "){ e.preventDefault(); waehle(g.getAttribute("data-id")); }
+    });
+  });
+
+  /* ---------- Vergleichstabelle ---------- */
+  var reihen = [
+    ["zellwand",      "Zellwand",       "✓", "✗", "gibt Halt und Form", "", "fehlt"],
+    ["zellmembran",   "Zellmembran",    "✓", "✓", "grenzt ab, regelt den Stoffaustausch", "", ""],
+    ["zellplasma",    "Zellplasma",     "✓", "✓", "Ort der Lebensvorgänge", "", ""],
+    ["zellkern",      "Zellkern",       "✓", "✓", "Erbinformation und Steuerung", "", ""],
+    ["chloroplast",   "Chloroplasten",  "✓", "✗", "Fotosynthese", "nur in grünen Zellen", "fehlen"],
+    ["vakuole",       "Große Vakuole",  "✓", "✗", "speichert Wasser, hält die Zelle prall", "", "nur kleine Bläschen"],
+    ["mitochondrium", "Mitochondrien",  "✓", "✓", "liefern Energie", "", ""]
+  ];
+  var tbody = document.getElementById("tabelle");
+  reihen.forEach(function(r){
+    var tr = document.createElement("tr");
+    tr.setAttribute("data-id", r[0]);
+    tr.setAttribute("aria-selected","false");
+    tr.innerHTML =
+      '<td>' + r[1] + '</td>' +
+      '<td class="zeichen ' + (r[2]==="✓"?"ja-z":"nein-z") + '">' + r[2] + (r[5]?'<small>'+r[5]+'</small>':'') + '</td>' +
+      '<td class="zeichen ' + (r[3]==="✓"?"ja-z":"nein-z") + '">' + r[3] + (r[6]?'<small>'+r[6]+'</small>':'') + '</td>' +
+      '<td>' + r[4] + '</td>';
+    tr.addEventListener("click", function(){
+      var id = r[0];
+      var brauchtPflanze = !daten[id].tier;
+      if(brauchtPflanze && prep !== "pflanze"){
+        setzePraeparat("pflanze");
+        window.setTimeout(function(){ waehle(id); }, 220);
+      } else {
+        waehle(id);
+      }
+    });
+    tbody.appendChild(tr);
+  });
+
+  /* ---------- Mikroskop-Test ---------- */
+  var aufgaben = [
+    {id:"zellkern",      prep:"tier",    frage:"Ich enthalte die Erbinformation und steuere die ganze Zelle.",            tipp:"Ich bin rundlich, groß und lasse mich gut anfärben."},
+    {id:"chloroplast",   prep:"pflanze", frage:"Ich bin grün und stelle aus Licht und Wasser Traubenzucker her.",         tipp:"Meine Farbe verrät mich."},
+    {id:"zellwand",      prep:"pflanze", frage:"Ich bin eine feste Hülle aus Zellulose und gebe der Zelle Halt.",         tipp:"Ich liege ganz außen, noch weiter außen als die Membran."},
+    {id:"vakuole",       prep:"pflanze", frage:"Ich bin ein großer Wasserspeicher und drücke die Zelle prall.",           tipp:"Ich nehme fast den ganzen Innenraum ein."},
+    {id:"zellmembran",   prep:"tier",    frage:"Ich entscheide, welche Stoffe in die Zelle hinein- und hinausgelangen.",  tipp:"Ich bin die dünne blaue Linie ganz außen."},
+    {id:"mitochondrium", prep:"tier",    frage:"Man nennt mich Kraftwerk – ich liefere der Zelle Energie.",               tipp:"Ich bin klein, länglich und komme mehrfach vor."},
+    {id:"zellplasma",    prep:"pflanze", frage:"Ich bin zähflüssig, ströme ständig, und in mir liegen alle Bauteile.",    tipp:"Ich bin die Fläche zwischen den Bauteilen."}
+  ];
+  var nr = 0, ersterVersuch = true, punkte = 0, testLaeuft = true;
+  var zaehler = document.getElementById("test-zaehler");
+  var frage = document.getElementById("test-frage");
+  var rueck = document.getElementById("test-rueck");
+
+  function zeigeAufgabe(){
+    if(nr >= aufgaben.length){
+      testLaeuft = false;
+      zaehler.textContent = "Test beendet";
+      frage.textContent = "Du hast " + punkte + " von " + aufgaben.length + " Aufgaben auf Anhieb richtig gelöst.";
+      rueck.textContent = punkte === aufgaben.length ? "Sauber gearbeitet." : "Schau dir die verpassten Bauteile noch einmal im Sehfeld an.";
+      rueck.className = "rueck";
+      return;
+    }
+    var a = aufgaben[nr];
+    testLaeuft = true;
+    ersterVersuch = true;
+    zaehler.textContent = "Aufgabe " + (nr+1) + " von " + aufgaben.length;
+    frage.textContent = a.frage;
+    rueck.innerHTML = "&nbsp;";
+    rueck.className = "rueck";
+    if(prep !== a.prep){
+      setzePraeparat(a.prep);
+      rueck.textContent = "Objektträger gewechselt: " + (a.prep === "pflanze" ? "Pflanzenzelle" : "Tierzelle") + ".";
+    }
+  }
+
+  function pruefe(id){
+    var a = aufgaben[nr];
+    if(!a) return;
+    if(id === a.id){
+      if(ersterVersuch) punkte++;
+      rueck.textContent = "Richtig. " + daten[id].bruecke;
+      rueck.className = "rueck richtig";
+      testLaeuft = false;
+      window.setTimeout(function(){ nr++; zeigeAufgabe(); }, 2200);
+    } else {
+      ersterVersuch = false;
+      rueck.textContent = "Noch nicht – das ist " + daten[id].name + ". Tipp: " + a.tipp;
+      rueck.className = "rueck falsch";
+    }
+  }
+
+  document.getElementById("test-neu").addEventListener("click", function(){
+    nr = 0; punkte = 0; zeigeAufgabe();
+  });
+
+  /* ---------- Start ---------- */
+  document.body.style.setProperty("--akzent", akzent.pflanze);
+  baueLabels();
+  zeigeAufgabe();
+})();
+</script>
+</body>
+</html>
