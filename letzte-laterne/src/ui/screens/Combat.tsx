@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
-import { FOCUS, SIM, STATUS } from '../../content/balance';
+import { FOCUS, STATUS } from '../../content/balance';
 import { ENEMIES } from '../../content/enemies';
 import { HEROES } from '../../content/heroes';
 import { RELIC_VALUES } from '../../content/items';
@@ -8,6 +8,7 @@ import { HERO_IDS } from '../../content/types';
 import * as A from '../../game/actions';
 import { abilityLines, windupText } from '../../game/describe';
 import { CombatSim, type CombatEvent, type Unit } from '../../sim/combat';
+import { SimClock } from '../../sim/clock';
 import { EnemyArt, HeroArt, PawIcon, YuumiArt } from '../art';
 import { play } from '../audio';
 import { Bar, Hint, Tip } from '../components';
@@ -152,17 +153,11 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
     if (!started) return;
     let raf = 0;
     let last = performance.now();
-    let acc = 0;
+    const clock = new SimClock();
     const frame = (now: number) => {
-      const dt = Math.min(0.25, (now - last) / 1000);
+      const steps = clock.advance((now - last) / 1000, speedRef.current, pausedRef.current || !!sim.result);
       last = now;
-      if (!pausedRef.current && !sim.result) {
-        acc += dt * speedRef.current;
-        while (acc >= SIM.dt && !sim.result) {
-          sim.step();
-          acc -= SIM.dt;
-        }
-      }
+      for (let i = 0; i < steps && !sim.result; i++) sim.step();
       const ev = sim.drainEvents();
       if (ev.length) handleEvents(ev);
       force();

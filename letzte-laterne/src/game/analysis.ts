@@ -70,6 +70,7 @@ export function analyzeDefeat(stats: CombatStats, ctx: CombatContext): string[] 
   const top = Object.entries(stats.damageTaken).sort((a, b) => b[1] - a[1])[0];
   if (top) reasons.push({ w: 10, text: `Größte Schadensquelle: ${top[0]} (${top[1]} Schaden, ${Math.round((top[1] / total) * 100)} %).` });
 
+  if (reasons.length === 0) reasons.push({ w: 1, text: 'Die Gruppe wurde überwältigt. Mehr Schaden, Schilde vor großen Angriffen oder eine Heilung vor dem Kampf hätten geholfen.' });
   return reasons
     .sort((a, b) => b.w - a.w)
     .slice(0, 4)
