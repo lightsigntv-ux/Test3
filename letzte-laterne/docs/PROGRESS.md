@@ -96,3 +96,5 @@ ohne Konsolenfehler.
   im Rahmen der vorherigen Werte; legendäre Einzelstücke wurden verstärkt, da sie seltener sind.
 * Beutekarten mit Aufdecken, 19 Illustrationen, Szenen für alle Bildschirme, Textkürzungen – **B**
   (Screenshots aller Bildschirme geprüft; UI-Durchlauf und 13 Browserprüfungen ohne Fehler).
+
+* Elite- und Bossmusik ergänzt – **B** (`scripts/audio-checks.ts`: 13 Prüfungen, u. a. richtiger Titel in Elite- und Bosskampf).

@@ -53,7 +53,9 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
   const lastBark = useRef(0);
   // Kampfmusik nur, solange der Kampf wirklich läuft
   useEffect(() => {
-    setMusic(started && !sim.result ? 'action' : 'calm');
+    // Boss: „The Cathedral's Last Chant“, Elite: „Boar-Iron Crescendo“, sonst „Clans Last Stand“
+    const fightMood = cp.kind === 'boss' ? 'boss' : cp.kind === 'elite' ? 'elite' : 'action';
+    setMusic(started && !sim.result ? fightMood : 'calm');
   }, [started, sim]);
 
   const showHint = useCallback(

@@ -29,5 +29,7 @@ describe('Vertonung', () => {
   it('Musikdateien sind vorhanden', () => {
     expect(existsSync('public/audio/music/castle-dawn.mp3')).toBe(true);
     expect(existsSync('public/audio/music/clans-last-stand.mp3')).toBe(true);
+    expect(existsSync('public/audio/music/boar-iron-crescendo.mp3')).toBe(true);
+    expect(existsSync('public/audio/music/cathedrals-last-chant.mp3')).toBe(true);
   });
 });

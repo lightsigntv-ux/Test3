@@ -57,6 +57,25 @@ await page.waitForTimeout(1800);
 s = await st();
 check('Nach Kampfende: zurück zur ruhigen Musik', s.mood === 'calm' && !s.music.calm.paused, s.music);
 
+// Elite- und Bosskampf: eigene Musik
+for (const [station, mood, file] of [[4, 'elite', 'boar-iron-crescendo.mp3'], [7, 'boss', 'cathedrals-last-chant.mp3']] as const) {
+  let b = A.startRun(newSave(), 1, { seed: 77 });
+  b.meta.seenDialogs.push('intro', 'exp1_start', 'boss1_pre');
+  b.meta.tutorialsSeen.push('combat', 'windup', 'focusFull', 'purr', 'taunt', 'summon');
+  b.run!.station = station;
+  b = A.enterStation(b);
+  b.dialogQueue = [];
+  await page.evaluate(([k, v]) => localStorage.setItem(k as string, v as string), [SAVE_KEY, JSON.stringify(b)]);
+  await page.reload();
+  await page.getByRole('button', { name: /fortsetzen/ }).click();
+  await page.waitForTimeout(800);
+  await page.click('text=Kampf beginnen');
+  await page.waitForTimeout(2200);
+  s = await st();
+  const m = s.music[mood];
+  check(`${mood === 'boss' ? 'Bosskampf' : 'Elitekampf'}: ${file} läuft, andere Musik ausgeblendet`, s.mood === mood && m && m.src === file && !m.paused && m.time > 0.5 && (!s.music.action || s.music.action.volume < 0.05) && s.music.calm.volume < 0.05, s.music);
+}
+
 // Ereignis: sequentielles Vorlesen
 let ev = A.startRun(newSave(), 1, { seed: 99 });
 ev.meta.seenDialogs.push('intro', 'exp1_start');

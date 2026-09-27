@@ -35,7 +35,8 @@ npm run build:single # eine offline spielbare HTML-Datei nach dist-single/
 ## Ton
 
 * **Musik:** „Castle Dawn“ in ruhigen Phasen (Titel, Laternenstube, Karte, Ereignisse, Belohnungen),
-  „Clans Last Stand“ ab „Kampf beginnen“ bis zum Kampfende. Weiche Überblendung (~1,4 s); während
+  „Clans Last Stand“ in normalen Kämpfen, „Boar-Iron Crescendo“ in Elitekämpfen und „The
+  Cathedral's Last Chant“ in Bosskämpfen – jeweils ab „Kampf beginnen“ bis zum Kampfende. Weiche Überblendung (~1,4 s); während
   gesprochener Zeilen wird die Musik auf 30 % abgesenkt. Die Stücke wurden vom Auftraggeber
   bereitgestellt (`public/audio/music/`, auf 128 kbit/s verkleinert, Stille am Ende entfernt).
 * **Sprachausgabe:** Alle 130 Sprechzeilen (Dialoge, Ereignisse, Lager, Laternenstube, Kampfrufe) sind

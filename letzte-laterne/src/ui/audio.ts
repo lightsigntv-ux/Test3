@@ -37,7 +37,7 @@ export type SoundId =
   | 'shieldBreak'
   | 'focus';
 
-export type Mood = 'calm' | 'action';
+export type Mood = 'calm' | 'action' | 'elite' | 'boss';
 
 export interface AudioConfig {
   sound: boolean;
@@ -56,9 +56,12 @@ let unlocked = false;
 const TRACKS: Record<Mood, string> = {
   calm: 'audio/music/castle-dawn.mp3',
   action: 'audio/music/clans-last-stand.mp3',
+  elite: 'audio/music/boar-iron-crescendo.mp3',
+  boss: 'audio/music/cathedrals-last-chant.mp3',
 };
+const MOODS: Mood[] = ['calm', 'action', 'elite', 'boss'];
 const music: Partial<Record<Mood, HTMLAudioElement>> = {};
-const level: Record<Mood, number> = { calm: 0, action: 0 }; // aktuelle Überblend-Stufe 0..1
+const level: Record<Mood, number> = { calm: 0, action: 0, elite: 0, boss: 0 }; // aktuelle Überblend-Stufe 0..1
 let wantedMood: Mood | null = null;
 let duck = 1; // 1 = normal, <1 während Sprache
 let duckTarget = 1;
@@ -85,7 +88,7 @@ function tick() {
   const step = 0.035; // ~1,4 s Überblendung bei 25 Schritten/s
   duck += Math.sign(duckTarget - duck) * Math.min(Math.abs(duckTarget - duck), 0.08);
   if (Math.abs(duckTarget - duck) > 0.001) busy = true;
-  for (const m of ['calm', 'action'] as Mood[]) {
+  for (const m of MOODS) {
     const target = wantedMood === m ? 1 : 0;
     const cur = level[m];
     const next = cur + Math.sign(target - cur) * Math.min(Math.abs(target - cur), step);
@@ -96,7 +99,7 @@ function tick() {
     a.volume = Math.max(0, Math.min(1, next * musicGain() * duck));
     if (next <= 0.001 && !a.paused) {
       a.pause();
-      if (m === 'action') a.currentTime = 0; // Kampfmusik beginnt jedes Mal von vorn
+      if (m !== 'calm') a.currentTime = 0; // Kampfmusik beginnt jedes Mal von vorn
     }
     if (next > 0.001 && a.paused && unlocked && musicGain() > 0) void a.play().catch(() => {});
   }
