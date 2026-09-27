@@ -55,6 +55,7 @@ sera: Die Buchstaben an der Tischkante. T, I, L. Warst du das?
 tilly[surprised]: Das – das sieht keiner, Miss. Das is da unten, wo keiner hinguckt.
 tilly[tense]: Sagen Sie’s nich Mrs. Pryce. Die sagt, der Tisch is älter als sie, und sie is alt.
 tilly[neutral]: Das T hat mir Miss Clara gezeigt. Einmal. Im Frühjahr, wie sie in der Küche auf ’n Brief gewartet hat. T wie Tilly. Und wie Tee.
+tilly[neutral]: In der Arbeitshausschule hab ich Kartoffeln geschält. Die Lehrerin brauchte immer eine für die Küche, und ich war schnell.
 tilly[neutral]: Das I is leicht, das is nur ’n Strich. Das L hab ich mir selbst ausgedacht.
 inner: Das L ist verkehrt herum. Es sieht aus wie ein kleiner Galgen.
 * [mitfuehlend] Soll ich dir den Rest zeigen? Dein ganzer Name hat nur fünf Buchstaben. {tilly+2, +f:g_teach} -> yes
@@ -95,7 +96,7 @@ pryce[neutral]: Dreizehn. Aus dem Arbeitshaus in Bridgwater, seit letztem Herbst
 pryce[neutral]: Flink ist sie. Frech ist sie. Und sie singt falsch beim Kohlentragen. Der Herr hat’s gern gehört, weiß der Himmel warum.
 narr: Ihre Hände hören einen Augenblick auf, den Teig zu schlagen.
 pryce[neutral]: Man holt so ein Kind nicht aus dem Arbeitshaus, damit es wieder zurückmuss. Das merken Sie sich, Miss. Egal was Sie hier oben aufschnappen.
-inner: Das ist keine Auskunft. Das ist eine Drohung, sehr höflich.
+inner: Eine Drohung, sehr höflich verpackt.
 
 === t1_pryce_herr
 kind: topic
@@ -221,7 +222,7 @@ sera: Sie sagten, wir seien uns heute Nacht begegnet.
 penrose[neutral]: Sagte ich das? Man sagt vieles nach einer Sitzung. Die Grenzen sind dünn in solchen Nächten, meine Liebe.
 sera: Haben Sie denn geschlafen?
 penrose[neutral]: Ich schlafe in fremden Häusern ausgezeichnet. Ein Gewissen ist ein Luxus, den ich mir nicht leisten kann. Ich habe nichts gehört. {+s:s05, lie:f06}
-penrose[neutral]: Aber Sie – Sie tragen ein fremdes Kleid. Und Sie tragen es wie eine Rolle, die man Ihnen gestern Abend zugesteckt hat.
+penrose[neutral]: Aber Sie – Sie tragen ein fremdes Kleid. Und Sie tragen es wie eine Rolle, die man Ihnen heute früh zugesteckt hat.
 * [humor] Es ist ein sehr gutes Kleid. Nur die Rolle zwickt ein bisschen. {penrose+1} -> a
 * [ausweichend] Es gehörte meiner Vorgängerin. -> b
 # a
@@ -240,10 +241,10 @@ sera: Was ist gestern Abend bei der Sitzung geschehen?
 penrose[neutral]: Was immer geschieht. Wir saßen im Kreis, wir hielten einander an den Händen, die Kerze brannte herunter. Miss Averley hoffte. Der Captain spottete. Miss Clara zählte meine Atemzüge.
 penrose[neutral]: Und dann kam eine Dame, die sich Lucinda nannte, und sprach zu ihrem Mann. „Hörst du die Glocke im Wasser, Edmund? Du hast versprochen, sie wählen zu lassen.“
 sera: Und er?
-penrose[neutral]: Er stand in der Tür. Er war zu spät gekommen, wie Ungläubige es tun. Er sah mich an – nicht wie ein Mann, der einen Geist hört. Wie ein Mann, der seine eigene Stimme wiedererkennt. {hints:f20}
+penrose[neutral]: Er stand in der Tür. Er war zu spät gekommen, wie Ungläubige es tun. Er sah mich an – nicht wie ein Mann, der einen Geist hört. Wie einer, der seine eigene Stimme wiedererkennt. {hints:f20}
 narr: Sie hält inne, als hätte sie mehr gesagt, als sie wollte.
 penrose[neutral]: Ich gebe weiter, was mir gegeben wird, Miss Hale. Woher es kommt, ist nicht meine Sache.
-inner: „Seine eigene Stimme.“ Das war kein Versprecher. Das war ein Riss.
+inner: „Seine eigene Stimme.“ Kein Versprecher.
 
 === s1_tilly
 kind: smalltalk
@@ -321,7 +322,7 @@ npc: lionel
 title: Die Katze
 when: yuumi f:k1_library_done
 ---
-narr: Yuumi streicht um die Beine des Sessels und bleibt vor den Stiefeln des Captain sitzen.
+narr: Yuumi streicht um die Beine des Sessels und bleibt vor den Stiefeln des Captains sitzen.
 lionel[surprised]: Hallo. Wer bist denn du?
 lionel[warm]: Im Regiment hatten wir eine Katze. Grau wie du, nur doppelt so breit. Mrs. Colonel hieß sie, weil sie jeden Morgen die Parade abnahm.
 lionel[warm]: Haben sie in Peshawar begraben. Mit drei Salutschüssen. Der Colonel war nicht erfreut.

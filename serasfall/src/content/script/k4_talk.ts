@@ -24,8 +24,8 @@ clara[neutral]: Ich habe viele Taschentücher, Miss Hale. Mrs. Penrose wird es b
 inner: Mrs. Penrose wäscht keine Wäsche. Und Clara weiß das.
 -> END
 # open
-narr: Sie nimmt es. Sie faltet es auf, dann wieder zusammen, sehr genau, Kante auf Kante.
-clara[sad]: Ich war bei ihr. In der Nacht. Von kurz vor zwei bis gegen halb drei. {+s:s23, reveals:f06}
+narr: Sie nimmt es nicht. Sie sieht es nur an, wie man etwas ansieht, das einem nicht mehr gehört.
+clara[sad]: Ich war bei ihr. In der Nacht. Von kurz vor zwei bis gegen zwanzig vor drei. {+s:s23, reveals:f06}
 clara[sad]: Ich, die ich jedes Wort von ihr für Betrug halte. Ich bin im Nachthemd durch die Galerie geschlichen und habe an ihre Tür geklopft und sie gefragt, ob es wahr war. Ob Mama wirklich –
 clara[neutral]: Sie hat mir die Wahrheit gesagt. Das ist das Merkwürdigste an dieser ganzen Nacht. Die Betrügerin hat mir die Wahrheit gesagt.
 * [direkt] Welche Wahrheit? -> a
@@ -130,7 +130,7 @@ sera: Mr. Hobbes. Ich weiß, dass Sie ihn nicht im Sessel gefunden haben. Und ic
 narr: Hobbes steht sehr gerade. Dann, zum ersten Mal, seit Sera ihn kennt, setzt er sich. Auf die Kante eines Stuhls in der Halle, der nicht zum Sitzen gedacht ist.
 hobbes[sad]: Ich fand ihn am Boden vor dem Kamin. Um Viertel nach sechs. Auf der Seite, die Hand zum Klingelzug ausgestreckt. {+s:s25, reveals:f14}
 hobbes[sad]: Ich konnte ihn nicht auf dem Teppich liegen lassen, Miss. Master Edmund. Wie einen Betrunkenen. Wie einen – Sie hätten es auch nicht gekonnt.
-hobbes[neutral]: Ich habe ihn in den Sessel gesetzt. Ich habe die Karaffe fortgenommen und die zwei Gläser, eines davon mit dem Rand, den Master Lionel immer an seinem Glas hinterlässt, weil er zu fest zubeißt, wenn er sich ärgert. Ich habe die Asche umgerührt. Ich habe Crabbe gelesen, bevor es verbrannte.
+hobbes[neutral]: Ich habe ihn in den Sessel gesetzt. Ich habe die Karaffe fortgenommen und die zwei Gläser. Brandy. Den trinkt in diesem Haus nur Master Lionel. Und in der Asche habe ich gelesen, was von „Crabbe“ noch zu lesen war, und habe umgerührt, bis es nicht mehr zu lesen war. Dachte ich.
 hobbes[sad]: Ich wollte, dass er friedlich gefunden wird. Und ich wollte, dass niemand fragt, wer bei ihm war.
 hobbes[sad]: Neunundvierzig Jahre. Und in der einen Nacht, in der er mich gebraucht hätte, habe ich geschlafen.
 * [mitfuehlend] Sie haben ihn geehrt, so wie Sie es konnten. {hobbes+2} -> a
@@ -176,7 +176,7 @@ pryce[sad]: Das tun wir alle, Miss. Das Kind nur am längsten.
 pryce[neutral]: Ich hab gesagt, was ich gesagt hab.
 -> END
 # conf
-narr: Mrs. Pryce setzt sich an den Küchentisch. Sie setzt sich sonst nie.
+narr: Mrs. Pryce setzt sich an den Küchentisch, auf Tillys Platz.
 pryce[sad]: Um halb drei hat die Glocke vom Arbeitszimmer geläutet. Ich war wach, ich hab an Owen geschrieben. Ich hab das Kind gehen hören. Und ich hab mir gesagt: Das Kind ist schon auf, Agnes. Bleib sitzen. {+s:s26, reveals:f15, +f:g_pryce_confessed}
 pryce[sad]: Und wie sie zurückkam und geweint hat, hab ich nicht gefragt. Weil ich’s nicht wissen wollte.
 pryce[neutral]: Sagen Sie ihr das nicht. Das sag ich ihr selbst. Wenn ich den Mut hab.

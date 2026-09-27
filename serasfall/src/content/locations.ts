@@ -107,7 +107,7 @@ export const LOCATIONS: Location[] = [
       { id: 'h_g_totentuer', label: 'Zimmer des Herrn', x: 0.82, y: 0.58, r: 0.05, kind: 'examine', when: c('ch<=1') },
       { id: 'h_g_clara', label: 'Miss Claras Tür', x: 0.66, y: 0.58, r: 0.05, kind: 'examine' },
       { id: 'h_g_harriet', label: 'Miss Averleys Tür', x: 0.2, y: 0.58, r: 0.05, kind: 'examine' },
-      { id: 'h_g_lionel', label: 'Tür des Captain', x: 0.33, y: 0.58, r: 0.05, kind: 'examine' },
+      { id: 'h_g_lionel', label: 'Tür des Captains', x: 0.33, y: 0.58, r: 0.05, kind: 'examine' },
       { id: 'h_g_gast', label: 'Gästezimmer', x: 0.9, y: 0.58, r: 0.04, kind: 'examine' },
       { id: 'h_g_gelaender', label: 'Geländer', x: 0.5, y: 0.8, r: 0.05, kind: 'examine' },
       { id: 'h_g_gastspalt', label: 'Spalt unter der Tür', x: 0.9, y: 0.88, r: 0.04, kind: 'cat', catOnly: true },

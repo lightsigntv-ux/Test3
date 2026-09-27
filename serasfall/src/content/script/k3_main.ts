@@ -7,8 +7,7 @@ priority: 20
 narr: Grau vor dem Fenster, grau über dem Wasser. Nebel steht auf dem Moor, so dicht, dass die Kopfweiden aussehen wie Menschen, die dort warten. {music:k3}
 narr: Über der Stuhllehne hängt ihr Kleid, über Nacht schwarz geworden. Es riecht noch nach Farbe und ein wenig nach Essig. Mrs. Pryce hat nicht gefragt.
 inner: Donnerstag. Mein zweiter Tag in einem Jahrhundert, in dem man für alles einen Brauch hat, außer für mich.
-inner: Was ich weiß: Er ist um 2.39 gestürzt und lag am Boden, bis Hobbes ihn fand. Kein Gift.
-inner: Was ich nicht weiß: Wer in der Nacht mit ihm getrunken hat. Wer die Gläser gespült hat – das war wohl Hobbes – und für wen. Und was er am Morgen unterschreiben lassen wollte.
+inner: Wer hat in jener Nacht mit ihm getrunken? Und was wollte er am Morgen unterschreiben lassen?
 yuumi: (Yuumi sitzt auf dem Fensterbrett und verfolgt einen Vogel im Nebel, den nur sie sieht.)
 inner: Und wie ich nach Hause komme. Das auch. {+f:k3_started}
 
@@ -17,7 +16,7 @@ kind: scene
 when: ch=3 loc=gewaechs tod=morgen
 priority: 20
 ---
-narr: Das Gewächshaus ist warm, feucht und grün, eine andere Jahreszeit hinter Glas. Auf dem Dach trommelt der Regen, tausend kleine Finger, die herein wollen. {music:quiet}
+narr: Das Gewächshaus ist warm, feucht und grün, eine andere Jahreszeit hinter Glas. Auf dem Dach trommelt der Regen. {music:quiet}
 narr: Zitronenbäumchen in Kübeln, Farne, ein Orangenbaum, der beschlossen hat, keine Orangen zu tragen. An jedem Kübel ein Schild in derselben engen Handschrift wie im Notizbuch.
 yuumi: (Yuumi entdeckt einen Nachtfalter, der sich im Glas verirrt hat, und vergisst für eine Weile alles, was es auf der Welt sonst gibt.)
 narr: Sera setzt sich auf die eiserne Bank. Der Falter flattert gegen das Glas, Yuumi springt, verfehlt ihn, landet in einem Farn und tut so, als hätte sie es genau so gewollt.
@@ -27,11 +26,10 @@ narr: Sera setzt sich auf die eiserne Bank. Der Falter flattert gegen das Glas, 
 yuumi: (Yuumi sieht sie über die Schulter an mit dem vollen Hochmut einer Katze, die gerade in einen Farn gefallen ist.)
 -> c
 # b
-narr: Das Lachen überrascht sie selbst. Es klingt fremd in diesem Haus, und es tut gut.
+narr: Das Lachen überrascht sie selbst. Es ist das erste, seit sie hier ist, und es klingt fremd in diesem Haus.
 # c
 narr: Der Falter findet einen offenen Spalt im Glas und ist fort, hinaus in den Nebel.
 inner: Er hat es rausgeschafft. Einfach so, durch einen Spalt, den keiner gesehen hat.
-inner: Ich nehme das als Zeichen. Auch wenn ich nicht an Zeichen glaube.
 
 === k3_dunning
 kind: scene
@@ -91,19 +89,19 @@ title: Die Nacht auf Mittwoch
 when: ch>=3 anyf:k3_tea_brought t:dunning>=4
 ---
 sera: Waren Sie in der Nacht auf Mittwoch draußen?
-dunning[neutral]: Bei Hochwasser is man draußen. Die Pferde. Der Braune war unruhig. Ich bin raus, wie die Stalluhr Dreiviertel geschlagen hat. {+s:s37}
+dunning[neutral]: Bei Hochwasser is man draußen. Die Pferde. Ich war ab zwei im Stall, beim Braunen, der war unruhig. Und raus auf den Hof bin ich, wie die Stalluhr Viertel vor drei geschlagen hat. {+s:s37}
 dunning[neutral]: Ich red nich über die Herrschaft, Miss. Ich red über Pferde.
 * [mitfuehlend] Dann erzählen Sie mir von den Pferden. {dunning+1} -> a
 * [direkt] Haben Sie jemanden gesehen? -> b
 # a
-dunning[neutral]: Der Braune war unruhig. Weil einer auf der Terrasse stand. Pferde mögen nich, wenn einer im Regen steht und sich nich rührt.
+dunning[neutral]: Der Braune war unruhig. Pferde mögen nich, wenn einer draußen im Regen steht und sich nich rührt. Die riechen das.
 -> c
 # b
 dunning[neutral]: Ich sag, was ich seh.
 # c
-dunning[neutral]: Kurz nach Dreiviertel drei stand der Captain auf der Terrasse. Ohne Rock. Im Regen. Im Licht vom Fenster vom Arbeitszimmer. {+s:s06, reveals:f12}
-dunning[neutral]: Hat nich geraucht. Hat nur gestanden.
-dunning[neutral]: Und vorher, halb drei, war Licht im Gästeflügel. Hinter dem Fenster von der Dame aus Bath. Ich seh das, weil der Gästeflügel über den Hof guckt. {+s:s36, hints:f06}
+dunning[neutral]: Kurz nach Viertel vor drei stand der Captain auf der Terrasse. Ganz hinten an der Brüstung, mit dem Rücken zum Haus. Ohne Rock. Im Regen. Vom Arbeitszimmer kam nur ’n Streifen Licht durch den Vorhang, aber der reichte. {+s:s06, reveals:f12}
+dunning[neutral]: Hat nich geraucht. Hat nur aufs Wasser geguckt.
+dunning[neutral]: Und vorher, halb drei, wie ich aus der Stalltür geguckt hab, war Licht im Gästeflügel. Hinter dem Fenster von der Dame aus Bath. Der Gästeflügel guckt über den Hof. {+s:s36, hints:f06}
 inner: Er sagt es ohne Betonung, wie man einen Wasserstand abliest. Das macht es so schwer.
 
 === t3_pryce_tea
@@ -131,13 +129,13 @@ narr: Er trinkt, beide Hände um den Becher, und sieht dabei aufs Wasser. Eine W
 === t3_tilly_boots
 kind: topic
 npc: tilly
-title: Die Stiefel des Captain
+title: Die Stiefel des Captains
 when: ch>=3 k:c19
 ---
-sera: Tilly, die Reitstiefel des Captain in der Stiefelkammer –
+sera: Tilly, die Reitstiefel des Captains in der Stiefelkammer –
 tilly[neutral]: Die hab ich Mittwoch früh geputzt, gleich nach dem Herd. Die warn nass bis oben, Miss. Mit Erde vom Rosenbeet. Rote. {+s:s35, hints:f12}
-tilly[neutral]: Und ’n Rosenblatt war drin, im Absatz. Mitten im November.
-tilly[tense]: Der Captain geht nich raus, wenn’s regnet. Der sagt, Regen is was für Pferde und Iren.
+tilly[neutral]: Und ’n Rosenblatt war drin, im Absatz. Mitten im November. Das hab ich aufgehoben. Weiß nich, warum.
+tilly[tense]: Der Captain geht nachts nich raus, wenn’s regnet. Der sagt, Regen is was für Pferde und Iren.
 inner: Und in der Nacht auf Mittwoch ist er rausgegangen. Ins Rosenbeet unter der Terrasse.
 
 === t3_tilly_dreams
@@ -204,8 +202,8 @@ narr: Die Kapelle ist klein und grau, der Friedhof um sie herum eine Insel aus G
 narr: Miss Averley kniet vor einem Stein aus hellem Kalk und legt die Chrysanthemen darauf. „Lucinda Averley, 1829–1861. Sie hörte die Glocke.“
 harriet[neutral]: Das hat Edmund einmeißeln lassen. Der Pfarrer war dagegen. Unchristlich, sagte er. Aberglaube.
 harriet[neutral]: Edmund hat gesagt: Dann ist es eben mein Aberglaube. Und hat den Steinmetz selbst bezahlt.
-narr: Sie steht auf, langsam, und ihre Knie knacken wie trockene Zweige.
-harriet[neutral]: Sie hat im Fieber davon gesprochen, am letzten Tag. „Wenn du die Glocke hörst, Edmund, hast du es gehalten.“ Ich stand an der Tür. Ich weiß nicht, was er ihr versprochen hatte. Er hat es mir nie gesagt.
+narr: Sie steht auf, langsam, eine Hand auf dem Grabstein.
+harriet[neutral]: Sie hat im Fieber davon gesprochen, am letzten Tag. „Wenn du die Glocke hörst, Edmund, hast du es gehalten.“ Ich stand vor der Tür. Was er ihr darauf versprochen hat, habe ich nicht gehört. Er hat nie davon gesprochen.
 * [mitfuehlend] Sie haben ihn sehr geliebt. {harriet+1} -> a
 * [direkt] Was glauben Sie, was er versprochen hat? -> b
 * [schweigen] (Neben ihr stehen bleiben.) {harriet+1} -> c
@@ -214,23 +212,28 @@ harriet[neutral]: Man liebt seinen Bruder, Miss Hale. Das ist keine Leistung.
 harriet[sad]: Er war das Einzige, was mir von meinem Vater geblieben ist, und das Einzige, was ich nie verstanden habe.
 -> c
 # b
-harriet[neutral]: Etwas über Clara, nehme ich an. Es geht immer um Clara. Lucinda hat Clara geliebt, wie man einen Vogel liebt, den man nicht in einen Käfig sperren will.
+harriet[neutral]: Etwas über Clara, nehme ich an. Lucinda wollte, dass Clara wählen darf; das hat sie jedem gesagt, der es hören wollte. Ob er es ihr versprochen hat, weiß nur er.
 # c
 narr: Der Nebel treibt über die Gräber. Irgendwo weit draußen auf dem Wasser schreit ein Reiher.
-harriet[neutral]: Ich war verlobt, wissen Sie. Henry Ashby. Leutnant bei den Neunundachtzigern. Er fiel bei Inkerman, am fünften November 1854.
+harriet[neutral]: Ich war verlobt, wissen Sie. Henry Ashby. Leutnant bei den Fünfundfünfzigern. Er fiel bei Inkerman, am fünften November 1854.
 harriet[neutral]: Ich habe elf Jahre gebraucht, bis ich ihn zum ersten Mal wieder gehört habe. Bei einer Sitzung in Clifton. Er sagte, er habe keine Schmerzen gehabt.
 harriet[tense]: Man hat mir nachher erklärt, wie man so etwas macht. Ich habe es nicht hören wollen.
-? t:harriet>=6 anyk:c24,c14,s39 -> confess
+? t:harriet>=6 k:s39 -> heard
+? t:harriet>=8 anyk:c24,c14 -> confess
 harriet[neutral]: Wir sollten zurück. Dunning friert, und er sagt es nicht.
 narr: Sie geht voraus, zum Boot, ohne sich umzusehen. {+f:k3_chapel_done}
 -> END
+# heard
+sera: Miss Averley. Ich habe Sie heute früh gehört. Durch Ihre Tür. „Ich habe es niemandem gesagt, Edmund.“
+harriet[tense]: Sie haben gelauscht.
+sera: Meine Katze hat gelauscht. Ich stand daneben.
 # confess
 narr: Sie sieht Sera an, und etwas in ihrer geraden Haltung gibt nach, als hätte man einen Faden durchgeschnitten.
 harriet[sad]: Er wusste es, Miss Hale. Seit August. Ein Arzt in Bath. Sein Herz. Monate, nicht Jahre. {+s:s29, reveals:f01}
 harriet[sad]: Er hat es mir gesagt, weil jemand es wissen musste, falls – und er hat mich schwören lassen, es den Kindern nicht zu sagen. Auf Mutters Bibel.
 harriet[tense]: „Sie sollen mich nicht sterben sehen, bevor ich sterbe, Harriet.“ Das hat er gesagt.
 narr: Sie öffnet ihr Retikül, zieht einen gefalteten Brief heraus und hält ihn Sera hin, als wäre er heiß. {+c:c23}
-letter: Dr. H. Wilkes, Bath, 21. August 1877. – Angina pectoris in fortgeschrittenem Stadium. Ich kann Ihnen keine Jahre versprechen, sehr geehrter Mr. Averley, und muss Ihnen dringend raten, Aufregung jeder Art zu vermeiden.
+letter: Dr. H. Wilkes, Bath, 21. August 1877. – Werter Sir, es handelt sich um eine Angina pectoris in fortgeschrittenem Stadium. Ich kann Ihnen keine Jahre versprechen und muss Ihnen dringend raten, Aufregung jeder Art zu vermeiden.
 harriet[sad]: Aufregung jeder Art. Und ich habe ihm eine Séance ins Haus geholt.
 * [mitfuehlend] Sie wollten ihm etwas Gutes tun. {harriet+2} -> d
 * [ehrlich] Die Séance hat ihn nicht getötet. Sein Herz hat es getan. {harriet+1} -> e
@@ -242,6 +245,7 @@ harriet[neutral]: Ich dachte, er sucht sie.
 harriet[neutral]: Sagen Sie das Clara. Sagen Sie es mir noch ein paarmal. Vielleicht glaube ich es dann.
 # f
 narr: Sie nimmt den Brief zurück, faltet ihn zweimal und steckt ihn ein.
+harriet[neutral]: Und das Blatt unter dem Séancetisch, falls Sie es gefunden haben – das war ich. Man hält den Stift und wartet, und meistens schreibt man, was man fürchtet.
 harriet[neutral]: Die Kinder dürfen es nicht erfahren. Noch nicht. Ich habe es geschworen.
 harriet[neutral]: Wir sollten zurück. Dunning friert, und er sagt es nicht. {+f:k3_chapel_done, +f:g_harriet_told_sera}
 
@@ -272,7 +276,7 @@ lionel[neutral]: Ja. Ich war auf der Terrasse. Ich brauchte Luft. Man braucht ma
 lionel[neutral]: Und jetzt lassen Sie mich in Ruhe.
 -> END
 # more
-narr: Er sieht auf seine Hände. Auf dem Handrücken die alte weiße Narbe.
+narr: Er sieht auf seine Hände. Auf dem Handrücken eine alte weiße Narbe, vom Polo, hat er einmal gesagt, oder von einem Säbel, je nach Publikum.
 lionel[neutral]: Ich war vorher bei ihm. Im Arbeitszimmer. Wir haben gestritten. Um Geld. Wie immer. {+s:s40, hints:f07}
 lionel[tense]: Als ich ging, lebte er. Er lebte, Miss Hale. Er saß an seinem Schreibtisch und sah mich an, als wäre ich ein Fleck auf einem Präparat.
 * [mitfuehlend] Das muss wehgetan haben. {lionel+1} -> b
@@ -295,7 +299,7 @@ important: yes
 narr: Sera hält ihm das verkohlte Blatt hin. Er erkennt den Briefkopf, bevor er ihn lesen kann; man sieht es daran, wie er zurückweicht.
 lionel[angry]: Woher haben Sie das?
 sera: Aus dem Aschekasten im Arbeitszimmer. Lesen Sie, was darunter steht.
-lionel[tense]: Ich weiß, was da steht. Meine Schuldscheine. Crabbe und Tolley, die besten Geldverleiher in der Jermyn Street, sehr diskret, sehr teuer –
+lionel[tense]: Ich weiß, was da steht. Meine Schuldscheine. Crabbe und Tolley, Jermyn Street, sehr diskret, sehr teuer –
 sera: Da steht: „vollständig beglichen“.
 narr: Er nimmt das Blatt. Er liest. Man sieht, wie er die Zeile zweimal liest und dann ein drittes Mal, als stünde beim dritten Mal etwas anderes da.
 lionel[surprised]: Beglichen.
@@ -308,7 +312,7 @@ lionel[surprised]: Er hat – {pause:900}
 lionel[sad]: Er hat bezahlt. Alles. Vor einer Woche. Und er hat es mir nicht gesagt. Er wollte, dass ich frage. {+f:g_lionel_told_paid, reveals:f03}
 lionel[sad]: Und ich habe nicht gefragt. Ich habe – {pause:600}
 narr: Er setzt sich auf den Rand eines Pflanzkübels, das verkohlte Blatt zwischen den Fingern, und für eine lange Zeit sagt er gar nichts.
-lionel[sad]: Ich habe es verbrannt, Miss Hale. In jener Nacht. Ich habe gesehen, dass es meine Schuldscheine waren, und ich habe es ins Feuer geworfen, damit niemand – damit Tante Harriet nicht – {+s:s32, reveals:f13}
+lionel[sad]: Ich habe es verbrannt, Miss Hale. In jener Nacht, als ich von der Terrasse zurückkam. Er lag da, und auf dem Tisch lag die Mappe, und ich sah meinen Namen und Crabbes Briefkopf und warf alles ins Feuer, damit niemand – damit Tante Harriet nicht – {+s:s32, reveals:f13}
 lionel[sad]: Ich habe meinen eigenen Freispruch verbrannt. Ohne ihn zu lesen.
 * [mitfuehlend] Sie konnten es nicht wissen. {lionel+2} -> a
 * [ehrlich] Er hätte es Ihnen sagen sollen. Sie hätten fragen sollen. Beides. {lionel+1} -> b
@@ -319,7 +323,7 @@ lionel[neutral]: Nein. Ich konnte es nicht wissen. Das ist die ganze Geschichte 
 # b
 lionel[neutral]: Ja. Beides. Sie sind sehr gerecht. Das ist unerträglich.
 # c
-narr: Draußen hört der Regen für einen Augenblick auf. Dann beginnt er wieder, als hätte er nur Luft geholt.
+narr: Draußen hört der Regen für einen Augenblick auf. Dann beginnt er wieder.
 lionel[neutral]: Ich muss zu den Pferden.
 narr: Er steht auf und geht hinaus, das Blatt in der Faust. Er lässt es nicht los. {+f:k3_lionel_broken}
 
@@ -332,12 +336,12 @@ important: yes
 ---
 sera: Miss Clara. Die Kamera in der Halle. Ihr Vater hat in der Nacht belichtet. Ab Mitternacht, bis zum Morgen. Die Platte ist noch darin.
 clara[surprised]: Das weiß ich. Er – {pause:400}
-clara[neutral]: Er wollte Tante Harriet beweisen, dass auf der Treppe nichts wandelt. Eine ganze Nacht auf einer Platte. Nur die Treppe, leer. Als Gegenbeweis.
+clara[neutral]: Er wollte Tante Harriet beweisen, dass auf der Treppe nichts wandelt. Eine ganze Nacht auf einer Platte. Nur die Treppe, leer. Als Gegenbeweis. Hobbes hat morgens den Deckel aufgesetzt, sagt er, weil der Herr es so wollte. Bis zum Morgen.
 clara[tense]: Sie wollen, dass ich sie entwickle.
 * [ehrlich] Ja. Wenn in der Nacht jemand über die Treppe gegangen ist, ist er darauf. {clara+1} -> a
 * [mitfuehlend] Ich weiß, dass das sein letztes Bild ist. {clara+2} -> b
 # a
-clara[neutral]: Wenn er lange genug an einer Stelle stand. Alles, was sich bewegt, verschwindet auf einer Langzeitbelichtung. Nur Lichter bleiben – als Striche. Und wer stillsteht.
+clara[neutral]: Wenn er lange genug an einer Stelle stand. Alles, was sich bewegt, verschwindet auf einer so langsamen Platte. Nur wer stehen bleibt, mit einer Flamme, oder lange genug sitzt.
 -> c
 # b
 clara[sad]: Sein letztes. Ja.

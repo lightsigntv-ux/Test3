@@ -23,8 +23,8 @@ when: !k:c16
 priority: 2
 ---
 narr: Ein Kasten auf drei Holzbeinen, verhängt mit schwarzem Krepp wie die Spiegel. Unter dem Stoff blitzt ein Messingring hervor.
-narr: Sera hebt den Saum ein wenig an. Ein Objektiv, auf die Treppe gerichtet. Kein Deckel darauf. {+c:c16}
-inner: Ein Fotoapparat. Wer stellt in einer Trauernacht einen Fotoapparat in die Halle?
+narr: Sera hebt den Saum ein wenig an. Ein Objektiv, auf die Treppe gerichtet, ein Messingdeckel darauf. Neben dem Stativ, auf dem Boden, ein Tropfen Talg. {+c:c16}
+inner: Ein Fotoapparat. Wer stellt nachts einen Fotoapparat in eine Halle, mit dem Blick auf die Treppe?
 yuumi: (Yuumi setzt sich einen Meter vor das Stativ, peitscht mit dem Schwanz und starrt den Krepp an, der sich im Luftzug bewegt.)
 inner: Ja, ich weiß. Stoff, der sich von allein bewegt, ist verdächtig.
 
@@ -32,7 +32,7 @@ inner: Ja, ich weiß. Stoff, der sich von allein bewegt, ist verdächtig.
 kind: examine
 target: h_kamera
 ---
-narr: Der verhängte Kasten auf seinen drei Beinen. Das Objektiv sieht unter dem Krepp hervor auf die Treppe, geduldig wie ein Hund, der auf jemanden wartet.
+narr: Der verhängte Kasten auf seinen drei Beinen, das Objektiv unter dem Krepp auf die Treppe gerichtet, geduldig wie ein Hund, der auf jemanden wartet.
 
 === ex_kamera_3
 kind: examine
@@ -73,7 +73,7 @@ kind: examine
 target: h_treppe
 ---
 narr: Breite Eichenstufen mit einem roten Läufer. Am Rand, auf dem blanken Holz, ein paar helle Tropfen.
-inner: Kerzenwachs. Jemand hat hier nachts Licht getragen. Was in einem Haus ohne Strom vermutlich nicht besonders verdächtig ist.
+inner: Kerzenwachs. Jemand hat hier Licht getragen. In einem Haus ohne Strom nicht besonders verdächtig.
 
 === ex_treppe_t
 kind: examine
@@ -81,8 +81,8 @@ target: h_treppe
 when: f:k2_tallow_learned
 priority: 5
 ---
-narr: Sera kniet sich hin und reibt einen der Tropfen zwischen den Fingern. Er ist weich, schmierig, und er riecht – ganz schwach – nach Hammel. {+c:c17}
-inner: Talg. Nicht Wachs. Mrs. Pryce sagt, oben brennt man Wachs und unten Talg. Und das hier ist die Treppe der Herrschaft.
+narr: Sera kniet sich hin und reibt einen der Tropfen zwischen den Fingern. Weich, schmierig, gelblich. {+c:c17}
+inner: Talg. Auf der Treppe der Herrschaft.
 
 === ex_portrait
 kind: examine
@@ -181,7 +181,7 @@ priority: 5
 ---
 narr: Die Asche im Kamin ist aufgewühlt, als hätte jemand mit dem Schürhaken darin gestochert. Oben liegt nur feiner grauer Staub.
 inner: Hobbes räumt auf, wenn niemand hinsieht. Wer so gründlich aufräumt, vergisst manchmal, wohin die Dinge fallen.
-narr: Unter dem Rost sitzt ein flacher Aschekasten. Sera zieht ihn heraus. Zwischen Kohle und Staub: ein halb verbranntes Blatt, zusammengerollt wie ein welkes Blatt im Herbst. {+c:c10, sfx:paper}
+narr: Unter dem Rost sitzt ein flacher Aschekasten. Sera zieht ihn heraus. Zwischen Kohle und Staub: ein halb verbranntes Blatt, eingerollt wie ein Hobelspan. {+c:c10, sfx:paper}
 narr: Ein gedruckter Briefkopf, zur Hälfte fort: „…abbe & Tol…, London“. Darunter, in Schönschrift: „…erklären hiermit die Schuld des Capt. L. Av… für vollständig beglichen …“
 inner: Beglichen. Vollständig. Und jemand hat es verbrannt.
 
@@ -215,13 +215,13 @@ when: ch=1 !f:k1_mini
 priority: 5
 ---
 narr: Der Schreibtisch ist aufgeräumt, wie der eines Menschen, der gern wiederfindet, was er liegen lässt. Ein Samtetui. Ein Notizbuch, aufgeschlagen. Ein Stapel Briefe unter einem Briefbeschwerer aus Bernstein.
-narr: Im Etui: eine junge Frau mit hellbraunem Haar und einem Lächeln, das über den Rand des Bildes hinausgeht. Lucinda. {+f:k1_mini}
+narr: Im Etui: eine junge Frau mit hellbraunem Haar und einem Lächeln, das über den Rand des Bildes hinausgeht. Im Deckel, in Gold: Lucinda, 1858. {+f:k1_mini}
 narr: Das Notizbuch, letzte beschriebene Seite, in einer engen, genauen Handschrift: {+c:c13}
-letter: 13. Nov. – 23.55. Deckel ab. Belichtung bis Tagesanbruch. Wandelt etwas auf der Treppe, wird die Platte es wissen. H. wird enttäuscht sein.
+letter: 13. Nov. – 5 Min. vor Mitternacht. Deckel ab. Belichtung bis zum Morgen. Wandelt etwas auf der Treppe, wird die Platte es wissen. H. wird enttäuscht sein.
 inner: Belichtung. Platte. Er hat fotografiert. Mitten in der Nacht. Und „H.“ – Harriet?
 narr: Oben auf dem Briefstapel liegt eine Visitenkarte. {+c:c22}
 letter: Mrs. E. Penrose – Sitzungen nach Vereinbarung – 14 Gay Street, Bath. (Auf der Rückseite, in derselben Handschrift:) Aug.
-narr: Darunter ein Briefbogen mit gedrucktem Kopf. Bath Royal Literary and Scientific Institution. Sie liest die ersten Zeilen – ein Angebot, siebenhundert Pfund, „für die Sammlung“ – bevor sie hört, wie Hobbes sich räuspert. {+c:c25}
+narr: Darunter ein Briefbogen mit gedrucktem Kopf. Bath Royal Literary and Scientific Institution. Sie liest die ersten Zeilen – ein Angebot, siebenhundert Pfund, „für die Sammlung von Instrumenten, Platten, Moosen und Gesteinen“ – bevor sie hört, wie Hobbes sich räuspert. {+c:c25}
 hobbes[neutral]: Miss hat die Miniatur gefunden, wie ich sehe.
 inner: Und Miss hat außerdem fremde Post gelesen. Sehr gut, Miss.
 
@@ -231,7 +231,7 @@ target: h_a_schreibtisch
 when: ch=1 f:k1_mini
 priority: 4
 ---
-narr: Hobbes lässt sie nicht aus den Augen. Seine Hände in den weißen Handschuhen sind gefaltet, als bete er darum, dass sie geht.
+narr: Hobbes lässt sie nicht aus den Augen. Seine Hände sind vor dem Frack gefaltet, als bete er darum, dass sie geht.
 inner: Nicht jetzt.
 
 === ex_a_tisch_2
@@ -325,7 +325,7 @@ priority: 5
 ---
 narr: Unter dem Tisch, halb unter den Teppichrand gerutscht, liegt ein Blatt Papier. Die Schrift darauf ist fahrig, schief, als hätte jemand mit geschlossenen Augen geschrieben. {+c:c24, sfx:paper}
 letter: Er kommt bald zu mir. Hab keine Angst. L.
-inner: L. Lionel? Oder … Lucinda. Und die Handschrift ist die von Miss Averley. Ich habe sie heute Morgen auf dem Speiseplan gesehen.
+inner: L. Lionel? Oder … Lucinda. Und die steilen Schleifen kenne ich: dieselbe Hand hat die schwarz geränderten Zettel an die Türen geheftet. „Um Stille wird gebeten.“ Miss Averley.
 
 === ex_b_tisch_y
 kind: examine
@@ -335,7 +335,7 @@ priority: 6
 ---
 narr: Sera bückt sich dorthin, wo Yuumi vom Sims aus hingestarrt hat. Unter dem Tisch, halb unter den Teppichrand gerutscht: ein Blatt Papier. {+c:c24, sfx:paper}
 letter: Er kommt bald zu mir. Hab keine Angst. L.
-inner: L. Lionel? Oder … Lucinda. Die Handschrift ist fahrig, aber es ist die von Miss Averley. Ich habe sie heute Morgen auf dem Speiseplan gesehen.
+inner: L. Lionel? Oder … Lucinda. Die Handschrift ist fahrig, aber die steilen Schleifen kenne ich von den Trauerzetteln an den Türen: Miss Averley.
 
 === ex_b_regal
 kind: examine
@@ -386,8 +386,8 @@ target: h_k_bord
 when: ch<=2
 ---
 narr: Auf dem Bord stehen die Leuchter der Dienstboten, jeder mit einem Namensschild. Hobbes. Pryce. Tilly. In allen stecken Talgkerzen, gelblich, dick.
-narr: Tillys Kerze ist fast bis auf den Leuchter heruntergebrannt. Die anderen kaum. {+c:c28}
-inner: Mrs. Pryce gibt jeden Abend eine neue aus, hat Tilly gesagt. Tilly war also lange wach. Sehr lange.
+narr: Tillys Kerze ist fast bis auf den Leuchter heruntergebrannt. Die anderen kaum. Darunter ein Schild in fester Schrift: „Eine Kerze je Nacht. A. P.“ {+c:c28}
+inner: Eine Kerze je Nacht. Und Tillys ist fast weg. Sie war lange wach. Sehr lange.
 
 === ex_k_bord_3
 kind: examine
@@ -420,8 +420,8 @@ target: h_k_butler
 when: ch>=2 !k:c08 anyf:k2_listened,k2_pantry_free,k3_started
 priority: 5
 ---
-narr: Hobbes ist oben. Die Butlerkammer ist leer. Silber in Filztaschen, eine Reihe Weingläser, blank. Auf dem Abtropfbrett stehen eine Kristallkaraffe und zwei Gläser, frisch gespült, noch feucht. {+c:c08}
-inner: Die Karaffe passt in den leeren Platz im Tantalus. Ich wette meinen Leuchtkasten darauf.
+narr: Hobbes ist oben. Die Butlerkammer ist leer. Silber in Filztaschen, eine Reihe Weingläser, blank. In der untersten Schublade, unter dem Silbertuch, in ein Leinen gewickelt: eine Kristallkaraffe mit Brandyrest am Boden und zwei Gläser, gespült und poliert. {+c:c08}
+inner: Die Karaffe passt in den leeren Platz im Tantalus. Man versteckt keine Gläser, die man einfach nur abgewaschen hat.
 
 === ex_k_butler
 kind: examine
@@ -442,8 +442,8 @@ target: h_k_stiefel
 when: ch>=3 !k:c19
 priority: 5
 ---
-narr: Ein Paar hohe Reitstiefel steht am Ofenrohr zum Trocknen, das Leder dunkel, die Schäfte innen noch klamm. Im Profil der Sohle hängt Gartenerde, rötlich, mit einem Rosenblatt darin. {+c:c19}
-inner: Die Reitstiefel des Captain. Nass bis oben. Und er hat geschlafen wie ein Stein.
+narr: Die Reitstiefel des Captains, frisch gewichst. Auf dem Fensterbrett daneben: ein Klumpen roter Erde, sorgfältig beiseitegelegt, als wolle jemand ihn aufheben. {+c:c19}
+inner: Das hat Tilly aus den Absätzen gekratzt. Rote Erde vom Rosenbeet unter der Terrasse. Und er hat geschlafen wie ein Stein.
 
 === ex_k_pryce
 kind: examine
@@ -473,7 +473,7 @@ kind: examine
 target: h_g_clara
 ---
 narr: Miss Claras Tür. Auf den Dielen davor ein paar helle Tropfen, dicht beieinander.
-inner: Wachs, vermutlich. Hier oben brennt man Wachs.
+inner: Kerzenwachs, vermutlich.
 
 === ex_g_clara_t
 kind: examine
@@ -481,7 +481,7 @@ target: h_g_clara
 when: f:k2_tallow_learned
 priority: 5
 ---
-narr: Drei Tropfen, dicht beieinander, direkt vor der Schwelle. Sera kratzt mit dem Fingernagel daran. Weich. Gelblich. Hammel. {+c:c18}
+narr: Drei Tropfen, dicht beieinander, direkt vor der Schwelle. Sera kratzt mit dem Fingernagel daran. Weich, gelblich. {+c:c18}
 inner: Talg. Hier oben. Vor Claras Tür. Jemand hat hier mit einer Dienstbotenkerze gestanden. Lange genug, dass sie dreimal tropfte.
 
 === ex_g_harriet
@@ -494,7 +494,7 @@ narr: Miss Averleys Tür. Dahinter ist es still, eine Stille, die man hört.
 kind: examine
 target: h_g_lionel
 ---
-narr: Die Tür des Captain. Dahinter klirrt etwas, eine Flasche an ein Glas, dann nichts mehr.
+narr: Die Tür des Captains. Dahinter klirrt etwas, eine Flasche an ein Glas, dann nichts mehr.
 
 === ex_g_gast
 kind: examine
@@ -577,7 +577,7 @@ inner: Ich sehe müde aus. Sehr achtzehnhundertsiebenundsiebzig.
 kind: examine
 target: h_gw_zitronen
 ---
-narr: Zitronenbäumchen in Kübeln, jeder mit einem Schild in derselben engen Handschrift wie im Notizbuch. Eine Frucht ist gelb geworden. Nur eine.
+narr: Zitronenbäumchen in Kübeln, jeder mit einem Schild in einer engen, genauen Handschrift. Eine Frucht ist gelb geworden. Nur eine.
 inner: Er hat Zitronen gezogen, in Somerset, im November. Das ist entweder wissenschaftlicher Ehrgeiz oder Hoffnung.
 
 === ex_gw_bank

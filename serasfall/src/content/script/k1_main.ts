@@ -5,10 +5,10 @@ when: ch=1 loc=halle
 priority: 20
 important: yes
 ---
-narr: Ein Ruck. Der Vorhang wird aufgezogen, graues Licht fällt herein. {sfx:curtain, music:k1}
+narr: Ein Ruck. Der Vorhang wird aufgezogen, Kerzenlicht fällt herein. {sfx:curtain, music:k1}
 tilly[surprised]: Jesses!
 narr: Vor ihr steht ein Mädchen, vielleicht dreizehn, mit einer Haube, die ihr zu groß ist, und einem Kohleneimer, der ihr gleich aus der Hand fallen wird.
-inner: Okay. Ich bin nicht in meiner Wohnung. Ich liege auf einer gepolsterten Bank in einem Fenster, und draußen ist … Wasser. Sehr viel Wasser.
+inner: Gut. Ich bin nicht in meiner Wohnung. Ich liege auf einer gepolsterten Bank in einem Fenster, und draußen, im ersten Grau, ist … Wasser. Sehr viel Wasser.
 tilly[tense]: Sind Sie ’n Geist, Miss? Sagen Sie’s ehrlich. Ich hab heut Nacht schon einen gehört.
 * [humor] Wenn ich einer wäre, hätte ich mir wärmere Socken ausgesucht. {tilly+1} -> w_humor
 * [ehrlich] Ehrlich gesagt weiß ich nicht genau, was ich bin. Verwirrt, vor allem. {tilly+1} -> w_honest
@@ -94,7 +94,7 @@ harriet[neutral]: Oh. Sie müssen Miss Hale sein. Die Agentur schrieb, Sie käme
 * [schweigen] (Nicken und einen Knicks versuchen.) -> h_curtsy
 # h_name
 harriet[neutral]: Sarah. Gewiss. Miss Sarah Hale.
-inner: Sarah. Na gut. Ich bin also Miss Hale. Das ist nicht gelogen. Das ist nur eine Verwechslung, die ich nicht korrigiere.
+inner: Sarah. Na gut. Ich bin also Miss Hale. Nicht gelogen. Nur eine Verwechslung, die ich nicht korrigiere.
 -> h_boat
 # h_curtsy
 narr: Es wird ein Knicks, der irgendwo zwischen Ballett und Stolpern stecken bleibt.
@@ -164,7 +164,7 @@ harriet[neutral]: Freundlicher. – Ja. Vielleicht.
 harriet[neutral]: Gut.
 # s_d
 harriet[sad]: Heute Nachmittag wird er aufgebahrt. Mrs. Pryce und ich werden ihn waschen und kleiden, wie es sich gehört. Es kommt kein Arzt, solange das Wasser steht. Kein Coroner. Niemand.
-inner: Coroner. Das Wort kenne ich nicht. Es klingt nach jemandem, der Tote zählt.
+inner: Coroner. Kenne ich aus Krimiserien. Da ist er immer nach fünf Minuten da. Hier offenbar nicht.
 harriet[neutral]: Auf seinem Schreibtisch liegt eine Miniatur meiner Schwägerin. Ein ovales Bild in einem Samtetui. Ich möchte, dass er sie in den Händen hält.
 harriet[neutral]: Holen Sie sie mir. Hobbes steht vor dem Arbeitszimmer. Sagen Sie ihm, ich schicke Sie.
 * [mitfuehlend] Natürlich. {harriet+1, +f:k1_task_mini} -> s_e
@@ -239,8 +239,7 @@ priority: 20
 ---
 harriet[sad]: Geben Sie her.
 narr: Harriet klappt das Etui auf und sieht lange hinein. Ihr Daumen fährt über den Rand, als wische sie Staub fort, wo keiner ist.
-harriet[neutral]: Sie war zweiunddreißig. Das Fieber kam mit dem Hochwasser, wie jetzt. Sie hat immer gesagt, bei Hochwasser läute unter dem Moor die alte Glocke von St. Aldhelm.
-harriet[neutral]: Unsinn natürlich. Eine Sage der Moorbauern. Sie hat sie geliebt.
+harriet[neutral]: Sie war zweiunddreißig. Das Fieber kam mit dem Hochwasser, wie jetzt. Sie hat die Sagen der Moorbauern geliebt. Unsinn, natürlich.
 harriet[neutral]: Gehen Sie hinunter zu Mrs. Pryce. Sie soll Ihnen etwas zu essen geben und die Kammer am Ende der Galerie richten.
 * [mitfuehlend] Haben Sie heute schon etwas gegessen? {harriet+1} -> m_a
 * [neutral] Ja, Madam. -> m_end
@@ -256,7 +255,7 @@ kind: scene
 when: ch=1 loc=dienst f:k1_met_harriet
 priority: 20
 ---
-narr: Die Küche ist der einzige warme Ort im Haus. Ein riesiger schwarzer Herd, Kupfertöpfe an der Wand, ein Tisch, zerkratzt von hundert Jahren Messern. Über der Tür zur Halle hängt ein Brett mit einer Reihe kleiner Glocken an Spiralfedern. {music:kitchen}
+narr: Die Küche ist der einzige warme Ort im Haus. Ein riesiger schwarzer Herd, Kupfertöpfe an der Wand, ein Tisch, zerkratzt von hundert Jahren Messern. Über der Tür zur Halle hängt ein Brett mit einer Reihe kleiner Glocken an Spiralfedern. Daneben ein Kalender einer Mühle in Bridgwater: November 1877. {music:kitchen}
 narr: Eine Frau mit einem Schlüsselbund an der Hüfte schlägt Teig, als hätte er ihr etwas getan. Tilly kniet am Herd und sieht nicht auf.
 pryce[neutral]: Sie sind die neue Gesellschafterin. Miss Hale, nehm ich an. Mrs. Pryce.
 pryce[neutral]: Setzen Sie sich. Nicht auf den Stuhl, der wackelt. Auf den anderen.
@@ -328,7 +327,7 @@ lionel[angry]: Riechen Sie das auch, Miss Hale, drüben im Arbeitszimmer? Bitter
 lionel[angry]: Diese Frau hat ihn vergiftet. Und wir sitzen hier und warten, bis das Wasser fällt.
 penrose[neutral]: Der Captain ist erschüttert. Man sagt Dinge, wenn man erschüttert ist. Und man trinkt vor zehn.
 lionel[neutral]: Man trinkt, wann man will, Madam. Das ist der einzige Vorzug daran, der Erbe zu sein.
-narr: Er leert sein Glas. Seine Hand zittert nicht. Das ist beinahe schlimmer.
+narr: Er leert sein Glas. Seine Hand zittert nicht. Man sieht, dass er das geübt hat.
 inner: Zwei Menschen, die einander nicht ausstehen können. Und beide wirken erleichtert, dass jemand Drittes im Raum ist. {+f:k1_library_done}
 
 === k1_nudge
@@ -346,14 +345,14 @@ important: yes
 ---
 narr: Die Kammer ist klein, sauber und kalt. Ein schmales Bett, ein Waschtisch mit Krug, eine Truhe, ein Fenster, hinter dem das Moor zu einem grauen Spiegel geworden ist. {music:quiet}
 narr: Sera setzt sich auf die Bettkante. Das Korsett erlaubt es nur unter Protest.
-inner: Okay. Bestandsaufnahme.
-inner: Das Mädchen sagt Averley Hall, die Dame sagt Mittwoch, und auf dem Kalender in der Küche stand 1877. Achtzehnhundertsiebenundsiebzig.
+inner: Also. Bestandsaufnahme.
+inner: Alle hier sagen Averley Hall, die Dame in Schwarz sagt Mittwoch, und auf dem Kalender in der Küche steht 1877. Achtzehnhundertsiebenundsiebzig.
 inner: Ich habe eine Glasplatte gegen eine Lampe gehalten, und jetzt bin ich hier. Das ist keine Erklärung. Das ist eine Reihenfolge.
 yuumi: (Yuumi springt auf die Fensterbank, setzt sich und schaut hinaus, als gehöre ihr das Wasser.) {sfx:bell}
 * [mitfuehlend] (Yuumi streicheln.) -> pet
 * [schweigen] (Einfach mit ihr hinausschauen.) -> look
 # pet
-yuumi: (Ein Schnurren, tief und ungeniert, wie ein kleiner Motor in einem sehr alten Haus.) {sfx:purr}
+yuumi: (Ein Schnurren, tief und ungeniert, wie ein kleines Spinnrad in einem sehr alten Haus.) {sfx:purr}
 -> c
 # look
 narr: Draußen treibt ein Zaunpfahl vorbei, dann eine Krähe auf einem Brett, ganz ruhig, wie auf einer Fähre.

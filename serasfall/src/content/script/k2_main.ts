@@ -26,15 +26,15 @@ narr: Sera nimmt das Tuch, und ihre Hände wissen nicht, wo sie anfangen sollen.
 pryce[neutral]: Natürlich. Dann fangen Sie doch mit dem Gesicht an. Wie Sie’s gewohnt sind.
 inner: Sie weiß, dass ich gelogen habe. Und sie lässt mich trotzdem helfen.
 # c
-narr: Sie waschen ihn, Stück für Stück, wie man etwas Zerbrechliches reinigt. Mrs. Pryce summt dabei, sehr leise, ein Lied ohne Worte, in einer Sprache, die nicht Englisch ist.
+narr: Sie waschen ihn, Stück für Stück, wie man etwas Zerbrechliches reinigt. Mrs. Pryce singt dabei halblaut, in einer Sprache, die nicht Englisch ist.
 narr: An der linken Schläfe, unter dem grauen Haar: eine Schürfung, bläulich verfärbt, mit einem feinen Rand. {+c:c04}
 inner: Das ist nicht vom Sessel.
 pryce[neutral]: Wir müssen ihn umdrehen, für das Hemd. Miss Hale, die Schultern. Auf drei.
-narr: Als sie ihn auf die Seite rollen, sieht Sera den Rücken. Große dunkle, fast violette Flecken, über die Schulterblätter und die linke Seite verteilt, wie Schatten unter der Haut.
+narr: Als sie ihn auf die Seite rollen, sieht Sera die linke Flanke. Große dunkle, fast violette Flecken, über die Schulter und die linke Seite verteilt, wie Schatten unter der Haut, mit weißen Stellen dazwischen, wo er auf etwas Hartem gelegen haben muss.
 narr: Miss Clara ist vom Fenster herübergekommen. Sie sieht die Flecken an. Sehr lange. {+c:c06}
 clara[tense]: Totenflecken.
 clara[neutral]: Das Blut sinkt nach dem Tod dorthin, wo der Körper am tiefsten liegt. Immer nach unten. Blut ist nicht sentimental.
-clara[tense]: Wenn er in seinem Sessel gestorben wäre und dort gesessen hätte, bis Hobbes kam, dann wären sie in den Beinen. Er hat Stunden auf dem Rücken gelegen. Auf der linken Seite. Auf dem Boden. {+s:s18, reveals:f14, +f:g_body_laid}
+clara[tense]: Er hat nach Hobbes drei Stunden im Sessel gesessen. Dann müssten sie in den Beinen sein, im Becken. Da ist fast nichts. Er hat vorher Stunden auf der linken Seite gelegen, auf etwas Hartem. Auf dem Boden. {+s:s18, reveals:f14, +f:g_body_laid}
 pryce[tense]: Mr. Hobbes wird sich geirrt haben, Miss Clara. In dem Schrecken. {hints:f14}
 clara[angry]: Hobbes irrt sich nicht. Hobbes hat noch nie in seinem Leben ein Salzfass an den falschen Platz gestellt.
 narr: Die Stille danach ist so vollständig, dass man die Kerzen hört.
@@ -85,7 +85,7 @@ clara[neutral]: Sie sehen aus wie jemand, der etwas gefunden hat, Miss Hale. Heu
 # w
 clara[neutral]: 2.39. Und die Schürfung an der Schläfe. Und das Kamingitter. {hints:f14}
 clara[neutral]: Er ist gestürzt. Er stand auf, sein Herz – er stürzte und schlug mit dem Kopf auf, und die Uhr flog unter den Schrank. Und dann hat er dort gelegen. Bis Hobbes kam.
-narr: Sie sagt es wie einen Laborbefund. Ihre Stimme bricht nicht. Sie wird nur immer leiser.
+narr: Sie sagt es wie einen Sektionsbefund. Ihre Stimme bricht nicht. Sie wird nur immer leiser.
 # after
 clara[neutral]: Ich war um – {pause:600, hints:f05}
 narr: Sie setzt die Flasche ab, zu hart. Das Glas klirrt.
@@ -107,7 +107,7 @@ when: ch=2 seen:k2_dark k:d05 anyf:k2_listened,k2_pantry_free anyk:c08,c14,c24 t
 priority: 5
 ---
 narr: Draußen ist es dunkel geworden, ohne dass es je richtig hell war. Irgendwo im Haus schlägt Hobbes einen kleinen Gong. {sfx:gong, time=abend}
-inner: Kaltes Abendessen im Salon, hat Mrs. Pryce gesagt. Man isst nicht warm in einem Trauerhaus, das wäre unanständig.
+inner: Kaltes Abendessen im Salon, hat Mrs. Pryce gesagt. „Warm kocht man, wenn einer essen will. Heut will keiner.“
 
 === k2_evening
 kind: scene
@@ -120,7 +120,7 @@ harriet[neutral]: Miss Hale. Setzen Sie sich. Sie werden uns nachher den Abendps
 harriet[neutral]: Mrs. Penrose. Ich möchte Sie um etwas bitten.
 penrose[neutral]: Miss Averley.
 harriet[neutral]: Heute Nacht, wenn das Haus schläft. Eine kleine Sitzung. Nur wir beide. Er ist noch nah, das sagen Sie doch selbst – die ersten Nächte sind sie noch nah.
-lionel[angry]: Großartig. Holen wir ihn zurück und fragen ihn, wer ihn umgebracht hat. Ich tippe auf den Gast.
+lionel[angry]: Großartig. Holen wir ihn zurück und fragen ihn, wer ihn umgebracht hat. Ich setze auf den Gast.
 harriet[tense]: Lionel.
 penrose[neutral]: Nein. {pause:500}
 narr: Alle sehen sie an. Selbst Hobbes hält die Teekanne einen Augenblick zu lange über der Tasse.
@@ -129,14 +129,14 @@ harriet[surprised]: Sie verweigern mir –
 penrose[tense]: Ich verweigere Ihnen nichts. Ich bitte Sie. Lassen Sie ihn in Ruhe. Er hat es sich – verdient.
 lionel[neutral]: Hört, hört. Das Medium hat ein Gewissen. Man sollte es in Spiritus einlegen.
 narr: Mrs. Penrose sieht ihn an, ohne zu lächeln. Dann sieht sie Sera an, und ihr Blick ist müde und sehr wach zugleich.
-harriet[neutral]: Er wollte morgen früh etwas bezeugen lassen. Beim Dinner sagte er, er brauche Hobbes und Mrs. Pryce für eine Unterschrift. {+s:s11, reveals:f24}
+harriet[neutral]: Er wollte heute früh etwas bezeugen lassen. Beim Dinner sagte er, er brauche Hobbes und Mrs. Pryce für eine Unterschrift. {+s:s11, reveals:f24}
 harriet[sad]: Es ist nichts gefunden worden. Kein Papier. Nichts. Hobbes hat den Schreibtisch durchgesehen.
 hobbes[neutral]: Es lag nichts zur Unterschrift bereit, Madam.
 lionel[tense]: Nichts. Wie schön. Dann bleibt ja alles, wie es war.
-inner: Er sagt es zu schnell. Und er trinkt danach, ohne das Glas vorher zu heben.
+inner: Er sagt es zu schnell. Und er leert das Glas, bevor jemand antworten kann.
 harriet[neutral]: Miss Hale, der Psalm. Der neunzigste.
 narr: Hobbes reicht ihr eine schwarz gebundene Bibel, aufgeschlagen. Sera liest.
-sera: „Lehre uns bedenken, dass wir sterben müssen, auf dass wir klug werden.“
+sera: „Lehre uns unsere Tage zählen, auf dass wir ein weises Herz gewinnen.“
 narr: Niemand sagt Amen. Nur das Feuer knackt, und draußen fällt der Regen auf das Wasser, das schon da ist.
 harriet[neutral]: Sie lesen gut, Miss Hale. Welche Gemeinde besuchen Sie in London?
 * [ausweichend] Eine kleine. Sie würden sie nicht kennen. {sus+1} -> a

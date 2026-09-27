@@ -77,9 +77,12 @@ export function npcsIn(s: GameState, c: Content, loc: string) {
 }
 
 /** Alles, was die Spielerin vorlegen kann. */
+/** Gegenstände, die Sera nicht mehr bei sich hat. */
+const GIVEN_AWAY: Record<string, string> = { c03: 'g_watch_given' };
+
 export function presentables(s: GameState): string[] {
   return [
-    ...Object.keys(s.clues).filter((k) => !k.startsWith('e')),
+    ...Object.keys(s.clues).filter((k) => !k.startsWith('e') && !(GIVEN_AWAY[k] && s.flags[GIVEN_AWAY[k]])),
     ...Object.keys(s.statements),
     ...Object.keys(s.deductions),
   ];

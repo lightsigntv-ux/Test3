@@ -51,7 +51,7 @@ Die Kamera steht auf einem Stativ in der Treppenhalle nahe der Haustür und blic
 | 02.33 | Tilly, **Haupttreppe** hinauf | schneller als die Hintertreppe; verboten für Dienstboten | Lichtspur 5 (hinauf), C_tallow_stairs |
 | 02.34–02.37 | Tilly, vor Claras Tür | klopft, flüstert: „Miss Clara, bitte, machen Sie auf.“ Keine Antwort. Wagt nicht, einzutreten oder bei Miss Averley zu klopfen | C_tallow_door |
 | 02.38 | Tilly, Haupttreppe hinab | will dem Herrn sagen, dass niemand öffnet | Lichtspur 6 (hinab) |
-| 02.38 | Clara verlässt Penrose, 02.40 in ihrem Zimmer | verpasst Tilly um zwei Minuten | Galerie-Lichtspur (Rand) |
+| 02.38 | Clara verlässt Penrose (sie selbst sagt „gegen zwanzig vor drei“), 02.40 in ihrem Zimmer | verpasst Tilly um zwei Minuten | Galerie-Lichtspur (Rand) |
 | 02.39 | Edmund | steht auf, um erneut zu läuten, bricht zusammen; Schläfe schlägt gegen das Kamingitter; Uhrkette reißt, Uhr rutscht unter den Bücherschrank, Glas springt, Uhr steht auf **2.39** | C_watch, C_bruise |
 | 02.40–02.47 | Tilly & Edmund, Arbeitszimmer am Boden | Tilly kniet, hält seine Hand. Er sagt: „Es ist bezahlt. Sag’s ihm.“ Stirbt gegen 2.47 | S_tilly_lastwords (erst im Geständnis) |
 | 02.48 | Tilly, Halle → setzt sich auf die Haupttreppe | weint, Gesicht in der Schürze | – |
@@ -59,15 +59,16 @@ Die Kamera steht auf einem Stativ in der Treppenhalle nahe der Haustür und blic
 | 02.56 | Mrs. Penrose, Galerie | schlaflos, hört ein Glöckchen, tritt hinaus, sieht hinab: ein weinendes Dienstmädchen mit Kerze und daneben eine blasse Frau mit hellem Haar und einem kleinen Tier. Geht zurück in ihr Zimmer und schließt ab | S_penrose_saw |
 | 02.58 | Tilly, Dienstbotentür | geht in die Küche, versteckt den Brief in ihrer Blechdose unter der losen Diele beim Herd | C_tin |
 | 03.00 | Sera | *zwischen* endet; taumelt auf das Halbpodest, kriecht mit Yuumi hinter den Vorhang des Fenstersitzes, schläft | – |
-| 02.50 | Dunning, Stallhof | sieht beim Pferdecheck einen Mann ohne Rock auf der Terrasse im Licht des Arbeitszimmerfensters: den Captain | S_dunning_terrace |
+| 02.00–02.45 | Dunning, Stall | beim unruhigen Braunen; sieht um 2.30 aus der Stalltür Licht im Gästeflügel | S_dunning_guest |
+| 02.46 | Dunning, Stallhof | tritt auf den Hof (Stalluhr hat Viertel vor drei geschlagen), sieht hinten an der Terrassenbrüstung einen Mann ohne Rock, mit dem Rücken zum Haus, im Lichtstreifen aus dem Vorhangspalt des Arbeitszimmers: den Captain. Die Vorhänge des Arbeitszimmers sind geschlossen; Lionel sieht nicht, was drinnen geschieht | S_dunning_terrace |
 | 03.05 | Lionel, Terrassentür → Arbeitszimmer | findet den Vater tot am Boden. Sieht auf dem Schreibtisch die Mappe mit seinen Schuldscheinen. Liest betrunken nur seinen Namen, glaubt an Bloßstellung und Enterbung, verbrennt den Inhalt im Kamin | C_ash_fragment |
 | 03.15 | Lionel, Haupttreppe | nimmt die Lampe des Arbeitszimmers mit hinauf; hört hinter dem Vorhang ein Glöckchen; flieht in sein Zimmer | Lichtspur 7 (hinauf, hell, gleichmäßig), S_lionel_bell |
 | 05.30 | Tilly, Küche | Herdfeuer, wie jeden Morgen | – |
 | 06.05 | Tilly, Halle | zieht den Vorhang am Fenstersitz auf: Sera und Yuumi | Beginn Kapitel 1 |
-| 06.15 | Hobbes, Arbeitszimmer | findet Edmund am Boden, zwei Gläser, Karaffe, frische Asche mit verkohlten Blättern (erkennt „Crabbe“). Setzt den Toten in den Sessel (verrenkt sich dabei den Rücken), schließt ihm die Augen, bringt Karaffe und Gläser in die Butlerkammer und spült sie, stochert in der Asche. Sieht die Uhr nicht | C_decanter_gap, C_washed_glasses, C_hobbes_back |
-| 06.25 | Hobbes | hält die Uhren an (Halle, Arbeitszimmer) – auf 6.25 | C_clocks |
+| 06.15 | Hobbes, Arbeitszimmer | findet Edmund am Boden, zwei Gläser, Brandykaraffe, Asche mit einem halb lesbaren Blatt („Crabbe“). Setzt den Toten in den Sessel (verrenkt sich dabei den Rücken), schließt ihm die Augen, bringt Karaffe und Gläser in die Butlerkammer, spült sie (Tilly sieht ihn dort vor sieben) und versteckt sie in der Schublade, stochert in der Asche. Sieht die Uhr nicht | C_decanter_gap, C_washed_glasses, C_hobbes_back |
+| 06.25 | Hobbes | hält die Uhren an (Halle, Arbeitszimmer) – auf 6.25 – und setzt, getreu „bis zum Morgen“, den Deckel auf das Objektiv. Die Belichtung endet. (Seine Kerze hinterlässt eine kurze Spur von der Dienstbotentür zur Kamera.) | C_clocks |
 | 06.30 | Hobbes | weckt Miss Averley, dann Captain und Miss Clara: „Der Herr ist in seinem Sessel entschlafen.“ | S_hobbes_chair |
-| ~07.20 | – | Sonnenaufgang, trüb. Die Platte belichtet weiter, bis Harriet um 9 Uhr Trauerflor über Spiegel und – im Glauben, es sei ein Spiegelinstrument – über die Kamera hängen lässt | C_camera_draped |
+| ~07.20 | – | Sonnenaufgang, trüb. Um 9 Uhr lässt Harriet Trauerflor über Spiegel und – im Glauben, es sei ein Spiegelinstrument – über die Kamera hängen | C_camera_draped |
 
 ## Danach (im Spiel)
 - **Mi 14. Nov.** Kapitel 1–2. Sera als „Miss Hale“ aufgenommen. Edmund wird von Mrs. Pryce und Harriet mit Seras Hilfe im Schlafzimmer aufgebahrt.

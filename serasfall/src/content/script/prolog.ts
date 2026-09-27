@@ -37,8 +37,8 @@ when: ch=0
 important: yes
 ---
 narr: Die meisten Platten sind trüb. Eine Kuh, sehr geduldig. Eine Familie auf einem Rasen, alle ein wenig verwischt, als hätten sie es eilig gehabt, wieder ins Haus zu kommen.
-narr: Die letzte ist schwerer als die anderen. Ein Treppenhaus, fast schwarz. Nur in der Mitte ein winziger heller Fleck, wie eine Kerze, die jemand vergessen hat.
-inner: Negativ. Dunkel ist hell, hell ist dunkel. Also ist da ein Schatten. Auf der Treppe.
+narr: Die letzte ist schwerer als die anderen. Ein Treppenhaus, blass wie Rauch, fast durchsichtig. In der Mitte ein kleiner dunkler Fleck, und daneben etwas, das ein Schatten sein könnte oder ein Kratzer im Glas.
+inner: Negativ. Hell ist dunkel, dunkel ist hell. Also war da etwas Helles. Eine Kerze vielleicht. Auf der Treppe.
 * [neutral] (Die Platte gegen die Lampe halten.) -> hold
 * [ausweichend] (Zurücklegen. Morgen ist auch noch ein Tag.) -> later
 # later
@@ -66,7 +66,7 @@ narr: Irgendwo tief unten im Haus läutet eine Glocke. Einmal. Hart. {+c:e03, sf
 narr: Oben klopft jemand an eine Tür, leise und lange. „Miss … bitte … machen Sie auf …“ {+c:e02, sfx:knock}
 narr: Ein Licht wandert die Treppe hinauf und wieder hinab, ein kleiner warmer Schein, der zittert. {+c:e01}
 narr: Neben ihr weint jemand. Ganz nah. Sie kann nicht hinsehen.
-narr: „… wenn mich doch nur einer hören tät …“ {pause:800}
+narr: „… wenn mich doch … einer hören …“ {pause:800}
 yuumi: (Ein Glöckchen, leise, direkt an ihrem Ohr. Warmes Fell.) {sfx:bell}
 narr: Irgendwo oben geht eine Tür. Jemand steht an einem Geländer und sieht herab. Dann schließt sich die Tür wieder, und ein Schlüssel dreht sich im Schloss. {sfx:doorFar}
 narr: Dann nichts mehr. Nur Stoff, der nach altem Staub und Lavendel riecht, und Dunkelheit. {go:halle@0.58, chap:1, time=morgen}

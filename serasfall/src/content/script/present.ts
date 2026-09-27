@@ -233,8 +233,8 @@ items: c32
 ---
 hobbes[neutral]: Man hält die Uhren an, wenn der Herr des Hauses stirbt, Miss. So ist es Brauch.
 sera: Auf die Minute, in der er starb?
-hobbes[neutral]: Auf die Minute, in der man es weiß. Ich wusste es um fünfundzwanzig nach sechs.
-inner: Das ist genau genommen die Wahrheit. Hobbes lügt nicht gern. Er wählt nur aus.
+hobbes[neutral]: Auf die Minute, in der man die Uhren anhalten kann, Miss. Ich hielt sie um fünfundzwanzig nach sechs an.
+inner: Die Uhren hat er um fünfundzwanzig nach sechs angehalten. Gefunden hat er ihn, sagt er selbst, um Viertel nach. Was hat er in den zehn Minuten dazwischen getan?
 
 === pr_tilly_c03
 kind: present
@@ -268,11 +268,11 @@ harriet[neutral]: Mrs. Penrose verteilt ihre Karten großzügig. Das gehört zu 
 harriet[neutral]: Legen Sie sie zurück, Miss Hale.
 -> END
 # open
-narr: Harriet nimmt die Karte. Sie dreht sie um, sieht das „Aug.“ in der engen Handschrift und legt sie mit der Schrift nach unten auf den Tisch.
+narr: Harriet nimmt die Karte. Sie dreht sie um, sieht das „Aug.“ in der engen Handschrift und legt sie mit der Schrift nach unten auf den Tisch, bevor sie sie zurückschiebt.
 harriet[neutral]: Ich fand sie im September in seinem Schreibtisch, als ich Siegellack suchte. Ich dachte, er suche Lucinda. {+s:s38, reveals:f25}
 harriet[sad]: Ein Mann, der dreißig Jahre lang über Klopfgeister gelacht hat, fährt nach Bath zu einem Medium. Was hätten Sie gedacht, Miss Hale?
 harriet[neutral]: Also schrieb ich ihr. Ich dachte, ich tue ihm damit einen Gefallen.
-narr: Ihre Hand bleibt auf der Karte liegen, als wolle sie sie am Fortfliegen hindern.
+narr: Ihre Hand liegt noch dort, wo die Karte gelegen hat.
 
 === pr_penrose_c22
 kind: present
@@ -281,7 +281,7 @@ items: c22
 when: ch<=3
 ---
 penrose[neutral]: Meine Karte. Ich verteile viele, meine Liebe. Das ist, wie man in Bath überlebt.
-narr: Sie gibt die Karte nicht zurück. Sie betrachtet die Rückseite, die drei Buchstaben in der engen Schrift. Ihr Daumen streicht einmal darüber.
+narr: Sie betrachtet die Rückseite, die drei Buchstaben in der engen Schrift. Ihr Daumen streicht einmal darüber, bevor sie die Karte zurückgibt.
 penrose[neutral]: August. Ein heißer Monat. Viele Leute kommen im August.
 inner: Sie weiß genau, wer diese Karte mitgenommen hat.
 `;

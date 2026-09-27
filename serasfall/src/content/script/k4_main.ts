@@ -7,7 +7,7 @@ important: yes
 ---
 narr: Rotes Licht. Es macht alle Hände gleich und alle Gesichter fremd. Die Tür ist zu, der Spalt darunter mit einem Tuch verstopft. {music:develop}
 clara[neutral]: Er hat eine Tanninplatte genommen. Trockenkollodium. Die sind langsam wie Schnecken, deshalb. Eine nasse Platte hätte er nach zehn Minuten entwickeln müssen.
-clara[neutral]: Und er hat die Lampe in der Halle brennen lassen, kleingedreht. Damit die Treppe überhaupt zu sehen ist. Sieben Stunden Lampenlicht. Das reicht für ein Gespenst von einer Treppe.
+clara[neutral]: Und er hat die Lampe in der Halle brennen lassen, kleingedreht, damit die Treppe überhaupt zu sehen ist. Von Mitternacht bis halb sieben, als Hobbes den Deckel aufgesetzt hat. Das reicht für ein Gespenst von einer Treppe.
 narr: Sie legt die Platte in eine flache Schale. Glas, milchig, ohne Bild.
 clara[neutral]: Pyrogallol und Ammoniak. Halten Sie die Laterne. Höher. Nicht über die Schale, daneben.
 narr: Sie gießt. Die Flüssigkeit läuft in einer glatten Welle über das Glas. Clara wiegt die Schale, langsam, hin und her, wie man ein Kind wiegt. {sfx:liquid}
@@ -16,12 +16,12 @@ clara[neutral]: Jetzt nichts sagen. Zählen.
 * [schweigen] (Die Luft anhalten.) -> a
 # a
 narr: Eins. Zwei. Zwölf. Dreißig. Auf dem Glas beginnt etwas dunkler zu werden, wo es hell war. Die Umrisse einer Treppe. Ein Geländer. Ein Fenster, dahinter nichts.
-narr: Und Striche. Feine, helle Bahnen, die über die Stufen ziehen, als hätte jemand mit einer Nadel ins Dunkel gekratzt.
+narr: Und Spuren. Blasse, unterbrochene Bahnen, die über die Stufen ziehen, als hätte jemand mit einer Nadel ins Dunkel gekratzt, und an zwei Stellen helle Flecken, wo ein Licht lange an einem Ort geblieben ist.
 clara[surprised]: Da ist jemand gegangen. Mehr als einer.
 clara[neutral]: Fixieren. Die Flasche. Nein – die mit dem Stopfen. Gut.
 narr: Der Bittermandelgeruch steigt auf, süß und falsch. Clara spült die Platte unter dem Wasser aus einem Krug, hält sie gegen die Laterne, dann legt sie ein schwarzes Samttuch dahinter.
-clara[neutral]: Gegen Schwarz sieht man eine Kollodiumplatte als Positiv. Wie ein Ambrotyp. Er hat mir das gezeigt, da war ich zwölf.
-narr: Die Treppe. Grau auf Schwarz, weich, als läge sie unter Wasser. Über die Stufen ziehen sieben Lichtbahnen, manche gleichmäßig und hell, eine breit und stetig wie ein Fluss, zwei zittrig, dünn, unterbrochen, als hätte die Flamme geflackert. {+c:c29, +f:g_plate_dev}
+clara[neutral]: Gegen Schwarz sieht man eine Kollodiumplatte als Positiv. Wie ein Ambrotyp. Er hat mir das gezeigt, da war ich vierzehn.
+narr: Die Treppe. Grau auf Schwarz, weich, als läge sie unter Wasser. Über die Stufen und den Hallenboden ziehen blasse Lichtbahnen, eine davon breit und ruhig wie ein Fluss. Oben an der Galerie, vor einer der Türen, ein heller Fleck. Unten, an der Dienstbotentür, eine kurze Spur zur Kamera hin. {+c:c29, +f:g_plate_dev}
 narr: Und auf der fünften Stufe von unten sitzt ein Mädchen. Blass, unscharf, aber da. Eine Haube. Eine Kerze auf der Stufe neben ihr, ein heller Fleck. Das Gesicht in den Händen.
 clara[tense]: Eine Dienstbotin. Auf der Haupttreppe. Mitten in der Nacht. Lange genug still, dass die Platte sie festhält. Zehn Minuten, mindestens. {hints:f09}
 narr: Und neben dem Mädchen, noch blasser, fast nur ein Hauch auf dem Glas: eine zweite Gestalt. Eine Frau, die auf der Stufe sitzt, den Kopf zur Seite geneigt. Helles Haar. Und auf ihrem Schoß, klein, rund, mit zwei spitzen Ohren –
@@ -45,15 +45,16 @@ clara[neutral]: Dann ist es ein Geist, Miss Hale? Sagen Sie das nicht. Nicht Sie
 # d
 narr: Sera sagt nichts. Ihre Hände, die die Laterne halten, sind ganz ruhig. Nur das Licht darin zittert.
 # e
-clara[neutral]: Sieben Bahnen. Wachs brennt gleichmäßig, hell. Talg flackert und rußt; das gibt dünne, zittrige Striche. Und eine Lampe gibt ein breites, stetiges Band.
-narr: Ihr Finger fährt über dem Glas entlang, ohne es zu berühren. Beim ersten Strich – einem hellen, gleichmäßigen, der vom oberen Rand bis zur Tür des Arbeitszimmers hinunterführt – bleibt er stehen.
-clara[neutral]: Das hier ist Wachs. Die Treppe hinunter, zum Arbeitszimmer. Und hier wieder hinauf. {pause:500}
+clara[neutral]: Wer vorbeigeht, zeichnet kaum. Nur wo jemand langsam ging oder stehen blieb, hat die Flamme geschrieben. Die Platte sagt nicht, wer. Nur wo. Und in welcher Reihenfolge, wenn man weiß, wer wann ging.
+clara[neutral]: Die breite hier ist eine Lampe, keine Kerze. Die kurze unten, von der Dienstbotentür zur Kamera, ist Hobbes am Morgen, als er den Deckel aufgesetzt hat.
+narr: Ihr Finger fährt über dem Glas entlang, ohne es zu berühren, und bleibt bei einer blassen Bahn stehen, die von oben bis zur Tür des Arbeitszimmers hinunterführt und wieder hinauf.
+clara[neutral]: Und diese hier – {pause:500}
 ? t:clara>=6 -> confess
-clara[neutral]: Das war ich. Um eins. Ich habe ihm gute Nacht gesagt. Mehr nicht. {hints:f05}
+clara[neutral]: Die bin ich. Um eins. Ich habe ihm gute Nacht gesagt. Mehr nicht. {hints:f05}
 inner: Mehr nicht. Das sagt man, wenn es mehr war.
 -> f
 # confess
-clara[sad]: Das war ich. Um eins war ich bei ihm in der Dunkelkammer. Hier. An diesem Tisch. Wir haben gestritten. {+s:s33, reveals:f05}
+clara[sad]: Die bin ich. Um eins war ich bei ihm in der Dunkelkammer. Hier. An diesem Tisch. Wir haben gestritten. {+s:s33, reveals:f05}
 clara[sad]: Er sagte, ich müsse warten. Ein, zwei Jahre, London sei im Augenblick nicht möglich. Er sagte nicht, warum. Er sagte nie, warum.
 clara[sad]: Und ich habe gesagt, Mama hätte sich für ihn geschämt. Das war das Letzte, was ich zu ihm gesagt habe.
 narr: Sie steht ganz still im roten Licht. Dann nimmt sie die Platte vom Samt, sehr vorsichtig, an den Kanten.
@@ -109,7 +110,7 @@ when: ch=4 loc=salon f:g_post_arrived
 priority: 20
 important: yes
 ---
-narr: Miss Averley sitzt am Fenster, einen Stapel Briefe auf dem Schoß, schwarz umrandet, die meisten. Beileid aus Bridgwater, aus Wells, aus London. Einer ist anders: dickes cremefarbenes Papier, ein gedruckter Absender. {music:tension}
+narr: Miss Averley sitzt am Fenster, einen Stapel Briefe auf dem Schoß, die vor dem Hochwasser abgeschickt wurden. Rechnungen. Eine Zeitschrift der Meteorologischen Gesellschaft. Ein Brief an Edmund Averley, Esq., den niemand mehr öffnen wird. Und einer an sie: dickes cremefarbenes Papier, ein gedruckter Absender. {music:tension}
 harriet[neutral]: Mrs. Crewe’s Agentur für Damen in Stellung. Oxford Street.
 narr: Sie öffnet ihn mit dem silbernen Messer, liest. Liest noch einmal. Dann legt sie ihn auf den Schoß, glättet ihn mit der flachen Hand und sieht Sera an. {+c:c31, +f:g_agency}
 harriet[neutral]: Miss Sarah Hale bedauert zutiefst. Sie liegt seit Montag mit Influenza bei ihrer Schwester in Bristol und wird ihre Stellung frühestens zu Weihnachten antreten können. {reveals:f22}
@@ -138,8 +139,9 @@ harriet[neutral]: Sie werden mir das erklären, Miss – Sera. Nicht heute. Heut
 -> after
 # truth_ok
 narr: Miss Averley sieht sie lange an. Dann faltet sie den Brief zusammen, zweimal, und legt ihn auf den Stapel.
+harriet[neutral]: Sie sagten damals Sera. Ich habe Sarah gehört, weil ich Sarah hören wollte.
 harriet[neutral]: Sie haben am Mittwoch Tee mit Toast für mich bestellt, als ich es selbst nicht konnte. Sie haben ihn mit gewaschen. Sie haben mich zu Lucinda gebracht.
-harriet[neutral]: Ich weiß nicht, wer Sie sind. Aber ich weiß, was Sie getan haben. Bleiben Sie. Bis Samstag. Danach werden wir sehen. {harriet+1}
+harriet[neutral]: Ich weiß nicht, wer Sie sind. Aber ich weiß, was Sie getan haben. Bleiben Sie. Bis Samstag. Ich werde Sie weiter Miss Hale nennen; das Haus braucht jetzt Ordnung, nicht Wahrheit. {harriet+1}
 -> after
 # lie
 ? sus<5 -> lie_ok
@@ -157,7 +159,7 @@ narr: Die Standuhr schweigt. Draußen fällt ein Tropfen von der Dachrinne, dann
 harriet[neutral]: Sie sagen nichts. Das ist entweder sehr klug oder sehr schuldig. {pause:500}
 harriet[neutral]: Ich habe keine Kraft für beides. Bleiben Sie, bis das Wasser fällt. Dann gehen Sie, wohin Sie gehören.
 # after
-narr: Unter dem Stapel liegt noch ein Zettel, in Dunnings ungelenker Schrift, vom Postboten diktiert: Der Coroner, Mr. Harding aus Bridgwater, und Dr. Bell kämen mit dem fallenden Wasser, spätestens Samstag in der Frühe.
+narr: Hobbes erscheint in der Tür. Der Postbote habe ausrichten lassen: Der Coroner, Mr. Harding aus Bridgwater, und Dr. Bell kämen mit dem fallenden Wasser, spätestens Samstag in der Frühe.
 harriet[neutral]: Morgen früh. Dann wird es amtlich. {+f:k4_post_done}
 
 === k4_lost
@@ -188,7 +190,7 @@ important: yes
 narr: Der Hof ist ein einziges Rauschen. Regen peitscht quer über die Pflastersteine, der Braune wiehert in seiner Box. Ein Blitz – und für einen Augenblick ist alles weiß, das Wasser, die Weiden, das Boot. {sfx:thunder}
 narr: Dann, in der Stille danach, ganz fein, von oben: ein Glöckchen. {sfx:bellFar}
 tilly[surprised]: Da! Oben! Auf dem Heuboden!
-narr: Die Leiter zum Heuboden hat drei Sprossen zu wenig, und das Kleid hat zu viele Stoffbahnen. Sera greift nach der Leiter, rutscht ab.
+narr: Die Leiter zum Heuboden hat drei Sprossen zu wenig, und das Kleid hat zu viele Stoffbahnen. Sera greift nach der Leiter, rutscht ab. Das nasse Schwarz läuft ihr in grauen Rinnsalen über die Handgelenke; Mrs. Pryces Farbe hält nicht, was sie versprochen hat.
 tilly[neutral]: Ich mach das. Ich bin leicht.
 * [mitfuehlend] Sei vorsichtig. {tilly+1} -> a
 * [direkt] Nein, ich – gut. Ich halte die Leiter. {tilly+1} -> a
@@ -255,8 +257,8 @@ repeat: yes
 narr: Die Küche ist dunkel bis auf den Herd, in dem die Glut unter der Asche atmet, und eine Talgkerze auf dem Tisch. Tilly sitzt davor, die Knie angezogen, eine verbeulte Blechdose in den Händen. {music:truth}
 narr: Yuumi springt auf die Bank neben sie. Tilly legt ihr eine Hand auf den Rücken, ohne hinzusehen.
 tilly[neutral]: Sie sind gekommen.
-sera: Ich hab’s gesagt.
-tilly[sad]: Man sagt vieles.
+sera: Ich hab’s versprochen.
+tilly[sad]: Versprechen tun viele.
 narr: Die Kerze tropft. Talg, gelb, der nach Hammel riecht.
 tilly[tense]: Miss. Bevor ich was sag. Sie müssen mir was sagen. Was Wahres. Von Ihnen. Weil – weil wenn ich was sag, dann gehört das Ihnen. Und dann muss ich auch was von Ihnen haben. Sonst is es nich gerecht.
 * [ehrlich] Ich bin nicht Miss Hale. Ich komme von sehr weit her. So weit, dass ich selbst nicht weiß, wie ich zurückkomme. {tilly+2, +f:k4_honest} -> honest
@@ -276,7 +278,7 @@ tilly[neutral]: Das mit dem Weit-weg. Und das mit der Angst.
 tilly[sad]: Sie warn nich immer nett zu mir, Miss. Sie haben gedrängelt. Da is man vorsichtig.
 tilly[neutral]: Aber Sie sind gekommen. Heut Nacht. Das zählt auch. {tilly+2}
 # open
-narr: Sie öffnet die Blechdose. Darin: ein Knopf, ein Stück rotes Band, ein glatter grauer Stein. Und ein Brief, zweimal gefaltet, mit einem Rand aus Ruß.
+narr: Sie öffnet die Blechdose. Darin: ein Knopf, ein Stück rotes Band, ein glatter grauer Stein, ein welkes Rosenblatt. Und ein Brief, zweimal gefaltet, mit einem kleinen schwarzen Fingerabdruck am Rand. Kohle.
 tilly[sad]: Das hat mir der Herr gegeben. In der Nacht.
 tilly[sad]: Die Glocke hat geläutet, die vom Arbeitszimmer. Ich schlaf doch in der Küche, beim Herd. Mrs. Pryce hatte noch Licht, aber die kam nich. Also bin ich hin. {+s:s27, reveals:f08|f09|f10}
 tilly[sad]: Der Herr saß am Schreibtisch, ganz grau im Gesicht, und hat mir das hier gegeben. „Für Miss Clara. Nur für sie. Hol sie. Schnell, Kind.“
@@ -312,7 +314,7 @@ tilly[warm]: Aber ’n guter.
 narr: Aus dem dunklen Flur hinter der Tür kommt ein Geräusch, ein Schlüsselbund, der klirrt, und bricht ab, als hätte jemand die Hand darumgelegt.
 narr: Mrs. Pryce steht in der Tür, im Nachthemd, ein Tuch um die Schultern. Wie lange sie schon dort steht, sagt sie nicht.
 pryce[sad]: Tilly. Cariad.
-narr: Sie kommt herein. Sie setzt sich, und Mrs. Pryce setzt sich nie. Sie zieht Tilly an sich, Haube und Heu und alles, und hält sie fest.
+narr: Sie kommt herein und setzt sich auf Tillys Bank, wo sie noch nie gesessen hat. Sie zieht Tilly an sich, Haube und Heu und alles, und hält sie fest.
 pryce[sad]: Ich hab die Glocke gehört. Ich hab dich gehen hören. Und ich hab mir gesagt, das Kind ist schon auf, Agnes, bleib sitzen. {+s:s26, reveals:f15, +f:g_pryce_confessed}
 pryce[sad]: Und wie du zurückkamst und geweint hast, hab ich nicht gefragt. Weil ich’s nicht wissen wollte. Gott vergib mir. Du vergibst mir nicht, und das ist recht.
 tilly[sad]: Doch. {pause:500}
@@ -367,9 +369,9 @@ inner: Das ist meine Wohnung.
 narr: Sie lässt die Platte sinken. Die Geräusche verschwinden. Nur der Regen, der letzte, und Yuumi, die auf dem Bett sitzt und sie ansieht, mit ihren goldgelben, völlig unbeeindruckten Augen.
 inner: Es ist offen. Seit Tilly es gesagt hat. Seit jemand sie gehört hat.
 inner: Ich könnte jetzt nach Hause. Einfach so. Die Platte ins Licht halten und zuhören.
-narr: Sie sieht zum Fenster. Hinter dem Moor, ganz im Osten, ist der Himmel nicht mehr schwarz, sondern ein sehr tiefes Blau.
+narr: Sie sieht zum Fenster. Über dem Moor ist es schwarz, und in dem Schwarz steht ein einzelner Stern.
 inner: Nein. Nicht so. Nicht, bevor Clara ihren Brief hat. Nicht, bevor ich weiß, was in dieser Nacht wirklich passiert ist, von Anfang bis Ende.
 inner: Morgen früh kommt der Coroner. Und die Glocke im Wasser, hat Miss Averley gesagt, läutet nur, solange es dunkel ist. Mit dem ersten Licht verstummt sie.
-inner: Vielleicht ist das nur eine Sage. Aber vor fünf Tagen war eine Glasplatte für mich auch nur eine Glasplatte.
+inner: Vielleicht ist das nur eine Sage. Aber vor drei Tagen war eine Glasplatte für mich auch nur eine Glasplatte.
 inner: Ich habe bis zum Morgen. {chap:5, time=nacht, go:halle@0.25}
 `;

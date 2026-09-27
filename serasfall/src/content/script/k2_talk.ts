@@ -9,8 +9,8 @@ sera: Mrs. Pryce, die Kerzen hier unten riechen anders als oben.
 pryce[neutral]: Weil’s Talg ist. Hammelfett. Oben brennt man Wachs, unten Talg. Wachs kostet dreimal so viel.
 pryce[neutral]: Talg für unten, Wachs für oben. Und wer von unten Wachs nimmt, der fliegt. So war’s in jedem Haus, in dem ich gedient hab.
 tilly[neutral]: Talg tropft auch mehr. Und stinkt.
-pryce[neutral]: Talg stinkt ehrlich, Tilly. Das ist mehr, als man von manchen Leuten sagen kann. {+f:k2_tallow_learned}
-inner: Talg unten, Wachs oben. Das Haus hat sogar für Licht eine Rangordnung.
+pryce[neutral]: Talg stinkt ehrlich, Tilly. {+f:k2_tallow_learned}
+inner: Das Haus hat sogar für Licht eine Rangordnung.
 
 === t2_pryce_song
 kind: topic
@@ -18,7 +18,7 @@ npc: pryce
 title: Das Lied beim Waschen
 when: ch>=2 seen:k2_laying
 ---
-sera: Das Lied, das Sie gesummt haben, als wir ihn gewaschen haben – was war das?
+sera: Das Lied, das Sie gesungen haben, als wir ihn gewaschen haben – was war das?
 pryce[neutral]: Nichts. Ein Lied aus Monmouthshire. Meine Mutter hat’s gesungen, wenn sie die Toten im Dorf gewaschen hat. Walisisch. Sie würden’s nicht verstehen.
 pryce[neutral]: Es geht um einen Fluss. Man soll sich nicht fürchten, wenn man drüber muss. Das Wasser ist kalt, aber es trägt.
 narr: Sie wischt über den Tisch, auf dem nichts liegt.
@@ -40,7 +40,8 @@ when: ch>=2 anyk:c07,c08
 ---
 sera: Tilly, wann spült Mr. Hobbes eigentlich die Gläser?
 tilly[neutral]: Nach dem Frühstück. Immer. Erst Frühstück, dann Silber, dann Gläser. Wie ’n Gebet.
-tilly[neutral]: Mr. Hobbes spült nie vor dem Frühstück. Nie nich. Er sagt, wer vor dem Frühstück spült, hat was zu verbergen oder ’n Kater. {+s:s15}
+tilly[neutral]: Mr. Hobbes spült nie vor dem Frühstück. Nie nich. Aber Mittwoch früh, wie ich die Kohlen raufgebracht hab, noch vor sieben, da stand er in der Kammer am Becken und hat Gläser gespült. {+s:s15}
+tilly[neutral]: Ich dacht, er hat ’n Kater. Hat er nie.
 tilly[surprised]: Warum?
 * [ausweichend] Nur so. Ich lerne noch, wie alles hier geht. -> a
 * [ehrlich] Weil heute jemand vor dem Frühstück gespült hat. {tilly+1} -> b
@@ -49,7 +50,7 @@ tilly[neutral]: Das lernt man nie. Ich bin seit ’nem Jahr hier und mach immer 
 -> END
 # b
 tilly[tense]: Oh.
-tilly[neutral]: Dann hat Mr. Hobbes ’n Kater. Das hat er nie. {pause:400}
+tilly[neutral]: Das war er. Mittwoch. Ich hab’s doch gesehn. {pause:400}
 narr: Sie sieht zur Tür der Butlerkammer, dann auf ihre Hände.
 
 === t2_tilly_letters
@@ -81,7 +82,7 @@ sera: Sie mögen keine Katzen, Mr. Hobbes?
 hobbes[neutral]: Es ist nicht an mir, Katzen zu mögen.
 narr: Er bückt sich nicht. Aber er rückt mit der Schuhspitze einen losen Faden am Teppich fort, damit Yuumi nicht hineinbeißt.
 hobbes[neutral]: Der Herr hatte einen Kater. Newton. Schwarz, mit einem weißen Fleck unter dem Kinn. Er schlief auf den Wetterberichten.
-hobbes[neutral]: Letzten Winter ist er gestorben. Der Herr bat mich, ihn unter dem Maulbeerbaum zu begraben. Er hielt die Laterne. Es schneite.
+hobbes[neutral]: Im September ist er gestorben. Der Herr bat mich, ihn unter dem Maulbeerbaum zu begraben. Er hielt die Laterne. Es regnete.
 narr: Eine Pause, in der man den Regen an der Tür hört. {pause:600}
 hobbes[neutral]: Er sagte: „Das nächste Mal, Hobbes, halten Sie die Laterne.“ Ich habe es für einen Scherz gehalten. {hobbes+1}
 inner: Er hat mir gerade etwas erzählt, das er niemandem erzählt hat. Und er sieht aus, als wolle er es zurücknehmen.
@@ -184,7 +185,7 @@ when: ch>=2 t:penrose>=5
 sera: Wie machen Sie das? Die Stimmen. Die Botschaften.
 penrose[warm]: Oh, Sie fragen es wirklich. Die meisten fragen, ob es echt ist. Sie fragen, wie.
 penrose[neutral]: Man hört zu. Das ist alles. Die Leute erzählen einem ihr ganzes Leben, wenn man lange genug schweigt. Sie erzählen es mit ihren Händen, mit ihrem Trauerschmuck, mit dem, was sie nicht sagen.
-penrose[neutral]: Miss Averley trägt Haar in ihrer Brosche, das nicht ihr Haar ist und nicht Lucindas. Braun. Kurz. Ein Mann. Vor über zwanzig Jahren, das Jet ist abgegriffen. Sie hat nie geheiratet. Man muss kein Geist sein, um „Henry“ zu raten, wenn man in Bath die Gefallenenlisten kennt.
+penrose[neutral]: Miss Averley trägt Haar in ihrer Brosche, das nicht ihr Haar ist und nicht Lucindas. Braun. Kurz. Ein Mann. Das Jet ist abgegriffen, über zwanzig Jahre alt. Und als sie die Brosche am ersten Abend abnahm, um die Nadel zu richten, stand auf der Rückseite: „H. A. – Inkerman“. Man muss kein Geist sein, meine Liebe. Man muss nur hinsehen, wenn andere wegsehen.
 narr: Sie lächelt nicht dabei. Es ist, als würde sie ihre eigenen Werkzeuge auf einen Tisch legen.
 penrose[neutral]: Sie tun übrigens dasselbe, Miss Hale. Sie hören zu. Nur nehmen Sie kein Geld dafür. Das ist gefährlich. Umsonst glaubt einem keiner. {penrose+1}
 
@@ -208,7 +209,7 @@ title: London
 when: ch>=2 seen:k2_dark
 ---
 sera: Ihre Tante sagt, Sie wollen nach London. Medizin studieren.
-clara[neutral]: Tante Harriet nennt es Grillen. Das Royal Free Hospital nennt es seit diesem Sommer Studentinnen. Sie dürfen auf die Stationen, an echte Betten. Zum ersten Mal.
+clara[neutral]: Tante Harriet nennt es Grillen. Das Royal Free Hospital nennt es seit diesem Frühjahr Studentinnen. Sie dürfen auf die Stationen, an echte Betten. Zum ersten Mal.
 clara[neutral]: Die Schule an der Henrietta Street nimmt im Oktober neue auf. Er hatte es mir versprochen. Die Gebühren, die Wohnung, alles. Meiner Mutter zuliebe, und mir.
 clara[tense]: Und dann –
 narr: Sie bricht ab, als hätte sie mit dem Finger an eine heiße Schale gefasst.

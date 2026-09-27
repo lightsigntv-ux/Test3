@@ -16,7 +16,7 @@ inner: Sie liest Hände wie andere Leute Zeitungen.
 penrose[neutral]: Weil er mich eine Mörderin genannt hat, meine Liebe. Ich bin nachtragend. Es ist eine meiner wenigen Tugenden.
 -> END
 # b
-penrose[neutral]: Ihre? Die haben diese Woche Kartoffeln geschält, einen Toten gewaschen und eine Katze getragen. Und sie haben noch nie einen Nähring getragen.
+penrose[neutral]: Ihre? Die haben diese Woche Kartoffeln geschält, einen Toten gewaschen und eine Katze getragen. Und sie haben noch nie einen Fingerhut getragen.
 penrose[warm]: Ich lese darin, dass Sie keine Gesellschafterin sind. Aber das wussten wir ja beide. {hints:f23}
 
 === t3_penrose_clara
@@ -44,8 +44,8 @@ hobbes[neutral]: Ich habe den Kamin versehen, wie jeden Morgen. {pause:400}
 hobbes[neutral]: Es ist nicht an Miss, mir zu sagen, wie man einen Kamin versieht.
 -> END
 # b
-narr: Er schweigt so lange, dass die Stille selbst eine Antwort wird.
-hobbes[neutral]: Ich habe in diesem Haus ein Paar kleine Stiefel geputzt, als sie noch nicht bis zu meinem Knie reichten, Miss. Man vergisst nicht, wessen Stiefel man geputzt hat. {hints:f13}
+narr: Er schweigt lange.
+hobbes[neutral]: Ich habe in diesem Haus ein Paar kleine Stiefel geputzt, als sie mir noch nicht bis zum Knie reichten, Miss. Man vergisst nicht, wessen Stiefel man geputzt hat. {hints:f13}
 
 === t3_tilly_name
 kind: topic
@@ -55,7 +55,7 @@ when: ch>=3 f:g_teach2 !f:g_teach3
 ---
 sera: Tilly – ist das eigentlich dein ganzer Name?
 tilly[neutral]: Nee. Matilda. Matilda Crane.
-tilly[neutral]: Das hat keiner mehr gesagt seit meiner Mutter. Im Arbeitshaus war ich Nummer vierzehn. Hier bin ich Tilly. „Tilly! Die Kohlen!“
+tilly[neutral]: Das hat keiner mehr gesagt seit meiner Mutter. Im Arbeitshaus war ich „die Crane“. Hier bin ich Tilly. „Tilly! Die Kohlen!“
 narr: Sie macht Mrs. Pryces Stimme nach, erstaunlich gut, und grinst, und dann grinst sie nicht mehr.
 tilly[sad]: Meine Mutter hat „Matty“ gesagt. Aber die is tot.
 * [mitfuehlend] Soll ich dir zeigen, wie man Matilda schreibt? {tilly+2, +f:g_teach3} -> a
@@ -101,7 +101,7 @@ npc: harriet
 when: ch=3
 ---
 harriet[neutral]: Lesen Sie mir die Times vor, Miss Hale. Die vom Montag. Eine andere haben wir nicht.
-narr: Sera liest. Ein Bericht über die Lage in Konstantinopel, Getreidepreise, eine Anzeige für Holloways Pillen. Miss Averley hört nicht zu. Aber sie mag, dass jemand liest.
+narr: Sera liest. Ein Bericht über die Lage vor Plewna, Getreidepreise, eine Anzeige für Holloways Pillen. Miss Averley hört nicht zu. Aber sie mag, dass jemand liest.
 
 === s3_harriet_cat
 kind: smalltalk
@@ -109,7 +109,7 @@ npc: harriet
 when: ch>=3 yuumi
 priority: 2
 ---
-narr: Yuumi springt, ohne zu fragen, auf Miss Averleys Schoß, dreht sich einmal und legt sich hin, in das Schwarz der Seide, als wäre es für sie gewebt worden.
+narr: Yuumi springt, ohne zu fragen, auf Miss Averleys Schoß, dreht sich einmal und legt sich hin, in das stumpfe Schwarz des Bombasins, als wäre es für sie gewebt worden.
 harriet[surprised]: Miss Hale. Ihr Tier.
 * [neutral] Ich nehme sie sofort. -> a
 * [mitfuehlend] Sie mag Sie. Man kann sie auch dort lassen. {harriet+1} -> b
@@ -136,7 +136,6 @@ when: ch>=3 f:k3_lionel_broken
 ---
 narr: Der Captain steht bei den Pferden, die Stirn an den Hals des Braunen gelehnt. Er hört Sera kommen und richtet sich nicht auf.
 lionel[neutral]: Gehen Sie wieder rein, Miss Hale. Es regnet. Regen ist was für Pferde und Iren.
-lionel[sad]: Und für Söhne, die zu spät kommen.
 
 === s3_penrose
 kind: smalltalk

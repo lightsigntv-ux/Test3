@@ -3,9 +3,9 @@ import type { ReconQuestion } from '../engine/core';
 // Endrekonstruktion (Kapitel 5). Reihenfolge = Reihenfolge der Nacht.
 export const RECON: ReconQuestion[] = [
   {
-    id: 'r1', prompt: 'Die erste Spur auf der Platte: gleichmäßiges Wachslicht, kurz vor eins die Treppe hinunter zum Arbeitszimmer – und eine halbe Stunde später wieder hinauf. Wer?',
+    id: 'r1', prompt: 'Die erste Spur auf der Platte: kurz vor eins die Treppe hinunter zum Arbeitszimmer – und eine halbe Stunde später wieder hinauf. Wer?',
     options: ['Clara', 'Der Captain', 'Tilly', 'Mrs. Penrose'], correct: 0, needs: ['c29', 'd14'],
-    doubt: 'Wachs heißt Herrschaft. Und wer hatte mit ihm in der Dunkelkammer zu tun?',
+    doubt: 'Wer hat mir selbst gesagt, dass sie um eins bei ihm war?',
     after: 'Clara. Sie ging zu ihrem Vater, und sie stritten. Dann ging sie hinauf – und später hinüber zu Mrs. Penrose.',
   },
   {
@@ -21,13 +21,13 @@ export const RECON: ReconQuestion[] = [
     after: 'Draußen, im Regen, auf der Terrasse. Er hatte das Zimmer schon verlassen.',
   },
   {
-    id: 'r4', prompt: 'Um halb drei ruft die Glocke. Eine flackernde Talgspur kommt unter der Treppe hervor zur Arbeitszimmertür. Wer folgte dem Ruf?',
+    id: 'r4', prompt: 'Um halb drei ruft die Glocke. Eine Spur kommt unter der Treppe hervor, aus der Dienstbotentür, zur Arbeitszimmertür. Wer folgte dem Ruf?',
     options: ['Mrs. Pryce', 'Tilly', 'Mr. Hobbes', 'Niemand'], correct: 1, needs: ['d17', 's27'],
     doubt: 'Wer war wach, und wer ist gegangen? Das sind nicht dieselben.',
     after: 'Tilly. Mrs. Pryce hörte die Glocke und blieb sitzen. Das Kind ging.',
   },
   {
-    id: 'r5', prompt: 'Die Talgspur läuft die Haupttreppe hinauf bis vor Claras Tür, bleibt dort stehen und kommt wieder herunter. Warum öffnete niemand?',
+    id: 'r5', prompt: 'Die Spur läuft die Haupttreppe hinauf bis vor Claras Tür – dort der helle Fleck, wo das Licht lange stand – und wieder herunter. Warum öffnete niemand?',
     options: ['Clara war bei Mrs. Penrose im Gästezimmer', 'Clara schlief zu tief', 'Clara wollte nicht öffnen'], correct: 0, needs: ['d13', 'd14'],
     doubt: 'Wo lag Claras Taschentuch?',
     after: 'Clara war bei Mrs. Penrose. Sie kam zwei Minuten zu spät zurück.',

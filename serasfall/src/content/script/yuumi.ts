@@ -92,10 +92,10 @@ important: yes
 ---
 narr: Der Spalt unter der Tür ist schmal, aber eine Katze besteht zum größten Teil aus Entschlossenheit. Kopf, Schultern, der Rest folgt.
 narr: Drinnen ist es dunkel und riecht nach Rosenwasser, Kerzenrauch und etwas Salzigem. Ein Sessel am Kamin. Darunter, ganz hinten, etwas Weiches.
-narr: Es ist klamm. Es riecht nach Tränen, die man schnell wegwischen wollte. Es lässt sich im Maul tragen, wenn man den Kopf hoch genug hält. {sfx:bell}
+narr: Es riecht nach Rosenwasser und ganz schwach nach etwas Bitterem, Nussigem. Es lässt sich im Maul tragen, wenn man den Kopf hoch genug hält. {sfx:bell}
 yuumi: (Yuumi taucht wieder unter der Tür auf, ein zerknülltes Taschentuch zwischen den Zähnen, und legt es Sera vor die Füße wie eine Maus.)
 narr: Feines Leinen, ein gesticktes Monogramm in einer Ecke: C. A. {+c:c26}
-inner: C. A. Clara Averley. Im Zimmer des Mediums. Unter einem Sessel. Und es ist noch nicht ganz trocken.
+inner: C. A. Clara Averley. Im Zimmer des Mediums. Unter einem Sessel. Und es riecht nach der Dunkelkammer.
 inner: Yuumi, du bist eine Diebin. Eine sehr gute. {do:control_sera}
 
 === y_gast_busy

@@ -6,10 +6,10 @@ priority: 20
 important: yes
 ---
 narr: Eine Heizung, die tickt. Eine Schreibtischlampe. Ein Karton auf dem Boden, in dem niemand sitzt. {music:home}
-narr: Sera sitzt auf dem Teppich ihrer Wohnung in einem schwarzen Wollkleid, das nach Blauholz und Essig riecht, und hält eine nasse, empörte Katze im Arm.
+narr: Sera sitzt auf dem Teppich ihrer Wohnung in einem schwarzen Wollkleid, das nach Blauholz und Essig riecht, und hält eine empörte Katze mit Heu im Fell im Arm.
 yuumi: (Yuumi windet sich frei, schüttelt sich so gründlich, dass Heu durch das Zimmer fliegt, und setzt sich dann vor den leeren Futternapf, als wäre nichts gewesen.)
 narr: Die Uhr am Herd zeigt 21.47. Sieben Minuten nach dem Augenblick, in dem sie die Platte gegen die Lampe hielt.
-inner: Sieben Minuten. Und fünf Tage. Und ein ganzes Leben, das nicht meins war.
+inner: Sieben Minuten. Und drei Tage. Und ein ganzes Leben, das nicht meins war.
 narr: Die Kiste mit den Glasplatten steht auf dem Schreibtisch. Die Platte mit der Treppe liegt darin, in einem vergilbten Papier, das vorhin noch nicht vergilbt war. Oder doch. Sera fasst sie nicht an.
 narr: Sie klappt den Laptop auf. Ihre Finger sind noch kalt vom Moor. Sie tippt: Averley Hall 1877. Ein Zeitungsarchiv, digitalisiert, Seite um Seite in körniger Schrift. {sfx:paper}
 letter: Western Gazette, Freitag, 23. November 1877. – Die Leichenschau in Averley Hall.
@@ -17,7 +17,7 @@ letter: Am vergangenen Sonnabend hielt Mr. Harding, Coroner, in Averley Hall bei
 ? f:g_hobbes_confessed -> hob
 -> tilly
 # hob
-letter: Der Butler, Mr. J. Hobbes, gab an, den Verstorbenen am Morgen am Boden des Arbeitszimmers gefunden und ihn aus Pietät in seinen Sessel gebettet zu haben, was ihm der Coroner mit milden Worten verwies.
+letter: Josiah Hobbes, Butler des Verstorbenen, gab an, den Verstorbenen am Morgen am Boden des Arbeitszimmers gefunden und ihn aus Pietät in seinen Sessel gebettet zu haben, was ihm der Coroner mit milden Worten verwies.
 # tilly
 letter: Die bemerkenswerteste Aussage machte die Küchenmagd Matilda Crane, dreizehn Jahre alt, die mit großer Schlichtheit schilderte, wie sie in der Nacht auf das Läuten des Verstorbenen hin zu ihm geeilt sei, einen Brief an seine Tochter empfangen und ihm in seiner letzten Stunde beigestanden habe.
 ? f:g_hobbes_stands -> stands
@@ -45,7 +45,7 @@ narr: Visitenkartenformat, ein Londoner Atelier, 1883. Drei Menschen vor einem g
 narr: Am Rand, auf einem Stuhl, eine alte Dame in Grau. Nicht in Schwarz. In Grau, mit einer leeren Stelle am Kragen, wo einmal eine Brosche war.
 # echo_b
 narr: Sera dreht die Karte um. Zwei Handschriften. Eine enge, genaue. Und darunter eine große, runde, mit einem M, das aussieht wie zwei Berge.
-letter: Für Miss Hale, wo immer sie ist. Es ist gehört worden. – C. A. · M. Crane
+letter: Für Miss Hale, wo immer sie ist. Wir haben es gehört, und wir haben es gesagt. – C. A. · M. Crane
 -> end
 # seal
 narr: Visitenkartenformat, ein Londoner Atelier, 1883. Eine Frau im Talar, allein vor einem gemalten Garten, das dunkle Haar straff zurück, eine Hand auf einem Buch. Sie lächelt nicht. Aber ihre Augen tun es.
