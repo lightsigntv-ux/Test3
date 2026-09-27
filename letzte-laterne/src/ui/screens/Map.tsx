@@ -202,10 +202,12 @@ export function Formation({ compact }: { compact?: boolean }) {
         );
       })}
       {yuumiPresent(run) && (
-        <div className="form-slot companion">
-          <div className="small muted">Begleiterin</div>
-          <YuumiArt size={compact ? 38 : 48} />
-          <div className="small">Yuumi</div>
+        <div className="form-slot companion" title="Yuumi belegt keinen Aufstellungsplatz und wird nicht angegriffen.">
+          <YuumiArt size={compact ? 34 : 42} />
+          <div className="small">
+            <b>Yuumi</b> · Begleiterplatz
+            <div className="muted">sitzt neben der Gruppe, wird nicht angegriffen</div>
+          </div>
         </div>
       )}
     </div>

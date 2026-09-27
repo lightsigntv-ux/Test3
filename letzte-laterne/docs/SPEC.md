@@ -48,7 +48,9 @@ Jede abgeschlossene Entscheidung ist eine reine Funktion `SaveData → SaveData`
   Relikt- und Siegeleffekte, die auf Treffer/Fähigkeiten reagieren, lösen nur bei
   `basic`/`ability` aus. Alles, was sie erzeugen (Wiederholung, Explosion, Gegenschaden,
   Weitergabe, Nachzündung) ist `proc` und löst nichts weiter aus.
-  Wiederholte Fähigkeiten zählen nicht als manueller Einsatz.
+  Wiederholte Fähigkeiten zählen nicht als manueller Einsatz. Der Echochronik-Zähler
+  („jeder 3. manuelle Einsatz des Trägers“) läuft über den ganzen Run (`run.manualUses`),
+  weil ein Kampf nur wenige Einsätze erlaubt; Chor der Namen und Siegel des Kanons zählen je Kampf.
 * Kampfende wird nach jedem Schaden geprüft; danach passiert nichts mehr. Alle drei
   Helden tot → Niederlage (auch mit Yuumi). Sieg: Tote kehren mit 20 % HP zurück.
 * Zeitlimit: Eskalation („Der Nebel verdichtet sich“) nach 75 s (Elite 90 s, Boss 150 s),
@@ -75,6 +77,11 @@ Keine HP, nicht angreifbar, nicht heil-/schildbar, kein Fokus, Zähler startet j
   Verbesserungen; enthält das Angebot keine passende Option, wird die letzte Option aus
   dieser Richtung neu gezogen (gleiche Seltenheit).
 * Alle Zufälle: `rng(runSeed, Zweck, Station)` → Neuladen erzeugt dasselbe Angebot.
+
+## Gegnerstärke
+
+Basiswerte in `enemies.ts` × `EXPEDITION_SCALE` (HP / Schaden je Expedition). Gegnerischer
+Brand hat die Stärke 0,5 × Schadensfaktor. Tooltips zeigen immer die skalierten Werte.
 
 ## Run-Level
 

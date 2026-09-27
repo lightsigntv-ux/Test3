@@ -825,6 +825,7 @@ button:focus-visible,
   display: flex;
   gap: 8px;
   align-items: flex-end;
+  flex-wrap: wrap;
 }
 .form-slot {
   flex: 1;
@@ -842,7 +843,9 @@ button:focus-visible,
   border-color: #6a7fb0;
 }
 .form-slot.companion {
-  flex: 0.7;
+  flex: 1 0 100%;
+  flex-direction: row;
+  justify-content: center;
   border-style: dashed;
 }
 

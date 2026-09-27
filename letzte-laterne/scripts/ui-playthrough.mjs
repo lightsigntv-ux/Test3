@@ -23,8 +23,10 @@ if (await vis('text=Weiterspielen')) await page.click('text=Weiterspielen');
 else if (await vis('text=Expedition fortsetzen')) await page.click('text=Expedition fortsetzen');
 else await page.getByRole('button', { name: 'Neues Spiel' }).click();
 let lastPhase = '';
+let runStart = Date.now();
+let endingSeen = false;
 for (let iter = 0; iter < 5000 && runsDone < RUNS; iter++) {
-  if (await vis('.dialog-back')) { await shot('dialog'); await page.keyboard.press('Escape'); continue; }
+  if (await vis('.dialog-back')) { const title = await page.locator('.dialog-title').innerText(); if (!log.includes('📜 ' + title)) log.push('📜 ' + title); await shot('dialog'); await page.keyboard.press('Escape'); continue; }
   if (await vis('.modal-back')) { const ok = page.locator('.modal-back .btn.primary'); if (await ok.count()) await ok.first().click(); else await page.keyboard.press('Escape'); continue; }
   if (await vis('.hint-wrap')) { await shot('hint-' + iter); await page.click('.hint-wrap button'); continue; }
   if (await vis('.precombat')) { await shot('precombat'); await page.click('text=Kampf beginnen'); await page.keyboard.press('s'); lastPhase = 'combat'; continue; }
@@ -51,8 +53,17 @@ for (let iter = 0; iter < 5000 && runsDone < RUNS; iter++) {
   }
   if (await vis('.event-screen')) { await shot('event-' + (await page.locator('h2').first().innerText()).slice(0, 12)); await page.locator('.choice-card').first().click(); continue; }
   if (await vis('.camp-screen')) { await shot('camp'); await page.locator('.choice-card').first().click(); continue; }
-  if (await vis('.ending-screen')) { await shot('ending'); await page.locator('.choice-card').first().click(); continue; }
-  if (await vis('.result-screen')) { await shot('result'); log.push(await page.locator('.result-screen h2').innerText()); await page.click('text=Zurück zur Laternenstube'); runsDone++; continue; }
+  if (await vis('.ending-screen')) { await shot('ending'); endingSeen = true; await page.locator('.choice-card').first().click(); continue; }
+  if (await vis('.result-screen')) {
+    await shot('result-' + runsDone);
+    const exp = await page.locator('.run-top b').first().innerText();
+    log.push(`${exp}: ${await page.locator('.result-screen h2').innerText()} nach ${Math.round((Date.now() - runStart) / 1000)} s`);
+    await page.click('text=Zurück zur Laternenstube');
+    runsDone++;
+    runStart = Date.now();
+    if (endingSeen && process.env.UNTIL_ENDING) break;
+    continue;
+  }
   if (await vis('.map-screen')) {
     await shot('map');
     if (await vis('text=Dem Miauen folgen')) await page.click('text=Dem Miauen folgen');
