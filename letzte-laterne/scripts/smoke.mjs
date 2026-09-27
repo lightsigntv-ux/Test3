@@ -18,6 +18,10 @@ await page.screenshot({ path: `${OUT}/03-hub.png` });
 await page.getByRole('button', { name: 'Aufbrechen' }).click();
 await page.waitForTimeout(200);
 for (let i = 0; i < 6; i++) { const b = page.getByRole('button', { name: /Weiter \(Enter\)|Fertig/ }); if (await b.count()) await b.first().click(); else break; }
+await page.screenshot({ path: `${OUT}/04-prepare.png` });
+await page.getByRole('button', { name: /Aufbrechen ➜/ }).click();
+await page.waitForTimeout(200);
+for (let i = 0; i < 6; i++) { const b = page.getByRole('button', { name: /Weiter \(Enter\)|Fertig/ }); if (await b.count()) await b.first().click(); else break; }
 await page.screenshot({ path: `${OUT}/04-map.png` });
 await page.getByRole('button', { name: /Weiter: Kampf/ }).click();
 await page.waitForTimeout(200);

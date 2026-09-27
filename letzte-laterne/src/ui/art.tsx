@@ -2,18 +2,32 @@
 // Fritz = blau, Schild, SCHWARZE Haare · Ivo = violett/orange, spitzer Hut · Sera = warm, BLONDE Haare,
 // freundliches Lächeln · Yuumi = kleine graue Katze mit Mondglöckchen.
 import type { EnemyId, HeroId } from '../content/types';
+import { DEFAULT_ARCHETYPE, type ArchetypeId } from '../content/builds';
 
 const SKIN = '#f3cda8';
 const SKIN_SHADE = '#e2b48c';
 
 type Mood = 'normal' | 'happy' | 'sad' | 'serious' | 'down';
 
-export function HeroArt({ id, mood = 'normal', size = 100 }: { id: HeroId; mood?: Mood; size?: number }) {
+export function HeroArt({ id, mood = 'normal', size = 100, arch }: { id: HeroId; mood?: Mood; size?: number; arch?: ArchetypeId }) {
   const h = (size * 120) / 100;
-  if (id === 'fritz') return <Fritz w={size} h={h} mood={mood} />;
-  if (id === 'ivo') return <Ivo w={size} h={h} mood={mood} />;
-  return <Sera w={size} h={h} mood={mood} />;
+  const a = arch ?? DEFAULT_ARCHETYPE[id];
+  if (id === 'fritz') return <Fritz w={size} h={h} mood={mood} arch={a} />;
+  if (id === 'ivo') return <Ivo w={size} h={h} mood={mood} arch={a} />;
+  return <Sera w={size} h={h} mood={mood} arch={a} />;
 }
+
+/** Farben je Ausprägung für Ivo (Magie) und Sera (Akzent). */
+const IVO_MAGIC: Record<string, { orb: string; core: string; spark: string; scarf: string }> = {
+  fire: { orb: '#ffb454', core: '#fff4d6', spark: '#ffd27a', scarf: '#e0823a' },
+  frost: { orb: '#7fd0ff', core: '#f0fbff', spark: '#c8ecff', scarf: '#4f9fd6' },
+  storm: { orb: '#ffe066', core: '#ffffff', spark: '#fff3a0', scarf: '#c9a52a' },
+};
+const SERA_ACCENT: Record<string, { dress: string; band: string; bow: string }> = {
+  keeper: { dress: '#e98b7a', band: '#ffd27a', bow: '#e98b7a' },
+  poison: { dress: '#5f9e57', band: '#9cf07e', bow: '#3f7a3a' },
+  light: { dress: '#f3e3a6', band: '#fff6cf', bow: '#e8c75a' },
+};
 
 function Eyes({ mood, x1, x2, y, color = '#2a2230' }: { mood: Mood; x1: number; x2: number; y: number; color?: string }) {
   if (mood === 'happy')
@@ -40,9 +54,10 @@ function Eyes({ mood, x1, x2, y, color = '#2a2230' }: { mood: Mood; x1: number; 
   );
 }
 
-function Fritz({ w, h, mood }: { w: number; h: number; mood: Mood }) {
+function Fritz({ w, h, mood, arch }: { w: number; h: number; mood: Mood; arch: ArchetypeId }) {
+  const coat = arch === 'blades' ? '#3a3f58' : arch === 'bulwark' ? '#3c4a60' : '#2f5286';
   return (
-    <svg width={w} height={h} viewBox="0 0 100 120" aria-label="Fritz">
+    <svg width={w} height={h} viewBox="0 0 100 120" aria-label="Fritz" className={`arch-${arch}`}>
       <ellipse cx="50" cy="115" rx="30" ry="4" fill="#000" opacity="0.3" />
       {/* Beine */}
       <rect x="38" y="88" width="9" height="24" rx="3" fill="#232a3a" />
@@ -50,13 +65,14 @@ function Fritz({ w, h, mood }: { w: number; h: number; mood: Mood }) {
       <rect x="36" y="108" width="12" height="6" rx="2" fill="#4a3526" />
       <rect x="52" y="108" width="12" height="6" rx="2" fill="#4a3526" />
       {/* Wächtermantel */}
-      <path d="M30 56 Q50 48 70 56 L74 94 Q50 100 26 94 Z" fill="#2f5286" />
+      <path d="M30 56 Q50 48 70 56 L74 94 Q50 100 26 94 Z" fill={coat} />
+      {arch === 'bulwark' && <path d="M30 60 Q50 54 70 60 L70 72 Q50 66 30 72 Z" fill="#8a93a6" opacity="0.9" />}
       <path d="M50 52 L50 97" stroke="#d9b45a" strokeWidth="2" />
       <rect x="29" y="78" width="42" height="5" fill="#5b3b24" />
       <rect x="47" y="77" width="6" height="7" rx="1" fill="#e2c26a" />
       {/* Schulterstücke */}
-      <ellipse cx="31" cy="58" rx="8" ry="5" fill="#6e7f99" />
-      <ellipse cx="69" cy="58" rx="8" ry="5" fill="#6e7f99" />
+      <ellipse cx="31" cy="58" rx={arch === 'bulwark' ? 11 : 8} ry={arch === 'bulwark' ? 7 : 5} fill="#6e7f99" />
+      <ellipse cx="69" cy="58" rx={arch === 'bulwark' ? 11 : 8} ry={arch === 'bulwark' ? 7 : 5} fill="#6e7f99" />
       {/* kleine Schutzlaterne am Gürtel */}
       <g transform="translate(64 80)">
         <rect x="0" y="0" width="8" height="10" rx="2" fill="#3a2a1a" />
@@ -81,37 +97,77 @@ function Fritz({ w, h, mood }: { w: number; h: number; mood: Mood }) {
       )}
       {/* kleine Narbe */}
       <path d="M59 40 L62 43" stroke="#c98f76" strokeWidth="1" />
-      {/* Schild mit Laternenwappen */}
-      <g transform="translate(8 56)">
-        <path d="M0 2 Q14 -4 28 2 L26 26 Q14 40 2 26 Z" fill="#5d7fb8" stroke="#d9b45a" strokeWidth="2.5" />
-        <rect x="10" y="9" width="8" height="12" rx="2" fill="#2b2014" />
-        <rect x="11.5" y="11" width="5" height="8" rx="1" fill="#ffd27a" className="glow" />
-        <path d="M12 8 L14 5 L16 8" stroke="#d9b45a" strokeWidth="1.5" fill="none" />
-      </g>
+      {arch === 'guardian' && (
+        /* Schild mit Laternenwappen */
+        <g transform="translate(8 56)">
+          <path d="M0 2 Q14 -4 28 2 L26 26 Q14 40 2 26 Z" fill="#5d7fb8" stroke="#d9b45a" strokeWidth="2.5" />
+          <rect x="10" y="9" width="8" height="12" rx="2" fill="#2b2014" />
+          <rect x="11.5" y="11" width="5" height="8" rx="1" fill="#ffd27a" className="glow" />
+          <path d="M12 8 L14 5 L16 8" stroke="#d9b45a" strokeWidth="1.5" fill="none" />
+        </g>
+      )}
+      {arch === 'bulwark' && (
+        /* Turmschild: groß, eisenbeschlagen */
+        <g transform="translate(2 48)">
+          <rect x="0" y="0" width="30" height="58" rx="6" fill="#6b7890" stroke="#c9cfda" strokeWidth="2.5" />
+          <rect x="4" y="4" width="22" height="50" rx="4" fill="#56627a" />
+          <path d="M15 6 L15 52 M6 28 L24 28" stroke="#9aa6bb" strokeWidth="2" />
+          <circle cx="15" cy="28" r="5" fill="#d9b45a" />
+          <circle cx="15" cy="28" r="2.4" fill="#ffd27a" className="glow" />
+          {[8, 22].map((x) => [8, 48].map((y) => <circle key={`${x}-${y}`} cx={x} cy={y} r="1.3" fill="#c9cfda" />))}
+        </g>
+      )}
+      {arch === 'blades' && (
+        /* zweites Schwert in der linken Hand */
+        <g>
+          <rect x="21" y="60" width="7" height="22" rx="3" fill={coat} />
+          <rect x="19" y="44" width="3" height="32" fill="#e6edf6" transform="rotate(-14 20 74)" />
+          <rect x="14" y="73" width="11" height="3" fill="#b9c3d0" transform="rotate(-14 20 74)" />
+          <path d="M16 46 L20 38 L23 46" fill="#e6edf6" transform="rotate(-14 20 74)" />
+        </g>
+      )}
       {/* Arm mit Schwert */}
-      <rect x="72" y="60" width="7" height="22" rx="3" fill="#2f5286" />
-      <rect x="78" y="46" width="3" height="30" fill="#c9d3e0" />
-      <rect x="74" y="74" width="11" height="3" fill="#d9b45a" />
+      <rect x="72" y="60" width="7" height="22" rx="3" fill={coat} />
+      <g transform={arch === 'blades' ? 'rotate(14 80 74)' : undefined}>
+        <rect x="78" y={arch === 'bulwark' ? 56 : 44} width="3" height={arch === 'bulwark' ? 22 : 32} fill={arch === 'blades' ? '#e6edf6' : '#c9d3e0'} />
+        {arch === 'blades' && <path d="M77 46 L79.5 38 L82 46" fill="#e6edf6" />}
+        <rect x="74" y="74" width="11" height="3" fill={arch === 'blades' ? '#b9c3d0' : '#d9b45a'} />
+      </g>
     </svg>
   );
 }
 
-function Ivo({ w, h, mood }: { w: number; h: number; mood: Mood }) {
+function Ivo({ w, h, mood, arch }: { w: number; h: number; mood: Mood; arch: ArchetypeId }) {
+  const c = IVO_MAGIC[arch] ?? IVO_MAGIC.fire;
   return (
-    <svg width={w} height={h} viewBox="0 0 100 120" aria-label="Ivo">
+    <svg width={w} height={h} viewBox="0 0 100 120" aria-label="Ivo" className={`arch-${arch}`}>
       <ellipse cx="50" cy="115" rx="26" ry="4" fill="#000" opacity="0.3" />
       {/* langer Gelehrtenmantel */}
       <path d="M34 58 Q50 52 66 58 L72 112 Q50 116 28 112 Z" fill="#4a2f73" />
-      <path d="M50 56 L50 112" stroke="#e0823a" strokeWidth="1.5" strokeDasharray="3 3" />
+      <path d="M50 56 L50 112" stroke={c.scarf} strokeWidth="1.5" strokeDasharray="3 3" />
       <path d="M34 58 L28 112 L36 112 L40 62 Z" fill="#3a2360" />
       {/* Funken-Schal */}
-      <path d="M38 58 Q50 66 62 58 L60 64 Q50 70 40 64 Z" fill="#e0823a" />
-      <path d="M57 64 L60 80 L55 78 Z" fill="#e0823a" />
+      <path d="M38 58 Q50 66 62 58 L60 64 Q50 70 40 64 Z" fill={c.scarf} />
+      <path d="M57 64 L60 80 L55 78 Z" fill={c.scarf} />
       {/* Stab mit Funken */}
       <rect x="74" y="40" width="3" height="72" rx="1" fill="#6b4a2a" />
-      <circle cx="75.5" cy="38" r="6" fill="#ffb454" className="glow" />
-      <circle cx="75.5" cy="38" r="3" fill="#fff4d6" />
-      <path d="M68 30 L71 34 M83 30 L80 34 M75 26 L75.5 31" stroke="#ffd27a" strokeWidth="1.5" strokeLinecap="round" />
+      {arch === 'frost' ? (
+        <g className="glow">
+          <path d="M75.5 29 L81 38 L75.5 47 L70 38 Z" fill={c.orb} />
+          <path d="M75.5 32 L78.5 38 L75.5 44 L72.5 38 Z" fill={c.core} />
+          <path d="M66 30 L69 33 M85 30 L82 33 M66 46 L69 43 M85 46 L82 43" stroke={c.spark} strokeWidth="1.3" strokeLinecap="round" />
+        </g>
+      ) : (
+        <>
+          <circle cx="75.5" cy="38" r="6" fill={c.orb} className="glow" />
+          <circle cx="75.5" cy="38" r="3" fill={c.core} />
+        </>
+      )}
+      {arch === 'storm' ? (
+        <path d="M70 22 L74 30 L71 30 L76 38 M82 24 L79 31 L82 31 L78 36" stroke={c.spark} strokeWidth="1.6" fill="none" strokeLinejoin="round" className="glow" />
+      ) : arch === 'fire' ? (
+        <path d="M68 30 L71 34 M83 30 L80 34 M75 26 L75.5 31" stroke={c.spark} strokeWidth="1.5" strokeLinecap="round" />
+      ) : null}
       <ellipse cx="70" cy="70" rx="5" ry="6" fill={SKIN} />
       {/* Kopf */}
       <circle cx="50" cy="42" r="15" fill={SKIN} />
@@ -121,8 +177,8 @@ function Ivo({ w, h, mood }: { w: number; h: number; mood: Mood }) {
       <path d="M30 32 Q50 24 70 32 Q50 36 30 32 Z" fill="#2d1c4a" />
       <path d="M38 30 L54 0 L62 30 Z" fill="#3a2360" />
       <path d="M54 0 L57 -2 L56 4" fill="#3a2360" />
-      <path d="M40 27 Q50 24 61 27" stroke="#e0823a" strokeWidth="2.5" fill="none" />
-      <circle cx="53" cy="12" r="2" fill="#ffd27a" className="glow" />
+      <path d="M40 27 Q50 24 61 27" stroke={c.scarf} strokeWidth="2.5" fill="none" />
+      <circle cx="53" cy="12" r="2" fill={c.spark} className="glow" />
       {/* Brille */}
       <circle cx="44" cy="43" r="4.5" fill="none" stroke="#c9a15a" strokeWidth="1.4" />
       <circle cx="56" cy="43" r="4.5" fill="none" stroke="#c9a15a" strokeWidth="1.4" />
@@ -137,24 +193,40 @@ function Ivo({ w, h, mood }: { w: number; h: number; mood: Mood }) {
   );
 }
 
-function Sera({ w, h, mood }: { w: number; h: number; mood: Mood }) {
+function Sera({ w, h, mood, arch }: { w: number; h: number; mood: Mood; arch: ArchetypeId }) {
   const face: Mood = mood === 'normal' ? 'happy' : mood;
+  const c = SERA_ACCENT[arch] ?? SERA_ACCENT.keeper;
   return (
-    <svg width={w} height={h} viewBox="0 0 100 120" aria-label="Sera">
+    <svg width={w} height={h} viewBox="0 0 100 120" aria-label="Sera" className={`arch-${arch}`}>
       <ellipse cx="50" cy="115" rx="26" ry="4" fill="#000" opacity="0.3" />
+      {arch === 'light' && (
+        <g className="glow">
+          <circle cx="50" cy="40" r="24" fill="none" stroke="#fff2c0" strokeWidth="1.4" opacity="0.7" />
+          <ellipse cx="50" cy="20" rx="12" ry="3" fill="none" stroke="#ffe79a" strokeWidth="2" />
+        </g>
+      )}
       {/* lange BLONDE Haare hinten */}
       <path d="M31 38 Q28 70 34 86 Q42 90 50 88 Q58 90 66 86 Q72 70 69 38 Z" fill="#e8bf55" />
       {/* Kleid: creme mit warmem Rosé */}
       <path d="M36 60 Q50 54 64 60 L74 110 Q50 116 26 110 Z" fill="#f4e6cf" />
-      <path d="M36 60 Q50 54 64 60 L62 70 Q50 74 38 70 Z" fill="#e98b7a" />
-      <path d="M30 100 Q50 106 70 100 L74 110 Q50 116 26 110 Z" fill="#e98b7a" opacity="0.85" />
-      {/* Buch der Namen mit leuchtendem Band */}
-      <g transform="translate(40 76)">
-        <rect x="0" y="0" width="20" height="14" rx="2" fill="#8a4f3a" />
-        <rect x="2" y="2" width="16" height="10" rx="1" fill="#fff3d8" />
-        <path d="M10 2 L10 12" stroke="#c9a15a" strokeWidth="1" />
-        <path d="M-6 6 Q-2 -4 6 2" stroke="#ffd27a" strokeWidth="1.5" fill="none" className="glow" />
-      </g>
+      <path d="M36 60 Q50 54 64 60 L62 70 Q50 74 38 70 Z" fill={c.dress} />
+      <path d="M30 100 Q50 106 70 100 L74 110 Q50 116 26 110 Z" fill={c.dress} opacity="0.85" />
+      {arch === 'poison' ? (
+        /* Giftphiole mit grünem Dampf */
+        <g transform="translate(43 72)">
+          <path d="M4 0 L10 0 L10 5 Q16 9 14 16 Q7 21 0 16 Q-2 9 4 5 Z" fill="#2f4a2c" stroke="#9cf07e" strokeWidth="1.2" />
+          <path d="M1 13 Q7 17 13 13 Q12 18 7 19 Q2 18 1 13 Z" fill="#9cf07e" className="glow" />
+          <path d="M6 -2 Q3 -7 7 -11 Q10 -14 8 -18" stroke="#9cf07e" strokeWidth="1.3" fill="none" opacity="0.8" className="glow" />
+        </g>
+      ) : (
+        /* Buch der Namen mit leuchtendem Band */
+        <g transform="translate(40 76)">
+          <rect x="0" y="0" width="20" height="14" rx="2" fill={arch === 'light' ? '#c9a15a' : '#8a4f3a'} />
+          <rect x="2" y="2" width="16" height="10" rx="1" fill="#fff3d8" />
+          <path d="M10 2 L10 12" stroke="#c9a15a" strokeWidth="1" />
+          <path d="M-6 6 Q-2 -4 6 2" stroke={c.band} strokeWidth="1.5" fill="none" className="glow" />
+        </g>
+      )}
       <ellipse cx="38" cy="82" rx="4" ry="4" fill={SKIN} />
       <ellipse cx="62" cy="82" rx="4" ry="4" fill={SKIN} />
       {/* Kopf */}
@@ -165,7 +237,7 @@ function Sera({ w, h, mood }: { w: number; h: number; mood: Mood }) {
       <path d="M66 40 Q68 54 64 64 L61 62 Q64 52 63 42 Z" fill="#f2cf6a" />
       <path d="M42 25 Q48 22 55 24" stroke="#fff0b8" strokeWidth="1.6" fill="none" strokeLinecap="round" />
       {/* Haarschleife */}
-      <path d="M60 25 L67 21 L66 29 Z M60 25 L67 30 L63 32 Z" fill="#e98b7a" />
+      <path d="M60 25 L67 21 L66 29 Z M60 25 L67 30 L63 32 Z" fill={c.bow} />
       {/* weicher, freundlicher Ausdruck */}
       <Eyes mood={face} x1={44} x2={56} y={41} color="#5a3a2a" />
       <ellipse cx="40" cy="47" rx="3" ry="1.8" fill="#f29b9b" opacity="0.6" />

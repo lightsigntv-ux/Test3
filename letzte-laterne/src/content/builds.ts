@@ -16,14 +16,14 @@ export interface AttrDef {
 const pct = (x: number) => `${Math.round(x * 100)} %`;
 
 export const ATTRS: Record<AttrId, AttrDef> = {
-  vit: { id: 'vit', name: 'Lebenskraft', icon: '❤', per: 0.12, max: 5, text: (p) => `+${pct(0.12 * p)} Lebenspunkte` },
-  str: { id: 'str', name: 'Stärke', icon: '⚔', per: 0.1, max: 5, text: (p) => `+${pct(0.1 * p)} Schaden, Heilung und Schilde` },
-  arm: { id: 'arm', name: 'Rüstung', icon: '🛡', per: 0.06, max: 5, text: (p) => `−${pct(0.06 * p)} erlittener Schaden` },
-  eva: { id: 'eva', name: 'Ausweichen', icon: '💨', per: 0.06, max: 5, text: (p) => `${pct(0.06 * p)} Chance, direkten Angriffen auszuweichen` },
-  spd: { id: 'spd', name: 'Tempo', icon: '⏱', per: 0.07, max: 5, text: (p) => `−${pct(0.07 * p)} Zeit zwischen Angriffen` },
+  vit: { id: 'vit', name: 'Lebenskraft', icon: '❤', per: 0.1, max: 5, text: (p) => `+${pct(0.1 * p)} Lebenspunkte` },
+  str: { id: 'str', name: 'Stärke', icon: '⚔', per: 0.08, max: 5, text: (p) => `+${pct(0.08 * p)} Schaden, Heilung und Schilde` },
+  arm: { id: 'arm', name: 'Rüstung', icon: '🛡', per: 0.05, max: 5, text: (p) => `−${pct(0.05 * p)} erlittener Schaden` },
+  eva: { id: 'eva', name: 'Ausweichen', icon: '💨', per: 0.06, max: 5, text: (p) => `${pct(0.06 * p)} Chance, gegnerischen Grundangriffen auszuweichen` },
+  spd: { id: 'spd', name: 'Tempo', icon: '⏱', per: 0.06, max: 5, text: (p) => `−${pct(0.06 * p)} Zeit zwischen Angriffen` },
 };
 
-export const ATTR_POINTS = { start: 6, perLevel: 2 };
+export const ATTR_POINTS = { start: 6, perLevel: 2, perSeal: 1 };
 
 export type Attrs = Record<AttrId, number>;
 export const emptyAttrs = (): Attrs => ({ vit: 0, str: 0, arm: 0, eva: 0, spd: 0 });
@@ -108,10 +108,10 @@ export const ARCHETYPES: Record<ArchetypeId, ArchetypeDef> = {
     name: 'Frostgelehrter',
     tagline: 'Verlangsamt Gegner und schiebt ihre Spezialangriffe hinaus.',
     hpMult: 1.05,
-    atkMult: 0.85,
+    atkMult: 0.95,
     intervalMult: 1,
     auto: 'Eissplitter: verlangsamt 3 s',
-    ability: { name: 'Frostnova', cost: 3, cooldown: 10, text: 'Schaden an allen, verlangsamt 5 s, Vorbereitungen +1,5 s' },
+    ability: { name: 'Frostnova', cost: 3, cooldown: 10, text: 'Schaden an allen, verlangsamt 5 s, Vorbereitungen +1 s' },
     color: '#7fd0ff',
   },
   storm: {
@@ -120,9 +120,9 @@ export const ARCHETYPES: Record<ArchetypeId, ArchetypeDef> = {
     name: 'Blitzgelehrter',
     tagline: 'Springende Blitze für schnellen Einzelschaden.',
     hpMult: 0.9,
-    atkMult: 1.1,
+    atkMult: 1.15,
     intervalMult: 1,
-    auto: 'Blitz springt mit 50 % weiter',
+    auto: 'Blitz springt mit 60 % weiter',
     ability: { name: 'Kettenblitz', cost: 3, cooldown: 8, text: 'Großer Treffer aufs Fokusziel, springt auf 3 weitere' },
     color: '#ffe066',
   },
@@ -178,13 +178,13 @@ export const ARCH_VALUES = {
   bladesHitDamage: 8,
   bulwarkShield: 26,
   bulwarkProvoke: 5,
-  frostSlow: 0.35, // Anteil langsamer
+  frostSlow: 0.3, // Anteil langsamer
   frostAutoDuration: 3,
   frostNovaDamage: 6,
   frostNovaDuration: 5,
-  frostNovaDelay: 1.5,
-  stormChain: 0.5,
-  chainDamage: 16,
+  frostNovaDelay: 1,
+  stormChain: 0.6,
+  chainDamage: 20,
   chainJumps: 3,
   chainFalloff: 0.7,
   poisonPerStack: 1.3,
@@ -194,7 +194,7 @@ export const ARCH_VALUES = {
   weakenMult: 0.75,
   weakenDuration: 5,
   lightAutoShield: 5,
-  lightDomeShield: 14,
+  lightDomeShield: 12,
   lightDomeHeal: 8,
 };
 

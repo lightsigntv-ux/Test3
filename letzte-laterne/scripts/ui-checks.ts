@@ -26,7 +26,7 @@ async function skipDialogs(p: Page) {
 
 // 1) Neuladen während eines Kampfes
 {
-  let s = A.startRun(newSave(), 1, { seed: 4242 });
+  let s = A.confirmPrepare(A.startRun(newSave(), 1, { seed: 4242 }));
   s.meta.seenDialogs.push('intro', 'exp1_start');
   s.meta.tutorialsSeen.push('combat', 'windup', 'focusFull', 'purr', 'taunt', 'summon');
   s = A.enterStation(s);
@@ -69,7 +69,7 @@ async function skipDialogs(p: Page) {
 
 // 2) Katzenereignis → Neuladen
 {
-  let s = A.startRun(newSave(), 1, { seed: 99 });
+  let s = A.confirmPrepare(A.startRun(newSave(), 1, { seed: 99 }));
   s.meta.seenDialogs.push('intro', 'exp1_start');
   s.run!.station = 1;
   await load(s);
@@ -128,7 +128,7 @@ for (const [ending, cat] of [['keep', true], ['extinguish', false]] as const) {
   s.meta.unlockedExpedition = 3;
   s.meta.bossesDefeated = ['glockenwaechter', 'archivarin'];
   s.meta.seenDialogs.push('intro', 'exp3_start', 'boss3_pre');
-  let r = A.startRun(s, 3, { seed: 5 });
+  let r = A.confirmPrepare(A.startRun(s, 3, { seed: 5 }));
   if (cat) r.run!.relics[0] = 'mondgloeckchen';
   r.run!.station = 7;
   r = A.enterStation(r);

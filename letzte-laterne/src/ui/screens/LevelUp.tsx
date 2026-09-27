@@ -6,19 +6,30 @@ import * as A from '../../game/actions';
 import { HeroArt } from '../art';
 import { Tags } from '../components';
 import { useGame } from '../store';
+import { PointOrbs, TalentModal } from '../Talents';
 
 export function LevelUpScreen() {
   const { save, act } = useGame();
   const run = save.run!;
   const [busy, setBusy] = useState(false);
+  const [talents, setTalents] = useState(false);
   useEffect(() => play('levelup'), []);
   return (
     <div className="screen">
       <h2>Run-Level {run.level} erreicht!</h2>
       <p className="small muted">
-        Alle +8 % stärker. Wähle eine Verbesserung für diesen Run.
+        Alle +4 % stärker und +2 Talentpunkte. Wähle eine Verbesserung für diesen Run.
         {run.pendingLevelUps > 1 ? ` (Noch ${run.pendingLevelUps - 1} weitere Wahl danach.)` : ''}
       </p>
+      {run.attrPoints > 0 && (
+        <div className="levelup-points">
+          <PointOrbs n={run.attrPoints} big />
+          <button className="btn talent-btn" data-sfx="point" onClick={() => setTalents(true)}>
+            Talentpunkte verteilen
+          </button>
+        </div>
+      )}
+      {talents && <TalentModal onClose={() => setTalents(false)} />}
       <div className="reward-row">
         {run.levelOffer!.map((u) => {
           const d = UPGRADES[u];
@@ -33,7 +44,7 @@ export function LevelUpScreen() {
                 act((s) => A.chooseUpgrade(s, u));
               }}
             >
-              <HeroArt id={d.hero} size={56} />
+              <HeroArt id={d.hero} arch={run.archetype[d.hero]} size={56} />
               <div className="small muted">{HEROES[d.hero].name}</div>
               <h3>{d.name}</h3>
               <Tags tags={d.tags} />

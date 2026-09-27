@@ -2663,3 +2663,506 @@ body.no-anim .loot-inner {
 .campfire .f2 { animation-duration: 0.7s; animation-delay: -0.3s; }
 .campfire .f3 { animation-duration: 0.5s; }
 @keyframes flame { from { transform: scale(1, 1) skewX(-3deg); } to { transform: scale(0.94, 1.08) skewX(4deg); } }
+
+/* ================= Charakterbau (Vorbereitung, Talentpunkte) ================= */
+.btn.tiny {
+  padding: 0 0.45rem;
+  min-width: 1.7rem;
+  height: 1.7rem;
+  font-size: 1rem;
+  line-height: 1;
+  border-radius: 6px;
+}
+.btn.tiny.plus:not(:disabled) {
+  border-color: var(--gold);
+  color: var(--gold2);
+  box-shadow: 0 0 8px rgba(245, 196, 106, 0.35);
+}
+.point-orbs {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.point-orbs .orb {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff6d8, var(--gold) 55%, #b07a1c);
+  box-shadow: 0 0 8px rgba(255, 210, 122, 0.8);
+  animation: orb-pulse 2.2s ease-in-out infinite;
+}
+.point-orbs.big .orb {
+  width: 14px;
+  height: 14px;
+}
+.point-orbs b {
+  margin-left: 4px;
+  color: var(--gold2);
+  font-family: var(--serif);
+  font-size: 1.2rem;
+}
+@keyframes orb-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.18); opacity: 1; }
+}
+.prepare {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.prepare-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 0.6rem;
+}
+.prepare-points {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid rgba(245, 196, 106, 0.45);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(60, 44, 18, 0.55), rgba(24, 20, 14, 0.4));
+}
+.prepare-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+.prepare-hero {
+  --arch: #888;
+  position: relative;
+  border: 1px solid color-mix(in srgb, var(--arch) 55%, var(--line));
+  border-radius: 14px;
+  padding: 0.7rem;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--arch) 14%, var(--panel)) 0%, var(--panel) 45%, var(--bg2) 100%);
+  box-shadow: 0 0 22px color-mix(in srgb, var(--arch) 18%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: box-shadow 0.4s, border-color 0.4s;
+}
+.prepare-portrait {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  position: relative;
+}
+.prepare-portrait h3 {
+  margin: 0;
+}
+.portrait-glow {
+  position: absolute;
+  left: 4px;
+  top: 10px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--arch) 45%, transparent), transparent 70%);
+  filter: blur(4px);
+  animation: orb-pulse 3.5s ease-in-out infinite;
+  pointer-events: none;
+}
+.prepare-portrait svg {
+  position: relative;
+  flex: none;
+}
+.arch-title {
+  color: var(--arch);
+  font-family: var(--serif);
+  font-weight: 600;
+  text-shadow: 0 0 10px color-mix(in srgb, var(--arch) 50%, transparent);
+}
+.stat-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.6rem;
+  font-size: 0.82rem;
+  color: var(--text);
+  margin-top: 0.25rem;
+}
+.stat-line span {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+  padding: 0 0.35rem;
+}
+.arch-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0.5rem 0;
+}
+.arch-card {
+  --arch: #888;
+  display: flex;
+  gap: 0.45rem;
+  text-align: left;
+  align-items: flex-start;
+  background: rgba(10, 14, 26, 0.55);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.35rem 0.5rem;
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+}
+.arch-card:hover {
+  border-color: color-mix(in srgb, var(--arch) 70%, var(--line));
+  transform: translateX(2px);
+}
+.arch-card.on {
+  border-color: var(--arch);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--arch) 22%, transparent), rgba(10, 14, 26, 0.6));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--arch) 35%, transparent);
+}
+.arch-card:not(.on) .arch-skill,
+.arch-card:not(.on) .arch-tag {
+  display: none;
+}
+.arch-mini {
+  flex: none;
+  width: 40px;
+  height: 48px;
+  overflow: hidden;
+}
+.arch-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.arch-body b {
+  color: var(--arch);
+}
+.arch-tag {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.arch-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+.arch-chip {
+  font-size: 0.72rem;
+  border-radius: 5px;
+  padding: 0 0.3rem;
+  background: rgba(255, 255, 255, 0.06);
+}
+.arch-chip.up {
+  color: var(--good);
+}
+.arch-chip.down {
+  color: var(--danger);
+}
+.arch-chip.neutral {
+  color: var(--muted);
+}
+.arch-skill {
+  font-size: 0.78rem;
+}
+.arch-skill .k {
+  display: inline-block;
+  font-weight: 700;
+  color: var(--gold2);
+  margin-right: 0.2rem;
+}
+.attr-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  border-top: 1px solid var(--line);
+  padding-top: 0.45rem;
+}
+.attr-row {
+  display: grid;
+  grid-template-columns: 1.4rem 1fr auto auto auto;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 2px 4px;
+  border-radius: 6px;
+}
+.attr-row.has {
+  background: rgba(255, 255, 255, 0.04);
+}
+.attr-icon {
+  text-align: center;
+}
+.attr-name {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.86rem;
+  line-height: 1.15;
+  min-width: 0;
+}
+.attr-eff {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+.attr-row.has .attr-eff {
+  color: var(--good);
+}
+.attr-pips {
+  display: inline-flex;
+  gap: 4px;
+}
+.attr-pip {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  transform: rotate(45deg);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: background 0.25s, box-shadow 0.25s;
+}
+.prepare-foot {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.8rem;
+}
+.talent-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin: 0.7rem 0;
+}
+.talent-col {
+  --arch: #888;
+  border: 1px solid color-mix(in srgb, var(--arch) 50%, var(--line));
+  border-radius: 12px;
+  padding: 0.5rem;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--arch) 12%, var(--panel)), var(--panel));
+}
+.talent-btn {
+  border-color: var(--gold) !important;
+  color: var(--gold2) !important;
+  animation: talent-glow 1.8s ease-in-out infinite;
+}
+@keyframes talent-glow {
+  0%, 100% { box-shadow: 0 0 4px rgba(245, 196, 106, 0.3); }
+  50% { box-shadow: 0 0 16px rgba(245, 196, 106, 0.8); }
+}
+@media (max-width: 1100px) {
+  .prepare-grid,
+  .talent-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.levelup-points {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  margin: 0.4rem 0 0.8rem;
+}
+.attr-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.6rem;
+  color: var(--good);
+}
+
+/* ================= Kampf: Angriffsbalken, Haltung, Positionstausch, neue Zustände ================= */
+.atk-timer {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #ffffff12;
+  overflow: hidden;
+  margin-top: 1px;
+}
+.atk-timer .atk-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #d7c38a, #fff0c0);
+  box-shadow: 0 0 6px #ffe7a066;
+}
+.atk-timer.enemy .atk-fill {
+  background: linear-gradient(90deg, #a8433a, #ff8a6a);
+  box-shadow: 0 0 6px #ff6a5a66;
+}
+.atk-timer.soon .atk-fill {
+  filter: brightness(1.35);
+}
+.atk-timer.enemy.soon {
+  box-shadow: 0 0 6px #ff6a5a88;
+}
+.atk-timer.slowed .atk-fill {
+  background: linear-gradient(90deg, #4f8fc4, #bfe8ff);
+  box-shadow: 0 0 6px #7fd0ff88;
+}
+.atk-timer.halted {
+  background: repeating-linear-gradient(45deg, #ffffff10 0 4px, transparent 4px 8px);
+}
+.atk-icon {
+  position: absolute;
+  right: 2px;
+  top: -4px;
+  font-size: 8px;
+  opacity: 0.7;
+}
+.combat-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: center;
+}
+.stance-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0 8px;
+}
+.stance-btns {
+  display: flex;
+  gap: 4px;
+}
+.stance-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  min-width: 70px;
+  padding: 3px 6px 2px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, #17213d, #0d1428);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  position: relative;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+.stance-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.stance-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+.stance-icon {
+  font-size: 1rem;
+}
+.stance-name {
+  font-size: 0.72rem;
+}
+.stance-key {
+  position: absolute;
+  top: 1px;
+  right: 4px;
+  font-size: 0.6rem;
+  color: var(--muted);
+}
+.stance-btn.on.st-offense {
+  border-color: #ef6a5a;
+  box-shadow: 0 0 10px #ef6a5a88, inset 0 0 10px #ef6a5a33;
+}
+.stance-btn.on.st-balanced {
+  border-color: var(--gold);
+  box-shadow: 0 0 10px #f5c46a66, inset 0 0 10px #f5c46a22;
+}
+.stance-btn.on.st-defense {
+  border-color: #6fb6ff;
+  box-shadow: 0 0 10px #6fb6ff88, inset 0 0 10px #6fb6ff33;
+}
+.combat.stance-offense .arena {
+  box-shadow: inset 0 -40px 60px -30px #ef6a5a44;
+}
+.combat.stance-defense .arena {
+  box-shadow: inset 0 -40px 60px -30px #6fb6ff44;
+}
+.swap-btn {
+  margin-left: 6px;
+  height: 1.3rem;
+  font-size: 0.68rem;
+  padding: 0 0.4rem;
+  vertical-align: middle;
+}
+.provoke-aura {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px dashed #ff9a6a;
+  box-shadow: 0 0 18px #ff6a3a66;
+  animation: spin-slow 6s linear infinite;
+  pointer-events: none;
+}
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.unit.dodging .unit-art {
+  transform: translate(-14px, -4px) skewX(-6deg);
+  opacity: 0.75;
+}
+.unit.swapping .unit-art {
+  animation: swap-in 0.45s ease-out;
+}
+@keyframes swap-in {
+  from { transform: translateY(-18px) scale(0.92); opacity: 0.4; filter: drop-shadow(0 0 12px var(--gold)); }
+  to { transform: none; opacity: 1; }
+}
+.st-poison {
+  color: #9cf07e;
+  border-color: #2f6a2a;
+}
+.st-slow {
+  color: #bfe8ff;
+  border-color: #2a5a8a;
+}
+.st-weaken {
+  color: #d0a8ff;
+  border-color: #5a3a8a;
+}
+.f-poison {
+  color: #9cf07e;
+}
+.f-frost {
+  color: #bfe8ff;
+  font-size: 1.2rem;
+}
+.f-weaken {
+  color: #d0a8ff;
+  font-size: 0.8rem;
+}
+.f-dodge {
+  color: #e6f4ff;
+  font-style: italic;
+  font-size: 0.82rem;
+}
+body.no-anim .provoke-aura,
+body.no-anim .unit.swapping .unit-art,
+body.no-anim .point-orbs .orb,
+body.no-anim .portrait-glow,
+body.no-anim .talent-btn {
+  animation: none;
+}
+
+.unit.is-slowed .unit-art svg {
+  filter: saturate(0.6) hue-rotate(-20deg) brightness(1.1) drop-shadow(0 0 6px #7fd0ff);
+}
+.unit.is-poisoned .unit-art svg {
+  filter: drop-shadow(0 0 6px #7ed36a);
+}
+.unit.is-slowed.is-poisoned .unit-art svg {
+  filter: saturate(0.6) drop-shadow(0 0 6px #7fd0ff) drop-shadow(0 0 4px #7ed36a);
+}
+
+.seals-locked {
+  max-width: 560px;
+  margin: 2rem auto;
+  text-align: center;
+}
+.lock-seal svg {
+  filter: drop-shadow(0 0 18px #6f9ff033);
+  animation: orb-pulse 4s ease-in-out infinite;
+}
+.unit-plate > .tip-host {
+  display: block;
+  width: 100%;
+}

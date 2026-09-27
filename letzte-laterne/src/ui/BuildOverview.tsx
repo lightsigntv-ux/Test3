@@ -7,17 +7,27 @@ import * as A from '../game/actions';
 import { abilityLines, autoLine, itemBearerNote } from '../game/describe';
 import { heroStats, tagCounts, yuumiPresent } from '../game/derive';
 import { RELIC_VALUES } from '../content/items';
+import { ARCHETYPES, ATTRS, ATTR_IDS } from '../content/builds';
 import { HeroArt, PawIcon, YuumiArt } from './art';
 import { Bar, ConfirmButton, ItemLine, Modal, RelicLine } from './components';
 import { useGame } from './store';
+import { useState } from 'react';
+import { TalentModal } from './Talents';
 
 export function BuildOverview({ onClose }: { onClose: () => void }) {
   const { save, act } = useGame();
   const run = save.run!;
   const editable = A.canEditEquipment(run);
   const tags = tagCounts(run);
+  const [talents, setTalents] = useState(false);
+  if (talents) return <TalentModal onClose={() => setTalents(false)} />;
   return (
     <Modal title="Build-Übersicht" onClose={onClose} wide>
+      {run.attrPoints > 0 && run.phase !== 'combat' && run.phase !== 'prepare' && (
+        <button className="btn small talent-btn" data-sfx="point" onClick={() => setTalents(true)}>
+          ✦ {run.attrPoints} Talentpunkte verteilen
+        </button>
+      )}
       <div className="row gap wrap small">
         {(['glut', 'bastion', 'echo'] as BuildTag[]).map((t) => (
           <span key={t} className={`tag tag-${t}`}>
@@ -107,21 +117,30 @@ function HeroBuild({ h, editable }: { h: HeroId; editable: boolean }) {
   return (
     <div className="panel hero-build" style={{ borderColor: def.color }}>
       <div className="row gap">
-        <HeroArt id={h} size={60} />
+        <HeroArt id={h} arch={run.archetype[h]} size={60} />
         <div className="grow">
           <b style={{ color: def.color }}>
             {def.symbol} {def.name}
           </b>{' '}
-          <span className="small muted">
-            {def.role}
-            {run.formation[0] === h ? ' · vorn' : ' · hinten'}
+          <span className="small" style={{ color: ARCHETYPES[run.archetype[h]].color }}>
+            {ARCHETYPES[run.archetype[h]].name}
           </span>
+          <span className="small muted">{run.formation[0] === h ? ' · vorn' : ' · hinten'}</span>
           <Bar value={run.hp[h]} max={st.maxHp} label />
           <div className="small">{autoLine(run, h)}</div>
+          <div className="small attr-summary">
+            {ATTR_IDS.filter((a) => run.attrs[h][a] > 0).map((a) => (
+              <span key={a} title={ATTRS[a].text(run.attrs[h][a])}>
+                {ATTRS[a].icon} {ATTRS[a].name} {run.attrs[h][a]}
+              </span>
+            ))}
+            {st.armor > 0 && <span>🛡 −{Math.round(st.armor * 100)} % Schaden</span>}
+            {st.dodge > 0 && <span>💨 {Math.round(st.dodge * 100)} % Ausweichen</span>}
+          </div>
         </div>
       </div>
       <div className="small ability-desc">
-        <b>{def.ability.name}</b>
+        <b>{ARCHETYPES[run.archetype[h]].ability.name}</b>
         {abilityLines(run, h).map((l, i) => (
           <div key={i}>{l}</div>
         ))}

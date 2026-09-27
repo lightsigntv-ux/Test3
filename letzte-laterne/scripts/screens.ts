@@ -36,7 +36,7 @@ await page.click('text=Sammlung');
 await page.screenshot({ path: `${OUT}/s-collection.png`, fullPage: true });
 
 // Build-Übersicht mitten im Run
-let r = A.startRun(structuredClone(base), 2, { seed: 31 });
+let r = A.confirmPrepare(A.startRun(structuredClone(base), 2, { seed: 31 }));
 r.run!.equipment.ivo = [{ id: 'glutherz', q: 'legendary' }, { id: 'zunderring', q: 'rare' }];
 r.run!.equipment.fritz[1] = { id: 'dornenschild', q: 'magic' };
 r.run!.relics = ['mondgloeckchen', 'wappen'];
@@ -53,7 +53,7 @@ await page.click('text=Die Laterne bewahren').catch(() => {});
 // Storyereignis Kapitel 2 mit Botin
 const b2 = structuredClone(base);
 b2.meta.story.courierSaved = true;
-let r2 = A.startRun(b2, 2, { seed: 31 });
+let r2 = A.confirmPrepare(A.startRun(b2, 2, { seed: 31 }));
 r2.run!.station = 3;
 r2.run!.relics[0] = 'mondgloeckchen';
 r2 = A.enterStation(r2);
@@ -61,7 +61,7 @@ await load(r2);
 await page.screenshot({ path: `${OUT}/s-register.png` });
 
 // Bosskampf Phase 2 (Glockenwächter)
-let r3 = A.startRun(structuredClone(base), 1, { seed: 8 });
+let r3 = A.confirmPrepare(A.startRun(structuredClone(base), 1, { seed: 8 }));
 r3.run!.station = 7;
 r3.run!.level = 4;
 r3 = A.enterStation(r3);
@@ -78,7 +78,7 @@ await page.keyboard.press(' ');
 await page.screenshot({ path: `${OUT}/s-boss-phase2.png` });
 
 // Niederlage mit Analyse
-let r4 = A.startRun(structuredClone(base), 2, { seed: 12 });
+let r4 = A.confirmPrepare(A.startRun(structuredClone(base), 2, { seed: 12 }));
 r4 = A.enterStation(r4);
 const sim = new CombatSim(A.buildCombatSetup(r4)!);
 sim.runToEnd(); // ohne Fähigkeiten → vermutlich verloren oder knapp

@@ -15,8 +15,8 @@ function Campfire() {
   const { save } = useGame();
   return (
     <div className="campfire-scene">
-      <HeroArt id="fritz" size={70} />
-      <HeroArt id="sera" size={70} mood="happy" />
+      <HeroArt id="fritz" arch={save.run?.archetype.fritz} size={70} />
+      <HeroArt id="sera" arch={save.run?.archetype.sera} size={70} mood="happy" />
       <svg className="campfire" width="120" height="110" viewBox="0 0 120 110" aria-hidden>
         <ellipse cx="60" cy="98" rx="56" ry="10" fill="#ff8a2a33" />
         <path d="M22 96 L98 84" stroke="#5a3418" strokeWidth="9" strokeLinecap="round" />
@@ -25,7 +25,7 @@ function Campfire() {
         <path className="flame f2" d="M60 90 Q44 76 52 58 Q56 66 62 60 Q62 46 70 38 Q70 58 78 68 Q80 84 60 90 Z" fill="#ffc04a" />
         <path className="flame f3" d="M60 90 Q52 80 56 70 Q60 74 64 68 Q70 78 66 86 Q64 90 60 90 Z" fill="#fff3c0" />
       </svg>
-      <HeroArt id="ivo" size={70} />
+      <HeroArt id="ivo" arch={save.run?.archetype.ivo} size={70} />
       {yuumiPresent(save.run) && <YuumiArt size={48} />}
     </div>
   );

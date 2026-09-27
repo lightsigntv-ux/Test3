@@ -14,9 +14,9 @@ export function ResultScreen() {
   return (
     <div className="screen result-screen">
       <div className="row gap center-v">
-        <HeroArt id="fritz" size={60} mood={r.outcome === 'victory' ? 'happy' : 'serious'} />
-        <HeroArt id="sera" size={60} mood={r.outcome === 'victory' ? 'happy' : 'sad'} />
-        <HeroArt id="ivo" size={60} mood={r.outcome === 'victory' ? 'happy' : 'serious'} />
+        <HeroArt id="fritz" arch={run.archetype.fritz} size={60} mood={r.outcome === 'victory' ? 'happy' : 'serious'} />
+        <HeroArt id="sera" arch={run.archetype.sera} size={60} mood={r.outcome === 'victory' ? 'happy' : 'sad'} />
+        <HeroArt id="ivo" arch={run.archetype.ivo} size={60} mood={r.outcome === 'victory' ? 'happy' : 'serious'} />
         {run.yuumiEverInRun && <YuumiArt size={40} pose={r.outcome === 'victory' ? 'happy' : 'sit'} />}
         <h2>{title}</h2>
       </div>

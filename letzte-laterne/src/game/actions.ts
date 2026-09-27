@@ -1,7 +1,7 @@
 // Alle Zustandsübergänge als reine Funktionen SaveData → SaveData.
 // Ungültige Aktionen (falsche Phase, doppelte Klicks) geben den Stand unverändert zurück.
 
-import { CAMP, ESCALATION, EXPEDITION_SCALE, LEVEL, LIGHT, REVIVE_RATIO, REWARD, SEALS as SEAL_RULES } from '../content/balance';
+import { CAMP, ESCALATION, EXPEDITION_SCALE, STATION_RAMP, LEVEL, LIGHT, REVIVE_RATIO, REWARD, SEALS as SEAL_RULES } from '../content/balance';
 import { ENCOUNTERS, ENEMIES, REINFORCEMENTS } from '../content/enemies';
 import { RELICS } from '../content/items';
 import { SEALS, SEAL_ORDER, UPGRADES } from '../content/progression';
@@ -221,7 +221,7 @@ export function startRun(prev: SaveData, expedition: ExpeditionId, opts: StartOp
     manualUses: { fritz: 0, ivo: 0, sera: 0 },
     archetype: { ...(opts.archetypes ?? s.meta.lastArchetypes ?? DEFAULT_ARCHETYPE) },
     attrs: { fritz: emptyAttrs(), ivo: emptyAttrs(), sera: emptyAttrs() },
-    attrPoints: ATTR_POINTS.start,
+    attrPoints: ATTR_POINTS.start + ATTR_POINTS.perSeal * seals.length,
   };
   for (const h of HERO_IDS) run.hp[h] = heroStats(run, h).maxHp;
   // Startgegenstände aus aktiven Siegeln
@@ -335,8 +335,8 @@ export function buildCombatSetup(save: SaveData): CombatSetup | null {
     relics: run.relics.filter((x): x is NonNullable<typeof x> => !!x),
     upgrades: run.upgrades.slice(),
     seals: run.seals.slice(),
-    hpScale: scale.hp,
-    dmgScale: scale.dmg,
+    hpScale: scale.hp * (1 + STATION_RAMP.hp * run.station),
+    dmgScale: scale.dmg * (1 + STATION_RAMP.dmg * run.station),
     focusBonus: run.nextFocusBonus + run.runFocusBonus,
     mods: run.mods.slice(),
     manualUsesStart: { ...(run.manualUses ?? {}) },

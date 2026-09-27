@@ -15,6 +15,7 @@ import { RewardScreen } from './screens/Reward';
 import { ConfirmButton, Modal } from './components';
 import { SettingsPanel } from './Settings';
 import { useGame } from './store';
+import { PrepareScreen } from './Talents';
 
 export function RunView() {
   const { save, act } = useGame();
@@ -39,6 +40,9 @@ export function RunView() {
 
   let screen: React.ReactNode;
   switch (run.phase) {
+    case 'prepare':
+      screen = <PrepareScreen />;
+      break;
     case 'map':
       screen = <MapScreen onBuild={() => setBuild(true)} />;
       break;
@@ -72,7 +76,7 @@ export function RunView() {
           <b>{exp.name}</b>
           {run.longNight && <span className="pill night">🌙 Lange Nacht ({run.mods.length})</span>}
           {run.memory && !run.longNight && <span className="pill">Erinnerung</span>}
-          {!inResult && <span className="pill">Station {run.station + 1}/8</span>}
+          {!inResult && run.phase !== 'prepare' && <span className="pill">Station {run.station + 1}/8</span>}
           <span className="pill" title={next ? `${run.xp}/${next} Erfahrung bis Level ${run.level + 1}` : 'Höchstes Run-Level erreicht'}>
             Run-Level {run.level}/4
             <span className="xpbar">

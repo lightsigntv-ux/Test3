@@ -187,7 +187,7 @@ function SlotPicker({ opt, slot, setSlot }: { opt: RewardOption; slot: A.Slot | 
       <div className="slot-picker">
         {HERO_IDS.map((h: HeroId) => (
           <div key={h} className="slot-hero" style={{ ['--c' as string]: HEROES[h].color }}>
-            <HeroArt id={h} size={44} />
+            <HeroArt id={h} arch={run.archetype[h]} size={44} />
             {run.equipment[h].map((it, i) => {
               const selected = slot?.type === 'hero' && slot.hero === h && slot.idx === i;
               return (

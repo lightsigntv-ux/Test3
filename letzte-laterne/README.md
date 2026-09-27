@@ -16,7 +16,7 @@ daneben liegen). Der Spielstand liegt im `localStorage` des Browsers.
 cd letzte-laterne
 npm install
 npm run dev          # http://localhost:5173
-npm test             # 67 Vitest-Tests (Regeln, Yuumi, Belohnungen, Spielstände, Builds)
+npm test             # 82 Vitest-Tests (Regeln, Yuumi, Belohnungen, Spielstände, Builds, Charakterbau)
 npm run build        # Produktionsbuild nach dist/
 npm run build:single # eine offline spielbare HTML-Datei nach dist-single/
 ```
@@ -27,6 +27,8 @@ npm run build:single # eine offline spielbare HTML-Datei nach dist-single/
 |---|---|---|
 | Fokusziel markieren | Gegner anklicken | Tab (nächstes Ziel) |
 | Fähigkeit Fritz / Ivo / Sera | Fähigkeitsknopf | 1 / 2 / 3 |
+| Haltung Offensiv / Ausgewogen / Defensiv | Haltungsknöpfe unten links | Q / W / E |
+| Hintere Figur nach vorn (1 Fokus) | „▲ vor“ über der Figur | – |
 | Pause (Befehle vorbereiten) | ❚❚ Pause | Leertaste |
 | Geschwindigkeit 1× / 2× | Knöpfe oben rechts | S |
 | Build-Übersicht | „Build“ | B |
@@ -59,6 +61,28 @@ npx tsx scripts/dump-lines.ts > /tmp/lines.json
 python3 scripts/tts.py /tmp/lines.json      # erzeugt nur fehlende Dateien, schreibt das Manifest
 ```
 
+## Charakterbau & Taktik
+
+* **Vor jedem Run** („Vor dem Aufbruch“): je Figur eine von drei Ausprägungen wählen und
+  6 Talentpunkte verteilen – Lebenskraft ❤, Stärke ⚔, Rüstung 🛡, Ausweichen 💨, Tempo ⏱
+  (max. 5 je Wert). Jeder Levelaufstieg bringt +2 Punkte, jedes aktive Siegel +1.
+* **Ausprägungen:**
+  | Figur | Ausprägung | Kurz |
+  |---|---|---|
+  | Fritz | Stadtwächter | Schild für alle, unterbricht |
+  | | Zwei Klingen | −22 % HP, sehr schnelle Angriffe; Klingenwirbel: 3 Schläge + Unterbrechen |
+  | | Bollwerk | +30 % HP, wenig Schaden; Herausforderung: alle Gegner greifen 5 s nur ihn an |
+  | Ivo | Funkengelehrter | Brand an allen |
+  | | Frostgelehrter | verlangsamt Gegner, Frostnova verzögert ihre Spezialangriffe |
+  | | Blitzgelehrter | Kettenblitz springt über 4 Gegner, Grundangriff springt weiter |
+  | Sera | Hüterin | heilt |
+  | | Giftmischerin | heilt nicht; Gift + Giftwolke schwächt Gegner (−25 % Schaden) |
+  | | Lichtweberin | Lichtschilde statt Heilung, Lichtkuppel für alle |
+* **Im Kampf:** Angriffsbalken unter allen Figuren und Gegnern zeigen den nächsten Angriff;
+  Haltung (Q/W/E) tauscht Schaden gegen Sicherheit; „▲ vor“ stellt eine hintere Figur nach vorn.
+* **Schwierigkeit:** Der erste Run endet meist mit einer Niederlage – erst danach erwachen die
+  Siegel (Reiter „Siegel“ ist bis dahin gesperrt). Spätere Stationen einer Expedition sind härter.
+
 ## Grafik & Beute
 
 * Beute in vier Qualitätsstufen (Gewöhnlich grau · Magisch blau · Selten violett · Legendär gold
@@ -86,7 +110,8 @@ python3 scripts/tts.py /tmp/lines.json      # erzeugt nur fehlende Dateien, schr
 
 ```
 src/
-  content/     Inhaltsdaten (keine Logik): balance.ts (zentrale Zahlen), heroes, enemies,
+  content/     Inhaltsdaten (keine Logik): balance.ts (zentrale Zahlen), builds.ts (Talente,
+               Ausprägungen, Haltungen), heroes, enemies,
                items (Gegenstände + Relikte), progression (Verbesserungen + Siegel), story
   sim/         Kampfsimulation ohne React: combat.ts (fester 0,05-s-Schritt), clock.ts
                (Echtzeit → Schritte), rng.ts (deterministischer Zufall)
@@ -96,7 +121,7 @@ src/
                save.ts (Format, Migration, Import/Export), bot.ts (Testspieler)
   ui/          React-Oberfläche: App, Hub, RunView, screens/*, art.tsx (SVG-Figuren), audio.ts
 tests/         Vitest
-scripts/       balance.ts, encounters.ts, relics.ts, fight.ts (Balancing mit Bots),
+scripts/       balance.ts, archetypes.ts, encounters.ts, relics.ts, fight.ts (Balancing mit Bots),
                ui-playthrough.mjs, ui-checks.ts, smoke.mjs (Browserprüfungen mit Playwright)
 docs/          SPEC.md (verbindlicher Bauplan), PROGRESS.md (Arbeitsstand)
 ```
@@ -107,16 +132,16 @@ Kämpfe laufen in `CombatSim`; erst das Ergebnis (`combatFinished`) ändert den 
 
 ## Spielstandformat
 
-`localStorage["letzte-laterne/save"]`, JSON, `version: 1`:
+`localStorage["letzte-laterne/save"]`, JSON, `version: 3` (ältere Stände werden migriert):
 
 ```ts
 { version, meta: MetaState, run: RunState | null, settings, dialogQueue: string[] }
 ```
 
-* `meta`: Erinnerungslicht, gekaufte/aktive Siegel, freigeschaltete Expedition, Storyflags
+* `meta`: Erinnerungslicht, gekaufte/aktive Siegel, `sealsUnlocked`, zuletzt gewählte Ausprägungen, freigeschaltete Expedition, Storyflags
   (`courierSaved`, `namesFreed`, `ending`, `endingWithYuumi`), Sammlung, gesehene Dialoge und
   Hinweise, `firstEliteLegendaryGiven`, `catGuaranteeUsed`, Protokoll der langen Nacht.
-* `run`: Seed, Karte, Station, Phase, HP, Aufstellung, Ausrüstung, Relikte (→ Yuumi),
+* `run`: Seed, Karte, Station, Phase, HP, Ausprägungen, Talentpunkte, Aufstellung, Ausrüstung, Relikte (→ Yuumi),
   XP/Level/Verbesserungen, offene Angebote, **Kampf-Checkpoint** `{kind, encounter, seed}`.
 * Laden prüft und migriert; beschädigte Stände werden unter `letzte-laterne/corrupt` gesichert,
   eine ungültige Expedition wird verworfen, der dauerhafte Fortschritt bleibt.

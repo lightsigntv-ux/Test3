@@ -98,3 +98,34 @@ ohne Konsolenfehler.
   (Screenshots aller Bildschirme geprüft; UI-Durchlauf und 13 Browserprüfungen ohne Fehler).
 
 * Elite- und Bossmusik ergänzt – **B** (`scripts/audio-checks.ts`: 13 Prüfungen, u. a. richtiger Titel in Elite- und Bosskampf).
+
+## Charakterbau, Taktik & Schwierigkeit (vierte Ausbaustufe)
+
+* Vorbereitung vor jedem Run: 9 Ausprägungen (3 je Figur), 6 Talentpunkte in 5 Werten,
+  +2 je Levelaufstieg, +1 je aktivem Siegel – **I, A** (`tests/archetypes.test.ts`, 14 Tests:
+  Verteilen/Zurücknehmen/Obergrenze, Wirkung der Werte, jede Ausprägung im Kampf, Reinigung von
+  Gift/Frost, Haltungen, Positionstausch, Rüstung, Ausweichen, Angriffsbalken, Siegel-Talentpunkte).
+* Siegel erst nach der ersten Niederlage – **A** (`game.test.ts`), Spielstand v3 mit Migration – **A**.
+* Angriffsbalken, Haltung (Q/W/E), „▲ vor“, neue Zustandssymbole, Figurenvarianten je Ausprägung,
+  Vorbereitungs- und Talentbildschirm, gesperrter Siegel-Reiter – **B** (Screenshots geprüft,
+  `scripts/shots3.ts`; `ui-checks.ts` 13/13, `audio-checks.ts` 13/13, UI-Durchlauf einer Expedition mit
+  Ausprägungswahl und Talentverteilung ohne Konsolenfehler).
+* Gefundener und behobener Fehler: Das Talentfenster wurde im Seitenpanel der Karte eingeklemmt
+  (Modal innerhalb eines Elements mit eigenem Stapelkontext) – Modals rendern jetzt per Portal.
+
+**Bot-Messung** (60 Runs je Zeile, `npx tsx scripts/balance.ts`; Bots verteilen Talentpunkte nach
+festem Plan, nutzen aber weder Haltung noch Positionstausch):
+
+| Expedition | casual, erster Run | casual ohne Talentpunkte | good, ohne Siegel | casual + 3 Siegel | good + 3 Siegel |
+|---|---|---|---|---|---|
+| 1 Vorstadt | 15 % | 0 % | 78 % | 53 % | 90 % |
+| 2 Archiv | 7 % | 0 % | 75 % | 32 % | 95 % |
+| 3 Herz | 23 % | 0 % | 73 % | 53 % | 82 % |
+
+Niederlagen im ersten Run fallen überwiegend beim Gebietsboss (Station 8), im Archiv auch beim
+schweren Kampf (Station 7). Nach einem gescheiterten ersten Run hat man ≈ 7 Erinnerungslicht –
+genug für drei Siegel der ersten Stufe. `scripts/archetypes.ts` vergleicht die Ausprägungen über alle
+Elite-, Schwer- und Bosskämpfe; alle liegen im good-Bot bei 83–96 % Siegquote je Kampf, Frost
+gewinnt Bosskämpfe am sichersten, dauert aber am längsten.
+Nicht gemessen: wie Menschen Haltung und Positionstausch nutzen – beides macht Kämpfe leichter als
+im Bot-Maß.

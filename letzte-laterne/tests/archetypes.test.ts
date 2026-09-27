@@ -1,6 +1,6 @@
 // Charakterbau: Vorbereitung, Talentpunkte, Ausprägungen und taktische Befehle im Kampf.
 import { describe, expect, it } from 'vitest';
-import { ARCH_VALUES, ATTR_POINTS, STANCES, SWAP } from '../src/content/builds';
+import { ARCH_VALUES, ATTRS, ATTR_POINTS, STANCES, SWAP } from '../src/content/builds';
 import * as A from '../src/game/actions';
 import { heroStats } from '../src/game/derive';
 import { newSave } from '../src/game/save';
@@ -16,7 +16,7 @@ describe('Vorbereitung & Talentpunkte', () => {
     for (let i = 0; i < 6; i++) s = A.allocAttr(s, 'fritz', 'vit', 1);
     expect(s.run!.attrs.fritz.vit).toBe(5); // höchstens 5 je Wert
     expect(s.run!.attrPoints).toBe(1);
-    expect(heroStats(s.run!, 'fritz').maxHp).toBe(Math.round(hp0 * 1.6));
+    expect(heroStats(s.run!, 'fritz').maxHp).toBe(Math.round(hp0 * (1 + 5 * ATTRS.vit.per)));
     s = A.allocAttr(s, 'fritz', 'vit', -1);
     expect(s.run!.attrPoints).toBe(2);
     s = A.setArchetype(s, 'fritz', 'blades');
@@ -41,9 +41,19 @@ describe('Vorbereitung & Talentpunkte', () => {
     expect(b.interval).toBeLessThan(g.interval);
     const attrs = { fritz: { vit: 0, str: 0, arm: 3, eva: 2, spd: 2 }, ivo: { vit: 0, str: 0, arm: 0, eva: 0, spd: 0 }, sera: { vit: 0, str: 0, arm: 0, eva: 0, spd: 0 } };
     const t = heroStats({ ...base, attrs }, 'fritz');
-    expect(t.armor).toBeCloseTo(0.18);
-    expect(t.dodge).toBeCloseTo(0.12);
-    expect(t.interval).toBeCloseTo(g.interval * 0.86);
+    expect(t.armor).toBeCloseTo(3 * ATTRS.arm.per);
+    expect(t.dodge).toBeCloseTo(2 * ATTRS.eva.per);
+    expect(t.interval).toBeCloseTo(g.interval * (1 - 2 * ATTRS.spd.per));
+  });
+
+  it('aktive Siegel bringen je +1 Talentpunkt; vor der ersten Niederlage wirken keine Siegel', () => {
+    const s = newSave();
+    s.meta.sealsOwned = ['bastion1', 'echo1'];
+    s.meta.sealsActive = ['bastion1', 'echo1'];
+    expect(A.startRun(s, 1, { seed: 1 }).run!.attrPoints).toBe(ATTR_POINTS.start);
+    expect(A.startRun(s, 1, { seed: 1 }).run!.seals).toEqual([]);
+    s.meta.sealsUnlocked = true;
+    expect(A.startRun(s, 1, { seed: 1 }).run!.attrPoints).toBe(ATTR_POINTS.start + 2 * ATTR_POINTS.perSeal);
   });
 
   it('Levelaufstieg gibt 2 Talentpunkte; der Bot verteilt alles', () => {

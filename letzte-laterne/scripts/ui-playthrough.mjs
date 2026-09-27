@@ -29,6 +29,21 @@ for (let iter = 0; iter < 5000 && runsDone < RUNS; iter++) {
   if (await vis('.dialog-back')) { const title = await page.locator('.dialog-title').innerText(); if (!log.includes('📜 ' + title)) log.push('📜 ' + title); await shot('dialog'); await page.keyboard.press('Escape'); continue; }
   if (await vis('.modal-back')) { const ok = page.locator('.modal-back .btn.primary'); if (await ok.count()) await ok.first().click(); else await page.keyboard.press('Escape'); continue; }
   if (await vis('.hint-wrap')) { await shot('hint-' + iter); await page.click('.hint-wrap button'); continue; }
+  if (await vis('.prepare')) {
+    // Ausprägungen wechseln je Run, Talentpunkte verteilen
+    const archs = [['Zwei Klingen', 'Frostgelehrter', 'Giftmischerin'], ['Bollwerk', 'Blitzgelehrter', 'Lichtweberin'], ['Stadtwächter', 'Funkengelehrter', 'Hüterin']][runsDone % 3];
+    for (const a of archs) await page.getByRole('radio', { name: new RegExp(a) }).click();
+    for (let k = 0; k < 12; k++) { const plus = page.locator('.attr-row .btn.plus:not([disabled])'); if (!(await plus.count())) break; await plus.nth(k % 3 === 0 ? 0 : (k % 5)).click().catch(() => {}); }
+    await shot('prepare');
+    await page.click('text=Aufbrechen ➜');
+    continue;
+  }
+  if (await vis('.talent-btn') && !(await vis('.modal-back'))) {
+    await page.locator('.talent-btn').first().click();
+    for (let k = 0; k < 4; k++) { const plus = page.locator('.modal .attr-row .btn.plus:not([disabled])'); if (!(await plus.count())) break; await plus.first().click(); }
+    await page.locator('.modal .btn.primary').first().click();
+    continue;
+  }
   if (await vis('.precombat')) { await shot('precombat'); await page.click('text=Kampf beginnen'); await page.keyboard.press('s'); lastPhase = 'combat'; continue; }
   if (await vis('.end-overlay')) { await shot('combat-end'); await page.click('.end-overlay button'); continue; }
   if (await vis('.combat')) {

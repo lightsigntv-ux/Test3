@@ -73,9 +73,12 @@ export const SEALS = {
 // Gegnerstärke je Expedition
 export const EXPEDITION_SCALE: Record<1 | 2 | 3, { hp: number; dmg: number }> = {
   1: { hp: 3.1, dmg: 1.4 },
-  2: { hp: 3.5, dmg: 1.55 },
-  3: { hp: 3.6, dmg: 1.6 },
+  2: { hp: 3.3, dmg: 1.45 },
+  3: { hp: 3.4, dmg: 1.5 },
 };
+
+/** Steigerung innerhalb einer Expedition je Station (0–7): spätere Kämpfe sind härter. */
+export const STATION_RAMP = { hp: 0.03, dmg: 0.03 };
 
 export const LONG_NIGHT = {
   swiftWindupMult: 0.7,

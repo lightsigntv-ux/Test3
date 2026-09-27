@@ -8,7 +8,7 @@ Dieses Dokument legt fest, was implementiert wird. Zahlen stehen zentral in
 | Ebene | Zustand | Quelle |
 |---|---|---|
 | App | `title` → `hub` → Run → `hub` | `ui/App.tsx` (UI-Zustand) |
-| Run (`save.run.phase`) | `map`, `combat`, `reward`, `levelup`, `event`, `camp`, `ending`, `result` | `game/types.ts` |
+| Run (`save.run.phase`) | `prepare`, `map`, `combat`, `reward`, `levelup`, `event`, `camp`, `ending`, `result` | `game/types.ts` |
 | Overlay | Dialogwarteschlange `save.dialogQueue` | wird vor allem anderen angezeigt |
 
 Jede abgeschlossene Entscheidung ist eine reine Funktion `SaveData → SaveData`
@@ -23,7 +23,8 @@ Jede abgeschlossene Entscheidung ist eine reine Funktion `SaveData → SaveData`
 * `RunState`: Seed, Expedition, Modifikatoren, Karte (8 Stationen, vorab aus dem Seed
   erzeugt), aktuelle Station, Phase, HP je Held, Aufstellung, 2 Ausrüstungsplätze je Held,
   2 Reliktplätze, XP/Level/Verbesserungen, offene Angebote (Belohnung, Level, Ereignis),
-  Kampf-Checkpoint `{encounter, seed}`, Laufstatistik.
+  Kampf-Checkpoint `{encounter, seed}`, Laufstatistik, **Ausprägung je Held**
+  (`archetype`), **Talentpunkte** (`attrs`, `attrPoints`).
 * **Yuumi** hat keinen eigenen Zustand: `yuumiPresent = run.relics.includes('mondgloeckchen')`.
 
 ## Kampfregeln (Simulation `sim/combat.ts`, unabhängig von React)
@@ -83,7 +84,31 @@ Keine HP, nicht angreifbar, nicht heil-/schildbar, kein Fokus, Zähler startet j
 ## Run-Level
 
 XP: Kampf 10, Station 7: 15, Elite 20, Ereignis 5. Schwellen 10/30/55 → Level 2/3/4.
-Je Level +8 % HP, Schaden, Heilung. Aufstieg: 1 aus 3 nicht gewählten Verbesserungen.
+Je Level +4 % HP, Schaden, Heilung und +2 Talentpunkte. Aufstieg: 1 aus 3 nicht gewählten,
+zur Ausprägung passenden Verbesserungen (`UPGRADES[].archetypes`).
+
+## Charakterbau (`content/builds.ts`)
+
+* Run beginnt in `prepare`: je Held eine von 3 Ausprägungen wählen, 6 Talentpunkte verteilen
+  (+1 je aktivem Siegel). In `prepare` sind Punkte rücknehmbar, danach fest.
+* Talentwerte (max. 5 je Wert und Held): Lebenskraft +10 % HP, Stärke +8 % Schaden/Heilung/Schilde,
+  Rüstung −5 % erlittener Schaden (max. 50 %), Ausweichen 6 % gegen gegnerische Grundangriffe
+  (max. 40 %, nicht gegen Spezialangriffe), Tempo −6 % Angriffsintervall (min. 0,6 s).
+* Ausprägungen: Fritz = Stadtwächter / Zwei Klingen / Bollwerk, Ivo = Funken / Frost / Blitz,
+  Sera = Hüterin / Giftmischerin / Lichtweberin. Jede ändert Grundwerte, Grundangriff und aktive
+  Fähigkeit (Werte in `ARCH_VALUES`). Alle Fritz-Fähigkeiten unterbrechen das Fokusziel.
+* Neue Zustände: Frost (Gegner handeln 30 % langsamer, auch Vorbereitungen), Gift (Stapel,
+  Schaden je Sekunde), Geschwächt (−25 % Schaden), Herausforderung (alle Gegner greifen Fritz an).
+  „Wiegenlied“ und „Tilgen“ entfernen Brand, Gift und Frost.
+* Taktik im Kampf: Haltung Offensiv (+25 % verursacht / +20 % erlitten), Ausgewogen,
+  Defensiv (−30 % / −35 %), Wechsel alle 2 s; Positionstausch „nach vorn“ für 1 Fokus, 6 s Pause.
+* Angriffsbalken unter jeder Figur zeigen den Fortschritt bis zum nächsten Grundangriff.
+
+## Schwierigkeit
+
+Gegnerwerte je Expedition (`EXPEDITION_SCALE`) plus Steigerung je Station
+(`STATION_RAMP`: +3 % HP und Schaden je Station). Der erste Run ohne Siegel soll meist
+scheitern; Siegel werden erst nach der ersten Niederlage freigeschaltet.
 
 ## Metaprogression
 
@@ -91,10 +116,13 @@ Erinnerungslicht: gewonnener Kampf 1, Elite 2, Boss 4, erster Sieg über einen B
 Lange Nacht +1 je Modifikator beim Boss-Sieg. Wird sofort gutgeschrieben.
 Siegel: 3 Zweige × 3 Stufen, Kosten 2/4/6, Kauf erfordert Vorgänger, max. 3 aktiv,
 Belastung ≤ 4 (Stufe 1/2 = 1, Stufe 3 = 2), Aktivierung ohne aktive Vorgänger.
+Siegel sind gesperrt, bis der erste Run mit einer Niederlage endet (`meta.sealsUnlocked`).
+Jedes aktive Siegel bringt zusätzlich +1 Talentpunkt beim Aufbruch.
 
 ## Speichern
 
-`localStorage['letzte-laterne/save']`, `version: 1`. Beim Laden: JSON prüfen, migrieren,
+`localStorage['letzte-laterne/save']`, `version: 3` (v1 → v2: Gegenstände `{id, q}`;
+v2 → v3: Charakterbau, `sealsUnlocked` = schon Siegel besessen oder schon verloren). Beim Laden: JSON prüfen, migrieren,
 validieren; beschädigte Daten werden unter `.../corrupt` gesichert und ein Hinweis
 gezeigt. Kampf-Checkpoint: Run-Zustand vor Kampfbeginn wird gespeichert, Neuladen startet
 denselben Kampf mit demselben Seed.

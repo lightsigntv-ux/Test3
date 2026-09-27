@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { ITEMS, RARITY_LABEL, RARITY_SYMBOL, RELICS, TAG_LABEL, TAG_SYMBOL, itemText, type EquipItem } from '../content/items';
 import { LootArt } from './lootArt';
 import type { BuildTag, Rarity, RelicId } from '../content/types';
@@ -96,7 +97,7 @@ export function RelicLine({ id }: { id: RelicId }) {
 }
 
 export function Modal({ title, children, onClose, wide }: { title: string; children: ReactNode; onClose?: () => void; wide?: boolean }) {
-  return (
+  const node = (
     <div className="modal-back" onClick={onClose}>
       <div className={`modal ${wide ? 'wide' : ''}`} onClick={(e) => e.stopPropagation()} role="dialog" aria-label={title}>
         <div className="modal-head">
@@ -111,6 +112,8 @@ export function Modal({ title, children, onClose, wide }: { title: string; child
       </div>
     </div>
   );
+  // Portal: Modals dürfen nicht von transformierten/gefilterten Eltern eingeengt werden
+  return typeof document !== 'undefined' ? createPortal(node, document.body) : node;
 }
 
 export function ConfirmButton({ label, confirmText, onConfirm, className = 'btn', disabled }: { label: string; confirmText: string; onConfirm: () => void; className?: string; disabled?: boolean }) {

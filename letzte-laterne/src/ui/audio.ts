@@ -5,6 +5,13 @@ import type { DialogLine } from '../content/story';
 import { spokenText, voiceFile } from '../content/voice';
 
 export type SoundId =
+  | 'point'
+  | 'unpoint'
+  | 'poison'
+  | 'frost'
+  | 'dodge'
+  | 'swap'
+  | 'stance'
   | 'hit'
   | 'heal'
   | 'shield'
@@ -272,7 +279,7 @@ function noise(dur: number, gain: number, when = 0, filter: { type: BiquadFilter
   src.stop(t + dur + 0.05);
 }
 
-const MIN_GAP: Partial<Record<SoundId, number>> = { hover: 60, hit: 60, burn: 90, heal: 90, shield: 90, click: 40 };
+const MIN_GAP: Partial<Record<SoundId, number>> = { hover: 60, hit: 60, burn: 90, heal: 90, shield: 90, click: 40, poison: 120, frost: 150, dodge: 80 };
 
 export function play(id: SoundId) {
   if (!cfg.sound) return;
@@ -399,6 +406,33 @@ export function play(id: SoundId) {
       break;
     case 'denied':
       tone(180, 0.12, 'square', 0.025);
+      break;
+    case 'point':
+      tone(784, 0.12, 'sine', 0.04);
+      tone(1175, 0.22, 'sine', 0.035, 0.06);
+      tone(2349, 0.3, 'sine', 0.008, 0.08);
+      break;
+    case 'unpoint':
+      tone(988, 0.1, 'sine', 0.03, 0, 660);
+      break;
+    case 'poison':
+      for (let i = 0; i < 3; i++) tone(300 + i * 90, 0.08, 'sine', 0.03, i * 0.06, 520 + i * 90);
+      break;
+    case 'frost':
+      tone(2093, 0.35, 'sine', 0.02);
+      tone(2637, 0.3, 'sine', 0.015, 0.05);
+      noise(0.3, 0.03, 0, { type: 'highpass', from: 5000 });
+      break;
+    case 'dodge':
+      noise(0.16, 0.06, 0, { type: 'bandpass', from: 1200, to: 4000, q: 1.2 });
+      break;
+    case 'swap':
+      noise(0.3, 0.06, 0, { type: 'bandpass', from: 500, to: 2500, q: 1 });
+      tone(330, 0.12, 'triangle', 0.04, 0.12, 495);
+      break;
+    case 'stance':
+      tone(220, 0.14, 'triangle', 0.05);
+      noise(0.1, 0.05, 0, { type: 'lowpass', from: 700 });
       break;
   }
 }

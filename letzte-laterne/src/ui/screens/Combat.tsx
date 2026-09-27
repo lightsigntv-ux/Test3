@@ -15,6 +15,7 @@ import { BARKS } from '../../content/story';
 import { Bar, Hint, Tip } from '../components';
 import { useGame } from '../store';
 import { Formation } from './Map';
+import { ARCHETYPES, ARCH_VALUES, STANCES, SWAP, type Stance } from '../../content/builds';
 
 interface Floater {
   id: number;
@@ -80,7 +81,7 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
             if (ev.amount > 0) fl.push({ id: floaterId++, uid: ev.uid, text: `-${ev.amount}`, cls: `f-${ev.kind}`, born: now });
             if (ev.absorbed > 0) fl.push({ id: floaterId++, uid: ev.uid, text: `🛡-${ev.absorbed}`, cls: 'f-absorb', born: now });
             an[ev.uid] = { cls: 'hit', until: now + 200 };
-            play(ev.kind === 'burn' ? 'burn' : 'hit');
+            play(ev.kind === 'burn' ? 'burn' : ev.kind === 'poison' ? 'poison' : 'hit');
             if (ev.kind === 'hit' && ev.amount + ev.absorbed >= 22 && ev.uid.startsWith('h') && save.settings.animations) setShakeUntil(now + 350);
             break;
           case 'heal':
@@ -116,7 +117,7 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
             if (u?.windup?.interruptible)
               showHint(
                 'windup',
-                `⚠ ${u.name} bereitet „${ev.name}“ vor! Klicke den Gegner an, um ihn als Fokusziel zu markieren, und setze Fritz’ Laternenwall (Taste 1) ein, bevor der Balken voll ist. Das Spiel ist pausiert – du kannst den Befehl jetzt vorbereiten.`,
+                `⚠ ${u.name} bereitet „${ev.name}“ vor! Klicke den Gegner an, um ihn als Fokusziel zu markieren, und setze Fritz’ ${sim.abilityDef(sim.hero('fritz')!).name} (Taste 1) ein, bevor der Balken voll ist. Das Spiel ist pausiert – du kannst den Befehl jetzt vorbereiten.`,
                 true,
               );
             break;
@@ -174,10 +175,32 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
           case 'focus':
             play('focus');
             break;
+          case 'dodge':
+            fl.push({ id: floaterId++, uid: ev.uid, text: 'ausgewichen!', cls: 'f-dodge', born: now });
+            an[ev.uid] = { cls: 'dodging', until: now + 350 };
+            play('dodge');
+            break;
+          case 'status':
+            if (ev.status === 'slow') {
+              play('frost');
+              fl.push({ id: floaterId++, uid: ev.uid, text: '❄', cls: 'f-frost', born: now });
+            } else if (ev.status === 'poison') fl.push({ id: floaterId++, uid: ev.uid, text: '☠', cls: 'f-poison', born: now });
+            else if (ev.status === 'weaken') fl.push({ id: floaterId++, uid: ev.uid, text: 'geschwächt', cls: 'f-weaken', born: now });
+            else if (ev.status === 'provoke') fl.push({ id: floaterId++, uid: ev.uid, text: '❗ Herausforderung', cls: 'f-ability', born: now });
+            break;
+          case 'swap':
+            an[ev.uid] = { cls: 'swapping', until: now + 450 };
+            play('swap');
+            break;
+          case 'stance':
+            play('stance');
+            break;
         }
       }
       if (sim.enemies.some((e) => e.alive && e.taunt > 0))
         showHint('taunt', '❗ Provokation: Solange das Symbol leuchtet, müssen alle Einzelangriffe (auch Yuumis) diesen Gegner treffen. Funkensturm trifft trotzdem alle.');
+      if (sim.time > 5 && tutorials.current.has('combat'))
+        showHint('tactics', '⚔ Taktik: Mit der Haltung (Q/W/E) tauschst du Schaden gegen Sicherheit. „▲ vor“ an einer hinteren Figur stellt sie für 1 Fokus nach vorn – z. B. um eine verletzte Frontfigur zu retten. Die Balken unter jeder Figur zeigen den nächsten Angriff.');
       if (sim.focus >= FOCUS.max && sim.time > 3) showHint('focusFull', 'Der Fokus ist voll (6/6). Setze Fähigkeiten ein – sonst verfällt die Regeneration.');
       if (fl.length) setFloaters((prev) => [...prev.filter((f) => now - f.born < FLOAT_MS), ...fl].slice(-60));
       if (Object.keys(an).length) setAnims((prev) => ({ ...prev, ...an }));
@@ -214,6 +237,24 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
     [sim, started],
   );
 
+  const stance = useCallback(
+    (st: Stance) => {
+      if (!started || sim.result) return;
+      if (!sim.setStance(st)) play('denied');
+      force();
+    },
+    [sim, started],
+  );
+
+  const swap = useCallback(
+    (h: HeroId) => {
+      if (!started || sim.result) return;
+      if (!sim.swapToFront(h)) play('denied');
+      force();
+    },
+    [sim, started],
+  );
+
   const cycleFocus = useCallback(() => {
     const alive = sim.aliveEnemies();
     if (!alive.length) return;
@@ -236,6 +277,12 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
         cast(HERO_IDS[Number(e.key) - 1]);
       } else if (e.key === 's' || e.key === 'S') {
         setSpeed((s) => (s === 1 ? 2 : 1));
+      } else if (e.key === 'q' || e.key === 'Q') {
+        stance('offense');
+      } else if (e.key === 'w' || e.key === 'W') {
+        stance('balanced');
+      } else if (e.key === 'e' || e.key === 'E') {
+        stance('defense');
       } else if (e.key === 'Tab') {
         e.preventDefault();
         cycleFocus();
@@ -243,7 +290,7 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [started, sim, cast, cycleFocus, save.dialogQueue.length]);
+  }, [started, sim, cast, cycleFocus, stance, save.dialogQueue.length]);
 
   const finish = () => {
     if (finishing || !sim.result) return;
@@ -278,7 +325,7 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
   const escIn = sim.escalationAt - sim.time;
 
   return (
-    <div className={`combat ${paused ? 'is-paused' : ''} speed-${speed} ${shakeUntil > now ? 'shake' : ''}`}>
+    <div className={`combat ${paused ? 'is-paused' : ''} speed-${speed} ${shakeUntil > now ? 'shake' : ''} stance-${sim.stance}`}>
       <div className="combat-top">
         <span className="pill">{kindLabel}</span>
         <span className="pill">⏱ {sim.time.toFixed(0)} s</span>
@@ -307,7 +354,7 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
         <div className="party-area">
           <div className="back-col">
             {back.map((h) => (
-              <HeroUnit key={h.uid} u={h} sim={sim} anim={animOf(h.uid)} floaters={floatersOf(h.uid)} row="Hinten" />
+              <HeroUnit key={h.uid} u={h} sim={sim} anim={animOf(h.uid)} floaters={floatersOf(h.uid)} row="Hinten" onSwap={started ? () => swap(h.heroId!) : undefined} />
             ))}
           </div>
           <div className="front-col">
@@ -344,7 +391,10 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
       </div>
 
       <div className="combat-bottom">
-        <FocusMeter sim={sim} />
+        <div className="combat-left">
+          <FocusMeter sim={sim} />
+          <StancePicker sim={sim} onPick={stance} started={started} />
+        </div>
         <div className="abilities">
           {HERO_IDS.map((h, i) => (
             <AbilityButton key={h} h={h} sim={sim} keyNum={i + 1} onCast={() => cast(h)} started={started} />
@@ -423,6 +473,26 @@ function StatusIcons({ u }: { u: Unit }) {
           <span className="st st-exh">💤 erschöpft</span>
         </Tip>
       )}
+      {u.poisonStacks > 0 && (
+        <Tip tip={`Gift: ${u.poisonStacks} Stapel, noch ${u.poisonTime.toFixed(1)} s. Schaden pro Sekunde je Stapel.`}>
+          <span className="st st-poison">☠{u.poisonStacks}</span>
+        </Tip>
+      )}
+      {u.slow > 0 && (
+        <Tip tip={`Verlangsamt: Angriffe, Fähigkeiten und Vorbereitungen laufen ${Math.round(ARCH_VALUES.frostSlow * 100)} % langsamer (noch ${u.slow.toFixed(1)} s).`}>
+          <span className="st st-slow">❄{u.slow.toFixed(0)}</span>
+        </Tip>
+      )}
+      {u.weaken > 0 && (
+        <Tip tip={`Geschwächt: verursacht ${Math.round((1 - ARCH_VALUES.weakenMult) * 100)} % weniger Schaden (noch ${u.weaken.toFixed(1)} s).`}>
+          <span className="st st-weaken">⤵{u.weaken.toFixed(0)}</span>
+        </Tip>
+      )}
+      {u.provoke > 0 && (
+        <Tip tip="Herausforderung: Alle Gegner greifen diese Figur an.">
+          <span className="st st-taunt">❗{u.provoke.toFixed(0)}</span>
+        </Tip>
+      )}
       {u.hots.length > 0 && <span className="st st-hot">✚</span>}
     </div>
   );
@@ -440,14 +510,25 @@ function FloaterLayer({ floaters }: { floaters: Floater[] }) {
   );
 }
 
-function HeroUnit({ u, sim, anim, floaters, row }: { u: Unit; sim: CombatSim; anim: string; floaters: Floater[]; row: string }) {
+function HeroUnit({ u, sim, anim, floaters, row, onSwap }: { u: Unit; sim: CombatSim; anim: string; floaters: Floater[]; row: string; onSwap?: () => void }) {
   const def = HEROES[u.heroId!];
   const queued = sim.queue.includes(u.heroId!);
+  const swapReason = onSwap ? sim.swapReason(u.heroId!) : null;
   return (
     <div className={`unit hero ${u.alive ? '' : 'dead'} ${anim}`} style={{ ['--c' as string]: def.color }}>
-      <div className="unit-row small muted">{row}</div>
+      <div className="unit-row small muted">
+        {row}
+        {onSwap && u.alive && (
+          <Tip tip={swapReason ? `Nach vorn: ${swapReason}` : `${def.name} nach vorn stellen (${SWAP.cost} Fokus, danach ${SWAP.cooldown} s Pause). Die bisherige Frontfigur tritt zurück.`}>
+            <button className="btn tiny swap-btn" data-sfx="none" disabled={!!swapReason} onClick={onSwap} aria-label={`${def.name} nach vorn`}>
+              ▲ vor
+            </button>
+          </Tip>
+        )}
+      </div>
       <div className="unit-art">
-        <HeroArt id={u.heroId!} size={100} mood={u.alive ? (u.hp / u.maxHp < 0.3 ? 'sad' : 'normal') : 'down'} />
+        <HeroArt id={u.heroId!} arch={u.archetype ?? undefined} size={100} mood={u.alive ? (u.hp / u.maxHp < 0.3 ? 'sad' : 'normal') : 'down'} />
+        {u.provoke > 0 && <div className="provoke-aura" />}
         {u.shield > 0 && <div className="shield-aura" />}
         <FloaterLayer floaters={floaters} />
       </div>
@@ -456,6 +537,7 @@ function HeroUnit({ u, sim, anim, floaters, row }: { u: Unit; sim: CombatSim; an
           <span style={{ color: def.color }}>{def.symbol}</span> {def.name} {queued && <span className="queued">⏳</span>}
         </div>
         <Bar value={u.hp} max={u.maxHp} shield={u.shield} label color={u.hp / u.maxHp < 0.3 ? '#e0584a' : '#5fbf6a'} />
+        <AttackTimer u={u} sim={sim} />
         <StatusIcons u={u} />
       </div>
     </div>
@@ -484,7 +566,7 @@ function EnemyUnit({ u, sim, focused, anim, floaters, onClick }: { u: Unit; sim:
     </>
   );
   return (
-    <div className={`unit enemy ${u.alive ? '' : 'dead'} ${focused && u.alive ? 'focused' : ''} ${anim} kind-${def.kind}`} onClick={onClick} role="button" aria-label={`${def.name} als Fokusziel`}>
+    <div className={`unit enemy ${u.alive ? '' : 'dead'} ${focused && u.alive ? 'focused' : ''} ${anim} kind-${def.kind} ${u.slow > 0 ? 'is-slowed' : ''} ${u.poisonStacks > 0 ? 'is-poisoned' : ''}`} onClick={onClick} role="button" aria-label={`${def.name} als Fokusziel`}>
       {focused && u.alive && <div className="focus-marker">🎯 Fokusziel</div>}
       {u.windup && (
         <div className={`windup ${u.windup.interruptible ? 'int' : 'noint'}`}>
@@ -520,7 +602,71 @@ function EnemyUnit({ u, sim, focused, anim, floaters, onClick }: { u: Unit; sim:
         {def.role} {def.targeting === 'back' && <span className="badge back" title="Zielt auf die hintere Reihe">🏹</span>}
       </div>
       <Bar value={u.hp} max={u.maxHp} shield={u.shield} label color="#c9524a" />
+      <AttackTimer u={u} sim={sim} />
       <StatusIcons u={u} />
+      </div>
+    </div>
+  );
+}
+
+/** Balken bis zum nächsten Grundangriff (Helden und Gegner). */
+function AttackTimer({ u, sim }: { u: Unit; sim: CombatSim }) {
+  if (!u.alive) return null;
+  const halted = !!u.windup || u.cycleState === 'exhausted';
+  const p = sim.attackProgress(u);
+  const left = Math.max(0, u.attackTimer);
+  const slow = u.slow > 0;
+  const label = halted ? (u.windup ? 'bereitet vor …' : 'erschöpft') : `${left.toFixed(1).replace('.', ',')} s`;
+  return (
+    <Tip tip={halted ? 'Kein Grundangriff, solange eine Vorbereitung läuft oder die Figur erschöpft ist.' : `Nächster Grundangriff in ${label}${slow ? ' (verlangsamt)' : ''}.`}>
+      <div className={`atk-timer ${u.side} ${halted ? 'halted' : ''} ${slow ? 'slowed' : ''} ${p > 0.85 && !halted ? 'soon' : ''}`}>
+        <span className="atk-fill" style={{ width: `${(halted ? 0 : p) * 100}%` }} />
+        <span className="atk-icon">{u.side === 'hero' ? '⚔' : '🗡'}</span>
+      </div>
+    </Tip>
+  );
+}
+
+function StancePicker({ sim, onPick, started }: { sim: CombatSim; onPick: (s: Stance) => void; started: boolean }) {
+  const keys: Record<Stance, string> = { offense: 'Q', balanced: 'W', defense: 'E' };
+  return (
+    <div className="stance-picker" role="radiogroup" aria-label="Haltung der Gruppe">
+      <span className="small muted">Haltung{sim.stanceCd > 0 ? ` · ${sim.stanceCd.toFixed(1)} s` : ''}</span>
+      <div className="stance-btns">
+        {(Object.keys(STANCES) as Stance[]).map((k) => {
+          const d = STANCES[k];
+          const on = sim.stance === k;
+          const pctTxt = (x: number) => `${x > 1 ? '+' : '−'}${Math.round(Math.abs(x - 1) * 100)} %`;
+          return (
+            <Tip
+              key={k}
+              tip={
+                k === 'balanced' ? (
+                  <>
+                    <b>Ausgewogen</b> – keine Veränderung. Taste {keys[k]}
+                  </>
+                ) : (
+                  <>
+                    <b>{d.name}</b> ({keys[k]}): {pctTxt(d.dealt)} verursachter, {pctTxt(d.taken)} erlittener Schaden. Wechsel alle 2 s möglich.
+                  </>
+                )
+              }
+            >
+              <button
+                role="radio"
+                aria-checked={on}
+                className={`stance-btn st-${k} ${on ? 'on' : ''}`}
+                data-sfx="none"
+                disabled={!started || !!sim.result || (!on && sim.stanceCd > 0)}
+                onClick={() => onPick(k)}
+              >
+                <span className="stance-icon">{d.icon}</span>
+                <span className="stance-name">{d.name}</span>
+                <span className="stance-key">{keys[k]}</span>
+              </button>
+            </Tip>
+          );
+        })}
       </div>
     </div>
   );
@@ -549,6 +695,8 @@ function AbilityButton({ h, sim, keyNum, onCast, started }: { h: HeroId; sim: Co
   const st = sim.abilityState(h);
   const def = HEROES[h];
   const lines = abilityLines(save.run!, h);
+  const arch = ARCHETYPES[sim.hero(h)!.archetype ?? 'guardian'];
+  const ab = arch.ability;
   const cdPct = st.cd > 0 ? (st.cd / st.cdMax) * 100 : 0;
   const reason = !started ? 'Der Kampf hat noch nicht begonnen.' : st.reason;
   const hero = sim.hero(h)!;
@@ -560,9 +708,9 @@ function AbilityButton({ h, sim, keyNum, onCast, started }: { h: HeroId; sim: Co
       tip={
         <>
           <b>
-            {def.ability.name} ({def.name})
+            {ab.name} ({def.name} · {arch.name})
           </b>
-          <div>{def.ability.description}</div>
+          <div>{ab.text}.</div>
           {lines.map((l, i) => (
             <div key={i} className="small">
               {l}
@@ -575,14 +723,14 @@ function AbilityButton({ h, sim, keyNum, onCast, started }: { h: HeroId; sim: Co
     >
       <button
         className={`ability ${st.ready ? 'ready' : ''} ${st.queued ? 'queued' : ''} ${canInterrupt ? 'can-interrupt' : ''}`}
-        style={{ ['--c' as string]: def.color }}
+        style={{ ['--c' as string]: arch.color }}
         onClick={onCast}
         disabled={!started || (!st.ready && !st.queued) || !hero.alive}
-        aria-label={`${def.ability.name}, Taste ${keyNum}`}
+        aria-label={`${ab.name}, Taste ${keyNum}`}
       >
         <span className="ab-key">{keyNum}</span>
         <span className="ab-name">
-          {def.symbol} {def.ability.name}
+          {def.symbol} {ab.name}
         </span>
         <span className="ab-cost">
           {'◆'.repeat(st.cost)}
@@ -653,7 +801,7 @@ function PreCombat({ sim, onStart, onBuild, firstTime, onTutorialSeen }: { sim: 
         <h2>Vorbereitung</h2>
         {firstTime && (
           <div className="tutorial small">
-            <b>Kurz erklärt:</b> Angriffe laufen automatisch. 🎯 Gegner anklicken = Fokusziel · 1/2/3 = Fähigkeiten (kosten Fokus) · ⚠-Angriffe mit Fritz’ Laternenwall unterbrechen · Leertaste = Pause.
+            <b>Kurz erklärt:</b> Angriffe laufen automatisch (Balken unter den Figuren). 🎯 Gegner anklicken = Fokusziel · 1/2/3 = Fähigkeiten (kosten Fokus) · ⚠-Angriffe mit Fritz’ Fähigkeit unterbrechen · Q/W/E = Haltung · Leertaste = Pause.
           </div>
         )}
         <div className="grid-2">

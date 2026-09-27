@@ -65,7 +65,7 @@ export function Hub({ onTitle }: { onTitle: () => void }) {
         {(
           [
             ['expedition', 'Aufbruch'],
-            ['seals', `Siegel${A.canBuySealAny(meta) ? ' •' : ''}`],
+            ['seals', meta.sealsUnlocked ? `Siegel${A.canBuySealAny(meta) ? ' •' : ''}` : '🔒 Siegel'],
             ['collection', 'Sammlung'],
             ['chronicle', 'Chronik'],
             ['settings', 'Einstellungen'],
@@ -133,8 +133,10 @@ function ExpeditionTab({ ended }: { ended: boolean }) {
         <h2>Vorbereitung</h2>
         <div className="panel">
           <h3>Aktive Siegel</h3>
-          {meta.sealsActive.length === 0 ? (
-            <p className="muted small">Keine – prägen im Reiter „Siegel“.</p>
+          {!meta.sealsUnlocked ? (
+            <p className="muted small">🔒 Siegel erwachen erst nach eurer ersten Niederlage.</p>
+          ) : meta.sealsActive.length === 0 ? (
+            <p className="muted small">Keine – prägen im Reiter „Siegel“. Jedes aktive Siegel bringt +1 Talentpunkt.</p>
           ) : (
             <ul className="plain">
               {meta.sealsActive.map((s) => (
@@ -200,6 +202,26 @@ function SealsTab() {
   const { save, act } = useGame();
   const meta = save.meta;
   const load = A.sealLoad(meta.sealsActive);
+  if (!meta.sealsUnlocked)
+    return (
+      <div className="seals-locked">
+        <div className="lock-seal" aria-hidden>
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="50" fill="#1a2238" stroke="#5a6a8a" strokeWidth="3" strokeDasharray="6 5" />
+            <circle cx="60" cy="60" r="36" fill="none" stroke="#3a4a6a" strokeWidth="2" />
+            <rect x="44" y="56" width="32" height="26" rx="4" fill="#6a7690" />
+            <path d="M49 56 V47 A11 11 0 0 1 71 47 V56" fill="none" stroke="#6a7690" strokeWidth="5" />
+            <circle cx="60" cy="67" r="3.5" fill="#1a2238" />
+            <rect x="58.5" y="68" width="3" height="7" fill="#1a2238" />
+          </svg>
+        </div>
+        <h2>Die Siegel schlafen noch</h2>
+        <p>Erst wenn die Laterne euch einmal aus dem Nebel zurückholen musste, erwachen die Siegel.</p>
+        <p className="small muted">
+          Nach deiner ersten Niederlage prägst du hier mit Erinnerungslicht dauerhafte Stärken für jeden weiteren Run – Startgegenstände, Schutz, Fokus und je aktivem Siegel +1 Talentpunkt.
+        </p>
+      </div>
+    );
   return (
     <div>
       <div className="row between center-v">
@@ -208,7 +230,7 @@ function SealsTab() {
           Aktiv: <b>{meta.sealsActive.length}/3</b> · Belastung: <b>{load}/4</b> · ✦ {meta.light}
         </div>
       </div>
-      <p className="small muted">Geprägt bleibt geprägt · max. 3 aktiv · Belastung ≤ 4 · jederzeit umstellbar</p>
+      <p className="small muted">Geprägt bleibt geprägt · max. 3 aktiv · Belastung ≤ 4 · jederzeit umstellbar · jedes aktive Siegel: +1 Talentpunkt</p>
       <div className="seal-grid">
         {(['glut', 'bastion', 'echo'] as BuildTag[]).map((b) => (
           <div key={b} className={`seal-col branch-${b}`}>

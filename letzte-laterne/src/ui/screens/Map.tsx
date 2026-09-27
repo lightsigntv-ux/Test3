@@ -10,6 +10,8 @@ import type { RunState, Station } from '../../game/types';
 import { HeroArt, YuumiArt } from '../art';
 import { Bar, ItemLine, RelicLine } from '../components';
 import { useGame } from '../store';
+import { TalentModal } from '../Talents';
+import { ARCHETYPES } from '../../content/builds';
 
 const ICON: Record<StationType, string> = { fight: '⚔', choice: '⑂', story: '📖', elite: '💀', camp: '🔥', hardFight: '⚔⚔', boss: '👑' };
 const NAME: Record<StationType, string> = {
@@ -77,6 +79,7 @@ export function MapScreen({ onBuild }: { onBuild: () => void }) {
   const { save, act } = useGame();
   const run = save.run!;
   const [hover, setHover] = useState<{ st: Station; route?: 'fight' | 'event' } | null>(null);
+  const [talents, setTalents] = useState(false);
   const cur = run.stations[run.station];
   const preview = hover ?? { st: cur, route: undefined };
   const p = stationPreview(run, preview.st, preview.route, save.meta);
@@ -171,6 +174,12 @@ export function MapScreen({ onBuild }: { onBuild: () => void }) {
       </section>
       <aside className="party-side">
         <h3 title="Normale Nahkampfangriffe treffen die vordere Figur.">Gruppe</h3>
+        {run.attrPoints > 0 && (
+          <button className="btn small talent-btn" data-sfx="point" onClick={() => setTalents(true)}>
+            ✦ {run.attrPoints} Talentpunkte verteilen
+          </button>
+        )}
+        {talents && <TalentModal onClose={() => setTalents(false)} />}
         <Formation />
         <h3>Ausrüstung</h3>
         {run.formation.map((h) => (
@@ -206,9 +215,10 @@ export function Formation({ compact }: { compact?: boolean }) {
         return (
           <div key={h} className={`form-slot ${i === 0 ? 'front' : 'back'}`}>
             <div className="small muted">{i === 0 ? 'Vorn' : `Hinten ${i}`}</div>
-            <HeroArt id={h} size={compact ? 44 : 56} mood={run.hp[h] <= 0 ? 'down' : 'normal'} />
+            <HeroArt id={h} arch={run.archetype[h]} size={compact ? 44 : 56} mood={run.hp[h] <= 0 ? 'down' : 'normal'} />
             <div className="small">
               <b style={{ color: HEROES[h].color }}>{HEROES[h].name}</b>
+              <div className="muted" style={{ color: ARCHETYPES[run.archetype[h]].color }}>{ARCHETYPES[run.archetype[h]].name}</div>
             </div>
             <Bar value={run.hp[h]} max={st.maxHp} label height={9} />
             {i !== 0 && (

@@ -33,7 +33,7 @@ s = await st();
 check('Nach dem Satz: Musik wieder in voller Lautstärke', !s.voice && s.duck > 0.9, { v: s.voice, duck: s.duck });
 
 // Kampf
-let save = A.startRun(newSave(), 1, { seed: 4242 });
+let save = A.confirmPrepare(A.startRun(newSave(), 1, { seed: 4242 }));
 save.meta.seenDialogs.push('intro', 'exp1_start');
 save.meta.tutorialsSeen.push('combat', 'windup', 'focusFull', 'purr', 'taunt', 'summon');
 save = A.enterStation(save);
@@ -59,7 +59,7 @@ check('Nach Kampfende: zurück zur ruhigen Musik', s.mood === 'calm' && !s.music
 
 // Elite- und Bosskampf: eigene Musik
 for (const [station, mood, file] of [[4, 'elite', 'boar-iron-crescendo.mp3'], [7, 'boss', 'cathedrals-last-chant.mp3']] as const) {
-  let b = A.startRun(newSave(), 1, { seed: 77 });
+  let b = A.confirmPrepare(A.startRun(newSave(), 1, { seed: 77 }));
   b.meta.seenDialogs.push('intro', 'exp1_start', 'boss1_pre');
   b.meta.tutorialsSeen.push('combat', 'windup', 'focusFull', 'purr', 'taunt', 'summon');
   b.run!.station = station;
@@ -77,7 +77,7 @@ for (const [station, mood, file] of [[4, 'elite', 'boar-iron-crescendo.mp3'], [7
 }
 
 // Ereignis: sequentielles Vorlesen
-let ev = A.startRun(newSave(), 1, { seed: 99 });
+let ev = A.confirmPrepare(A.startRun(newSave(), 1, { seed: 99 }));
 ev.meta.seenDialogs.push('intro', 'exp1_start');
 ev.run!.station = 1;
 ev = A.enterStation(ev, 'event');
