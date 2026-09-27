@@ -30,7 +30,7 @@ export function defaultMeta(): MetaState {
 }
 
 export function defaultSettings(): Settings {
-  return { sound: true, volume: 0.5, animations: true, defaultSpeed: 1 };
+  return { sound: true, volume: 0.7, musicVolume: 0.5, sfxVolume: 0.7, voiceVolume: 0.9, voice: true, autoAdvance: false, animations: true, defaultSpeed: 1 };
 }
 
 export function newSave(): SaveData {

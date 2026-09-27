@@ -1,7 +1,8 @@
 import { useRef, useState } from 'react';
 import * as A from '../game/actions';
 import { exportSave, importSave, newSave } from '../game/save';
-import { play } from './audio';
+import { play, speak } from './audio';
+import { HUB_LINES } from '../content/story';
 import { Modal } from './components';
 import { useGame } from './store';
 
@@ -49,20 +50,40 @@ export function SettingsPanel({ inRun }: { inRun?: boolean }) {
       <section className="panel">
         <h2>Darstellung & Audio</h2>
         <label className="row gap center-v">
-          <input type="checkbox" checked={st.sound} onChange={(e) => act((s) => A.updateSettings(s, { sound: e.target.checked }))} /> Klänge (inkl. Yuumis Schnurren und Miauen)
+          <input id="set-sound" type="checkbox" checked={st.sound} onChange={(e) => act((s) => A.updateSettings(s, { sound: e.target.checked }))} /> Ton (Musik, Stimmen, Effekte – auch
+          Yuumis Schnurren und Miauen)
+        </label>
+        {(
+          [
+            ['volume', 'Gesamt', 'click'],
+            ['musicVolume', 'Musik', 'click'],
+            ['sfxVolume', 'Effekte', 'confirm'],
+            ['voiceVolume', 'Stimmen', 'click'],
+          ] as const
+        ).map(([k, label, sfx]) => (
+          <label key={k} className="row gap center-v slider-row">
+            <span className="slider-label">{label}</span>
+            <input
+              id={`set-${k}`}
+              type="range"
+              min={0}
+              max={1}
+              step={0.05}
+              value={st[k]}
+              disabled={!st.sound}
+              onChange={(e) => act((s) => A.updateSettings(s, { [k]: Number(e.target.value) }))}
+              onPointerUp={() => (k === 'voiceVolume' ? void speak(HUB_LINES.retry) : play(sfx))}
+            />
+            <span className="small">{Math.round(st[k] * 100)} %</span>
+          </label>
+        ))}
+        <label className="row gap center-v">
+          <input id="set-voice" type="checkbox" checked={st.voice} onChange={(e) => act((s) => A.updateSettings(s, { voice: e.target.checked }))} /> Sprachausgabe
+          (alle Dialoge sind vertont)
         </label>
         <label className="row gap center-v">
-          Lautstärke
-          <input
-            type="range"
-            min={0}
-            max={1}
-            step={0.05}
-            value={st.volume}
-            onChange={(e) => act((s) => A.updateSettings(s, { volume: Number(e.target.value) }))}
-            onMouseUp={() => play('click')}
-          />
-          {Math.round(st.volume * 100)} %
+          <input id="set-auto" type="checkbox" checked={st.autoAdvance} onChange={(e) => act((s) => A.updateSettings(s, { autoAdvance: e.target.checked }))} /> Dialoge nach
+          der gesprochenen Zeile automatisch weiterschalten
         </label>
         <label className="row gap center-v">
           <input type="checkbox" checked={st.animations} onChange={(e) => act((s) => A.updateSettings(s, { animations: e.target.checked }))} /> Animationen

@@ -18,7 +18,12 @@ export const SAVE_VERSION = 1;
 
 export interface Settings {
   sound: boolean;
-  volume: number; // 0..1
+  volume: number; // 0..1 Gesamtlautstärke
+  musicVolume: number;
+  sfxVolume: number;
+  voiceVolume: number;
+  voice: boolean; // Sprachausgabe
+  autoAdvance: boolean; // Dialoge nach der Sprachzeile automatisch weiterschalten
   animations: boolean;
   defaultSpeed: 1 | 2;
 }

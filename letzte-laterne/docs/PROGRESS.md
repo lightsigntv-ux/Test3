@@ -74,3 +74,15 @@ ohne Konsolenfehler.
 * Menschliche Spieltests und Feinabstimmung der Bosse
 * Aufwendigere Grafiken/Animationen, Musik
 * Weitere Begleiter über Relikte (siehe README → Erweiterungspunkte)
+
+## Sounddesign (zweite Ausbaustufe)
+
+* Musik: ruhig/Kampf mit Überblendung und Absenken bei Sprache – **B** (`scripts/audio-checks.ts`,
+  11 Prüfungen: Musikwechsel bei Kampfbeginn und -ende, Sprachausgabe im Dialog, nächste Zeile,
+  Überspringen, Hervorhebung im Ereignis, 🔊-Knopf, Sprachausgabe aus).
+* 130/130 Sprechzeilen vertont – **A** (`tests/voice.test.ts` prüft Abdeckung und Dateien).
+* Gefundener und behobener Fehler: Der Satz in der Laternenstube unterbrach die Einleitung;
+  er wird jetzt erst gesprochen, wenn kein Dialog offen ist.
+* Offline-Ordner `spielen/` getestet: Musik und Stimmen laden auch über `file://`.
+* Nicht geprüft: das tatsächliche Klangbild mit Lautsprechern (Lautstärkeverhältnisse wurden
+  gemessen – Musik ≈ −18 dB, Stimmen ≈ −21 dB mittlerer Pegel – aber nicht angehört).

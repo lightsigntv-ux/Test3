@@ -9,6 +9,7 @@ import { heroStats } from '../../game/derive';
 import type { RewardOption } from '../../game/types';
 import { HeroArt, YuumiArt } from '../art';
 import { play } from '../audio';
+import { useEffect } from 'react';
 import { Rar, Tags } from '../components';
 import { useGame } from '../store';
 
@@ -36,6 +37,12 @@ export function RewardScreen() {
   const [slot, setSlot] = useState<A.Slot | null>(null);
   const [busy, setBusy] = useState(false);
   const opt = sel !== null ? offer.options[sel] : null;
+  // Beute-Klang nach der besten angebotenen Seltenheit
+  useEffect(() => {
+    const rs = offer.options.map((o) => (o.kind === 'item' ? ITEMS[o.id].rarity : RELICS[o.id].rarity));
+    const t = setTimeout(() => play(rs.includes('legendary') ? 'lootLegendary' : rs.includes('rare') ? 'lootRare' : 'lootCommon'), 150);
+    return () => clearTimeout(t);
+  }, [offer]);
 
   const commit = (fn: () => void) => {
     if (busy) return;
@@ -66,6 +73,7 @@ export function RewardScreen() {
       <div className="row gap wrap center-v">
         <button
           className="btn primary big"
+          data-sfx="confirm"
           disabled={!opt || !slot || busy}
           onClick={() => commit(() => act((s) => A.chooseReward(s, sel!, slot!)))}
         >

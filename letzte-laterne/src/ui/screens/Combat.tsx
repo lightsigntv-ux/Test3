@@ -10,7 +10,8 @@ import { abilityLines, windupText } from '../../game/describe';
 import { CombatSim, type CombatEvent, type Unit } from '../../sim/combat';
 import { SimClock } from '../../sim/clock';
 import { EnemyArt, HeroArt, PawIcon, YuumiArt } from '../art';
-import { play } from '../audio';
+import { play, setMusic, speak, isVoicePlaying } from '../audio';
+import { BARKS } from '../../content/story';
 import { Bar, Hint, Tip } from '../components';
 import { useGame } from '../store';
 import { Formation } from './Map';
@@ -48,6 +49,11 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
   pausedRef.current = paused;
   speedRef.current = speed;
   const tutorials = useRef(new Set(save.meta.tutorialsSeen));
+  const lastBark = useRef(0);
+  // Kampfmusik nur, solange der Kampf wirklich läuft
+  useEffect(() => {
+    setMusic(started && !sim.result ? 'action' : 'calm');
+  }, [started, sim]);
 
   const showHint = useCallback(
     (id: string, text: string, pause = false) => {
@@ -82,16 +88,24 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
             play('shield');
             break;
           case 'shieldBreak':
+            play('shieldBreak');
             fl.push({ id: floaterId++, uid: ev.uid, text: 'Schild bricht!', cls: 'f-break', born: now });
             break;
           case 'attack':
             an[ev.uid] = { cls: 'lunge', until: now + 250 };
             break;
-          case 'ability':
+          case 'ability': {
             an[ev.uid] = { cls: 'cast', until: now + 450 };
+            const caster = sim.unit(ev.uid);
+            if (!ev.echo && caster?.heroId && now - lastBark.current > 7000 && !isVoicePlaying() && Math.random() < 0.45) {
+              lastBark.current = now;
+              const list = BARKS[caster.heroId].ability;
+              void speak(list[Math.floor(Math.random() * list.length)]);
+            }
             fl.push({ id: floaterId++, uid: ev.uid, text: ev.echo ? `↻ ${ev.name}` : ev.name, cls: 'f-ability', born: now });
             play('ability');
             break;
+          }
           case 'windup': {
             play('windup');
             const u = sim.unit(ev.uid);
@@ -109,6 +123,7 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
             break;
           case 'death':
             an[ev.uid] = { cls: 'dying', until: now + 600 };
+            play('death');
             break;
           case 'paw':
             setYuumiAnim({ cls: 'pounce', until: now + 300 });
@@ -121,8 +136,12 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
               showHint('purr', `🐾 Schnurrschutz! Nach jedem dritten Pfotenhieb schützt Yuumi die verletzteste Hauptfigur mit einem Schild (Wappen der Wache verstärkt ihn).`);
             break;
           case 'phase':
+            play('bossPhase');
+            if (ev.text) setBanner({ text: ev.text, until: now + 3500 });
+            break;
           case 'banner':
-            if ('text' in ev && ev.text) setBanner({ text: ev.text, until: now + 3500 });
+            if (/Nebel/.test(ev.text)) play('fog');
+            if (ev.text) setBanner({ text: ev.text, until: now + 3500 });
             break;
           case 'explode':
             fl.push({ id: floaterId++, uid: ev.uid, text: '💥', cls: 'f-explode', born: now });
@@ -132,11 +151,22 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
             an[ev.uid] = { cls: 'appear', until: now + 500 };
             showHint('summon', 'Verstärkung! Herbeigerufene Gegner greifen sofort mit an. Markiere sie als Fokusziel oder triff alle zugleich mit Ivos Funkensturm.');
             break;
-          case 'end':
+          case 'end': {
             play(ev.result === 'victory' ? 'victory' : 'defeat');
-            if (ev.result === 'victory' && sim.yuumi) setYuumiAnim({ cls: 'happy', until: now + 5000 });
+            setMusic('calm');
+            if (ev.result === 'victory') {
+              if (sim.yuumi) {
+                setYuumiAnim({ cls: 'happy', until: now + 5000 });
+                setTimeout(() => play('meow'), 900);
+              }
+              const alive = sim.heroes.filter((h) => h.alive);
+              const pick = alive[Math.floor(Math.random() * alive.length)];
+              if (pick?.heroId) setTimeout(() => void speak(BARKS[pick.heroId!].victory[0]), 1300);
+            }
             break;
+          }
           case 'focus':
+            play('focus');
             break;
         }
       }
@@ -191,7 +221,10 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
       if (save.dialogQueue.length || e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement) return;
       if (e.key === ' ') {
         e.preventDefault();
-        if (!started) setStarted(true);
+        if (!started) {
+          play('transition');
+          setStarted(true);
+        }
         else if (!sim.result) setPaused((p) => !p);
       } else if (e.key === '1' || e.key === '2' || e.key === '3') {
         cast(HERO_IDS[Number(e.key) - 1]);
@@ -318,7 +351,10 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
       {!started && (
         <PreCombat
           sim={sim}
-          onStart={() => setStarted(true)}
+          onStart={() => {
+            play('transition');
+            setStarted(true);
+          }}
           onBuild={onBuild}
           firstTime={!save.meta.tutorialsSeen.includes('combat')}
           onTutorialSeen={() => act((s) => A.markTutorial(s, 'combat'))}
@@ -349,7 +385,7 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
           ) : (
             <p>Alle drei Hauptfiguren sind besiegt. Die Laterne holt euch zurück.</p>
           )}
-          <button className="btn primary big" onClick={finish} disabled={finishing} autoFocus>
+          <button className="btn primary big" data-sfx="confirm" onClick={finish} disabled={finishing} autoFocus>
             {sim.result === 'victory' ? 'Weiter' : 'Zur Auswertung'}
           </button>
         </div>
@@ -651,6 +687,7 @@ function PreCombat({ sim, onStart, onBuild, firstTime, onTutorialSeen }: { sim: 
         </div>
         <button
           className="btn primary big"
+          data-sfx="none"
           onClick={() => {
             if (firstTime) onTutorialSeen();
             onStart();

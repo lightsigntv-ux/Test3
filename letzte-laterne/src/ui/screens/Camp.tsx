@@ -7,6 +7,7 @@ import { heroStats } from '../../game/derive';
 import { rngFor } from '../../sim/rng';
 import { lineVisible, Speaker } from '../Dialog';
 import { useGame } from '../store';
+import { VoiceButton, useSequentialSpeech } from '../voice';
 
 export function CampScreen() {
   const { save, act } = useGame();
@@ -14,18 +15,19 @@ export function CampScreen() {
   const [busy, setBusy] = useState(false);
   const pct = run.mods.includes('meagerCamp') ? CAMP.meagerHealPct : CAMP.healPct;
   const banter = CAMP_BANTER[rngFor(run.seed, 'camp').int(CAMP_BANTER.length)].filter((l) => lineVisible(l, save));
+  const speakingIdx = useSequentialSpeech(banter, `camp:${run.seed}`);
   return (
     <div className="screen camp-screen">
       <h2>🔥 Lager</h2>
       <div className="event-lines">
         {banter.map((l, i) => (
-          <div key={i} className="event-line">
+          <div key={i} className={`event-line ${i === speakingIdx ? 'speaking-line' : ''}`}>
             <div className="event-portrait">
               <Speaker line={l} size={48} />
             </div>
             <div>
               <b>{SPEAKER_NAME[l.speaker]}: </b>
-              {l.text}
+              {l.text} <VoiceButton line={l} />
             </div>
           </div>
         ))}

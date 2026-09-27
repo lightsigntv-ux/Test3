@@ -1747,3 +1747,38 @@ body.no-anim .yuumi-unit.pounce svg {
     top: -64px;
   }
 }
+
+/* Sprachausgabe */
+.voice-btn {
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.75rem;
+  padding: 0 4px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+.voice-btn:hover {
+  color: var(--gold2);
+  border-color: var(--gold);
+}
+.speaking {
+  color: var(--gold);
+  display: inline-block;
+  animation: speak 0.6s ease-in-out infinite alternate;
+}
+@keyframes speak {
+  to {
+    transform: scaleX(1.4);
+    opacity: 0.6;
+  }
+}
+.event-line.speaking-line {
+  border-color: var(--gold);
+  box-shadow: 0 0 12px #f5c46a33;
+}
+.slider-row .slider-label {
+  width: 70px;
+}

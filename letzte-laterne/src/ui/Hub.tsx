@@ -3,7 +3,8 @@ import { ENEMIES } from '../content/enemies';
 import { HEROES } from '../content/heroes';
 import { ITEMS, RELICS, TAG_LABEL, TAG_SYMBOL } from '../content/items';
 import { SEALS, SEAL_ORDER } from '../content/progression';
-import { DIALOGS, EXPEDITIONS } from '../content/story';
+import { DIALOGS, EXPEDITIONS, HUB_LINES, SPEAKER_NAME, type DialogLine } from '../content/story';
+import { VoiceButton, useSpeakOnce } from './voice';
 import type { BuildTag, ExpeditionId, HeroId, ItemId, LongNightMod, RelicId, SealId } from '../content/types';
 import { HERO_IDS } from '../content/types';
 import * as A from '../game/actions';
@@ -57,7 +58,7 @@ export function Hub({ onTitle }: { onTitle: () => void }) {
             <HeroArt id="ivo" size={86} />
           </div>
         </div>
-        <p className="hub-line">{hubLine(save.meta)}</p>
+        <HubLine line={HUB_LINES[hubLineKey(save.meta)]} enabled={save.dialogQueue.length === 0} />
       </div>
       <nav className="tabs">
         {(
@@ -69,7 +70,7 @@ export function Hub({ onTitle }: { onTitle: () => void }) {
             ['settings', 'Einstellungen'],
           ] as [Tab, string][]
         ).map(([t, label]) => (
-          <button key={t} className={`tab ${tab === t ? 'active' : ''}`} onClick={() => setTab(t)}>
+          <button key={t} className={`tab ${tab === t ? 'active' : ''}`} data-sfx="page" onClick={() => setTab(t)}>
             {label}
           </button>
         ))}
@@ -85,13 +86,13 @@ export function Hub({ onTitle }: { onTitle: () => void }) {
   );
 }
 
-function hubLine(meta: ReturnType<typeof useGame>['save']['meta']): string {
-  if (meta.story.ending === 'keep') return 'Sera: „Die Laterne brennt leiser jetzt. Erzählst du mir eine Erinnerung?“';
-  if (meta.story.ending === 'extinguish') return 'Fritz: „Kein Nebel mehr draußen. Aber Erinnerungen sind auch eine Art Weg.“';
-  if (meta.bossesDefeated.includes('archivarin')) return 'Sera: „Die Treppe unter der Stube … lasst uns das gemeinsam zu Ende bringen.“';
-  if (meta.bossesDefeated.includes('glockenwaechter')) return 'Ivo: „Das Archiv! Ich habe alle Theorien sortiert. Alphabetisch.“';
-  if (meta.runsStarted > 0) return 'Sera: „Ruh dich kurz aus. Dann versuchen wir es noch einmal – anders.“';
-  return 'Fritz: „Die Glocke in der Vorstadt. Dort fangen wir an.“';
+function hubLineKey(meta: ReturnType<typeof useGame>['save']['meta']): keyof typeof HUB_LINES {
+  if (meta.story.ending === 'keep') return 'keep';
+  if (meta.story.ending === 'extinguish') return 'extinguish';
+  if (meta.bossesDefeated.includes('archivarin')) return 'afterArchive';
+  if (meta.bossesDefeated.includes('glockenwaechter')) return 'afterBell';
+  if (meta.runsStarted > 0) return 'retry';
+  return 'start';
 }
 
 function ExpeditionTab({ ended }: { ended: boolean }) {
@@ -188,7 +189,7 @@ function ExpeditionTab({ ended }: { ended: boolean }) {
             </ul>
           </div>
         )}
-        <button className="btn primary big" disabled={!check.ok} onClick={() => act((s) => A.startRun(s, exp, { mods, bearers }))}>
+        <button className="btn primary big" data-sfx="confirm" disabled={!check.ok} onClick={() => act((s) => A.startRun(s, exp, { mods, bearers }))}>
           {mods.length ? '🌙 In die lange Nacht aufbrechen' : ended ? 'Eine Erinnerung erleben' : 'Aufbrechen'}
         </button>
         {!check.ok && <p className="small warn-text">{check.reason}</p>}
@@ -247,7 +248,7 @@ function SealCard({ id, onBuy, onToggle }: { id: SealId; onBuy: () => void; onTo
       <div className="small">{s.description}</div>
       {!owned ? (
         <>
-          <button className="btn small primary" disabled={!buy.ok} onClick={onBuy}>
+          <button className="btn small primary" data-sfx="stamp" disabled={!buy.ok} onClick={onBuy}>
             Prägen (✦ {s.cost})
           </button>
           {!buy.ok && <div className="small muted">{buy.reason}</div>}
@@ -426,5 +427,14 @@ function ChronicleTab() {
       </section>
       {replay && <DialogOverlay save={save} dialogId={replay} isNew={false} onDone={() => setReplay(null)} />}
     </div>
+  );
+}
+
+function HubLine({ line, enabled }: { line: DialogLine; enabled: boolean }) {
+  useSpeakOnce(line, `hub:${line.text}`, enabled);
+  return (
+    <p className="hub-line">
+      {SPEAKER_NAME[line.speaker]}: „{line.text}“ <VoiceButton line={line} />
+    </p>
   );
 }

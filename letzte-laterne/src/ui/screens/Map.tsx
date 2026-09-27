@@ -81,6 +81,7 @@ export function MapScreen({ onBuild }: { onBuild: () => void }) {
         onMouseEnter={() => setHover({ st, route })}
         onMouseLeave={() => setHover(null)}
         onFocus={() => setHover({ st, route })}
+        data-sfx="step"
         onClick={() => act((s) => A.enterStation(s, route))}
         aria-label={`Station ${st.index + 1}: ${label}${state === 'visited' ? ' (besucht)' : state === 'current' ? ' (jetzt erreichbar)' : ''}`}
       >
@@ -135,15 +136,15 @@ export function MapScreen({ onBuild }: { onBuild: () => void }) {
           </p>
           {cur.type === 'choice' ? (
             <div className="row gap">
-              <button className="btn primary" onClick={() => act((s) => A.enterStation(s, 'fight'))}>
+              <button className="btn primary" data-sfx="step" onClick={() => act((s) => A.enterStation(s, 'fight'))}>
                 ⚔ Kampf wählen
               </button>
-              <button className="btn primary" onClick={() => act((s) => A.enterStation(s, 'event'))}>
+              <button className="btn primary" data-sfx="step" onClick={() => act((s) => A.enterStation(s, 'event'))}>
                 {cur.alt!.event === 'miauen' ? '🐈 Dem Miauen folgen' : '❔ Ereignis wählen'}
               </button>
             </div>
           ) : (
-            <button className="btn primary big" onClick={() => act((s) => A.enterStation(s))} autoFocus>
+            <button className="btn primary big" data-sfx="step" onClick={() => act((s) => A.enterStation(s))} autoFocus>
               {cur.type === 'boss' ? '👑 Dem Boss entgegentreten' : `Weiter: ${NAME[cur.type]}`}
             </button>
           )}

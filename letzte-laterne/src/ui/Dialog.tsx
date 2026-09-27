@@ -3,7 +3,8 @@ import { DIALOGS, SPEAKER_NAME, type DialogLine, type LineCondition } from '../c
 import { yuumiPresent } from '../game/derive';
 import type { SaveData } from '../game/types';
 import { EnemyArt, HeroArt, YuumiArt } from './art';
-import { play } from './audio';
+import { play, speak, stopVoice } from './audio';
+import { VoiceButton, useVoicePlaying } from './voice';
 
 export function lineVisible(line: DialogLine, save: SaveData): boolean {
   if (!line.if) return true;
@@ -42,21 +43,42 @@ export function Speaker({ line, size = 90 }: { line: DialogLine; size?: number }
 }
 
 /** Zeigt den ersten Dialog der Warteschlange (oder einen Wiederholungsdialog). */
-export function DialogOverlay({ save, dialogId, onDone, isNew }: { save: SaveData; dialogId: string; onDone: () => void; isNew: boolean }) {
+export function DialogOverlay({ save, dialogId, onDone, isNew, autoAdvance = false }: { save: SaveData; dialogId: string; onDone: () => void; isNew: boolean; autoAdvance?: boolean }) {
   const dialog = DIALOGS[dialogId];
   const lines = dialog ? dialog.lines.filter((l) => lineVisible(l, save)) : [];
   const [i, setI] = useState(0);
   useEffect(() => setI(0), [dialogId]);
   const line = lines[Math.min(i, lines.length - 1)];
+  const speaking = useVoicePlaying();
+  // Jede Zeile wird beim Anzeigen gesprochen; optional geht es danach automatisch weiter.
   useEffect(() => {
-    if (line?.speaker === 'yuumi') play('meow');
-  }, [line]);
+    if (!line || i >= lines.length) return;
+    let cancelled = false;
+    void speak(line).then(() => {
+      if (cancelled || !autoAdvance) return;
+      setTimeout(() => {
+        if (!cancelled) setI((x) => (x === i ? x + 1 : x));
+      }, 700);
+    });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dialogId, i]);
+  useEffect(() => () => stopVoice(), []);
+  useEffect(() => {
+    if (autoAdvance && i >= lines.length && lines.length) onDone();
+  }, [i, lines.length, autoAdvance, onDone]);
+  void play;
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         next();
-      } else if (e.key === 'Escape') onDone();
+      } else if (e.key === 'Escape') {
+        stopVoice();
+        onDone();
+      }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -64,6 +86,10 @@ export function DialogOverlay({ save, dialogId, onDone, isNew }: { save: SaveDat
   if (!dialog || !line) {
     return null;
   }
+  const skip = () => {
+    stopVoice();
+    onDone();
+  };
   const next = () => {
     if (i + 1 >= lines.length) onDone();
     else setI(i + 1);
@@ -86,12 +112,18 @@ export function DialogOverlay({ save, dialogId, onDone, isNew }: { save: SaveDat
             </div>
           )}
           <div className="dialog-text">
-            {!narrator && <div className="dialog-name">{SPEAKER_NAME[line.speaker]}</div>}
-            <p>{line.text}</p>
+            {!narrator && (
+              <div className="dialog-name">
+                {SPEAKER_NAME[line.speaker]} {speaking && <span className="speaking" aria-label="spricht">〰</span>}
+              </div>
+            )}
+            <p>
+              {line.text} <VoiceButton line={line} />
+            </p>
           </div>
         </div>
         <div className="row gap end">
-          <button className="btn ghost" onClick={onDone}>
+          <button className="btn ghost" data-sfx="back" onClick={skip}>
             Überspringen (Esc)
           </button>
           <button className="btn primary" onClick={next} autoFocus>

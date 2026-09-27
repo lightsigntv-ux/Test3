@@ -46,6 +46,7 @@ export function Title({ onEnter }: { onEnter: () => void }) {
             Neues Spiel
           </button>
         </div>
+        <p className="muted small">🔊 Mit Musik und vollständig vertonten Dialogen – am besten mit Ton spielen.</p>
         <p className="muted small">Maus: alles · Leertaste: Pause · 1/2/3: Fähigkeiten · S: Geschwindigkeit · B: Build-Übersicht</p>
       </div>
       {confirm && (

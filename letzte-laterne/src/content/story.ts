@@ -381,3 +381,41 @@ export const CAMP_BANTER: DialogLine[][] = [
     { speaker: 'sera', text: 'Ich lese es. Jedes Diagramm.', mood: 'smile' },
   ],
 ];
+
+// Sätze in der Laternenstube (je nach Fortschritt)
+export const HUB_LINES: Record<string, DialogLine> = {
+  keep: { speaker: 'sera', text: 'Die Laterne brennt leiser jetzt. Erzählst du mir eine Erinnerung?', mood: 'smile' },
+  extinguish: { speaker: 'fritz', text: 'Kein Nebel mehr draußen. Aber Erinnerungen sind auch eine Art Weg.' },
+  afterArchive: { speaker: 'sera', text: 'Die Treppe unter der Stube … lasst uns das gemeinsam zu Ende bringen.' },
+  afterBell: { speaker: 'ivo', text: 'Das Archiv! Ich habe alle Theorien sortiert. Alphabetisch.' },
+  retry: { speaker: 'sera', text: 'Ruh dich kurz aus. Dann versuchen wir es noch einmal – anders.', mood: 'smile' },
+  start: { speaker: 'fritz', text: 'Die Glocke in der Vorstadt. Dort fangen wir an.' },
+};
+
+// Kurze Kampfrufe (werden gelegentlich beim Einsatz einer Fähigkeit bzw. nach Siegen gesprochen)
+export const BARKS: Record<'fritz' | 'ivo' | 'sera', { ability: DialogLine[]; victory: DialogLine[] }> = {
+  fritz: {
+    ability: [
+      { speaker: 'fritz', text: 'Hinter mich!' },
+      { speaker: 'fritz', text: 'Laternenwall!' },
+      { speaker: 'fritz', text: 'Nicht mit mir.' },
+    ],
+    victory: [{ speaker: 'fritz', text: 'Alle noch da? Gut.' }],
+  },
+  ivo: {
+    ability: [
+      { speaker: 'ivo', text: 'Funkensturm – theoretisch sicher!' },
+      { speaker: 'ivo', text: 'Brennt hervorragend!' },
+      { speaker: 'ivo', text: 'Achtung, das wird warm!' },
+    ],
+    victory: [{ speaker: 'ivo', text: 'Genau wie berechnet. Ungefähr.' }],
+  },
+  sera: {
+    ability: [
+      { speaker: 'sera', text: 'Ich hab dich.', mood: 'smile' },
+      { speaker: 'sera', text: 'Halt durch, ich bin da!' },
+      { speaker: 'sera', text: 'Niemand wird vergessen.' },
+    ],
+    victory: [{ speaker: 'sera', text: 'Geschafft! Ist jemand verletzt?', mood: 'happy' }],
+  },
+};

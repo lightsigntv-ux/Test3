@@ -6,8 +6,9 @@ durch den Nebel von Vesper.
 
 ## Spielen
 
-**Ohne Installation:** `Die-letzte-Laterne.html` im Browser öffnen (eine einzige Datei,
-funktioniert offline). Der Spielstand liegt im `localStorage` des Browsers.
+**Ohne Installation:** den Ordner `spielen/` herunterladen und `spielen/index.html` im
+Browser öffnen (funktioniert offline; der Unterordner `audio/` mit Musik und Stimmen muss
+daneben liegen). Der Spielstand liegt im `localStorage` des Browsers.
 
 **Entwicklung:**
 
@@ -15,7 +16,7 @@ funktioniert offline). Der Spielstand liegt im `localStorage` des Browsers.
 cd letzte-laterne
 npm install
 npm run dev          # http://localhost:5173
-npm test             # 60 Vitest-Tests (Regeln, Yuumi, Belohnungen, Spielstände, Builds)
+npm test             # 63 Vitest-Tests (Regeln, Yuumi, Belohnungen, Spielstände, Builds)
 npm run build        # Produktionsbuild nach dist/
 npm run build:single # eine offline spielbare HTML-Datei nach dist-single/
 ```
@@ -30,6 +31,32 @@ npm run build:single # eine offline spielbare HTML-Datei nach dist-single/
 | Geschwindigkeit 1× / 2× | Knöpfe oben rechts | S |
 | Build-Übersicht | „Build“ | B |
 | Dialog weiter / überspringen | Knöpfe | Enter / Esc |
+
+## Ton
+
+* **Musik:** „Castle Dawn“ in ruhigen Phasen (Titel, Laternenstube, Karte, Ereignisse, Belohnungen),
+  „Clans Last Stand“ ab „Kampf beginnen“ bis zum Kampfende. Weiche Überblendung (~1,4 s); während
+  gesprochener Zeilen wird die Musik auf 30 % abgesenkt. Die Stücke wurden vom Auftraggeber
+  bereitgestellt (`public/audio/music/`, auf 128 kbit/s verkleinert, Stille am Ende entfernt).
+* **Sprachausgabe:** Alle 130 Sprechzeilen (Dialoge, Ereignisse, Lager, Laternenstube, Kampfrufe) sind
+  vertont – mit kostenlosen Microsoft-Edge-Neuralstimmen über `edge-tts`:
+  Fritz = Killian (tiefer, langsamer), Ivo = Florian (schneller), Sera = Seraphina (warm),
+  Erzähler = Conrad, Mira = Ingrid, Glockenwächter = Jan, Archivarin = Amala, Hüter = Jonas;
+  Yuumis Momente = Katja plus Miauen/Schnurren. Stimmung (traurig/fröhlich) verändert Tempo und Tonhöhe.
+  Dialoge sprechen jede Zeile beim Anzeigen; 🔊 wiederholt eine Zeile; optional automatisches Weiterschalten.
+* **Effekte (synthetisiert):** Klick/Hover, Bestätigen, Blättern, Schritte auf der Karte, Übergang in den
+  Kampf (Windstoß, Trommel, Glocke), Treffer, Brand, Schild/Schildbruch, Tod, Unterbrechung, Explosion,
+  Boss-Phasenwechsel (Glockenschlag), Nebel-Eskalation, Levelaufstieg, Beute nach Seltenheit,
+  Siegel-Prägen (Stempel), Sieg/Niederlage, Yuumis Miauen und Schnurren.
+* **Einstellungen:** Ton an/aus, Regler für Gesamt, Musik, Effekte, Stimmen; Sprachausgabe an/aus.
+
+**Zeilen neu vertonen** (nach Textänderungen; `tests/voice.test.ts` meldet fehlende Aufnahmen):
+
+```bash
+pip install edge-tts
+npx tsx scripts/dump-lines.ts > /tmp/lines.json
+python3 scripts/tts.py /tmp/lines.json      # erzeugt nur fehlende Dateien, schreibt das Manifest
+```
 
 ## Inhalt
 
@@ -104,7 +131,11 @@ Kämpfe laufen in `CombatSim`; erst das Ergebnis (`combatFinished`) ändert den 
 
 * Balancing beruht auf Bot-Simulationen (siehe `docs/PROGRESS.md`) und automatisierten
   Browser-Durchläufen, nicht auf Tests mit Menschen. Spielzeiten sind Schätzungen.
-* Grafiken sind einfache, selbst gezeichnete SVG-Figuren; Klänge werden synthetisiert.
+* Grafiken sind einfache, selbst gezeichnete SVG-Figuren; Effekte werden synthetisiert.
+* Die Stimmen sind maschinell erzeugt (Microsoft-Edge-TTS). Für eine kommerzielle Veröffentlichung
+  müssten die Nutzungsbedingungen geprüft oder die Zeilen neu eingesprochen werden; die Pipeline
+  (`scripts/tts.py`) lässt sich auf einen anderen Dienst umstellen.
+* Browser starten Ton erst nach der ersten Interaktion (Klick/Taste) – danach läuft die Musik.
 * Ausgelegt für Desktop-Browser (ab ca. 1100 px Breite); Mobilgeräte werden nicht optimiert.
 * Der Spielstand hängt am Browser und am Ursprung der Seite (Datei, Entwicklungsserver und
   gehostete Fassung haben jeweils eigene Stände) – zum Umziehen Export/Import verwenden.

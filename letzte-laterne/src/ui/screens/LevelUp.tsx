@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { play } from '../audio';
 import { HEROES } from '../../content/heroes';
 import { UPGRADES } from '../../content/progression';
 import * as A from '../../game/actions';
@@ -10,6 +11,7 @@ export function LevelUpScreen() {
   const { save, act } = useGame();
   const run = save.run!;
   const [busy, setBusy] = useState(false);
+  useEffect(() => play('levelup'), []);
   return (
     <div className="screen">
       <h2>Run-Level {run.level} erreicht!</h2>
