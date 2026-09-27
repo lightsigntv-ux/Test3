@@ -139,7 +139,7 @@ narr: Er setzt sich. Zum ersten Mal sieht er nicht aus wie jemand, der ein Publi
 lionel[neutral]: Er hat mit seinem Gift fotografiert, und ich wollte eine Mörderin. Das ist sehr bezeichnend für uns beide. {+f:g_fix_shown, reveals:f19}
 lionel[tense]: Dann war es sein Herz. Dann war es einfach sein Herz.
 inner: Er sagt es, als wäre das schlimmer. Warum wäre das schlimmer?
-lionel[neutral]: Danke, Miss Hale. Ich werde mich bei Mrs. Penrose entschuldigen. Irgendwann. Wenn ich nüchtern bin, also vermutlich nie. {lionel+1}
+lionel[neutral]: Danke, Miss Hale. Ich werde mich bei Mrs. Penrose entschuldigen. Irgendwann. Wenn ich nüchtern bin, also vermutlich nie.
 
 === t2_lionel_signature
 kind: topic

@@ -9,7 +9,7 @@ export type SpeakerId = NpcId | 'sera' | 'inner' | 'narr' | 'yuumi' | 'letter';
 export type LocId =
   | 'wohnung' | 'zwischen'
   | 'halle' | 'salon' | 'arbeit' | 'dunkel' | 'biblio' | 'dienst' | 'galerie' | 'toten'
-  | 'kammer' | 'gewaechs' | 'stall' | 'kapelle';
+  | 'kammer' | 'gewaechs' | 'stall' | 'kapelle' | 'london';
 
 export type Expr = 'neutral' | 'warm' | 'sad' | 'tense' | 'angry' | 'surprised';
 export const EXPRS: Expr[] = ['neutral', 'warm', 'sad', 'tense', 'angry', 'surprised'];
@@ -34,7 +34,9 @@ export interface Cond {
   trustMin?: Partial<Record<NpcId, number>>;
   trustBelow?: Partial<Record<NpcId, number>>;
   timeOfDay?: TimeOfDay[];
+  timeNot?: TimeOfDay[];
   location?: LocId[];
+  locationNot?: LocId[];
   yuumiPresent?: boolean;
   suspicionMin?: number;
   suspicionBelow?: number;

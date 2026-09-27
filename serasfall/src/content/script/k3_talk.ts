@@ -98,7 +98,7 @@ hobbes[neutral]: Wenn Miss ihn sieht, möge Miss ihm sagen, dass Mrs. Pryce eine
 === s3_harriet
 kind: smalltalk
 npc: harriet
-when: ch=3 !yuumi
+when: ch=3
 ---
 harriet[neutral]: Lesen Sie mir die Times vor, Miss Hale. Die vom Montag. Eine andere haben wir nicht.
 narr: Sera liest. Ein Bericht über die Lage in Konstantinopel, Getreidepreise, eine Anzeige für Holloways Pillen. Miss Averley hört nicht zu. Aber sie mag, dass jemand liest.
@@ -107,6 +107,7 @@ narr: Sera liest. Ein Bericht über die Lage in Konstantinopel, Getreidepreise, 
 kind: smalltalk
 npc: harriet
 when: ch>=3 yuumi
+priority: 2
 ---
 narr: Yuumi springt, ohne zu fragen, auf Miss Averleys Schoß, dreht sich einmal und legt sich hin, in das Schwarz der Seide, als wäre es für sie gewebt worden.
 harriet[surprised]: Miss Hale. Ihr Tier.

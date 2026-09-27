@@ -87,7 +87,9 @@ export function evalCond(s: GameState, c: Cond | undefined): boolean {
   if (c.trustMin) for (const [n, v] of Object.entries(c.trustMin)) if (s.trust[n as NpcId] < (v as number)) return false;
   if (c.trustBelow) for (const [n, v] of Object.entries(c.trustBelow)) if (s.trust[n as NpcId] >= (v as number)) return false;
   if (c.timeOfDay && !c.timeOfDay.includes(s.time)) return false;
+  if (c.timeNot && c.timeNot.includes(s.time)) return false;
   if (c.location && !c.location.includes(s.loc)) return false;
+  if (c.locationNot && c.locationNot.includes(s.loc)) return false;
   if (c.yuumiPresent !== undefined && (s.yuumiLoc === s.loc && !s.flags['g_yuumi_lost']) !== c.yuumiPresent) return false;
   if (c.suspicionMin !== undefined && s.suspicion < c.suspicionMin) return false;
   if (c.suspicionBelow !== undefined && s.suspicion >= c.suspicionBelow) return false;

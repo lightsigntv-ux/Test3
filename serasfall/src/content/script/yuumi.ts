@@ -57,7 +57,7 @@ narr: Das Papier liegt nicht mehr da. Yuumi gähnt.
 === y_butler_voices
 kind: yuumi
 target: h_k_butlertuer
-when: ch=2 tod=nachmittag seen:k2_laying
+when: ch=2 tod=nachmittag seen:k2_dark !f:k2_pantry_free
 important: yes
 ---
 narr: Die Tür zur Butlerkammer steht einen Spalt offen. Dahinter Stimmen, gedämpft. Yuumi setzt sich davor, ein Ohr nach vorn, eins zur Seite, wie ein kleines graues Horchrohr.

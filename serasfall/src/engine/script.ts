@@ -26,6 +26,8 @@ export function parseCond(src: string): Cond {
     else if ((m = tok.match(/^k:(.+)$/))) push('knows', m[1].split(','));
     else if ((m = tok.match(/^t:(\w+)>=(-?\d+)$/))) (c.trustMin ??= {})[m[1] as NpcId] = +m[2];
     else if ((m = tok.match(/^t:(\w+)<(-?\d+)$/))) (c.trustBelow ??= {})[m[1] as NpcId] = +m[2];
+    else if ((m = tok.match(/^!tod=(.+)$/))) c.timeNot = m[1].split(',') as TimeOfDay[];
+    else if ((m = tok.match(/^!loc=(.+)$/))) c.locationNot = m[1].split(',') as LocId[];
     else if ((m = tok.match(/^tod=(.+)$/))) c.timeOfDay = m[1].split(',') as TimeOfDay[];
     else if ((m = tok.match(/^loc=(.+)$/))) c.location = m[1].split(',') as LocId[];
     else if (tok === 'yuumi') c.yuumiPresent = true;

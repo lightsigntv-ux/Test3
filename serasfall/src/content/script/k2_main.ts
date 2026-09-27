@@ -93,9 +93,17 @@ clara[neutral]: Ich war nicht hier. Das wollte ich sagen.
 inner: Das wollte sie nicht sagen.
 clara[neutral]: Sie dürfen hier hinein, wann Sie wollen, Miss Hale. Er hätte es erlaubt. Er hat jedem erlaubt, Dinge anzusehen. Nur nicht, ihn anzusehen. {+f:g_dunkel_open, clara+1}
 
+=== k2_pantry_free
+kind: event
+when: ch=2 tod=nachmittag seen:ex_k_butler_voices loc=halle,salon,arbeit,dunkel,biblio,galerie,toten,kammer !f:k2_listened !f:k2_pantry_free
+priority: 4
+---
+narr: Die Tür der Butlerkammer geht auf. Hobbes kommt heraus, sehr gerade, sehr langsam, und hinter ihm Mrs. Pryce mit einem Tiegel in der Hand. Es riecht bis in die Halle nach Kampfer. {+f:k2_pantry_free}
+inner: Er geht, als hätte er heute Morgen einen Sack Kohlen getragen. Und sie sieht ihm nach, als wüsste sie, was für einen. {+c:c09}
+
 === k2_dusk
 kind: event
-when: ch=2 seen:k2_dark anyk:c08,c09,c14,c15,c24 tod=nachmittag
+when: ch=2 seen:k2_dark k:d05 anyf:k2_listened,k2_pantry_free anyk:c08,c14,c24 tod=nachmittag
 priority: 5
 ---
 narr: Draußen ist es dunkel geworden, ohne dass es je richtig hell war. Irgendwo im Haus schlägt Hobbes einen kleinen Gong. {sfx:gong, time=abend}
@@ -150,7 +158,7 @@ narr: Das Abendessen endet, wie es begann: ohne dass jemand etwas gegessen hat. 
 
 === k2_to_night
 kind: event
-when: ch=2 f:k2_evening_done k:d03 k:d05 k:d06 tod=abend
+when: ch=2 f:k2_evening_done k:d03 k:d05 k:d06 tod=abend loc=galerie,toten,kammer
 priority: 6
 ---
 narr: Die Standuhr in der Halle schweigt, aber irgendwo im Haus tickt eine andere, kleinere, die niemand angehalten hat. Es ist fast Mitternacht. {time=nacht}

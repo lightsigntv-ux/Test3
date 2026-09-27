@@ -34,7 +34,7 @@ const addedClues = new Set(allEffects.flatMap((e) => e.addClue ?? []));
 const addedStatements = new Set(allEffects.flatMap((e) => e.addStatement ?? []));
 const knowable = new Set([...Object.keys(C.clues), ...Object.keys(C.statements), ...Object.keys(C.deductions)]);
 const hotspotIds = new Set(Object.values(C.locations).flatMap((l) => l.hotspots.map((h) => h.id)));
-const ENGINE_FLAGS = new Set<string>([]);
+const ENGINE_FLAGS = new Set<string>(['g_recon_done']);
 
 describe('Inhalte – Verweise', () => {
   it('alle Knotenverweise existieren', () => {

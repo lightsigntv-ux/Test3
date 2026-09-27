@@ -405,10 +405,19 @@ when: ch=1
 narr: Die Butlerkammer. Hobbes’ Reich: Silber, Gläser, ein Tisch mit grünem Tuch. Die Tür steht einen Spalt offen.
 inner: Einfach hineinzugehen wäre, als würde ich einem Pfarrer in die Sakristei folgen.
 
+=== ex_k_butler_voices
+kind: examine
+target: h_k_butler
+when: ch=2 tod=nachmittag seen:k2_dark !f:k2_listened !f:k2_pantry_free
+priority: 6
+---
+narr: Die Tür der Butlerkammer ist angelehnt. Dahinter Stimmen, gedämpft: Hobbes und Mrs. Pryce. Es riecht nach Kampfer.
+inner: Ich kann nicht einfach an der Tür lauschen. Eine Gesellschafterin lauscht nicht. Eine Katze allerdings … {do:hint_yuumi}
+
 === ex_k_butler_2
 kind: examine
 target: h_k_butler
-when: ch>=2 !k:c08
+when: ch>=2 !k:c08 anyf:k2_listened,k2_pantry_free,k3_started
 priority: 5
 ---
 narr: Hobbes ist oben. Die Butlerkammer ist leer. Silber in Filztaschen, eine Reihe Weingläser, blank. Auf dem Abtropfbrett stehen eine Kristallkaraffe und zwei Gläser, frisch gespült, noch feucht. {+c:c08}

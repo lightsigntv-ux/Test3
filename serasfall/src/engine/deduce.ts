@@ -64,5 +64,6 @@ export function reconAnswer(state: GameState, c: Content, qid: string, pick: num
   if (pick !== q.correct) return { ok: false, state, line: q.doubt };
   const s = clone(state);
   s.recon[qid] = pick;
+  if (c.recon.every((r) => s.recon[r.id] !== undefined)) s.flags['g_recon_done'] = true;
   return { ok: true, state: s, line: q.after ?? '' };
 }

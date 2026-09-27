@@ -147,7 +147,7 @@ when: ch<=2 f:k1_delivered
 ---
 sera: Die Glocke unter dem Moor – was hat es damit auf sich?
 harriet[neutral]: Eine Sage. Als das Meer im Mittelalter die alte Kirche von St. Aldhelm verschlang, sagt man, versank die Glocke mit. Bei Hochwasser hört man sie läuten.
-harriet[neutral]: Wer sie hört, dem wird vergeben. So erzählen es die Moorbauern.
+harriet[neutral]: Wer sie hört, dem wird vergeben. Aber nur, solange es dunkel ist; mit dem ersten Licht verstummt sie wieder. So erzählen es die Moorbauern.
 harriet[sad]: Lucinda hat es geglaubt. Oder sie hat so getan, weil es Edmund zum Lächeln brachte.
 harriet[neutral]: Gestern Abend, bei der Sitzung, hat sie davon gesprochen. Durch Mrs. Penrose. „Hörst du die Glocke im Wasser, Edmund?“
 harriet[neutral]: Er ist hinausgegangen, ohne ein Wort. Er war erschüttert. Man ist erschüttert, wenn man die Wahrheit hört.

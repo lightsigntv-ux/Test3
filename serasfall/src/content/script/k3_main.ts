@@ -312,7 +312,7 @@ lionel[sad]: Ich habe es verbrannt, Miss Hale. In jener Nacht. Ich habe gesehen,
 lionel[sad]: Ich habe meinen eigenen Freispruch verbrannt. Ohne ihn zu lesen.
 * [mitfuehlend] Sie konnten es nicht wissen. {lionel+2} -> a
 * [ehrlich] Er hätte es Ihnen sagen sollen. Sie hätten fragen sollen. Beides. {lionel+1} -> b
-* [schweigen] (Neben ihm sitzen bleiben.) {lionel+2} -> c
+* [schweigen] (Neben ihm sitzen bleiben.) {lionel+1} -> c
 # a
 lionel[neutral]: Nein. Ich konnte es nicht wissen. Das ist die ganze Geschichte meines Lebens, Miss Hale. Ich konnte nie etwas wissen, weil ich nie hingesehen habe.
 -> c

@@ -81,6 +81,7 @@ export const LEARN: { flag: string; npc: NpcId; fact: string }[] = [
   { flag: 'g_agency', npc: 'lionel', fact: 'f22' },
   { flag: 'g_agency', npc: 'tilly', fact: 'f22' },
   { flag: 'g_plate_dev', npc: 'clara', fact: 'f17' },
+  { flag: 'g_plate_dev', npc: 'clara', fact: 'f09' },
   { flag: 'g_letter_read', npc: 'clara', fact: 'f01' },
   { flag: 'g_letter_read', npc: 'clara', fact: 'f03' },
   { flag: 'g_letter_read', npc: 'clara', fact: 'f04' },

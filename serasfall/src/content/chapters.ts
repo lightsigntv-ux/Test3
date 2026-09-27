@@ -47,4 +47,9 @@ export const CHAPTERS: Chapter[] = [
     ],
     start: { loc: 'halle', x: 0.25, time: 'nacht' }, endScene: 'k5_dawn',
   },
+  {
+    n: 6, title: 'Epilog', day: '',
+    intro: [],
+    start: { loc: 'wohnung', x: 0.5, time: 'abend' }, endScene: 'ep_home',
+  },
 ];

@@ -163,6 +163,7 @@ export const LOCATIONS: Location[] = [
       { id: 'h_kp_wasser', label: 'Das Moor', x: 0.88, y: 0.6, r: 0.08, kind: 'examine' },
     ],
   },
+  { id: 'london', name: 'Henrietta Street, London', floorY: [0.76, 0.92], xRange: [0.15, 0.85], catAllowed: false, ambience: ['cityWinter', 'fire'], hotspots: [] },
 ];
 
 export const LOC_BY_ID = Object.fromEntries(LOCATIONS.map((l) => [l.id, l])) as Record<string, Location>;

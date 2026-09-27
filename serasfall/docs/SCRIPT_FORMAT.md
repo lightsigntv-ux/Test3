@@ -27,7 +27,7 @@ tilly: …
 -> END
 ```
 
-Bedingungen: `ch=1,2` `ch>=2` `ch<=3` `f:` `!f:` `anyf:a,b` `k:` (bekannter Hinweis/Aussage/Schlussfolgerung) `!k:` `anyk:` `t:npc>=n` `t:npc<n` `tod=` `loc=` `yuumi` `!yuumi` `sus>=n` `sus<n` `seen:` `!seen:` `as=yuumi`.
+Bedingungen: `ch=1,2` `ch>=2` `ch<=3` `f:` `!f:` `anyf:a,b` `k:` (bekannter Hinweis/Aussage/Schlussfolgerung) `!k:` `anyk:` `t:npc>=n` `t:npc<n` `tod=` `!tod=` `loc=` `!loc=` `yuumi` `!yuumi` `sus>=n` `sus<n` `seen:` `!seen:` `as=yuumi`.
 
 Effekte: `npc+n` (Vertrauen), `+f:` / `-f:` (Flag), `+c:` (Hinweis), `+s:` (Aussage), `sus+n` (Tarnungsverdacht), `time=`, `sfx:`, `music:`.
 Metadaten: `reveals:`, `hints:`, `lie:` (Tatsachen-IDs für den Wissensmatrix-Test), `pause:` (ms Stille vor der Zeile), `mood:`.

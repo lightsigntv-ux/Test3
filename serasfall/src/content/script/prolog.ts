@@ -69,5 +69,5 @@ narr: Neben ihr weint jemand. Ganz nah. Sie kann nicht hinsehen.
 narr: „… wenn mich doch nur einer hören tät …“ {pause:800}
 yuumi: (Ein Glöckchen, leise, direkt an ihrem Ohr. Warmes Fell.) {sfx:bell}
 narr: Irgendwo oben geht eine Tür. Jemand steht an einem Geländer und sieht herab. Dann schließt sich die Tür wieder, und ein Schlüssel dreht sich im Schloss. {sfx:doorFar}
-narr: Dann nichts mehr. Nur Stoff, der nach altem Staub und Lavendel riecht, und Dunkelheit. {go:halle@0.58, chap:1}
+narr: Dann nichts mehr. Nur Stoff, der nach altem Staub und Lavendel riecht, und Dunkelheit. {go:halle@0.58, chap:1, time=morgen}
 `;
