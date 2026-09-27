@@ -157,6 +157,7 @@ export const LOCATIONS: Location[] = [
   {
     id: 'kapelle', name: 'Kapelle auf dem Hügel', floorY: F, xRange: [0.08, 0.92], catAllowed: false, ambience: ['wind', 'water'],
     hotspots: [
+      { id: 'x_kapelle_boot', label: 'Zurück zum Boot', x: 0.9, y: 0.7, r: 0.06, kind: 'exit', to: 'stall', arriveX: 0.72, when: c('f:k3_chapel_done') },
       { id: 'h_kp_grab', label: 'Grab', x: 0.4, y: 0.72, r: 0.07, kind: 'examine' },
       { id: 'h_kp_glocke', label: 'Glockenstuhl', x: 0.62, y: 0.2, r: 0.07, kind: 'examine' },
       { id: 'h_kp_wasser', label: 'Das Moor', x: 0.88, y: 0.6, r: 0.08, kind: 'examine' },

@@ -39,6 +39,8 @@ export const STATEMENTS: Statement[] = [
   { id: 's35', speaker: 'tilly', truth: 'wahr', text: 'Die Stiefel vom Captain waren heut früh nass bis oben. Mit Erde vom Rosenbeet.' },
   { id: 's36', speaker: 'dunning', truth: 'wahr', text: 'Gegen halb drei war Licht im Gästeflügel. Hinter dem Fenster von der Dame aus Bath.' },
   { id: 's37', speaker: 'dunning', truth: 'wahr', text: 'Die Stalluhr schlägt die Viertel. Sie hatte grad Dreiviertel geschlagen.' },
+  { id: 's39', speaker: 'harriet', truth: 'wahr', text: '(Hinter ihrer Tür) „Ich habe es niemandem gesagt, Edmund. Wie du es wolltest. Nicht Lionel. Nicht dem Kind.“' },
+  { id: 's40', speaker: 'lionel', truth: 'wahr', text: 'Ich war nachts bei ihm. Wir haben gestritten, um Geld. Wie immer. Als ich ging, lebte er.' },
   { id: 's38', speaker: 'harriet', truth: 'wahr', text: 'Ich fand die Karte dieser Frau in Edmunds Schreibtisch. Ich dachte, er suche Lucinda.' },
 ];
 

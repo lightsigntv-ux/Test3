@@ -327,6 +327,16 @@ narr: Unter dem Tisch, halb unter den Teppichrand gerutscht, liegt ein Blatt Pap
 letter: Er kommt bald zu mir. Hab keine Angst. L.
 inner: L. Lionel? Oder … Lucinda. Und die Handschrift ist die von Miss Averley. Ich habe sie heute Morgen auf dem Speiseplan gesehen.
 
+=== ex_b_tisch_y
+kind: examine
+target: h_b_tisch
+when: f:y_saw_sheet !k:c24
+priority: 6
+---
+narr: Sera bückt sich dorthin, wo Yuumi vom Sims aus hingestarrt hat. Unter dem Tisch, halb unter den Teppichrand gerutscht: ein Blatt Papier. {+c:c24, sfx:paper}
+letter: Er kommt bald zu mir. Hab keine Angst. L.
+inner: L. Lionel? Oder … Lucinda. Die Handschrift ist fahrig, aber es ist die von Miss Averley. Ich habe sie heute Morgen auf dem Speiseplan gesehen.
+
 === ex_b_regal
 kind: examine
 target: h_b_regal

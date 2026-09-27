@@ -33,4 +33,18 @@ export const PLACEMENTS: Placement[] = [
   { npc: 'lionel', loc: 'biblio', x: 0.72, when: c('ch=2') },
   { npc: 'penrose', loc: 'salon', x: 0.7, when: c('ch=2 tod=abend') },
   { npc: 'penrose', loc: 'biblio', x: 0.26, when: c('ch=2') },
+
+  // ---------- Kapitel 3 ----------
+  { npc: 'harriet', loc: 'kapelle', x: 0.42, when: c('ch=3 f:k3_chapel_go !f:k3_chapel_done') },
+  { npc: 'dunning', loc: 'kapelle', x: 0.84, when: c('ch=3 f:k3_chapel_go !f:k3_chapel_done') },
+  { npc: 'harriet', loc: 'salon', x: 0.55, when: c('ch=3') },
+  { npc: 'lionel', loc: 'stall', x: 0.3, when: c('ch=3 f:k3_lionel_broken') },
+  { npc: 'lionel', loc: 'gewaechs', x: 0.62, when: c('ch=3 tod=mittag,nachmittag,abend,nacht') },
+  { npc: 'lionel', loc: 'biblio', x: 0.72, when: c('ch=3') },
+  { npc: 'clara', loc: 'arbeit', x: 0.62, when: c('ch=3') },
+  { npc: 'penrose', loc: 'biblio', x: 0.26, when: c('ch=3') },
+  { npc: 'hobbes', loc: 'halle', x: 0.72, when: c('ch=3') },
+  { npc: 'pryce', loc: 'dienst', x: 0.42, when: c('ch=3') },
+  { npc: 'tilly', loc: 'dienst', x: 0.62, when: c('ch=3') },
+  { npc: 'dunning', loc: 'stall', x: 0.7, when: c('ch>=3') },
 ];

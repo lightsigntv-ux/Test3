@@ -112,7 +112,7 @@ export const DEDUCTIONS: Deduction[] = [
     effects: { flags: ['g_camera_known'] },
   },
   {
-    id: 'd12', chapter: 3, trigger: ['c24', 'c14', 'c23'], support: ['c24', 'c14', 'c23'], need: 2,
+    id: 'd12', chapter: 3, trigger: ['c24', 'c14', 'c23', 's39'], support: ['c24', 'c14', 'c23', 's39'], need: 2,
     question: 'Was wusste Miss Averley?',
     template: 'Miss Averley wusste, dass ihr Bruder {0}.',
     slots: [{ options: ['bald sterben würde', 'ermordet werden sollte', 'das Haus verkaufen wollte'], correct: [0] }],
