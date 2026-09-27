@@ -125,6 +125,9 @@ export interface StartOptions {
   formation?: HeroId[];
 }
 
+/** Startgegenstände aus Siegeln kommen in magischer Qualität. */
+export const START_ITEM_QUALITY = 'magic' as const;
+
 export const DEFAULT_BEARER: Partial<Record<ItemId, HeroId>> = { zunderring: 'ivo', schildspange: 'fritz', stimmgabel: 'sera' };
 
 export function generateStations(meta: MetaState, expedition: ExpeditionId, seed: number, mods: LongNightMod[]): Station[] {
@@ -222,10 +225,10 @@ export function startRun(prev: SaveData, expedition: ExpeditionId, opts: StartOp
     const bearer = opts.bearers?.[item] ?? DEFAULT_BEARER[item] ?? 'fritz';
     const slots = run.equipment[bearer];
     const free = slots.indexOf(null);
-    if (free >= 0) slots[free] = item;
+    if (free >= 0) slots[free] = { id: item, q: START_ITEM_QUALITY };
     else {
       const other = HERO_IDS.find((h) => run.equipment[h].includes(null));
-      if (other) run.equipment[other][run.equipment[other].indexOf(null)] = item;
+      if (other) run.equipment[other][run.equipment[other].indexOf(null)] = { id: item, q: START_ITEM_QUALITY };
     }
     if (!s.meta.discoveredItems.includes(item)) s.meta.discoveredItems.push(item);
   }
@@ -315,7 +318,7 @@ export function buildCombatSetup(save: SaveData): CombatSetup | null {
         atk: st.atk,
         heal: st.heal,
         mult: st.mult,
-        items: run.equipment[id].filter((i): i is ItemId => !!i),
+        items: run.equipment[id].filter((i): i is NonNullable<typeof i> => !!i),
       };
     }),
     enemies: cp.encounter,
@@ -563,7 +566,7 @@ export function chooseReward(prev: SaveData, optionIndex: number, slot: Slot): S
   const run = s.run!;
   if (opt.kind === 'item' && slot.type === 'hero') {
     if (slot.idx < 0 || slot.idx > 1) return prev;
-    run.equipment[slot.hero][slot.idx] = opt.id;
+    run.equipment[slot.hero][slot.idx] = { id: opt.id, q: opt.q };
   } else if (opt.kind === 'relic' && slot.type === 'relic') {
     if (slot.idx < 0 || slot.idx > 1) return prev;
     if (run.relics.some((x, i) => x === opt.id && i !== slot.idx)) return prev; // einzigartig
@@ -675,7 +678,7 @@ export function chooseEventOption(prev: SaveData, idx: number): SaveData {
       advance(run);
       break;
     case 'werkstatt:1':
-      toOffer(makeItemEventOffer(run, meta, 'werkstatt', 3, { common: 0.55, rare: 0.45, legendary: 0 }, 'glut'));
+      toOffer(makeItemEventOffer(run, meta, 'werkstatt', 3, REWARD.workshopOdds, 'glut'));
       break;
     case 'wachstube:0':
       toOffer(makeRelicOffer(run, meta, 'wachstube', 'wappen'));
@@ -695,7 +698,7 @@ export function chooseEventOption(prev: SaveData, idx: number): SaveData {
       break;
     case 'haendler:0':
       hurtPct(run, 0.15);
-      toOffer(makeItemEventOffer(run, meta, 'haendler', 2, { common: 0, rare: 0.6, legendary: 0.4 }, undefined, true));
+      toOffer(makeItemEventOffer(run, meta, 'haendler', 2, REWARD.merchantOdds));
       break;
     case 'haendler:1':
       addXp(run, 5);

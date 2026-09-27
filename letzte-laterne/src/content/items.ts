@@ -3,143 +3,169 @@ import type { BuildTag, ItemId, Rarity, RelicId } from './types';
 export interface ItemDef {
   id: ItemId;
   name: string;
-  rarity: Rarity;
+  /** Legendäre Einzelstücke gibt es nur in der Stufe „Legendär“; alle anderen in Gewöhnlich/Magisch/Selten. */
+  unique: boolean;
   tags: BuildTag[];
-  description: string;
+  /** Kurzer Effekt mit den Werten der jeweiligen Stufe (v liefert den Stufenwert eines Schlüssels). */
+  text: (v: (key: string) => number) => string;
   synergy: string;
 }
 
-// Werte der Gegenstandseffekte – zentral für Balancing
+/** Ein konkretes Exemplar: Gegenstand + Qualitätsstufe. */
+export interface EquipItem {
+  id: ItemId;
+  q: Rarity;
+}
+
+// Feste Werte der legendären Einzelstücke und sonstige Konstanten
 export const ITEM_VALUES = {
-  zunderringStacks: 1,
-  schildspangeShield: 10,
-  stimmgabelFocus: 2,
-  funkenfaengerStacks: 3,
-  ascheglasMult: 0.5,
-  dornenDamage: 6,
-  leinenRatio: 0.5,
-  taktgeberEvery: 3,
-  taktgeberMax: 4,
-  resonanzMult: 0.25,
-  glutherzTarget: 14,
-  glutherzSplash: 7,
+  glutherzTarget: 18,
+  glutherzSplash: 9,
   glutherzConsume: 3,
-  eidShield: 10,
-  eidDamage: 12,
-  eidCooldown: 8,
+  eidShield: 12,
+  eidDamage: 15,
+  eidCooldown: 7,
   echoEvery: 3,
-  echoPower: 0.5,
+  echoPower: 0.6,
   echoDelay: 0.6,
 };
+
+/** Stufenwerte [Gewöhnlich, Magisch, Selten] der normalen Gegenstände. */
+export const TIER_VALUES: Partial<Record<ItemId, Record<string, [number, number, number]>>> = {
+  zunderring: { stacks: [1, 2, 3] },
+  schildspange: { shield: [8, 12, 17] },
+  stimmgabel: { focus: [1, 2, 3] },
+  funkenfaenger: { stacks: [2, 3, 4] },
+  ascheglas: { mult: [0.3, 0.5, 0.75] },
+  dornenschild: { damage: [5, 8, 12] },
+  sanftesLeinen: { ratio: [0.35, 0.55, 0.8] },
+  taktgeber: { every: [4, 3, 3], max: [3, 4, 5] },
+  resonanzkristall: { cd: [0.15, 0.25, 0.35] },
+};
+
+export function tierValue(id: ItemId, key: string, q: Rarity): number {
+  const t = TIER_VALUES[id]?.[key];
+  if (!t) return 0;
+  return t[q === 'common' ? 0 : q === 'magic' ? 1 : 2];
+}
+
+const pct = (x: number) => `${Math.round(x * 100)} %`;
 
 export const ITEMS: Record<ItemId, ItemDef> = {
   zunderring: {
     id: 'zunderring',
     name: 'Zunderring',
-    rarity: 'common',
+    unique: false,
     tags: ['glut'],
-    description: 'Jeder direkte Fähigkeitstreffer des Trägers fügt +1 Brandstapel zu.',
-    synergy: 'Ideal für Ivo (Funkensturm trifft alle). Bei Fritz nur mit „Schildstoß“ wirksam.',
+    text: (v) => `Fähigkeitstreffer des Trägers: +${v('stacks')} Brand`,
+    synergy: 'Ideal für Ivo – Funkensturm trifft alle Gegner.',
   },
   schildspange: {
     id: 'schildspange',
     name: 'Schildspange',
-    rarity: 'common',
+    unique: false,
     tags: ['bastion'],
-    description: 'Der Träger erhält beim Einsatz seiner aktiven Fähigkeit 10 Schild.',
+    text: (v) => `Eigene Fähigkeit: +${v('shield')} Schild für den Träger`,
     synergy: 'Mit Dornenschild oder Eid des Bollwerks wird der Schild zur Waffe.',
   },
   stimmgabel: {
     id: 'stimmgabel',
     name: 'Stimmgabel',
-    rarity: 'common',
+    unique: false,
     tags: ['echo'],
-    description: 'Die Gruppe beginnt jeden Kampf mit +2 Fokus (höchstens 6).',
+    text: (v) => `Kampfbeginn: +${v('focus')} Fokus`,
     synergy: 'Früher Fokus für Taschenuhr, Chor der Namen und Echochronik.',
   },
   funkenfaenger: {
     id: 'funkenfaenger',
     name: 'Funkenfänger',
-    rarity: 'rare',
+    unique: false,
     tags: ['glut'],
-    description:
-      'Solange der Träger lebt: Stirbt ein brennender Gegner, gehen bis zu 3 seiner Brandstapel auf den Gegner mit den wenigsten Stapeln über.',
-    synergy: 'Stark gegen große Gruppen. Mit „Lauffeuer“ und Glutherz entstehen Brandketten über mehrere Gegner.',
+    text: (v) => `Brennender Gegner stirbt: bis zu ${v('stacks')} Brand springen über`,
+    synergy: 'Stark gegen große Gruppen, mit Lauffeuer und Glutherz.',
   },
   ascheglas: {
     id: 'ascheglas',
     name: 'Ascheglas',
-    rarity: 'rare',
+    unique: false,
     tags: ['glut'],
-    description: 'Vom Träger verursachter Brand ist 50 % stärker.',
-    synergy: 'Gehört zu Ivo. Stapelt mit „Heiße Asche“.',
+    text: (v) => `Brand des Trägers +${pct(v('mult'))} stärker`,
+    synergy: 'Gehört zu Ivo, stapelt mit „Heiße Asche“.',
   },
   dornenschild: {
     id: 'dornenschild',
     name: 'Dornenschild',
-    rarity: 'rare',
+    unique: false,
     tags: ['bastion'],
-    description: 'Trifft ein direkter Angriff den Träger, während er einen Schild hat, erhält der Angreifer 6 Schaden.',
-    synergy: 'Am besten auf dem vorderen Platz mit Schildspange oder Laternenwall.',
+    text: (v) => `Geschützt getroffen: ${v('damage')} Gegenschaden`,
+    synergy: 'Vorne tragen, mit Schildspange oder Laternenwall.',
   },
   sanftesLeinen: {
     id: 'sanftesLeinen',
     name: 'Sanftes Leinen',
-    rarity: 'rare',
+    unique: false,
     tags: ['bastion'],
-    description: '50 % der vom Träger verursachten Überheilung werden zu Schild auf dem Geheilten.',
-    synergy: 'Macht Seras Heilungen auch bei voller Gesundheit nützlich.',
+    text: (v) => `${pct(v('ratio'))} der Überheilung werden Schild`,
+    synergy: 'Macht Seras Heilungen immer nützlich.',
   },
   taktgeber: {
     id: 'taktgeber',
     name: 'Taktgeber',
-    rarity: 'rare',
+    unique: false,
     tags: ['echo'],
-    description: 'Jeder 3. Grundangriff des Trägers erzeugt 1 Fokus (höchstens 4-mal pro Kampf).',
-    synergy: 'Schnelle Angreifer (Ivo) laden ihn zuerst. Mehr Fokus = mehr Fähigkeiten.',
+    text: (v) => `Jeder ${v('every')}. Angriff: +1 Fokus (max. ${v('max')}× je Kampf)`,
+    synergy: 'Schnelle Angreifer (Ivo) laden ihn zuerst.',
   },
   resonanzkristall: {
     id: 'resonanzkristall',
     name: 'Resonanzkristall',
-    rarity: 'rare',
+    unique: false,
     tags: ['echo'],
-    description: 'Die Abklingzeit der aktiven Fähigkeit des Trägers sinkt um 25 % (mindestens 3 s).',
+    text: (v) => `Abklingzeit der Fähigkeit −${pct(v('cd'))}`,
     synergy: 'Mit Echochronik erreichst du den dritten Einsatz früher.',
   },
   glutherz: {
     id: 'glutherz',
     name: 'Glutherz',
-    rarity: 'legendary',
+    unique: true,
     tags: ['glut'],
-    description:
-      'Erreicht ein Gegner durch Brand des Trägers 5 Stapel, explodiert er: 14 Schaden an ihm, 7 an allen anderen Gegnern; 3 Stapel werden verbraucht.',
-    synergy: 'Funkensturm + Zunderring erreicht schnell 5 Stapel. Die Explosion selbst löst nichts weiter aus.',
+    text: () =>
+      `5 Brand durch den Träger: Explosion (${ITEM_VALUES.glutherzTarget} Schaden, ${ITEM_VALUES.glutherzSplash} an allen anderen), verbraucht ${ITEM_VALUES.glutherzConsume} Stapel`,
+    synergy: 'Funkensturm + Zunderring erreichen schnell 5 Stapel.',
   },
   eidDesBollwerks: {
     id: 'eidDesBollwerks',
     name: 'Eid des Bollwerks',
-    rarity: 'legendary',
+    unique: true,
     tags: ['bastion'],
-    description:
-      'Bricht der Schild des Trägers, erhalten die anderen Helden 10 Schild und der Angreifer 12 Schaden (Abklingzeit 8 s).',
-    synergy: 'Mit Schildspange, Standhaft und Yuumis Schnurrschutz bricht häufig ein Schild.',
+    text: () =>
+      `Schild des Trägers bricht: andere +${ITEM_VALUES.eidShield} Schild, Angreifer ${ITEM_VALUES.eidDamage} Schaden (alle ${ITEM_VALUES.eidCooldown} s)`,
+    synergy: 'Schildspange, Standhaft und Yuumis Schnurrschutz lassen Schilde oft brechen.',
   },
   echochronik: {
     id: 'echochronik',
     name: 'Echochronik',
-    rarity: 'legendary',
+    unique: true,
     tags: ['echo'],
-    description:
-      'Jeder 3. manuelle Fähigkeitseinsatz des Trägers (gezählt über den ganzen Run) wird nach 0,6 s einmal mit 50 % Wirkung wiederholt.',
-    synergy: 'Die Wiederholung kostet nichts und zählt nicht als manueller Einsatz.',
+    text: () => `Jeder 3. Fähigkeitseinsatz (über den Run) wird gratis mit ${pct(ITEM_VALUES.echoPower)} wiederholt`,
+    synergy: 'Die Wiederholung zählt nicht als eigener Einsatz.',
   },
 };
+
+/** Effekttext eines Exemplars mit seinen tatsächlichen Werten. */
+export function itemText(e: EquipItem): string {
+  return ITEMS[e.id].text((k) => tierValue(e.id, k, e.q));
+}
+
+export const UNIQUE_ITEMS = (Object.keys(ITEMS) as ItemId[]).filter((i) => ITEMS[i].unique);
+export const NORMAL_ITEMS = (Object.keys(ITEMS) as ItemId[]).filter((i) => !ITEMS[i].unique);
 
 export interface RelicDef {
   id: RelicId;
   name: string;
   rarity: Rarity;
   tags: BuildTag[];
+  short: string;
   description: string;
   flavor?: string;
   synergy: string;
@@ -164,6 +190,7 @@ export const RELICS: Record<RelicId, RelicDef> = {
     id: 'docht',
     name: 'Docht der Morgenröte',
     rarity: 'common',
+    short: 'Brand hält +3 s länger',
     tags: ['glut'],
     description: 'Brand hält 3 s länger (7 statt 4 s).',
     synergy: 'Stapel bleiben länger bei 5 – gut für Glutherz.',
@@ -171,7 +198,8 @@ export const RELICS: Record<RelicId, RelicDef> = {
   aschekompass: {
     id: 'aschekompass',
     name: 'Aschekompass',
-    rarity: 'rare',
+    rarity: 'magic',
+    short: 'Gegner starten mit 1 Brand',
     tags: ['glut'],
     description: 'Alle Gegner beginnen den Kampf mit 1 Brandstapel.',
     synergy: 'Gibt Funkenfänger und Lauffeuer sofort etwas zum Weitergeben.',
@@ -179,7 +207,8 @@ export const RELICS: Record<RelicId, RelicDef> = {
   wappen: {
     id: 'wappen',
     name: 'Wappen der Wache',
-    rarity: 'common',
+    rarity: 'magic',
+    short: 'Alle Schilde der Gruppe +50 %',
     tags: ['bastion'],
     description: 'Alle von der Gruppe erzeugten Schilde sind 50 % stärker (gruppenweit, auch Yuumis Schnurrschutz).',
     synergy: 'Verstärkt Laternenwall, Schildspange, Sanftes Leinen und Yuumi.',
@@ -188,6 +217,7 @@ export const RELICS: Record<RelicId, RelicDef> = {
     id: 'glocke',
     name: 'Gesprungene Glocke',
     rarity: 'rare',
+    short: 'Erster Schildbruch im Kampf: +2 Fokus',
     tags: ['bastion', 'echo'],
     description: 'Der erste gebrochene Schild eines Verbündeten pro Kampf erzeugt 2 Fokus.',
     synergy: 'Verbindet Bastion und Echo.',
@@ -195,7 +225,8 @@ export const RELICS: Record<RelicId, RelicDef> = {
   taschenuhr: {
     id: 'taschenuhr',
     name: 'Taschenuhr ohne Zeiger',
-    rarity: 'common',
+    rarity: 'magic',
+    short: 'Erste Fähigkeit im Kampf −2 Fokus',
     tags: ['echo'],
     description: 'Die erste aktive Fähigkeit des Kampfes kostet 2 Fokus weniger (mindestens 0).',
     synergy: 'Sofortiger Funkensturm oder Laternenwall zum Kampfbeginn.',
@@ -204,6 +235,7 @@ export const RELICS: Record<RelicId, RelicDef> = {
     id: 'chor',
     name: 'Chor der Namen',
     rarity: 'rare',
+    short: 'Jede 3. Fähigkeit heilt alle um 8',
     tags: ['echo', 'bastion'],
     description: 'Jeder 3. manuelle Fähigkeitseinsatz der Gruppe heilt alle lebenden Helden um 8.',
     synergy: 'Viele günstige Fähigkeiten (Laternenwall, Klarer Gedanke) füllen den Chor schnell.',
@@ -212,6 +244,7 @@ export const RELICS: Record<RelicId, RelicDef> = {
     id: 'mondgloeckchen',
     name: 'Yuumis Mondglöckchen',
     rarity: 'rare',
+    short: 'Yuumi kämpft mit: Pfotenhieb & Schnurrschutz',
     tags: ['glut', 'bastion', 'echo'],
     description:
       'Ruft Yuumi als automatisch kämpfende Begleiterin: Pfotenhieb (4 Schaden alle 3 s auf das Fokusziel); jeder 3. Pfotenhieb gibt der verletztesten Hauptfigur 5 Schild (Schnurrschutz). Einzigartig.',
@@ -222,12 +255,14 @@ export const RELICS: Record<RelicId, RelicDef> = {
 
 export const RARITY_LABEL: Record<Rarity, string> = {
   common: 'Gewöhnlich',
+  magic: 'Magisch',
   rare: 'Selten',
   legendary: 'Legendär',
 };
 export const RARITY_SYMBOL: Record<Rarity, string> = {
   common: '●',
-  rare: '◆',
+  magic: '◆',
+  rare: '✦',
   legendary: '★',
 };
 export const TAG_LABEL: Record<BuildTag, string> = { glut: 'Glut', bastion: 'Bastion', echo: 'Echo' };

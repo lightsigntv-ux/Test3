@@ -1,45 +1,57 @@
 import { REWARD } from '../content/balance';
-import { ITEMS, RELICS } from '../content/items';
+import { ITEMS, NORMAL_ITEMS, RELICS, UNIQUE_ITEMS } from '../content/items';
 import { UPGRADES } from '../content/progression';
 import type { BuildTag, ItemId, Rarity, RelicId, UpgradeId } from '../content/types';
+import { RARITY_ORDER } from '../content/types';
 import { rngFor, type Rng } from '../sim/rng';
 import { dominantTag, equippedRelics } from './derive';
 import type { MetaState, RewardOffer, RewardOption, RunState } from './types';
 
-type Odds = { common: number; rare: number; legendary: number };
+export type Odds = Record<Rarity, number>;
 
-const ALL_ITEMS = Object.keys(ITEMS) as ItemId[];
 const ALL_RELICS = Object.keys(RELICS) as RelicId[];
 
 export function adjustedOdds(base: Odds, run: RunState): Odds {
   if (!run.mods.includes('meagerCamp')) return base;
   const bonus = REWARD.longNightLegendaryBonus;
   const fromCommon = Math.min(base.common, bonus);
-  return { common: base.common - fromCommon, rare: base.rare - (bonus - fromCommon), legendary: base.legendary + bonus };
+  const fromMagic = Math.min(base.magic, bonus - fromCommon);
+  return {
+    common: base.common - fromCommon,
+    magic: base.magic - fromMagic,
+    rare: base.rare - (bonus - fromCommon - fromMagic),
+    legendary: base.legendary + bonus,
+  };
 }
 
 export function oddsText(o: Odds): string {
-  const p = (x: number) => `${Math.round(x * 100)} %`;
-  return `je Option: Gewöhnlich ${p(o.common)} · Selten ${p(o.rare)} · Legendär ${p(o.legendary)}`;
+  const p = (x: number) => `${Math.round(x * 1000) / 10} %`.replace('.', ',');
+  return `Gewöhnlich ${p(o.common)} · Magisch ${p(o.magic)} · Selten ${p(o.rare)} · Legendär ${p(o.legendary)}`;
 }
 
-function rollRarity(rng: Rng, o: Odds): Rarity {
+export function rollRarity(rng: Rng, o: Odds): Rarity {
   const r = rng.next();
   if (r < o.legendary) return 'legendary';
   if (r < o.legendary + o.rare) return 'rare';
+  if (r < o.legendary + o.rare + o.magic) return 'magic';
   return 'common';
 }
 
-const RARITY_ORDER: Rarity[] = ['common', 'rare', 'legendary'];
+function atLeast(q: Rarity, min: Rarity): Rarity {
+  return RARITY_ORDER.indexOf(q) < RARITY_ORDER.indexOf(min) ? min : q;
+}
 
-function pickItem(rng: Rng, rarity: Rarity, exclude: Set<ItemId>, tag?: BuildTag): ItemId | null {
-  // Gewünschte Seltenheit; wenn leer, nächstniedrigere, dann höhere
-  const order = [rarity, ...RARITY_ORDER.filter((r) => r !== rarity)];
-  for (const r of order) {
-    const pool = ALL_ITEMS.filter((i) => ITEMS[i].rarity === r && !exclude.has(i) && (!tag || ITEMS[i].tags.includes(tag)));
-    if (pool.length) return rng.pick(pool);
+/** Zieht ein Exemplar der Stufe q. Legendär = eines der Einzelstücke; sonst ein normaler Gegenstand. */
+function pickItem(rng: Rng, q: Rarity, exclude: Set<ItemId>, tag?: BuildTag): RewardOption | null {
+  const poolFor = (legendary: boolean) =>
+    (legendary ? UNIQUE_ITEMS : NORMAL_ITEMS).filter((i) => !exclude.has(i) && (!tag || ITEMS[i].tags.includes(tag)));
+  let pool = poolFor(q === 'legendary');
+  if (!pool.length && q === 'legendary') {
+    pool = poolFor(false);
+    q = 'rare';
   }
-  return null;
+  if (!pool.length) return null;
+  return { kind: 'item', id: rng.pick(pool), q };
 }
 
 export function relicPool(run: RunState, exclude: Set<RelicId> = new Set()): RelicId[] {
@@ -58,9 +70,9 @@ function ensureBuildFit(run: RunState, rng: Rng, options: RewardOption[], fixedF
     const o = options[i];
     if (o.kind !== 'item') continue;
     const exclude = new Set(options.filter((x) => x.kind === 'item').map((x) => x.id as ItemId));
-    const repl = pickItem(rng, ITEMS[o.id].rarity, exclude, tag);
+    const repl = pickItem(rng, o.q, exclude, tag);
     if (repl) {
-      options[i] = { kind: 'item', id: repl };
+      options[i] = repl;
       return;
     }
   }
@@ -83,10 +95,10 @@ export function makeCombatReward(run: RunState, meta: MetaState, source: 'normal
   let text: string;
 
   const addItem = (rarity: Rarity, tag?: BuildTag) => {
-    const id = pickItem(rng, rarity, used, tag);
-    if (id) {
-      used.add(id);
-      options.push({ kind: 'item', id });
+    const opt = pickItem(rng, rarity, used, tag);
+    if (opt) {
+      used.add(opt.id as ItemId);
+      options.push(opt);
     }
   };
 
@@ -99,11 +111,11 @@ export function makeCombatReward(run: RunState, meta: MetaState, source: 'normal
     const o = adjustedOdds(REWARD.campOdds, run);
     for (let i = 0; i < 3; i++) addItem(rollRarity(rng, o));
     ensureBuildFit(run, rng, options, false);
-    text = `${oddsText(o)} (mindestens selten)`;
+    text = oddsText(o);
   } else {
     const o = adjustedOdds(REWARD.eliteOdds, run);
     let first = rollRarity(rng, o);
-    if (first === 'common') first = 'rare';
+    first = atLeast(first, 'rare');
     if (!meta.firstEliteLegendaryGiven) {
       first = 'legendary';
       meta.firstEliteLegendaryGiven = true;
@@ -116,7 +128,7 @@ export function makeCombatReward(run: RunState, meta: MetaState, source: 'normal
     if (relics.length && rng.next() < relicChance) options.push({ kind: 'relic', id: rng.pick(relics) });
     else addItem(rollRarity(rng, o));
     ensureBuildFit(run, rng, options, true);
-    text = `Option 1 mindestens selten; ${oddsText(o)}; Option 3 ist mit ${Math.round(relicChance * 100)} % ein Relikt.`;
+    text = `${oddsText(o)} · Option 1 mindestens Selten · Option 3 zu ${Math.round(relicChance * 100)} % ein Relikt`;
   }
 
   discover(meta, options);
@@ -149,18 +161,15 @@ export function makeItemEventOffer(
   count: number,
   odds: Odds,
   tag?: BuildTag,
-  minRare = false,
 ): RewardOffer {
   const rng = rngFor(run.seed, 'itemEvent', key, run.station);
   const used = new Set<ItemId>();
   const options: RewardOption[] = [];
   for (let i = 0; i < count; i++) {
-    let r = rollRarity(rng, odds);
-    if (minRare && r === 'common') r = 'rare';
-    const id = pickItem(rng, r, used, i === 0 ? tag : undefined);
-    if (id) {
-      used.add(id);
-      options.push({ kind: 'item', id });
+    const opt = pickItem(rng, rollRarity(rng, odds), used, i === 0 ? tag : undefined);
+    if (opt) {
+      used.add(opt.id as ItemId);
+      options.push(opt);
     }
   }
   discover(meta, options);

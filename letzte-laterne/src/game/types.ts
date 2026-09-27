@@ -1,4 +1,5 @@
 import type { CombatKind } from '../sim/combat';
+import type { EquipItem } from '../content/items';
 import type {
   BossId,
   EnemyId,
@@ -8,13 +9,14 @@ import type {
   HeroId,
   ItemId,
   LongNightMod,
+  Rarity,
   RelicId,
   SealId,
   StationType,
   UpgradeId,
 } from '../content/types';
 
-export const SAVE_VERSION = 1;
+export const SAVE_VERSION = 2;
 
 export interface Settings {
   sound: boolean;
@@ -69,7 +71,7 @@ export interface Station {
 
 export type RunPhase = 'map' | 'combat' | 'reward' | 'levelup' | 'event' | 'camp' | 'ending' | 'result';
 
-export type RewardOption = { kind: 'item'; id: ItemId } | { kind: 'relic'; id: RelicId };
+export type RewardOption = { kind: 'item'; id: ItemId; q: Rarity } | { kind: 'relic'; id: RelicId };
 
 export interface RewardOffer {
   source: 'normal' | 'elite' | 'camp' | 'event';
@@ -136,7 +138,7 @@ export interface RunState {
   phase: RunPhase;
   hp: Record<HeroId, number>;
   formation: HeroId[];
-  equipment: Record<HeroId, (ItemId | null)[]>;
+  equipment: Record<HeroId, (EquipItem | null)[]>;
   relics: (RelicId | null)[];
   xp: number;
   level: number;

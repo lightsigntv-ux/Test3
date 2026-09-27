@@ -11,8 +11,6 @@ export function Title({ onEnter }: { onEnter: () => void }) {
   const [checked, setChecked] = useState(false);
   return (
     <div className="title-screen">
-      <div className="fog f1" />
-      <div className="fog f2" />
       <div className="title-center">
         <LanternIcon size={54} />
         <h1>Die letzte Laterne</h1>
@@ -46,8 +44,7 @@ export function Title({ onEnter }: { onEnter: () => void }) {
             Neues Spiel
           </button>
         </div>
-        <p className="muted small">🔊 Mit Musik und vollständig vertonten Dialogen – am besten mit Ton spielen.</p>
-        <p className="muted small">Maus: alles · Leertaste: Pause · 1/2/3: Fähigkeiten · S: Geschwindigkeit · B: Build-Übersicht</p>
+        <p className="muted small">🔊 Mit Ton spielen · Leertaste Pause · 1/2/3 Fähigkeiten · B Build</p>
       </div>
       {confirm && (
         <Modal title="Neues Spiel beginnen?" onClose={() => setConfirm(false)}>

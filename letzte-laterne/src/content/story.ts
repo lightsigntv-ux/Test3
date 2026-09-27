@@ -218,7 +218,7 @@ export const EVENTS: Record<EventId, EventDef> = {
     ],
     choices: [
       { label: 'Ivo experimentieren lassen', preview: '+12 Erfahrung für die Gruppe (Run-Level schneller).' },
-      { label: 'Material einsammeln', preview: 'Wähle 1 von 3 Gegenständen (gewöhnlich/selten, bevorzugt Glut).' },
+      { label: 'Material einsammeln', preview: 'Wähle 1 von 3 Gegenständen (bevorzugt Glut).' },
     ],
   },
   wachstube: {
@@ -265,7 +265,7 @@ export const EVENTS: Record<EventId, EventDef> = {
     choices: [
       {
         label: 'Mit Lebenskraft bezahlen',
-        preview: 'Wähle 1 von 2 Gegenständen: mindestens selten, je Option 40 % legendär.',
+        preview: 'Wähle 1 von 2 Gegenständen: mindestens Selten, je 22 % Legendär.',
         risk: 'Preis: Alle Helden verlieren 15 % ihrer max. HP (nie tödlich).',
       },
       { label: 'Höflich ablehnen', preview: 'Nichts geschieht. +5 Erfahrung für die Vorsicht.' },

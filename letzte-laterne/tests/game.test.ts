@@ -121,7 +121,7 @@ describe('Belohnungen', () => {
   it('mindestens eine Option passt zum bestehenden Build', () => {
     for (let seed = 1; seed < 40; seed++) {
       const s = A.startRun(fresh(), 1, { seed });
-      s.run!.equipment.ivo = ['ascheglas', 'zunderring'];
+      s.run!.equipment.ivo = [{ id: 'ascheglas', q: 'rare' }, { id: 'zunderring', q: 'common' }];
       const o = makeCombatReward(s.run!, s.meta, 'normal');
       expect(o.options.some((x) => x.kind === 'item' && ['zunderring', 'funkenfaenger', 'ascheglas', 'glutherz'].includes(x.id))).toBe(true);
     }
@@ -140,7 +140,7 @@ describe('Belohnungen', () => {
   it('gewählte Ausrüstung wirkt im nächsten Kampf', () => {
     let s = A.startRun(fresh(), 1, { seed: 5 });
     s = winCombat(A.enterStation(s));
-    s.run!.reward!.options[0] = { kind: 'item', id: 'stimmgabel' };
+    s.run!.reward!.options[0] = { kind: 'item', id: 'stimmgabel', q: 'magic' };
     s = A.chooseReward(s, 0, { type: 'hero', hero: 'sera', idx: 0 });
     while (s.run!.phase === 'levelup') s = A.chooseUpgrade(s, s.run!.levelOffer![0]);
     const setup = A.buildCombatSetup(A.enterStation(s, 'fight'))!;
@@ -222,8 +222,9 @@ describe('Erinnerungslicht und Siegel', () => {
     s.meta.sealsOwned = ['bastion1', 'echo1'];
     s.meta.sealsActive = ['bastion1', 'echo1'];
     const r = A.startRun(s, 1, { seed: 2, bearers: { schildspange: 'sera' } });
-    expect(r.run!.equipment.sera).toContain('schildspange');
-    expect(r.run!.equipment.sera).toContain('stimmgabel');
+    expect(r.run!.equipment.sera.map((x) => x?.id)).toContain('schildspange');
+    expect(r.run!.equipment.sera.map((x) => x?.id)).toContain('stimmgabel');
+    expect(r.run!.equipment.sera.every((x) => x?.q === 'magic')).toBe(true);
   });
 });
 

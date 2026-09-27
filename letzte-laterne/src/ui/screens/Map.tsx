@@ -22,40 +22,55 @@ const NAME: Record<StationType, string> = {
   boss: 'Gebietsboss',
 };
 
-export function stationPreview(run: RunState, st: Station, route?: 'fight' | 'event', meta?: { firstEliteLegendaryGiven: boolean }): { title: string; risk: string; reward: string; extra?: string } {
-  const pct = (x: number) => `${Math.round(x * 100)} %`;
-  const count = (n: number) => `${n} Gegner`;
+export interface Preview {
+  title: string;
+  danger: number; // 0 = kein Kampf, 1..5
+  chips: string[];
+  detail: string; // ausführlich (Tooltip)
+  extra?: string;
+}
+
+export function stationPreview(run: RunState, st: Station, route?: 'fight' | 'event', meta?: { firstEliteLegendaryGiven: boolean }): Preview {
+  const n = (e?: unknown[]) => `${e?.length ?? 0} Gegner`;
+  const loot = '🎁 1 aus 3';
   switch (st.type) {
     case 'fight':
-      return { title: 'Normaler Kampf', risk: `Gering · ${count(st.encounter!.length)}`, reward: `Wahl 1 aus 3 Gegenständen oder ${pct(REWARD.healAlternativePct)} Gruppenheilung · +1 ✦ · +10 EP` };
+      return { title: 'Kampf', danger: 1, chips: [n(st.encounter), loot, '✦ +1', '+10 EP'], detail: `Beute: Wahl 1 aus 3 oder ${Math.round(REWARD.healAlternativePct * 100)} % Heilung.` };
     case 'choice':
       if (route === 'event') {
         const ev = EVENTS[st.alt!.event];
-        return {
-          title: `Ereignis${st.alt!.event === 'miauen' ? ' 🐈' : ''}`,
-          risk: 'Kein Kampf. Manche Entscheidungen kosten Lebenspunkte – die Folgen werden vorher angezeigt.',
-          reward: 'Meist Heilung, Beute, Relikte oder Erfahrung · +5 EP',
-          extra: ev.mapHint,
-        };
+        return { title: st.alt!.event === 'miauen' ? 'Ereignis 🐈' : 'Ereignis', danger: 0, chips: ['Kein Kampf', 'Heilung, Beute oder Risiko', '+5 EP'], detail: 'Folgen werden vor der Wahl angezeigt.', extra: ev.mapHint };
       }
-      return { title: 'Kampf', risk: `Mittel · ${count(st.alt!.encounter.length)}`, reward: 'Wahl 1 aus 3 Gegenständen oder Heilung · +1 ✦ · +10 EP' };
+      return { title: 'Kampf', danger: 2, chips: [n(st.alt!.encounter), loot, '✦ +1', '+10 EP'], detail: 'Etwas stärkere Gruppe.' };
     case 'story':
-      return { title: EVENTS[STORY_EVENT_BY_EXPEDITION[run.expedition]].title, risk: 'Kein Kampf. Eine Entscheidung mit spürbaren Folgen – auch für spätere Kapitel.', reward: 'Heilung, Beute oder Storyvorteile · +5 EP' };
+      return { title: EVENTS[STORY_EVENT_BY_EXPEDITION[run.expedition]].title, danger: 0, chips: ['Storyentscheidung', '+5 EP'], detail: 'Die Wahl wirkt bis in spätere Kapitel.' };
     case 'elite':
       return {
         title: 'Elitekampf',
-        risk: `Hoch · ${count(st.encounter!.length)} (inkl. Elitegegner mit starken angekündigten Angriffen)`,
-        reward: `Mind. eine seltene Option, ${pct(REWARD.eliteRelicChance)} Chance auf ein Relikt${meta && !meta.firstEliteLegendaryGiven ? ' · Erster Elite-Sieg: legendäre Option garantiert!' : ''} · +2 ✦ · +20 EP`,
+        danger: 4,
+        chips: [n(st.encounter), '🎁 mind. Selten', `${Math.round(REWARD.eliteRelicChance * 100)} % Relikt`, ...(meta && !meta.firstEliteLegendaryGiven ? ['★ Legendär garantiert'] : []), '✦ +2'],
+        detail: 'Starke angekündigte Angriffe.',
       };
     case 'camp':
-      return { title: 'Lager', risk: 'Sicher.', reward: `Gruppenheilung (${run.mods.includes('meagerCamp') ? '20' : '40'} % max. HP) ODER zusätzliche Ausrüstung (mind. selten)` };
+      return { title: 'Lager', danger: 0, chips: [`✚ ${run.mods.includes('meagerCamp') ? 20 : 40} % Heilung`, 'oder 🎁 Ausrüstung'], detail: 'Sicher.' };
     case 'hardFight':
-      return { title: 'Anspruchsvoller Kampf', risk: `Hoch · ${count(st.encounter!.length)}`, reward: 'Wahl 1 aus 3 Gegenständen oder Heilung · +1 ✦ · +15 EP' };
+      return { title: 'Schwerer Kampf', danger: 3, chips: [n(st.encounter), loot, '✦ +1', '+15 EP'], detail: '' };
     case 'boss': {
       const boss = ENEMIES[EXPEDITIONS[run.expedition].boss];
-      return { title: boss.name, risk: 'Sehr hoch · zwei Phasen, angekündigte Spezialangriffe', reward: 'Dauerhaft: +4 ✦ (erster Sieg +3), Storyfortschritt, neue Expedition' };
+      return { title: boss.name, danger: 5, chips: ['2 Phasen', '✦ +4 (Erstsieg +3)', 'Story'], detail: boss.description };
     }
   }
+}
+
+function Danger({ n }: { n: number }) {
+  if (n === 0) return <span className="danger none">sicher</span>;
+  return (
+    <span className="danger" title={`Gefahr ${n} von 5`}>
+      {Array.from({ length: 5 }, (_, i) => (
+        <i key={i} className={i < n ? 'on' : ''} />
+      ))}
+    </span>
+  );
 }
 
 export function MapScreen({ onBuild }: { onBuild: () => void }) {
@@ -128,12 +143,15 @@ export function MapScreen({ onBuild }: { onBuild: () => void }) {
             {preview.st.index === run.station && <span className="pill glow-pill">jetzt erreichbar</span>}
           </div>
           {p.extra && <p className="flavor">{p.extra}</p>}
-          <p>
-            <b>Risiko:</b> {p.risk}
-          </p>
-          <p>
-            <b>Mögliche Belohnung:</b> {p.reward}
-          </p>
+          <div className="preview-row">
+            <Danger n={p.danger} />
+            {p.chips.map((c) => (
+              <span key={c} className="chip">
+                {c}
+              </span>
+            ))}
+          </div>
+          {p.detail && <p className="small muted">{p.detail}</p>}
           {cur.type === 'choice' ? (
             <div className="row gap">
               <button className="btn primary" data-sfx="step" onClick={() => act((s) => A.enterStation(s, 'fight'))}>
@@ -152,14 +170,13 @@ export function MapScreen({ onBuild }: { onBuild: () => void }) {
         </div>
       </section>
       <aside className="party-side">
-        <h3>Gruppe & Aufstellung</h3>
-        <p className="small muted">Normale Nahkampfangriffe treffen die vordere Figur. Stelle vor jedem Kampf um.</p>
+        <h3 title="Normale Nahkampfangriffe treffen die vordere Figur.">Gruppe</h3>
         <Formation />
         <h3>Ausrüstung</h3>
         {run.formation.map((h) => (
           <div key={h} className="small">
             <b style={{ color: HEROES[h].color }}>{HEROES[h].name}:</b>{' '}
-            {run.equipment[h].filter(Boolean).length === 0 ? <span className="muted">–</span> : run.equipment[h].map((it, i) => (it ? <ItemLine key={i} id={it} compact /> : null))}
+            {run.equipment[h].filter(Boolean).length === 0 ? <span className="muted">–</span> : run.equipment[h].map((it, i) => (it ? <ItemLine key={i} item={it} compact /> : null))}
           </div>
         ))}
         <div className="small">

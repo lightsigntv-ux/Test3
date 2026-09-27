@@ -86,3 +86,13 @@ ohne Konsolenfehler.
 * Offline-Ordner `spielen/` getestet: Musik und Stimmen laden auch über `file://`.
 * Nicht geprüft: das tatsächliche Klangbild mit Lautsprechern (Lautstärkeverhältnisse wurden
   gemessen – Musik ≈ −18 dB, Stimmen ≈ −21 dB mittlerer Pegel – aber nicht angehört).
+
+## Grafik & Beute (dritte Ausbaustufe)
+
+* Qualitätsstufen mit skalierten Werten, neue Chancen, Spielstand v2 + Migration – **A**
+  (`tests/loot.test.ts`: Verteilung über 1500 Seeds innerhalb ±3 %, Legendär < 4 %, nur Einzelstücke
+  legendär, Werte steigen je Stufe, Migration v1 → v2).
+* Bot-Balance nach der Umstellung (60 Runs, casual ohne Siegel): E1 85 %, E2 37 %, E3 80 % –
+  im Rahmen der vorherigen Werte; legendäre Einzelstücke wurden verstärkt, da sie seltener sind.
+* Beutekarten mit Aufdecken, 19 Illustrationen, Szenen für alle Bildschirme, Textkürzungen – **B**
+  (Screenshots aller Bildschirme geprüft; UI-Durchlauf und 13 Browserprüfungen ohne Fehler).

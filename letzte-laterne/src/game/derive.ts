@@ -39,7 +39,7 @@ export function yuumiPresent(run: Pick<RunState, 'relics'> | null | undefined): 
 
 export function equippedItems(run: RunState): ItemId[] {
   const out: ItemId[] = [];
-  for (const h of HERO_IDS) for (const i of run.equipment[h]) if (i) out.push(i);
+  for (const h of HERO_IDS) for (const i of run.equipment[h]) if (i) out.push(i.id);
   return out;
 }
 

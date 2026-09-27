@@ -1,10 +1,14 @@
 import type { EnemyId, HeroId, ItemId, RelicId, SealId, UpgradeId } from '../src/content/types';
 import { heroStats } from '../src/game/derive';
+import { ITEMS, type EquipItem } from '../src/content/items';
+
+/** Gegenstände in Tests: standardmäßig „Magisch“, Einzelstücke „Legendär“. */
+export const eq = (i: ItemId | EquipItem): EquipItem => (typeof i === 'string' ? { id: i, q: ITEMS[i].unique ? 'legendary' : 'magic' } : i);
 import { CombatSim, type CombatSetup } from '../src/sim/combat';
 
 export interface SetupOpts {
   enemies?: EnemyId[];
-  items?: Partial<Record<HeroId, ItemId[]>>;
+  items?: Partial<Record<HeroId, (ItemId | EquipItem)[]>>;
   relics?: RelicId[];
   upgrades?: UpgradeId[];
   seals?: SealId[];
@@ -35,7 +39,7 @@ export function setup(o: SetupOpts = {}): CombatSetup {
     flags: { courierHelps: false, namesFreed: false },
     heroes: formation.map((id) => {
       const s = heroStats(run, id);
-      return { id, hp: o.hp?.[id] ?? s.maxHp, maxHp: s.maxHp, atk: o.atk?.[id] ?? s.atk, heal: s.heal, mult: 1, items: o.items?.[id] ?? [] };
+      return { id, hp: o.hp?.[id] ?? s.maxHp, maxHp: s.maxHp, atk: o.atk?.[id] ?? s.atk, heal: s.heal, mult: 1, items: (o.items?.[id] ?? []).map(eq) };
     }),
   };
 }

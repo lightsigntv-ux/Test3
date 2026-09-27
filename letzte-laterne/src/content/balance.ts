@@ -49,12 +49,15 @@ export const LIGHT = {
 };
 
 export const REWARD = {
-  normalOdds: { common: 0.6, rare: 0.35, legendary: 0.05 },
-  eliteOdds: { common: 0.25, rare: 0.6, legendary: 0.15 },
-  campOdds: { common: 0, rare: 0.85, legendary: 0.15 },
+  // Qualität je Beute-Option (wie in Diablo): Gewöhnlich / Magisch / Selten / Legendär
+  normalOdds: { common: 0.55, magic: 0.3, rare: 0.13, legendary: 0.02 },
+  eliteOdds: { common: 0.15, magic: 0.45, rare: 0.32, legendary: 0.08 },
+  campOdds: { common: 0, magic: 0.5, rare: 0.44, legendary: 0.06 },
+  workshopOdds: { common: 0.45, magic: 0.4, rare: 0.15, legendary: 0 },
+  merchantOdds: { common: 0, magic: 0, rare: 0.78, legendary: 0.22 },
   eliteRelicChance: 0.6,
   healAlternativePct: 0.15, // kleine Gruppenheilung statt Gegenstand
-  longNightLegendaryBonus: 0.1, // Modifikator „Karges Lager“
+  longNightLegendaryBonus: 0.05, // Modifikator „Karges Lager“
 };
 
 export const CAMP = {

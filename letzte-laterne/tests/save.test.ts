@@ -87,7 +87,7 @@ describe('Spielstand', () => {
     const st = memStorage({ [SAVE_KEY]: JSON.stringify(old) });
     const r = loadSave(st);
     expect(r.status).toBe('ok');
-    expect(r.save.version).toBe(1);
+    expect(r.save.version).toBe(2);
     expect(r.save.settings.volume).toBeGreaterThan(0);
     expect(r.save.meta.longNight.wins).toBe(0);
   });

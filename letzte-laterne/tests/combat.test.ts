@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { STATUS } from '../src/content/balance';
-import { ITEM_VALUES, RELIC_VALUES } from '../src/content/items';
+import { ITEM_VALUES, RELIC_VALUES, tierValue } from '../src/content/items';
 import { SimClock } from '../src/sim/clock';
 import { CombatSim } from '../src/sim/combat';
 import { setup, sim, stepFor } from './helpers';
@@ -201,7 +201,7 @@ describe('Kosten, Abklingzeiten, Effektketten', () => {
     expect(s.stats.echoRepeats).toBe(1);
     expect(f.manualUses).toBe(3);
     // Wiederholung gibt Wallschild (50 %), aber keine Schildspange (10)
-    const wall = Math.round(12 * 0.5);
+    const wall = Math.round(12 * ITEM_VALUES.echoPower);
     expect(f.shield - shieldBefore).toBeLessThanOrEqual(wall);
   });
 
@@ -233,7 +233,7 @@ describe('Kosten, Abklingzeiten, Effektketten', () => {
   it('Taktgeber erzeugt nur begrenzt Fokus pro Kampf', () => {
     const s = sim({ enemies: ['nebelgaenger'], hpScale: 100, items: { ivo: ['taktgeber'] }, atk: { fritz: 0, ivo: 0.001, sera: 0 } });
     stepFor(s, 60);
-    expect(s.hero('ivo')!.taktgeberProcs).toBe(ITEM_VALUES.taktgeberMax);
+    expect(s.hero('ivo')!.taktgeberProcs).toBe(tierValue('taktgeber', 'max', 'magic'));
   });
 });
 

@@ -44,8 +44,9 @@ for (let iter = 0; iter < 5000 && runsDone < RUNS; iter++) {
   }
   if (await vis('.reward-screen')) {
     await shot('reward');
-    await page.locator('.reward-card').first().click();
-    const slots = page.locator('.slot-btn');
+    await page.waitForTimeout(1900);
+    await page.locator('.loot-card').first().click();
+    const slots = page.locator('.slot-tile');
     if (await slots.count()) await slots.first().click();
     const eq = page.locator('button.btn.primary.big');
     if (await eq.isEnabled()) await eq.click(); else await page.click('text=Nichts nehmen');

@@ -44,6 +44,7 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
   const [yuumiAnim, setYuumiAnim] = useState<{ cls: string; until: number } | null>(null);
   const [hint, setHint] = useState<{ id: string; text: string } | null>(null);
   const [finishing, setFinishing] = useState(false);
+  const [shakeUntil, setShakeUntil] = useState(0);
   const pausedRef = useRef(paused);
   const speedRef = useRef(speed);
   pausedRef.current = paused;
@@ -78,6 +79,7 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
             if (ev.absorbed > 0) fl.push({ id: floaterId++, uid: ev.uid, text: `🛡-${ev.absorbed}`, cls: 'f-absorb', born: now });
             an[ev.uid] = { cls: 'hit', until: now + 200 };
             play(ev.kind === 'burn' ? 'burn' : 'hit');
+            if (ev.kind === 'hit' && ev.amount + ev.absorbed >= 22 && ev.uid.startsWith('h') && save.settings.animations) setShakeUntil(now + 350);
             break;
           case 'heal':
             fl.push({ id: floaterId++, uid: ev.uid, text: `+${ev.amount}`, cls: 'f-heal', born: now });
@@ -137,6 +139,7 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
             break;
           case 'phase':
             play('bossPhase');
+            if (save.settings.animations) setShakeUntil(now + 500);
             if (ev.text) setBanner({ text: ev.text, until: now + 3500 });
             break;
           case 'banner':
@@ -145,6 +148,7 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
             break;
           case 'explode':
             fl.push({ id: floaterId++, uid: ev.uid, text: '💥', cls: 'f-explode', born: now });
+            if (save.settings.animations) setShakeUntil(now + 350);
             play('explode');
             break;
           case 'summon':
@@ -176,7 +180,7 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
       if (fl.length) setFloaters((prev) => [...prev.filter((f) => now - f.born < FLOAT_MS), ...fl].slice(-60));
       if (Object.keys(an).length) setAnims((prev) => ({ ...prev, ...an }));
     },
-    [sim, showHint],
+    [sim, showHint, save.settings.animations],
   );
 
   // Spielschleife: Echtzeit × Geschwindigkeit → feste Simulationsschritte
@@ -272,7 +276,7 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
   const escIn = sim.escalationAt - sim.time;
 
   return (
-    <div className={`combat ${paused ? 'is-paused' : ''} speed-${speed}`}>
+    <div className={`combat ${paused ? 'is-paused' : ''} speed-${speed} ${shakeUntil > now ? 'shake' : ''}`}>
       <div className="combat-top">
         <span className="pill">{kindLabel}</span>
         <span className="pill">⏱ {sim.time.toFixed(0)} s</span>
@@ -308,7 +312,7 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
             <HeroUnit u={front} sim={sim} anim={animOf(front.uid)} floaters={floatersOf(front.uid)} row="Vorn" />
             {sim.yuumi && (
               <div className={`yuumi-unit ${yAnim} ${paused || !started ? 'resting' : ''}`}>
-                <YuumiArt size={58} pose={yAnim === 'pounce' ? 'pounce' : yAnim === 'happy' ? 'happy' : 'sit'} />
+                <YuumiArt size={70} pose={yAnim === 'pounce' ? 'pounce' : yAnim === 'happy' ? 'happy' : 'sit'} />
                 {yAnim === 'purring' && <span className="purr-text">prrr ♥</span>}
                 <div className="yuumi-label small">Yuumi</div>
               </div>
@@ -441,15 +445,17 @@ function HeroUnit({ u, sim, anim, floaters, row }: { u: Unit; sim: CombatSim; an
     <div className={`unit hero ${u.alive ? '' : 'dead'} ${anim}`} style={{ ['--c' as string]: def.color }}>
       <div className="unit-row small muted">{row}</div>
       <div className="unit-art">
-        <HeroArt id={u.heroId!} size={78} mood={u.alive ? (u.hp / u.maxHp < 0.3 ? 'sad' : 'normal') : 'down'} />
+        <HeroArt id={u.heroId!} size={100} mood={u.alive ? (u.hp / u.maxHp < 0.3 ? 'sad' : 'normal') : 'down'} />
         {u.shield > 0 && <div className="shield-aura" />}
         <FloaterLayer floaters={floaters} />
       </div>
-      <div className="unit-name">
-        <span style={{ color: def.color }}>{def.symbol}</span> {def.name} {queued && <span className="queued">⏳</span>}
+      <div className="unit-plate">
+        <div className="unit-name">
+          <span style={{ color: def.color }}>{def.symbol}</span> {def.name} {queued && <span className="queued">⏳</span>}
+        </div>
+        <Bar value={u.hp} max={u.maxHp} shield={u.shield} label color={u.hp / u.maxHp < 0.3 ? '#e0584a' : '#5fbf6a'} />
+        <StatusIcons u={u} />
       </div>
-      <Bar value={u.hp} max={u.maxHp} shield={u.shield} label color={u.hp / u.maxHp < 0.3 ? '#e0584a' : '#5fbf6a'} />
-      <StatusIcons u={u} />
     </div>
   );
 }
@@ -491,11 +497,12 @@ function EnemyUnit({ u, sim, focused, anim, floaters, onClick }: { u: Unit; sim:
       )}
       <Tip tip={tip} wide>
         <div className="unit-art">
-          <EnemyArt id={u.enemyId!} size={Math.round(84 * Math.min(def.size, 1.5))} />
+          <EnemyArt id={u.enemyId!} size={Math.round(104 * Math.min(def.size, 1.5))} />
           {u.shield > 0 && <div className="shield-aura enemy-shield" />}
           <FloaterLayer floaters={floaters} />
         </div>
       </Tip>
+      <div className="unit-plate">
       <div className="unit-name">
         {def.name}
         {def.kind === 'elite' && <span className="badge elite">Elite</span>}
@@ -508,10 +515,11 @@ function EnemyUnit({ u, sim, focused, anim, floaters, onClick }: { u: Unit; sim:
         )}
       </div>
       <div className="small muted role">
-        {def.role} {def.targeting === 'back' && <span className="badge back">🏹 hintere Reihe</span>}
+        {def.role} {def.targeting === 'back' && <span className="badge back" title="Zielt auf die hintere Reihe">🏹</span>}
       </div>
       <Bar value={u.hp} max={u.maxHp} shield={u.shield} label color="#c9524a" />
       <StatusIcons u={u} />
+      </div>
     </div>
   );
 }
@@ -637,15 +645,13 @@ function CombatLog({ sim }: { sim: CombatSim }) {
 
 function PreCombat({ sim, onStart, onBuild, firstTime, onTutorialSeen }: { sim: CombatSim; onStart: () => void; onBuild: () => void; firstTime: boolean; onTutorialSeen: () => void }) {
   const kinds = [...new Set(sim.enemies.map((e) => e.enemyId!))];
-  const dmgScale = sim.setup.dmgScale;
   return (
     <div className="precombat">
       <div className="precombat-box">
         <h2>Vorbereitung</h2>
         {firstTime && (
           <div className="tutorial small">
-            <b>So funktioniert der Kampf:</b> Alle greifen automatisch an. Du entscheidest <b>wen</b> (Gegner anklicken = Fokusziel 🎯) und <b>wann</b> Fähigkeiten eingesetzt werden (Tasten 1/2/3). Fähigkeiten
-            kosten gemeinsamen <b>Fokus</b> (+1 alle 5 s, max. 6). Mit ⚠ markierte Angriffe werden angekündigt – Fritz’ Laternenwall unterbricht sie beim Fokusziel. Leertaste pausiert jederzeit.
+            <b>Kurz erklärt:</b> Angriffe laufen automatisch. 🎯 Gegner anklicken = Fokusziel · 1/2/3 = Fähigkeiten (kosten Fokus) · ⚠-Angriffe mit Fritz’ Laternenwall unterbrechen · Leertaste = Pause.
           </div>
         )}
         <div className="grid-2">
@@ -654,18 +660,22 @@ function PreCombat({ sim, onStart, onBuild, firstTime, onTutorialSeen }: { sim: 
             {kinds.map((k) => {
               const d = ENEMIES[k];
               return (
-                <div key={k} className="pre-enemy">
-                  <b>{d.name}</b> <span className="muted small">({d.role})</span>
-                  {d.targeting === 'back' && <span className="badge back">🏹 hintere Reihe</span>}
-                  <div className="small">{d.description}</div>
-                  {d.phases[0].abilities
-                    .filter((a) => a.type === 'windup')
-                    .map((a, i) => (
-                      <div key={i} className="small warn-text">
-                        ⚠ {a.name}: {a.type === 'windup' ? windupText(a.effect, dmgScale) : ''}
-                      </div>
-                    ))}
-                </div>
+                <Tip key={k} wide tip={<><b>{d.name}</b> – {d.role}<div>{d.description}</div></>}>
+                  <div className="pre-enemy">
+                    <EnemyArt id={k} size={54} />
+                    <div>
+                      <b>{d.name}</b> {d.targeting === 'back' && <span title="Zielt auf die hintere Reihe">🏹</span>}
+                      <div className="small muted">{d.role}</div>
+                      {d.phases[0].abilities
+                        .filter((a) => a.type === 'windup')
+                        .map((a, i) => (
+                          <div key={i} className="small warn-text">
+                            ⚠ {a.name}
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                </Tip>
               );
             })}
             {sim.setup.focusBonus !== 0 && (

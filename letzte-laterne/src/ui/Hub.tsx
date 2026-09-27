@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { ENEMIES } from '../content/enemies';
 import { HEROES } from '../content/heroes';
-import { ITEMS, RELICS, TAG_LABEL, TAG_SYMBOL } from '../content/items';
+import { ITEMS, RARITY_SYMBOL, RELICS, TAG_LABEL, TAG_SYMBOL, itemText } from '../content/items';
+import { LootArt } from './lootArt';
 import { SEALS, SEAL_ORDER } from '../content/progression';
 import { DIALOGS, EXPEDITIONS, HUB_LINES, SPEAKER_NAME, type DialogLine } from '../content/story';
 import { VoiceButton, useSpeakOnce } from './voice';
-import type { BuildTag, ExpeditionId, HeroId, ItemId, LongNightMod, RelicId, SealId } from '../content/types';
+import type { BuildTag, ExpeditionId, HeroId, ItemId, LongNightMod, Rarity, RelicId, SealId } from '../content/types';
 import { HERO_IDS } from '../content/types';
 import * as A from '../game/actions';
 import { EnemyArt, HeroArt, LanternIcon, YuumiArt } from './art';
 import { DialogOverlay } from './Dialog';
-import { Rar, Tags } from './components';
+import { Rar, Tags, Tip } from './components';
 import { SettingsPanel } from './Settings';
 import { useGame } from './store';
 
@@ -46,16 +47,16 @@ export function Hub({ onTitle }: { onTitle: () => void }) {
       <div className="hub-party">
         <div className="hub-scene">
           <div className="hub-hero">
-            <HeroArt id="fritz" size={86} />
+            <HeroArt id="fritz" size={100} />
           </div>
           <div className="hub-lantern">
             <LanternIcon size={34} />
           </div>
           <div className="hub-hero">
-            <HeroArt id="sera" size={86} mood="happy" />
+            <HeroArt id="sera" size={100} mood="happy" />
           </div>
           <div className="hub-hero">
-            <HeroArt id="ivo" size={86} />
+            <HeroArt id="ivo" size={100} />
           </div>
         </div>
         <HubLine line={HUB_LINES[hubLineKey(save.meta)]} enabled={save.dialogQueue.length === 0} />
@@ -118,25 +119,22 @@ function ExpeditionTab({ ended }: { ended: boolean }) {
                   <b>
                     {e}. {x.name}
                   </b>
-                  <span className="small">{locked ? '🔒 gesperrt' : done ? '✓ abgeschlossen' : 'offen'}</span>
+                  <span className="small">{locked ? '🔒' : done ? '✓' : ''}</span>
                 </div>
                 <div className="muted small">{x.chapter}</div>
-                <div className="small">{locked ? 'Besiege den vorherigen Gebietsboss, um diese Expedition freizuschalten.' : x.subtitle}</div>
+                <div className="small">{locked ? 'Nach dem vorherigen Boss.' : x.subtitle}</div>
               </button>
             );
           })}
         </div>
-        <p className="small muted">
-          Jede Expedition: 8 Stationen (Kampf, Wahl Kampf/Ereignis, Kampf, Storyereignis, Elite, Lager, schwerer Kampf, Boss). Ausrüstung, Relikte, Run-Level und Verbesserungen gelten nur für den Run;
-          Erinnerungslicht, Siegel, Story und Sammlung bleiben.
-        </p>
+
       </section>
       <section>
         <h2>Vorbereitung</h2>
         <div className="panel">
           <h3>Aktive Siegel</h3>
           {meta.sealsActive.length === 0 ? (
-            <p className="muted small">Keine Siegel aktiv. Präge Siegel mit Erinnerungslicht im Reiter „Siegel“.</p>
+            <p className="muted small">Keine – prägen im Reiter „Siegel“.</p>
           ) : (
             <ul className="plain">
               {meta.sealsActive.map((s) => (
@@ -165,7 +163,7 @@ function ExpeditionTab({ ended }: { ended: boolean }) {
         {ended && (
           <div className="panel">
             <h3>🌙 Die lange Nacht</h3>
-            <p className="small muted">Wähle bis zu drei Modifikatoren. Jeder Modifikator bringt beim Boss-Sieg +1 Erinnerungslicht.</p>
+            <p className="small muted">Je Modifikator +1 ✦ beim Boss-Sieg.</p>
             {(Object.keys(MOD_INFO) as LongNightMod[]).map((m) => (
               <label key={m} className="mod-row">
                 <input type="checkbox" checked={mods.includes(m)} onChange={(e) => setMods(e.target.checked ? [...mods, m] : mods.filter((x) => x !== m))} />
@@ -210,10 +208,7 @@ function SealsTab() {
           Aktiv: <b>{meta.sealsActive.length}/3</b> · Belastung: <b>{load}/4</b> · ✦ {meta.light}
         </div>
       </div>
-      <p className="small muted">
-        Gekaufte Siegel bleiben für immer. Aktiviere höchstens 3 gleichzeitig mit einer Belastung von höchstens 4 (Stufe 1 und 2: je 1, Stufe 3: 2). Umstellen ist hier jederzeit kostenlos; aktive Vorgänger
-        sind nicht nötig.
-      </p>
+      <p className="small muted">Geprägt bleibt geprägt · max. 3 aktiv · Belastung ≤ 4 · jederzeit umstellbar</p>
       <div className="seal-grid">
         {(['glut', 'bastion', 'echo'] as BuildTag[]).map((b) => (
           <div key={b} className={`seal-col branch-${b}`}>
@@ -268,102 +263,103 @@ function SealCard({ id, onBuy, onToggle }: { id: SealId; onBuy: () => void; onTo
 function CollectionTab() {
   const { save } = useGame();
   const meta = save.meta;
+  const itemTip = (id: ItemId) => {
+    const it = ITEMS[id];
+    const tiers: Rarity[] = it.unique ? ['legendary'] : ['common', 'magic', 'rare'];
+    return (
+      <>
+        <b>{it.name}</b> <Tags tags={it.tags} />
+        {tiers.map((q) => (
+          <div key={q} className="small">
+            <span className={`qt-${q}`}>{RARITY_SYMBOL[q]}</span> {itemText({ id, q })}
+          </div>
+        ))}
+        <div className="small muted">{it.synergy}</div>
+      </>
+    );
+  };
   return (
     <div className="col gap">
       <section>
-        <h2>
-          Ausrüstung ({meta.discoveredItems.length}/12)
-        </h2>
-        <div className="coll-grid">
+        <h2>Ausrüstung · {meta.discoveredItems.length}/12</h2>
+        <div className="gallery">
           {(Object.keys(ITEMS) as ItemId[]).map((id) => {
-            const it = ITEMS[id];
             const known = meta.discoveredItems.includes(id);
+            const q: Rarity = ITEMS[id].unique ? 'legendary' : 'rare';
             return (
-              <div key={id} className={`coll-card ${known ? `rarb-${it.rarity}` : 'unknown'}`}>
-                {known ? (
-                  <>
-                    <div className="row between">
-                      <b>{it.name}</b>
-                      <Rar r={it.rarity} />
-                    </div>
-                    <Tags tags={it.tags} />
-                    <div className="small">{it.description}</div>
-                    <div className="small muted">Synergie: {it.synergy}</div>
-                  </>
-                ) : (
-                  <div className="muted">??? – noch nicht entdeckt</div>
-                )}
-              </div>
+              <Tip key={id} wide tip={known ? itemTip(id) : 'Noch nicht entdeckt'}>
+                <div className={`gallery-tile ${known ? `q-border-${q}` : 'unknown'}`}>
+                  <LootArt kind="item" id={id} size={64} />
+                  <span className="small">{known ? ITEMS[id].name : '???'}</span>
+                </div>
+              </Tip>
             );
           })}
         </div>
       </section>
       <section>
-        <h2>Relikte ({meta.discoveredRelics.length}/7)</h2>
-        <div className="coll-grid">
+        <h2>Relikte · {meta.discoveredRelics.length}/7</h2>
+        <div className="gallery">
           {(Object.keys(RELICS) as RelicId[]).map((id) => {
             const it = RELICS[id];
             const known = meta.discoveredRelics.includes(id);
             return (
-              <div key={id} className={`coll-card ${known ? `rarb-${it.rarity}` : 'unknown'}`}>
-                {known ? (
-                  <>
-                    <div className="row between">
-                      <b>{it.name}</b>
-                      <Rar r={it.rarity} />
-                    </div>
-                    <div className="small">{it.description}</div>
-                    {it.flavor && <div className="flavor small">{it.flavor}</div>}
-                    <div className="small muted">Synergie: {it.synergy}</div>
-                  </>
-                ) : (
-                  <div className="muted">??? – noch nicht entdeckt</div>
-                )}
-              </div>
+              <Tip
+                key={id}
+                wide
+                tip={
+                  known ? (
+                    <>
+                      <b className={`qt-${it.rarity}`}>{it.name}</b> <Rar r={it.rarity} />
+                      <div>{it.description}</div>
+                      {it.flavor && <div className="flavor small">{it.flavor}</div>}
+                    </>
+                  ) : (
+                    'Noch nicht entdeckt'
+                  )
+                }
+              >
+                <div className={`gallery-tile ${known ? `q-border-${it.rarity}` : 'unknown'}`}>
+                  <LootArt kind="relic" id={id} size={64} />
+                  <span className="small">{known ? it.name : '???'}</span>
+                </div>
+              </Tip>
             );
           })}
         </div>
       </section>
-      <section>
-        <h2>Begleiter</h2>
-        <div className="coll-card yuumi-entry">
-          {meta.yuumiDiscovered ? (
-            <div className="row gap center-v">
-              <YuumiArt size={70} />
-              <div>
-                <b>Yuumi</b> – eine kleine graue Katze mit einem Mondglöckchen am Hals.
-                <div className="small">Kämpft mit Pfotenhieb und schützt mit Schnurrschutz, solange ihr Mondglöckchen als Relikt ausgerüstet ist.</div>
-                <div className="small muted">
-                  Dieser Eintrag bedeutet keine dauerhafte Begleitung: Das Mondglöckchen muss in jedem Run neu gefunden werden (Ereignis „Ein Miauen im Nebel“ oder Elite-/Reliktbelohnungen).
+      <section className="grid-2">
+        <div>
+          <h2>Begleiterin</h2>
+          <div className={`coll-card yuumi-entry ${meta.yuumiDiscovered ? '' : 'unknown'}`}>
+            {meta.yuumiDiscovered ? (
+              <div className="row gap center-v">
+                <YuumiArt size={70} />
+                <div>
+                  <b>Yuumi</b>
+                  <div className="small muted">Begleitet euch nur, solange ihr Mondglöckchen im Run ausgerüstet ist.</div>
                 </div>
               </div>
-            </div>
-          ) : (
-            <div className="muted">??? – Vielleicht hört man im Nebel der Vorstadt etwas …</div>
-          )}
+            ) : (
+              <div className="muted">??? – In der Vorstadt miaut etwas …</div>
+            )}
+          </div>
         </div>
-      </section>
-      <section>
-        <h2>Bosse</h2>
-        <div className="coll-grid">
-          {(['glockenwaechter', 'archivarin', 'hueter'] as const).map((b) => {
-            const known = meta.bossesDefeated.includes(b);
-            return (
-              <div key={b} className={`coll-card ${known ? '' : 'unknown'}`}>
-                {known ? (
-                  <div className="row gap">
-                    <EnemyArt id={b} size={60} />
-                    <div>
-                      <b>{ENEMIES[b].name}</b> ✓ besiegt
-                      <div className="small">{ENEMIES[b].description}</div>
-                    </div>
+        <div>
+          <h2>Bosse</h2>
+          <div className="row gap">
+            {(['glockenwaechter', 'archivarin', 'hueter'] as const).map((b) => {
+              const known = meta.bossesDefeated.includes(b);
+              return (
+                <Tip key={b} wide tip={known ? `${ENEMIES[b].name}: ${ENEMIES[b].description}` : 'Noch nicht besiegt'}>
+                  <div className={`gallery-tile boss-tile ${known ? '' : 'unknown'}`}>
+                    <EnemyArt id={b} size={56} />
+                    <span className="small">{known ? '✓ besiegt' : '???'}</span>
                   </div>
-                ) : (
-                  <div className="muted">??? – noch nicht besiegt</div>
-                )}
-              </div>
-            );
-          })}
+                </Tip>
+              );
+            })}
+          </div>
         </div>
       </section>
     </div>

@@ -16,7 +16,7 @@ daneben liegen). Der Spielstand liegt im `localStorage` des Browsers.
 cd letzte-laterne
 npm install
 npm run dev          # http://localhost:5173
-npm test             # 63 Vitest-Tests (Regeln, Yuumi, Belohnungen, Spielstände, Builds)
+npm test             # 67 Vitest-Tests (Regeln, Yuumi, Belohnungen, Spielstände, Builds)
 npm run build        # Produktionsbuild nach dist/
 npm run build:single # eine offline spielbare HTML-Datei nach dist-single/
 ```
@@ -57,6 +57,19 @@ pip install edge-tts
 npx tsx scripts/dump-lines.ts > /tmp/lines.json
 python3 scripts/tts.py /tmp/lines.json      # erzeugt nur fehlende Dateien, schreibt das Manifest
 ```
+
+## Grafik & Beute
+
+* Beute in vier Qualitätsstufen (Gewöhnlich grau · Magisch blau · Selten violett · Legendär gold
+  leuchtend). Nach Kämpfen liegen die Karten verdeckt und werden nacheinander aufgedeckt – mit eigenem
+  Klang je Stufe, Lichtstrahlen und Aufblitzen bei Legendärem. Wahrscheinlichkeiten: ⓘ „Chancen“.
+* Alle 12 Gegenstände und 7 Relikte haben eigene, animierte SVG-Illustrationen (`src/ui/lootArt.tsx`).
+* Atmosphärische Szenen (`src/ui/scene.tsx`): Mondnacht über der Vorstadt mit Glockenturm und
+  Glühwürmchen, Bücherbögen und Rosettenfenster im Archiv, glühende Tropfsteinhöhle im Herz der
+  Laterne, warme Laternenstube mit Fenster, Lagerfeuer, Morgenrot im Ende. Treibender Nebel,
+  Funken, Vignette; Bosskämpfe mit rötlicher Vignette, schwere Treffer lassen die Bühne wackeln.
+* Schriften: Cinzel (Überschriften) und Alegreya Sans (Text), eingebettet über @fontsource (offline).
+* „Animationen“ in den Einstellungen und `prefers-reduced-motion` schalten Bewegung ab.
 
 ## Inhalt
 

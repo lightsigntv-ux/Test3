@@ -2,7 +2,9 @@ export type HeroId = 'fritz' | 'ivo' | 'sera';
 export const HERO_IDS: HeroId[] = ['fritz', 'ivo', 'sera'];
 
 export type BuildTag = 'glut' | 'bastion' | 'echo';
-export type Rarity = 'common' | 'rare' | 'legendary';
+/** Qualitätsstufen der Beute (wie in Diablo): grau → blau → violett → gold. */
+export type Rarity = 'common' | 'magic' | 'rare' | 'legendary';
+export const RARITY_ORDER: Rarity[] = ['common', 'magic', 'rare', 'legendary'];
 
 export type ItemId =
   | 'zunderring'

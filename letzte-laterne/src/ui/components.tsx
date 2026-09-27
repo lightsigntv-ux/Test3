@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react';
-import { ITEMS, RARITY_LABEL, RARITY_SYMBOL, RELICS, TAG_LABEL, TAG_SYMBOL } from '../content/items';
-import type { BuildTag, ItemId, Rarity, RelicId } from '../content/types';
+import { ITEMS, RARITY_LABEL, RARITY_SYMBOL, RELICS, TAG_LABEL, TAG_SYMBOL, itemText, type EquipItem } from '../content/items';
+import { LootArt } from './lootArt';
+import type { BuildTag, Rarity, RelicId } from '../content/types';
 
 export function Tip({ children, tip, wide }: { children: ReactNode; tip: ReactNode; wide?: boolean }) {
   return (
@@ -27,7 +28,7 @@ export function Tags({ tags }: { tags: BuildTag[] }) {
 
 export function Rar({ r }: { r: Rarity }) {
   return (
-    <span className={`rar rar-${r}`}>
+    <span className={`rar q-${r}`}>
       {RARITY_SYMBOL[r]} {RARITY_LABEL[r]}
     </span>
   );
@@ -51,22 +52,23 @@ export function Bar({ value, max, shield = 0, color = '#5fbf6a', height = 10, la
   );
 }
 
-export function ItemLine({ id, compact }: { id: ItemId; compact?: boolean }) {
-  const it = ITEMS[id];
+/** Kompakter Gegenstand mit Bild; Details im Tooltip. */
+export function ItemLine({ item, compact }: { item: EquipItem; compact?: boolean }) {
+  const it = ITEMS[item.id];
   return (
     <Tip
       wide
       tip={
         <>
-          <b>{it.name}</b> <Rar r={it.rarity} />
-          <div>{it.description}</div>
-          <div className="muted small">Synergie: {it.synergy}</div>
+          <b className={`qt-${item.q}`}>{it.name}</b> <Rar r={item.q} />
+          <div>{itemText(item)}</div>
+          <div className="muted small">{it.synergy}</div>
         </>
       }
     >
-      <span className={`item-chip rarb-${it.rarity}`}>
-        {RARITY_SYMBOL[it.rarity]} {it.name}
-        {!compact && <span className="chip-tags">{it.tags.map((t) => TAG_SYMBOL[t]).join('')}</span>}
+      <span className={`item-chip q-border-${item.q}`}>
+        <LootArt kind="item" id={item.id} size={compact ? 20 : 26} />
+        <span className={`qt-${item.q}`}>{it.name}</span>
       </span>
     </Tip>
   );
@@ -79,15 +81,15 @@ export function RelicLine({ id }: { id: RelicId }) {
       wide
       tip={
         <>
-          <b>{it.name}</b> <Rar r={it.rarity} />
+          <b className={`qt-${it.rarity}`}>{it.name}</b> <Rar r={it.rarity} />
           <div>{it.description}</div>
           {it.flavor && <div className="flavor">{it.flavor}</div>}
-          <div className="muted small">Synergie: {it.synergy}</div>
         </>
       }
     >
-      <span className={`item-chip relic-chip rarb-${it.rarity}`}>
-        {id === 'mondgloeckchen' ? '🔔' : '✧'} {it.name}
+      <span className={`item-chip relic-chip q-border-${it.rarity}`}>
+        <LootArt kind="relic" id={id} size={26} />
+        <span className={`qt-${it.rarity}`}>{it.name}</span>
       </span>
     </Tip>
   );

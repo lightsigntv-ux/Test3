@@ -2,7 +2,7 @@
 import { STATUS } from '../content/balance';
 import type { WindupEffect } from '../content/enemies';
 import { ABILITY_VALUES, HEROES } from '../content/heroes';
-import { ITEMS, ITEM_VALUES, RELIC_VALUES } from '../content/items';
+import { ITEMS, ITEM_VALUES, RELIC_VALUES, tierValue, type EquipItem } from '../content/items';
 import { SEAL_VALUES, UPGRADE_VALUES } from '../content/progression';
 import type { HeroId, ItemId } from '../content/types';
 import { heroStats } from './derive';
@@ -17,8 +17,14 @@ export function shieldMultFor(run: RunState, target: HeroId): number {
   return m;
 }
 
+function eq(run: RunState, h: HeroId): EquipItem[] {
+  return run.equipment[h].filter((x): x is EquipItem => !!x);
+}
 function items(run: RunState, h: HeroId): ItemId[] {
-  return run.equipment[h].filter((x): x is ItemId => !!x);
+  return eq(run, h).map((x) => x.id);
+}
+function tv(run: RunState, h: HeroId, id: ItemId, key: string): number {
+  return eq(run, h).reduce((a, x) => a + (x.id === id ? tierValue(id, key, x.q) : 0), 0);
 }
 
 export function abilityCost(run: RunState, h: HeroId): number {
@@ -28,8 +34,7 @@ export function abilityCost(run: RunState, h: HeroId): number {
 }
 
 export function abilityCooldown(run: RunState, h: HeroId): number {
-  const n = items(run, h).filter((i) => i === 'resonanzkristall').length;
-  return Math.max(STATUS.minCooldown, HEROES[h].ability.cooldown * Math.max(0, 1 - ITEM_VALUES.resonanzMult * n));
+  return Math.max(STATUS.minCooldown, HEROES[h].ability.cooldown * Math.max(0, 1 - tv(run, h, 'resonanzkristall', 'cd')));
 }
 
 /** Zeilen mit berechneter Wirkung der aktiven Fähigkeit. */
@@ -49,7 +54,7 @@ export function abilityLines(run: RunState, h: HeroId): string[] {
     if (run.upgrades.includes('schildstoss'))
       lines.push(`Schildstoß: ${r(UPGRADE_VALUES.schildstossDamage * m)} Schaden + ${UPGRADE_VALUES.schildstossVulnerable} s Verwundbar am Fokusziel`);
   } else if (h === 'ivo') {
-    let stacks = ABILITY_VALUES.stormBurn + its.filter((i) => i === 'zunderring').length;
+    let stacks = ABILITY_VALUES.stormBurn + tv(run, h, 'zunderring', 'stacks');
     const extra = run.seals.includes('glut2') ? ` (erster Funkensturm im Kampf +${SEAL_VALUES.glut2Stacks})` : '';
     lines.push(`${r(ABILITY_VALUES.stormDamage * m)} Schaden an allen Gegnern, je ${stacks} Brandstapel${extra}`);
     lines.push(`Brand: ${burnPerStack(run, h).toFixed(1).replace('.', ',')} Schaden je Stapel und Sekunde`);
@@ -59,14 +64,13 @@ export function abilityLines(run: RunState, h: HeroId): string[] {
     lines.push(`Heilt die zwei verletztesten Verbündeten um je ${r(ABILITY_VALUES.memoryHeal * m)}`);
     if (run.upgrades.includes('nachhall')) lines.push(`Nachhall: danach 3 s lang ${r(UPGRADE_VALUES.nachhallPerSecond * m)} HP/s`);
   }
-  if (its.includes('schildspange')) lines.push(`Schildspange: ${h === 'fritz' ? 'Fritz' : HEROES[h].name} erhält ${r(ITEM_VALUES.schildspangeShield * m * shieldMultFor(run, h))} Schild`);
-  if (its.includes('echochronik')) lines.push('Echochronik: jeder 3. Einsatz wird mit 50 % wiederholt');
+  if (its.includes('schildspange')) lines.push(`Schildspange: ${h === 'fritz' ? 'Fritz' : HEROES[h].name} erhält ${r(tv(run, h, 'schildspange', 'shield') * m * shieldMultFor(run, h))} Schild`);
+  if (its.includes('echochronik')) lines.push(`Echochronik: jeder 3. Einsatz wird mit ${Math.round(ITEM_VALUES.echoPower * 100)} % wiederholt`);
   return lines;
 }
 
 export function burnPerStack(run: RunState, h: HeroId): number {
-  const its = items(run, h);
-  let p = 1 + ITEM_VALUES.ascheglasMult * its.filter((i) => i === 'ascheglas').length;
+  let p = 1 + tv(run, h, 'ascheglas', 'mult');
   if (h === 'ivo' && run.upgrades.includes('heisseAsche')) p += UPGRADE_VALUES.heisseAscheMult;
   return STATUS.burnDamagePerStack * p * heroStats(run, h).mult;
 }

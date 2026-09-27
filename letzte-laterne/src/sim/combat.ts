@@ -5,7 +5,7 @@
 import { ESCALATION, FOCUS, LONG_NIGHT, SIM, STATUS } from '../content/balance';
 import { ENEMIES, type EnemyAbility, type EnemyDef, type WindupEffect } from '../content/enemies';
 import { ABILITY_VALUES, HEROES } from '../content/heroes';
-import { ITEM_VALUES, RELIC_VALUES } from '../content/items';
+import { ITEM_VALUES, RELIC_VALUES, tierValue, type EquipItem } from '../content/items';
 import { SEAL_VALUES, UPGRADE_VALUES } from '../content/progression';
 import type { EnemyId, HeroId, ItemId, LongNightMod, RelicId, SealId, UpgradeId } from '../content/types';
 import { Rng } from './rng';
@@ -19,7 +19,7 @@ export interface HeroSetup {
   atk: number;
   heal: number;
   mult: number; // Level-Multiplikator für Fähigkeiten
-  items: ItemId[];
+  items: EquipItem[];
 }
 
 export interface CombatSetup {
@@ -84,7 +84,7 @@ export interface Unit {
   vulnerable: number;
   hots: Hot[];
   // Held
-  items: ItemId[];
+  items: EquipItem[];
   heal: number;
   mult: number;
   abilityCd: number;
@@ -253,7 +253,7 @@ export class CombatSim {
       u.heal = h.heal;
       u.mult = h.mult;
       u.interval = def.interval;
-      u.items = h.items.slice();
+      u.items = h.items.map((i) => ({ ...i }));
       u.manualUses = setup.manualUsesStart?.[h.id] ?? 0;
       u.attackTimer = def.interval * (0.5 + 0.15 * this.heroes.length);
       this.heroes.push(u);
@@ -262,7 +262,7 @@ export class CombatSim {
     this.focusTargetUid = this.enemies[0]?.uid ?? null;
 
     let focus = FOCUS.start + setup.focusBonus;
-    for (const h of this.heroes) focus += this.count(h, 'stimmgabel') * ITEM_VALUES.stimmgabelFocus;
+    for (const h of this.heroes) focus += this.tv(h, 'stimmgabel', 'focus');
     this.focus = Math.max(0, Math.min(FOCUS.max, focus));
 
     this.yuumi = this.relics.has('mondgloeckchen') ? { timer: RELIC_VALUES.pawInterval, paws: 0, purrs: 0 } : null;
@@ -365,8 +365,15 @@ export class CombatSim {
 
   count(u: Unit, item: ItemId): number {
     let n = 0;
-    for (const i of u.items) if (i === item) n++;
+    for (const i of u.items) if (i.id === item) n++;
     return n;
+  }
+
+  /** Summe eines Stufenwerts über alle Exemplare eines Gegenstands beim Träger. */
+  tv(u: Unit, item: ItemId, key: string): number {
+    let v = 0;
+    for (const i of u.items) if (i.id === item) v += tierValue(item, key, i.q);
+    return v;
   }
 
   aliveHeroes(): Unit[] {
@@ -441,7 +448,7 @@ export class CombatSim {
 
   cooldownFor(h: Unit): number {
     let cd = HEROES[h.heroId!].ability.cooldown;
-    cd *= Math.max(0, 1 - ITEM_VALUES.resonanzMult * this.count(h, 'resonanzkristall'));
+    cd *= Math.max(0, 1 - this.tv(h, 'resonanzkristall', 'cd'));
     if (this.seals.has('echo2') && !h.firstAbilityDone) cd *= SEAL_VALUES.echo2CdMult;
     return Math.max(STATUS.minCooldown, cd);
   }
@@ -551,12 +558,12 @@ export class CombatSim {
           this.dealDamage(src, t, UPGRADE_VALUES.schildstossDamage * m, true);
           if (t.alive) t.vulnerable = Math.max(t.vulnerable, UPGRADE_VALUES.schildstossVulnerable);
           if (manual && t.alive && this.count(h, 'zunderring') > 0)
-            this.applyBurn(src, t, ITEM_VALUES.zunderringStacks * this.count(h, 'zunderring'), this.burnPotency(h));
+            this.applyBurn(src, t, this.tv(h, 'zunderring', 'stacks'), this.burnPotency(h));
         }
       }
     } else if (h.heroId === 'ivo') {
       let stacks = Math.max(1, Math.round(ABILITY_VALUES.stormBurn * power));
-      if (manual) stacks += ITEM_VALUES.zunderringStacks * this.count(h, 'zunderring');
+      if (manual) stacks += this.tv(h, 'zunderring', 'stacks');
       if (manual && this.seals.has('glut2') && !this.glut2Used) {
         stacks += SEAL_VALUES.glut2Stacks;
         this.glut2Used = true;
@@ -581,7 +588,7 @@ export class CombatSim {
     }
 
     if (manual && this.count(h, 'schildspange') > 0)
-      this.addShield(h, ITEM_VALUES.schildspangeShield * this.count(h, 'schildspange') * h.mult, { unit: h, kind: 'proc', label: 'Schildspange' });
+      this.addShield(h, this.tv(h, 'schildspange', 'shield') * h.mult, { unit: h, kind: 'proc', label: 'Schildspange' });
   }
 
   private afterburn(h: Unit, power: number) {
@@ -610,7 +617,7 @@ export class CombatSim {
   }
 
   burnPotency(h: Unit): number {
-    let p = 1 + ITEM_VALUES.ascheglasMult * this.count(h, 'ascheglas');
+    let p = 1 + this.tv(h, 'ascheglas', 'mult');
     if (h.heroId === 'ivo' && this.upgrades.has('heisseAsche')) p += UPGRADE_VALUES.heisseAscheMult;
     return p * h.mult;
   }
@@ -677,7 +684,7 @@ export class CombatSim {
       this.dealDamage(
         { unit: target, kind: 'proc', label: 'Dornenschild' },
         src.unit,
-        ITEM_VALUES.dornenDamage * this.count(target, 'dornenschild') * target.mult,
+        this.tv(target, 'dornenschild', 'damage') * target.mult,
         false,
       );
     }
@@ -755,7 +762,7 @@ export class CombatSim {
       (src.kind === 'basic' || src.kind === 'ability') &&
       this.count(src.unit, 'sanftesLeinen') > 0
     ) {
-      this.addShield(target, over * ITEM_VALUES.leinenRatio * this.count(src.unit, 'sanftesLeinen'), {
+      this.addShield(target, over * this.tv(src.unit, 'sanftesLeinen', 'ratio'), {
         unit: src.unit,
         kind: 'proc',
         label: 'Sanftes Leinen',
@@ -828,7 +835,7 @@ export class CombatSim {
         if (catcher) {
           const alive = this.aliveEnemies();
           const to = alive.reduce((a, b) => (b.burnStacks < a.burnStacks ? b : a));
-          const n = Math.min(ITEM_VALUES.funkenfaengerStacks, wasBurning);
+          const n = Math.min(this.tv(catcher, 'funkenfaenger', 'stacks'), wasBurning);
           this.applyBurn({ unit: catcher, kind: 'proc', label: 'Funkenfänger' }, to, n, potency);
           this.stats.transfers++;
           this.addLog(`Funkenfänger: ${n} Brand springt auf ${to.name} über.`, 'good');
@@ -959,10 +966,11 @@ export class CombatSim {
       if (target) this.heal(src, target, h.heal);
     }
     h.autoCount++;
+    const tk = h.items.filter((x) => x.id === 'taktgeber');
     if (
-      this.count(h, 'taktgeber') > 0 &&
-      h.autoCount % ITEM_VALUES.taktgeberEvery === 0 &&
-      h.taktgeberProcs < ITEM_VALUES.taktgeberMax * this.count(h, 'taktgeber')
+      tk.length > 0 &&
+      h.autoCount % Math.min(...tk.map((x) => tierValue('taktgeber', 'every', x.q))) === 0 &&
+      h.taktgeberProcs < this.tv(h, 'taktgeber', 'max')
     ) {
       h.taktgeberProcs++;
       this.gainFocus(1, `Taktgeber (${h.name})`);

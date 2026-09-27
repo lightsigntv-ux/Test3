@@ -68,20 +68,17 @@ Keine HP, nicht angreifbar, nicht heil-/schildbar, kein Fokus, Zähler startet j
 
 ## Belohnungen
 
-* Normal: 3 Gegenstände, je Option gewöhnlich 60 % / selten 35 % / legendär 5 %,
-  Alternative: kleine Gruppenheilung. Elite: 2 Gegenstände (erste mindestens selten,
-  25/60/15) + mit 60 % ein Relikt statt des dritten Gegenstands (sonst ein dritter
-  Gegenstand). Erster Elite-Sieg überhaupt: eine Option garantiert legendär.
-* Keine identischen Duplikate in einem Angebot, ausgerüstete Relikte nicht erneut.
-* Build-Passung: dominante Richtung = häufigstes Build-Symbol der Ausrüstung/Relikte/
-  Verbesserungen; enthält das Angebot keine passende Option, wird die letzte Option aus
-  dieser Richtung neu gezogen (gleiche Seltenheit).
+* Jede Beutekarte hat eine **Qualitätsstufe** (wie in Diablo): Gewöhnlich (grau ●), Magisch
+  (blau ◆), Selten (violett ✦), Legendär (gold ★, leuchtend). Normale Gegenstände gibt es in den
+  ersten drei Stufen, ihre Werte steigen je Stufe (`TIER_VALUES` in `items.ts`). Legendär sind nur die
+  drei Einzelstücke (Glutherz, Eid des Bollwerks, Echochronik) mit festen, starken Werten.
+* Chancen je Karte (`REWARD` in `balance.ts`): Kampf 55/30/13/2 %, Elite 15/45/32/8 % (Karte 1
+  mindestens Selten, Karte 3 zu 60 % ein Relikt), Lager 0/50/44/6 %. Erster Elite-Sieg überhaupt:
+  eine legendäre Karte garantiert. Startgegenstände aus Siegeln sind Magisch.
+* Keine identischen Gegenstände in einem Angebot, ausgerüstete Relikte nicht erneut; wenn möglich
+  passt eine Karte zur dominanten Build-Richtung. Normale Kämpfe: alternativ 15 % Heilung.
 * Alle Zufälle: `rng(runSeed, Zweck, Station)` → Neuladen erzeugt dasselbe Angebot.
-
-## Gegnerstärke
-
-Basiswerte in `enemies.ts` × `EXPEDITION_SCALE` (HP / Schaden je Expedition). Gegnerischer
-Brand hat die Stärke 0,5 × Schadensfaktor. Tooltips zeigen immer die skalierten Werte.
+* Spielstand Version 2 speichert Gegenstände als `{id, q}`; Version 1 wird migriert.
 
 ## Run-Level
 

@@ -36,13 +36,13 @@ export function ResultScreen() {
           {r.newlyAffordable.length > 0 && (
             <>
               <h3>Jetzt prägbar</h3>
-              <ul className="plain small">
+              <div className="preview-row">
                 {r.newlyAffordable.map((s) => (
-                  <li key={s}>
-                    {TAG_SYMBOL[SEALS[s].branch]} <b>{SEALS[s].name}</b> (✦ {SEALS[s].cost}) – {SEALS[s].description}
-                  </li>
+                  <span key={s} className="chip" title={SEALS[s].description}>
+                    {TAG_SYMBOL[SEALS[s].branch]} {SEALS[s].name} · ✦ {SEALS[s].cost}
+                  </span>
                 ))}
-              </ul>
+              </div>
             </>
           )}
           {r.unlocked.length > 0 && (

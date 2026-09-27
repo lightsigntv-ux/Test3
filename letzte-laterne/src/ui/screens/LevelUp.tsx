@@ -16,7 +16,7 @@ export function LevelUpScreen() {
     <div className="screen">
       <h2>Run-Level {run.level} erreicht!</h2>
       <p className="small muted">
-        Alle Helden werden stärker (+8 % Lebenspunkte, Schaden und Heilung je Level). Wähle zusätzlich eine Verbesserung – sie gilt bis zum Ende dieses Runs.
+        Alle +8 % stärker. Wähle eine Verbesserung für diesen Run.
         {run.pendingLevelUps > 1 ? ` (Noch ${run.pendingLevelUps - 1} weitere Wahl danach.)` : ''}
       </p>
       <div className="reward-row">

@@ -7,6 +7,7 @@ import { RunView } from './RunView';
 import { GameContext, useGameStore } from './store';
 import { Title } from './Title';
 import { Modal } from './components';
+import { Scene, sceneForExpedition, type SceneKind } from './scene';
 
 export default function App() {
   const store = useGameStore();
@@ -27,8 +28,13 @@ export default function App() {
   }, [save.settings]);
 
   const dialogId = save.dialogQueue[0];
+  const run = save.run;
+  let scene: SceneKind = 'hub';
+  if (view === 'title') scene = 'title';
+  else if (run) scene = run.phase === 'camp' ? 'camp' : run.phase === 'ending' ? 'ending' : sceneForExpedition(run.expedition);
   return (
     <GameContext.Provider value={store}>
+      <Scene kind={scene} battle={inCombat} boss={inCombat && run?.combat?.kind === 'boss'} />
       {view === 'title' ? <Title onEnter={() => setView('game')} /> : save.run ? <RunView /> : <Hub onTitle={() => setView('title')} />}
       {view === 'game' && dialogId && (
         <DialogOverlay

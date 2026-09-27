@@ -37,8 +37,8 @@ await page.screenshot({ path: `${OUT}/s-collection.png`, fullPage: true });
 
 // Build-Übersicht mitten im Run
 let r = A.startRun(structuredClone(base), 2, { seed: 31 });
-r.run!.equipment.ivo = ['glutherz', 'zunderring'];
-r.run!.equipment.fritz[1] = 'dornenschild';
+r.run!.equipment.ivo = [{ id: 'glutherz', q: 'legendary' }, { id: 'zunderring', q: 'rare' }];
+r.run!.equipment.fritz[1] = { id: 'dornenschild', q: 'magic' };
 r.run!.relics = ['mondgloeckchen', 'wappen'];
 r.run!.upgrades = ['standhaft', 'heisseAsche'];
 r.run!.level = 3;

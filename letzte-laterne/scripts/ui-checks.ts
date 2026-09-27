@@ -48,13 +48,15 @@ async function skipDialogs(p: Page) {
     await page.waitForTimeout(250);
   }
   await page.click('.end-overlay button');
-  const offer1 = await page.locator('.reward-card h3').allInnerTexts();
+  await page.waitForTimeout(2000);
+  const offer1 = await page.locator('.loot-name').allInnerTexts();
   await page.reload();
   await page.getByRole('button', { name: /fortsetzen/ }).click();
-  const offer2 = await page.locator('.reward-card h3').allInnerTexts();
+  await page.waitForTimeout(2000);
+  const offer2 = await page.locator('.loot-name').allInnerTexts();
   check('Neuladen bei Belohnung → identisches Angebot', offer1.length === 3 && offer1.join() === offer2.join(), offer1.join(', '));
-  await page.locator('.reward-card').first().click();
-  await page.locator('.slot-btn').first().click();
+  await page.locator('.loot-card').first().click();
+  await page.locator('.slot-tile').first().click();
   await page.locator('button.btn.primary.big').click();
   await page.reload();
   await page.getByRole('button', { name: /fortsetzen/ }).click();

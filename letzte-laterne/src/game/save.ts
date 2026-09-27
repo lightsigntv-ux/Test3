@@ -1,7 +1,7 @@
 // Versioniertes Spielstandformat mit Validierung, Migration, Export und Import.
 import { ITEMS, RELICS } from '../content/items';
 import { SEALS, UPGRADES } from '../content/progression';
-import { HERO_IDS } from '../content/types';
+import { HERO_IDS, RARITY_ORDER, type ItemId, type Rarity } from '../content/types';
 import { SAVE_VERSION, type MetaState, type RunState, type SaveData, type Settings } from './types';
 
 export const SAVE_KEY = 'letzte-laterne/save';
@@ -66,7 +66,7 @@ function validRun(r: unknown): r is RunState {
   for (const h of HERO_IDS) {
     const slots = (r.equipment as Json)[h];
     if (!Array.isArray(slots) || slots.length !== 2) return false;
-    if (!slots.every((s) => s === null || (typeof s === 'string' && s in ITEMS))) return false;
+    if (!slots.every((s) => s === null || (isObj(s) && typeof s.id === 'string' && s.id in ITEMS && RARITY_ORDER.includes(s.q as Rarity)))) return false;
   }
   if (!Array.isArray(r.relics) || r.relics.length !== 2) return false;
   if (!r.relics.every((s) => s === null || (typeof s === 'string' && s in RELICS))) return false;
@@ -94,6 +94,25 @@ function migrate(raw: Json): Json {
   if (isObj(out.meta)) out.meta = { ...defaultMeta(), ...out.meta, story: { ...defaultMeta().story, ...(isObj(out.meta.story) ? out.meta.story : {}) } };
   out.settings = { ...defaultSettings(), ...(isObj(out.settings) ? out.settings : {}) };
   if (!isStrArr(out.dialogQueue)) out.dialogQueue = [];
+  if (version < 2 && isObj(out.run)) {
+    // Version 1 speicherte Gegenstände ohne Qualitätsstufe → Stufe aus der alten Seltenheit ableiten
+    const OLD_COMMON = ['zunderring', 'schildspange', 'stimmgabel'];
+    const toEquip = (id: unknown) =>
+      typeof id === 'string' && id in ITEMS ? { id, q: ITEMS[id as ItemId].unique ? 'legendary' : OLD_COMMON.includes(id) ? 'common' : 'rare' } : id;
+    const run = { ...(out.run as Json) };
+    if (isObj(run.equipment)) {
+      const eq: Json = {};
+      for (const [h, slots] of Object.entries(run.equipment)) eq[h] = Array.isArray(slots) ? slots.map((x) => (typeof x === 'string' ? toEquip(x) : x)) : slots;
+      run.equipment = eq;
+    }
+    if (isObj(run.reward) && Array.isArray(run.reward.options)) {
+      run.reward = {
+        ...run.reward,
+        options: run.reward.options.map((o) => (isObj(o) && o.kind === 'item' && !o.q ? { ...o, q: (toEquip(o.id) as Json).q } : o)),
+      };
+    }
+    out.run = run;
+  }
   out.version = SAVE_VERSION;
   return out;
 }

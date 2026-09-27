@@ -129,8 +129,8 @@ function HeroBuild({ h, editable }: { h: HeroId; editable: boolean }) {
       <div className="small">Ausrüstung:</div>
       {run.equipment[h].map((it, i) => (
         <div key={i} className="slot-row">
-          {it ? <ItemLine id={it} /> : <span className="muted small">– leer –</span>}
-          {it && itemBearerNote(it, h, run) && <div className="small warn-text">{itemBearerNote(it, h, run)}</div>}
+          {it ? <ItemLine item={it} /> : <span className="muted small">– leer –</span>}
+          {it && itemBearerNote(it.id, h, run) && <div className="small warn-text">{itemBearerNote(it.id, h, run)}</div>}
           {it && editable && (
             <div className="row gap-s">
               <select
@@ -146,7 +146,7 @@ function HeroBuild({ h, editable }: { h: HeroId; editable: boolean }) {
                   const cur = run.equipment[o.hero][o.idx];
                   return (
                     <option key={`${o.hero}:${o.idx}`} value={`${o.hero}:${o.idx}`}>
-                      → {HEROES[o.hero].name} Platz {o.idx + 1} {cur ? `(tauscht mit ${ITEMS[cur].name})` : '(leer)'}
+                      → {HEROES[o.hero].name} Platz {o.idx + 1} {cur ? `(tauscht mit ${ITEMS[cur.id].name})` : '(leer)'}
                     </option>
                   );
                 })}
@@ -154,7 +154,7 @@ function HeroBuild({ h, editable }: { h: HeroId; editable: boolean }) {
               <ConfirmButton
                 className="btn small ghost"
                 label="Ablegen"
-                confirmText={`${ITEMS[it].name} ablegen? Der Gegenstand geht verloren.`}
+                confirmText={`${ITEMS[it.id].name} ablegen? Der Gegenstand geht verloren.`}
                 onConfirm={() => act((s) => A.discardItem(s, { type: 'hero', hero: h, idx: i }))}
               />
             </div>
