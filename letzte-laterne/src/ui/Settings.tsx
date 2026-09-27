@@ -10,24 +10,28 @@ export function SettingsPanel({ inRun }: { inRun?: boolean }) {
   const st = save.settings;
   const [importText, setImportText] = useState('');
   const [msg, setMsg] = useState<string | null>(null);
+  const [exported, setExported] = useState<string | null>(null);
   const [resetOpen, setResetOpen] = useState(false);
   const [resetChecked, setResetChecked] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const doExport = () => {
     const text = exportSave(save);
-    const blob = new Blob([text], { type: 'application/json' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `letzte-laterne-spielstand-${new Date().toISOString().slice(0, 10)}.json`;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    setExported(text);
     try {
-      void navigator.clipboard?.writeText(text);
+      const blob = new Blob([text], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `letzte-laterne-spielstand-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
     } catch {
-      /* optional */
+      /* Download kann blockiert sein – der Text steht unten zum Kopieren bereit */
     }
-    setMsg('Spielstand exportiert (Datei heruntergeladen, Text in die Zwischenablage kopiert).');
+    navigator.clipboard?.writeText(text).then(
+      () => setMsg('Spielstand exportiert: Datei (falls der Browser es erlaubt) und Text in der Zwischenablage.'),
+      () => setMsg('Spielstand exportiert. Kopiere den Text unten, falls kein Download startet.'),
+    );
   };
 
   const doImport = (text: string) => {
@@ -93,9 +97,19 @@ export function SettingsPanel({ inRun }: { inRun?: boolean }) {
             }}
           />
         </div>
+        {exported && (
+          <textarea
+            id="export-text"
+            className="import-area"
+            readOnly
+            value={exported}
+            onFocus={(e) => e.currentTarget.select()}
+            aria-label="Exportierter Spielstand"
+          />
+        )}
         {!inRun && (
           <>
-            <textarea className="import-area" placeholder="…oder exportierten Text hier einfügen" value={importText} onChange={(e) => setImportText(e.target.value)} />
+            <textarea id="import-text" className="import-area" placeholder="…oder exportierten Text hier einfügen" value={importText} onChange={(e) => setImportText(e.target.value)} />
             <button className="btn small" disabled={!importText.trim()} onClick={() => doImport(importText)}>
               Text importieren
             </button>

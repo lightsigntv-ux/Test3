@@ -463,7 +463,13 @@ function EnemyUnit({ u, sim, focused, anim, floaters, onClick }: { u: Unit; sim:
       <div className="unit-name">
         {def.name}
         {def.kind === 'elite' && <span className="badge elite">Elite</span>}
-        {def.kind === 'boss' && <span className="badge boss">Boss · {phase.name || `Phase ${u.phase + 1}`}</span>}
+        {def.kind === 'boss' && (
+          <div>
+            <span className="badge boss">
+              Boss · Phase {u.phase + 1}/{def.phases.length}: {phase.name}
+            </span>
+          </div>
+        )}
       </div>
       <div className="small muted role">
         {def.role} {def.targeting === 'back' && <span className="badge back">🏹 hintere Reihe</span>}

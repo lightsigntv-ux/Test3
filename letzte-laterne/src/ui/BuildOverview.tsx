@@ -8,7 +8,7 @@ import { abilityLines, autoLine, itemBearerNote } from '../game/describe';
 import { heroStats, tagCounts, yuumiPresent } from '../game/derive';
 import { RELIC_VALUES } from '../content/items';
 import { HeroArt, PawIcon, YuumiArt } from './art';
-import { Bar, ItemLine, Modal, RelicLine } from './components';
+import { Bar, ConfirmButton, ItemLine, Modal, RelicLine } from './components';
 import { useGame } from './store';
 
 export function BuildOverview({ onClose }: { onClose: () => void }) {
@@ -24,7 +24,9 @@ export function BuildOverview({ onClose }: { onClose: () => void }) {
             {TAG_SYMBOL[t]} {TAG_LABEL[t]}: {tags[t]}
           </span>
         ))}
-        <span className="muted">Seed {run.seed} · Aufstellung: {run.formation.map((h) => HEROES[h].name).join(' (vorn), ')} </span>
+        <span className="muted">
+          Seed {run.seed} · Aufstellung: {HEROES[run.formation[0]].name} (vorn), {run.formation.slice(1).map((h) => HEROES[h].name).join(' und ')} (hinten)
+        </span>
       </div>
       {!editable && <p className="small warn-text">Ausrüstung und Relikte können nur außerhalb laufender Kämpfe gewechselt werden.</p>}
       <div className="build-heroes">
@@ -39,15 +41,12 @@ export function BuildOverview({ onClose }: { onClose: () => void }) {
             <div key={i} className="row between center-v slot-row">
               {r ? <RelicLine id={r} /> : <span className="muted">– leerer Reliktplatz –</span>}
               {r && editable && (
-                <button
+                <ConfirmButton
                   className="btn small ghost"
-                  onClick={() => {
-                    if (confirm(`${RELICS[r].name} ablegen? Es geht verloren${r === 'mondgloeckchen' ? ' – und Yuumi verabschiedet sich für diesen Run.' : '.'}`))
-                      act((s) => A.discardRelic(s, i));
-                  }}
-                >
-                  Ablegen
-                </button>
+                  label="Ablegen"
+                  confirmText={`${RELICS[r].name} ablegen? Es geht verloren${r === 'mondgloeckchen' ? ' – und Yuumi verabschiedet sich für diesen Run.' : '.'}`}
+                  onConfirm={() => act((s) => A.discardRelic(s, i))}
+                />
               )}
             </div>
           ))}
@@ -152,14 +151,12 @@ function HeroBuild({ h, editable }: { h: HeroId; editable: boolean }) {
                   );
                 })}
               </select>
-              <button
+              <ConfirmButton
                 className="btn small ghost"
-                onClick={() => {
-                  if (confirm(`${ITEMS[it].name} ablegen? Der Gegenstand geht verloren.`)) act((s) => A.discardItem(s, { type: 'hero', hero: h, idx: i }));
-                }}
-              >
-                Ablegen
-              </button>
+                label="Ablegen"
+                confirmText={`${ITEMS[it].name} ablegen? Der Gegenstand geht verloren.`}
+                onConfirm={() => act((s) => A.discardItem(s, { type: 'hero', hero: h, idx: i }))}
+              />
             </div>
           )}
         </div>

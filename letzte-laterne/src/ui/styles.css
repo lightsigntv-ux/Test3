@@ -1098,7 +1098,7 @@ button:focus-visible,
 }
 .combat-banner {
   position: absolute;
-  top: 48px;
+  top: 96px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 20;
@@ -1702,4 +1702,48 @@ body.no-anim .yuumi-unit.pounce svg {
 .ab-echo {
   color: var(--echo);
   font-size: 0.7rem;
+}
+
+/* Schmale Bildschirme: umbrechen statt seitlich scrollen */
+@media (max-width: 760px) {
+  body {
+    font-size: 14px;
+  }
+  .arena {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .vs {
+    display: none;
+  }
+  .unit {
+    width: 118px;
+  }
+  .unit.enemy.kind-boss {
+    width: 160px;
+  }
+  .abilities {
+    flex-wrap: wrap;
+  }
+  .ability {
+    width: calc(50% - 4px);
+    min-width: 140px;
+  }
+  .slot-grid {
+    grid-template-columns: 1fr;
+  }
+  .title-center h1 {
+    font-size: 2.2rem;
+  }
+  .screen,
+  .hub-main,
+  .map-screen {
+    padding-inline: 16px;
+  }
+  .compare {
+    flex-direction: column;
+  }
+  .windup {
+    top: -64px;
+  }
 }
