@@ -1,4 +1,5 @@
 import type { BuildTag, HeroId, ItemId, SealId, UpgradeId } from './types';
+import type { ArchetypeId } from './builds';
 
 export interface UpgradeDef {
   id: UpgradeId;
@@ -6,6 +7,8 @@ export interface UpgradeDef {
   name: string;
   tags: BuildTag[];
   description: string;
+  /** Nur für diese Ausprägungen sinnvoll (fehlt = alle). */
+  archetypes?: ArchetypeId[];
 }
 
 export const UPGRADE_VALUES = {
@@ -21,6 +24,11 @@ export const UPGRADE_VALUES = {
   nachhallDuration: 3,
   behutsameBonus: 4,
   klarerGedankeDiscount: 1,
+  klingentanzHits: 2,
+  eiseskaelteDuration: 2,
+  eiseskaelteBonus: 0.2,
+  nervengiftStacks: 3,
+  nervengiftMult: 0.3,
 };
 
 export const UPGRADES: Record<UpgradeId, UpgradeDef> = {
@@ -30,6 +38,7 @@ export const UPGRADES: Record<UpgradeId, UpgradeDef> = {
     name: 'Breiter Wall',
     tags: ['bastion'],
     description: 'Laternenwall gibt +8 Schild je Held.',
+  archetypes: ['guardian'],
   },
   standhaft: {
     id: 'standhaft',
@@ -43,7 +52,8 @@ export const UPGRADES: Record<UpgradeId, UpgradeDef> = {
     hero: 'fritz',
     name: 'Schildstoß',
     tags: ['bastion', 'glut'],
-    description: 'Laternenwall trifft zusätzlich das Fokusziel: 12 Schaden und 3 s Verwundbar.',
+    description: 'Fritz’ Fähigkeit trifft zusätzlich das Fokusziel: 12 Schaden und 3 s Verwundbar.',
+  archetypes: ['guardian', 'bulwark'],
   },
   lauffeuer: {
     id: 'lauffeuer',
@@ -51,6 +61,7 @@ export const UPGRADES: Record<UpgradeId, UpgradeDef> = {
     name: 'Lauffeuer',
     tags: ['glut'],
     description: 'Stirbt ein brennender Gegner, erhalten alle anderen Gegner 1 Brandstapel.',
+  archetypes: ['fire'],
   },
   heisseAsche: {
     id: 'heisseAsche',
@@ -58,34 +69,62 @@ export const UPGRADES: Record<UpgradeId, UpgradeDef> = {
     name: 'Heiße Asche',
     tags: ['glut'],
     description: 'Von Ivo verursachter Brand ist 50 % stärker.',
+  archetypes: ['fire'],
   },
   nachzuendung: {
     id: 'nachzuendung',
     hero: 'ivo',
     name: 'Nachzündung',
     tags: ['glut', 'echo'],
-    description: 'Funkensturm trifft 1,5 s später erneut mit 50 % Wirkung (zählt nicht als manueller Einsatz).',
+    description: 'Ivos Fähigkeit wirkt 1,5 s später erneut mit 50 % (zählt nicht als manueller Einsatz).',
+  archetypes: ['fire', 'storm'],
   },
   nachhall: {
     id: 'nachhall',
     hero: 'sera',
     name: 'Nachhall',
     tags: ['bastion', 'echo'],
-    description: 'Erinnerung bewahren heilt die Ziele 3 s lang um 3 HP pro Sekunde weiter.',
+    description: 'Seras Fähigkeit heilt danach 3 s lang um 3 HP pro Sekunde weiter.',
+  archetypes: ['keeper', 'light'],
   },
   behutsameHaende: {
     id: 'behutsameHaende',
     hero: 'sera',
     name: 'Behutsame Hände',
     tags: ['bastion'],
-    description: 'Seras automatische Heilung heilt +4.',
+    description: 'Seras automatische Heilung bzw. ihr Lichtschild +4.',
+  archetypes: ['keeper', 'light'],
   },
   klarerGedanke: {
     id: 'klarerGedanke',
     hero: 'sera',
     name: 'Klarer Gedanke',
     tags: ['echo'],
-    description: 'Erinnerung bewahren kostet 1 Fokus weniger (mindestens 1).',
+    description: 'Seras Fähigkeit kostet 1 Fokus weniger (mindestens 1).',
+  },
+  klingentanz: {
+    id: 'klingentanz',
+    hero: 'fritz',
+    name: 'Klingentanz',
+    tags: ['echo'],
+    description: 'Klingenwirbel schlägt 2-mal öfter zu.',
+    archetypes: ['blades'],
+  },
+  eiseskaelte: {
+    id: 'eiseskaelte',
+    hero: 'ivo',
+    name: 'Eiseskälte',
+    tags: ['bastion'],
+    description: 'Verlangsamung hält 2 s länger; verlangsamte Gegner erleiden +20 % Schaden.',
+    archetypes: ['frost'],
+  },
+  nervengift: {
+    id: 'nervengift',
+    hero: 'sera',
+    name: 'Nervengift',
+    tags: ['glut'],
+    description: 'Gift: +3 maximale Stapel und 30 % stärker.',
+    archetypes: ['poison'],
   },
 };
 

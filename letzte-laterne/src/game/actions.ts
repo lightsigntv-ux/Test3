@@ -18,6 +18,7 @@ import type {
   UpgradeId,
 } from '../content/types';
 import { HERO_IDS } from '../content/types';
+import { ARCHETYPES_BY_HERO, ATTRS, ATTR_POINTS, DEFAULT_ARCHETYPE, emptyAttrs, type ArchetypeId, type AttrId } from '../content/builds';
 import type { CombatKind, CombatSetup, CombatStats } from '../sim/combat';
 import { hashString, newSeed, rngFor } from '../sim/rng';
 import { affordableSeals, analyzeDefeat, highlightLines, suggestions } from './analysis';
@@ -75,6 +76,7 @@ export function sealPrereq(id: SealId): SealId | null {
 
 export function canBuySeal(meta: MetaState, id: SealId): { ok: boolean; reason?: string } {
   const s = SEALS[id];
+  if (!meta.sealsUnlocked) return { ok: false, reason: 'Siegel werden nach der ersten Niederlage verfügbar.' };
   if (meta.sealsOwned.includes(id)) return { ok: false, reason: 'Bereits geprägt.' };
   const pre = sealPrereq(id);
   if (pre && !meta.sealsOwned.includes(pre)) return { ok: false, reason: `Benötigt zuerst „${SEALS[pre].name}“.` };
@@ -105,7 +107,7 @@ export function buySeal(prev: SaveData, id: SealId): SaveData {
 }
 
 export function toggleSeal(prev: SaveData, id: SealId): SaveData {
-  if (prev.run) return prev;
+  if (prev.run || !prev.meta.sealsUnlocked) return prev;
   const s = clone(prev);
   if (s.meta.sealsActive.includes(id)) {
     s.meta.sealsActive = s.meta.sealsActive.filter((x) => x !== id);
@@ -123,6 +125,7 @@ export interface StartOptions {
   bearers?: Partial<Record<ItemId, HeroId>>;
   seed?: number;
   formation?: HeroId[];
+  archetypes?: Record<HeroId, ArchetypeId>;
 }
 
 /** Startgegenstände aus Siegeln kommen in magischer Qualität. */
@@ -182,7 +185,7 @@ export function startRun(prev: SaveData, expedition: ExpeditionId, opts: StartOp
   if (prev.run || !canStartExpedition(prev.meta, expedition, mods).ok) return prev;
   const s = clone(prev);
   const seed = opts.seed ?? newSeed();
-  const seals = s.meta.sealsActive.slice();
+  const seals = s.meta.sealsUnlocked ? s.meta.sealsActive.slice() : [];
   const run: RunState = {
     seed,
     expedition,
@@ -193,7 +196,7 @@ export function startRun(prev: SaveData, expedition: ExpeditionId, opts: StartOp
     stations: generateStations(s.meta, expedition, seed, mods),
     station: 0,
     route: [],
-    phase: 'map',
+    phase: 'prepare',
     hp: { fritz: 0, ivo: 0, sera: 0 },
     formation: opts.formation && opts.formation.length === 3 ? opts.formation.slice() : ['fritz', 'ivo', 'sera'],
     equipment: { fritz: [null, null], ivo: [null, null], sera: [null, null] },
@@ -216,6 +219,9 @@ export function startRun(prev: SaveData, expedition: ExpeditionId, opts: StartOp
     result: null,
     yuumiEverInRun: false,
     manualUses: { fritz: 0, ivo: 0, sera: 0 },
+    archetype: { ...(opts.archetypes ?? s.meta.lastArchetypes ?? DEFAULT_ARCHETYPE) },
+    attrs: { fritz: emptyAttrs(), ivo: emptyAttrs(), sera: emptyAttrs() },
+    attrPoints: ATTR_POINTS.start,
   };
   for (const h of HERO_IDS) run.hp[h] = heroStats(run, h).maxHp;
   // Startgegenstände aus aktiven Siegeln
@@ -318,6 +324,10 @@ export function buildCombatSetup(save: SaveData): CombatSetup | null {
         atk: st.atk,
         heal: st.heal,
         mult: st.mult,
+        interval: st.interval,
+        armor: st.armor,
+        dodge: st.dodge,
+        archetype: run.archetype[id],
         items: run.equipment[id].filter((i): i is NonNullable<typeof i> => !!i),
       };
     }),
@@ -353,6 +363,7 @@ function addXp(run: RunState, n: number) {
     const before = HERO_IDS.map((h) => heroStats(run, h).maxHp);
     run.level++;
     run.pendingLevelUps++;
+    run.attrPoints += ATTR_POINTS.perLevel;
     HERO_IDS.forEach((h, i) => {
       if (run.hp[h] > 0) run.hp[h] += heroStats(run, h).maxHp - before[i];
     });
@@ -473,6 +484,10 @@ export function chooseEnding(prev: SaveData, ending: 'keep' | 'extinguish'): Sav
 
 function finishRun(s: SaveData, outcome: RunResult['outcome'], unlocked: string[]) {
   const run = s.run!;
+  if (outcome === 'defeat' && !s.meta.sealsUnlocked) {
+    s.meta.sealsUnlocked = true;
+    unlocked = [...unlocked, 'Siegel: Präge mit Erinnerungslicht dauerhafte Stärken für den nächsten Run (Reiter „Siegel“).'];
+  }
   const result: RunResult = {
     outcome,
     lightEarned: run.lightEarned,
@@ -786,4 +801,42 @@ export const UPGRADE_LIST = UPGRADES;
 
 export function canBuySealAny(meta: MetaState): boolean {
   return SEAL_ORDER.some((id) => canBuySeal(meta, id).ok);
+}
+
+// ---------------- Charakterbau ----------------
+
+export function setArchetype(prev: SaveData, hero: HeroId, arch: ArchetypeId): SaveData {
+  const r = prev.run;
+  if (!r || r.phase !== 'prepare' || !ARCHETYPES_BY_HERO[hero].includes(arch)) return prev;
+  const s = clone(prev);
+  s.run!.archetype[hero] = arch;
+  return s;
+}
+
+/** Talentpunkt verteilen (+1) oder – nur in der Vorbereitung – zurücknehmen (−1). */
+export function allocAttr(prev: SaveData, hero: HeroId, attr: AttrId, delta: 1 | -1): SaveData {
+  const r = prev.run;
+  if (!r || r.phase === 'combat' || r.phase === 'result' || r.phase === 'ending') return prev;
+  const cur = r.attrs[hero][attr];
+  if (delta === 1 && (r.attrPoints <= 0 || cur >= ATTRS[attr].max)) return prev;
+  if (delta === -1 && (r.phase !== 'prepare' || cur <= 0)) return prev;
+  const s = clone(prev);
+  const run = s.run!;
+  const before = heroStats(run, hero).maxHp;
+  run.attrs[hero][attr] += delta;
+  run.attrPoints -= delta;
+  const after = heroStats(run, hero).maxHp;
+  if (run.phase !== 'prepare' && run.hp[hero] > 0) run.hp[hero] = Math.min(after, run.hp[hero] + Math.max(0, after - before));
+  return s;
+}
+
+export function confirmPrepare(prev: SaveData): SaveData {
+  const r = prev.run;
+  if (!r || r.phase !== 'prepare') return prev;
+  const s = clone(prev);
+  const run = s.run!;
+  for (const h of HERO_IDS) run.hp[h] = heroStats(run, h).maxHp;
+  s.meta.lastArchetypes = { ...run.archetype };
+  run.phase = 'map';
+  return s;
 }

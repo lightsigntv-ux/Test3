@@ -1,10 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { REWARD } from '../src/content/balance';
 import { ITEMS, itemText, tierValue } from '../src/content/items';
-import * as A from '../src/game/actions';
 import { makeCombatReward } from '../src/game/rewards';
 import { SAVE_KEY, loadSave, newSave, type StorageLike } from '../src/game/save';
-import { setup } from './helpers';
+import { begin, setup } from './helpers';
 import { CombatSim } from '../src/sim/combat';
 
 describe('Beute-Qualitätsstufen', () => {
@@ -12,7 +11,7 @@ describe('Beute-Qualitätsstufen', () => {
     const count = { common: 0, magic: 0, rare: 0, legendary: 0 };
     let n = 0;
     for (let seed = 1; seed <= 1500; seed++) {
-      const s = A.startRun(newSave(), 1, { seed });
+      const s = begin(newSave(), 1, { seed });
       s.meta.firstEliteLegendaryGiven = true;
       for (const o of makeCombatReward(s.run!, s.meta, 'normal').options) {
         if (o.kind === 'item') {
@@ -29,7 +28,7 @@ describe('Beute-Qualitätsstufen', () => {
 
   it('legendäre Stufe gibt es nur für Einzelstücke, Einzelstücke nur legendär', () => {
     for (let seed = 1; seed <= 400; seed++) {
-      const s = A.startRun(newSave(), 1, { seed });
+      const s = begin(newSave(), 1, { seed });
       for (const src of ['normal', 'elite', 'camp'] as const) {
         for (const o of makeCombatReward(s.run!, s.meta, src).options) {
           if (o.kind !== 'item') continue;
@@ -56,7 +55,7 @@ describe('Beute-Qualitätsstufen', () => {
   });
 
   it('Spielstand Version 1 (Gegenstände als Text) wird auf Stufen migriert', () => {
-    const s = A.startRun(newSave(), 1, { seed: 3 });
+    const s = begin(newSave(), 1, { seed: 3 });
     const raw = JSON.parse(JSON.stringify(s));
     raw.version = 1;
     raw.run.equipment.ivo = ['glutherz', 'ascheglas'];

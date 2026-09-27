@@ -1,6 +1,7 @@
 // Einfacher Spielbot für Balancing-Simulationen und Tests (nutzt nur öffentliche Aktionen).
 import { ITEMS } from '../content/items';
 import type { HeroId, ItemId } from '../content/types';
+import type { AttrId } from '../content/builds';
 import { HERO_IDS } from '../content/types';
 import { CombatSim } from '../sim/combat';
 import * as A from './actions';
@@ -12,6 +13,31 @@ export interface BotOptions {
   takeCat?: boolean;
   avoidRelic?: string;
   stopBeforeBoss?: boolean;
+  /** Talentpunkte verteilen (Standard: ja, nach festem Plan). */
+  allocate?: boolean;
+}
+
+/** Fester Verteilungsplan der Talentpunkte: robust vorn, Schaden hinten. */
+const ATTR_PLAN: [HeroId, AttrId][] = [
+  ['fritz', 'vit'], ['ivo', 'str'], ['sera', 'vit'], ['fritz', 'arm'], ['ivo', 'vit'], ['sera', 'str'],
+  ['fritz', 'vit'], ['ivo', 'str'], ['fritz', 'arm'], ['sera', 'vit'], ['ivo', 'spd'], ['fritz', 'str'],
+  ['ivo', 'str'], ['sera', 'spd'], ['fritz', 'vit'], ['ivo', 'vit'], ['sera', 'str'], ['fritz', 'arm'],
+];
+
+function allocatePoints(save: SaveData): SaveData {
+  let s = save;
+  for (let guard = 0; s.run && s.run.attrPoints > 0 && guard < 40; guard++) {
+    const before = s.run.attrPoints;
+    for (const [h, a] of ATTR_PLAN) {
+      const next = A.allocAttr(s, h, a, 1);
+      if (next !== s) {
+        s = next;
+        break;
+      }
+    }
+    if (s.run!.attrPoints === before) break;
+  }
+  return s;
 }
 
 export function combatPolicy(sim: CombatSim, skill: 'good' | 'casual' | 'passive' = 'good') {
@@ -60,7 +86,17 @@ export function playRun(start: SaveData, opts: BotOptions = {}) {
   while (save.run && save.run.phase !== 'result' && guard++ < 200) {
     save = { ...save, dialogQueue: [] };
     const run = save.run!;
+    if (opts.allocate !== false && run.attrPoints > 0 && run.phase !== 'combat') {
+      const next = allocatePoints(save);
+      if (next.run!.attrPoints !== run.attrPoints) {
+        save = next;
+        continue;
+      }
+    }
     switch (run.phase) {
+      case 'prepare':
+        save = A.confirmPrepare(save);
+        break;
       case 'map': {
         const st = run.stations[run.station];
         if (st.type === 'choice') {

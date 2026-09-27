@@ -38,7 +38,10 @@ export type UpgradeId =
   | 'nachzuendung'
   | 'nachhall'
   | 'behutsameHaende'
-  | 'klarerGedanke';
+  | 'klarerGedanke'
+  | 'klingentanz'
+  | 'eiseskaelte'
+  | 'nervengift';
 
 export type SealId =
   | 'glut1'

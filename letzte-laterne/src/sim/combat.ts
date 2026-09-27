@@ -8,6 +8,16 @@ import { ABILITY_VALUES, HEROES } from '../content/heroes';
 import { ITEM_VALUES, RELIC_VALUES, tierValue, type EquipItem } from '../content/items';
 import { SEAL_VALUES, UPGRADE_VALUES } from '../content/progression';
 import type { EnemyId, HeroId, ItemId, LongNightMod, RelicId, SealId, UpgradeId } from '../content/types';
+import {
+  ARCHETYPES,
+  ARCH_VALUES,
+  DEFAULT_ARCHETYPE,
+  STANCES,
+  STANCE_COOLDOWN,
+  SWAP,
+  type ArchetypeId,
+  type Stance,
+} from '../content/builds';
 import { Rng } from './rng';
 
 export type CombatKind = 'normal' | 'elite' | 'boss';
@@ -20,6 +30,10 @@ export interface HeroSetup {
   heal: number;
   mult: number; // Level-Multiplikator für Fähigkeiten
   items: EquipItem[];
+  interval?: number; // fehlt = Grundwert der Figur
+  armor?: number; // Anteil weniger erlittener Schaden
+  dodge?: number; // Ausweichchance gegen gegnerische Grundangriffe
+  archetype?: ArchetypeId;
 }
 
 export interface CombatSetup {
@@ -83,7 +97,19 @@ export interface Unit {
   burnTick: number;
   vulnerable: number;
   hots: Hot[];
+  slow: number; // s verlangsamt (Frost)
+  poisonStacks: number;
+  poisonTime: number;
+  poisonTick: number;
+  poisonPotency: number;
+  weaken: number; // s geschwächt
+  /** Dauer des aktuellen Angriffsintervalls (für die Anzeige des Angriffsbalkens). */
+  attackTimerMax: number;
   // Held
+  archetype: ArchetypeId | null;
+  armor: number;
+  dodge: number;
+  provoke: number; // s: alle Gegner greifen diesen Helden an
   items: EquipItem[];
   heal: number;
   mult: number;
@@ -107,7 +133,11 @@ export interface Unit {
 }
 
 export type CombatEvent =
-  | { t: 'damage'; uid: string; amount: number; absorbed: number; kind: 'hit' | 'burn' | 'fog' | 'proc' }
+  | { t: 'damage'; uid: string; amount: number; absorbed: number; kind: 'hit' | 'burn' | 'poison' | 'fog' | 'proc' }
+  | { t: 'dodge'; uid: string }
+  | { t: 'status'; uid: string; status: 'slow' | 'poison' | 'weaken' | 'provoke' }
+  | { t: 'stance'; stance: Stance }
+  | { t: 'swap'; uid: string }
   | { t: 'heal'; uid: string; amount: number }
   | { t: 'shield'; uid: string; amount: number }
   | { t: 'shieldBreak'; uid: string }
@@ -149,6 +179,8 @@ export interface CombatStats {
   heroDeaths: { hero: HeroId; time: number; by: string }[];
   damageDealt: Record<string, number>;
   burnDamage: number;
+  poisonDamage: number;
+  dodges: number;
   shieldAbsorbed: number;
   healing: number;
   overheal: number;
@@ -209,6 +241,9 @@ export class CombatSim {
   private manualCount = 0;
   private uidCounter = 0;
   private rng: Rng;
+  stance: Stance = 'balanced';
+  stanceCd = 0;
+  swapCd = 0;
   private relics: Set<RelicId>;
   private upgrades: Set<UpgradeId>;
   private seals: Set<SealId>;
@@ -228,6 +263,8 @@ export class CombatSim {
       heroDeaths: [],
       damageDealt: {},
       burnDamage: 0,
+      poisonDamage: 0,
+      dodges: 0,
       shieldAbsorbed: 0,
       healing: 0,
       overheal: 0,
@@ -252,10 +289,14 @@ export class CombatSim {
       u.atk = h.atk;
       u.heal = h.heal;
       u.mult = h.mult;
-      u.interval = def.interval;
+      u.interval = h.interval ?? def.interval;
+      u.archetype = h.archetype ?? DEFAULT_ARCHETYPE[h.id];
+      u.armor = h.armor ?? 0;
+      u.dodge = h.dodge ?? 0;
       u.items = h.items.map((i) => ({ ...i }));
       u.manualUses = setup.manualUsesStart?.[h.id] ?? 0;
-      u.attackTimer = def.interval * (0.5 + 0.15 * this.heroes.length);
+      u.attackTimer = u.interval * (0.5 + 0.15 * this.heroes.length);
+      u.attackTimerMax = u.interval;
       this.heroes.push(u);
     }
     for (const id of setup.enemies) this.spawnEnemy(id, false);
@@ -316,6 +357,17 @@ export class CombatSim {
       burnTick: 0,
       vulnerable: 0,
       hots: [],
+      slow: 0,
+      poisonStacks: 0,
+      poisonTime: 0,
+      poisonTick: 0,
+      poisonPotency: 0,
+      weaken: 0,
+      attackTimerMax: 2,
+      archetype: null,
+      armor: 0,
+      dodge: 0,
+      provoke: 0,
       items: [],
       heal: 0,
       mult: 1,
@@ -348,6 +400,7 @@ export class CombatSim {
     u.atk = def.atk * this.setup.dmgScale;
     u.interval = def.interval;
     u.attackTimer = def.interval * (0.6 + this.rng.next() * 0.5);
+    u.attackTimerMax = def.interval;
     u.abilityTimers = def.phases[0].abilities.map((a) => this.firstTimer(a));
     if (def.cycle) {
       u.cycleState = 'pressure';
@@ -420,7 +473,19 @@ export class CombatSim {
     return this.heroes.find((h) => h.alive) ?? null;
   }
 
+  /** Held, der gerade alle Angriffe auf sich zieht (Bollwerk: Herausforderung). */
+  provoker(): Unit | null {
+    return this.heroes.find((h) => h.alive && h.provoke > 0) ?? null;
+  }
+
+  /** Ziel gegnerischer Einzelangriffe auf die vorderste Figur. */
+  enemyFrontTarget(): Unit | null {
+    return this.provoker() ?? this.frontHero();
+  }
+
   backHeroTarget(): Unit | null {
+    const p = this.provoker();
+    if (p) return p;
     const back = this.heroes.slice(1).filter((h) => h.alive);
     if (back.length === 0) return this.frontHero();
     return back.reduce((a, b) => (b.hp < a.hp ? b : a));
@@ -437,8 +502,12 @@ export class CombatSim {
 
   // ---------- Befehle ----------
 
+  abilityDef(h: Unit) {
+    return ARCHETYPES[h.archetype ?? DEFAULT_ARCHETYPE[h.heroId!]].ability;
+  }
+
   costFor(h: Unit): number {
-    let cost = HEROES[h.heroId!].ability.cost;
+    let cost = this.abilityDef(h).cost;
     if (h.heroId === 'sera' && this.upgrades.has('klarerGedanke'))
       cost = Math.max(1, cost - UPGRADE_VALUES.klarerGedankeDiscount);
     if (this.relics.has('taschenuhr') && !this.firstAbilityUsed)
@@ -447,7 +516,7 @@ export class CombatSim {
   }
 
   cooldownFor(h: Unit): number {
-    let cd = HEROES[h.heroId!].ability.cooldown;
+    let cd = this.abilityDef(h).cooldown;
     cd *= Math.max(0, 1 - this.tv(h, 'resonanzkristall', 'cd'));
     if (this.seals.has('echo2') && !h.firstAbilityDone) cd *= SEAL_VALUES.echo2CdMult;
     return Math.max(STATUS.minCooldown, cd);
@@ -455,7 +524,7 @@ export class CombatSim {
 
   abilityState(id: HeroId): AbilityState {
     const h = this.hero(id)!;
-    const def = HEROES[id].ability;
+    const def = this.abilityDef(h);
     const cost = this.costFor(h);
     const queued = this.queue.includes(id);
     let reason: string | null = null;
@@ -502,7 +571,7 @@ export class CombatSim {
       const h = this.hero(id)!;
       const cost = this.costFor(h);
       if (!h.alive || h.abilityCd > 0 || this.focus < cost) {
-        this.addLog(`${HEROES[id].ability.name} konnte nicht ausgeführt werden.`, 'info');
+        this.addLog(`${this.abilityDef(h).name} konnte nicht ausgeführt werden.`, 'info');
         continue;
       }
       this.useAbility(h, cost);
@@ -516,7 +585,7 @@ export class CombatSim {
     h.abilityCd = h.abilityCdMax;
     h.firstAbilityDone = true;
     this.stats.abilityUses[h.heroId!]++;
-    this.addLog(`${h.name}: ${HEROES[h.heroId!].ability.name}`, 'good');
+    this.addLog(`${h.name}: ${this.abilityDef(h).name}`, 'good');
     this.castAbility(h, 'manual', 1);
     if (this.result) return;
 
@@ -537,7 +606,7 @@ export class CombatSim {
 
   private castAbility(h: Unit, mode: 'manual' | 'echo', power: number) {
     const manual = mode === 'manual';
-    const src: Src = { unit: h, kind: manual ? 'ability' : 'proc', label: HEROES[h.heroId!].ability.name };
+    const src: Src = { unit: h, kind: manual ? 'ability' : 'proc', label: this.abilityDef(h).name };
     const m = h.mult * power;
     this.events.push({ t: 'ability', uid: h.uid, name: src.label, echo: !manual });
     if (!manual) {
@@ -545,47 +614,127 @@ export class CombatSim {
       this.addLog(`Echochronik wiederholt ${src.label} (50 %).`, 'good');
     }
 
-    if (h.heroId === 'fritz') {
-      const amount = (ABILITY_VALUES.wallShield + (this.upgrades.has('breiterWall') ? UPGRADE_VALUES.breiterWallBonus : 0)) * m;
-      for (const x of this.aliveHeroes()) this.addShield(x, amount, src);
-      if (manual) {
-        const f = this.focusTargetUid ? this.unit(this.focusTargetUid) : undefined;
-        if (f && f.alive && f.windup && f.windup.interruptible) this.interrupt(f);
-      }
-      if (this.upgrades.has('schildstoss')) {
-        const t = this.groupTarget();
-        if (t) {
-          this.dealDamage(src, t, UPGRADE_VALUES.schildstossDamage * m, true);
-          if (t.alive) t.vulnerable = Math.max(t.vulnerable, UPGRADE_VALUES.schildstossVulnerable);
-          if (manual && t.alive && this.count(h, 'zunderring') > 0)
-            this.applyBurn(src, t, this.tv(h, 'zunderring', 'stacks'), this.burnPotency(h));
+    const zunder = manual ? this.tv(h, 'zunderring', 'stacks') : 0;
+    const focusT = (): Unit | null => {
+      const f = this.focusTargetUid ? this.unit(this.focusTargetUid) : undefined;
+      return f && f.alive ? f : null;
+    };
+    const interruptFocus = () => {
+      const f = focusT();
+      if (manual && f && f.windup && f.windup.interruptible) this.interrupt(f);
+    };
+    const shieldBash = () => {
+      if (!this.upgrades.has('schildstoss')) return;
+      const t = this.groupTarget();
+      if (!t) return;
+      this.dealDamage(src, t, UPGRADE_VALUES.schildstossDamage * m, true);
+      if (t.alive) t.vulnerable = Math.max(t.vulnerable, UPGRADE_VALUES.schildstossVulnerable);
+      if (zunder > 0 && t.alive) this.applyBurn(src, t, zunder, this.burnPotency(h));
+    };
+
+    switch (h.archetype) {
+      case 'blades': {
+        interruptFocus();
+        const hits = ARCH_VALUES.bladesHits + (this.upgrades.has('klingentanz') ? UPGRADE_VALUES.klingentanzHits : 0);
+        for (let i = 0; i < hits; i++) {
+          const t = this.groupTarget();
+          if (!t) break;
+          this.events.push({ t: 'attack', uid: h.uid, targetUid: t.uid });
+          this.dealDamage(src, t, ARCH_VALUES.bladesHitDamage * m, true);
+          if (this.result) return;
+          if (i === 0 && zunder > 0 && t.alive) this.applyBurn(src, t, zunder, this.burnPotency(h));
         }
+        break;
       }
-    } else if (h.heroId === 'ivo') {
-      let stacks = Math.max(1, Math.round(ABILITY_VALUES.stormBurn * power));
-      if (manual) stacks += this.tv(h, 'zunderring', 'stacks');
-      if (manual && this.seals.has('glut2') && !this.glut2Used) {
-        stacks += SEAL_VALUES.glut2Stacks;
-        this.glut2Used = true;
+      case 'bulwark': {
+        interruptFocus();
+        this.addShield(h, ARCH_VALUES.bulwarkShield * m, src);
+        h.provoke = Math.max(h.provoke, ARCH_VALUES.bulwarkProvoke * (manual ? 1 : 0.5));
+        this.events.push({ t: 'status', uid: h.uid, status: 'provoke' });
+        shieldBash();
+        break;
       }
-      for (const e of this.aliveEnemies()) {
-        this.dealDamage(src, e, ABILITY_VALUES.stormDamage * m, true);
-        if (e.alive) this.applyBurn(src, e, stacks, this.burnPotency(h));
+      case 'frost': {
+        const dur = ARCH_VALUES.frostNovaDuration + (this.upgrades.has('eiseskaelte') ? UPGRADE_VALUES.eiseskaelteDuration : 0);
+        for (const e of this.aliveEnemies()) {
+          this.dealDamage(src, e, ARCH_VALUES.frostNovaDamage * m, true);
+          if (this.result) return;
+          if (!e.alive) continue;
+          this.applySlow(e, dur * power);
+          if (e.windup) {
+            e.windup.remaining += ARCH_VALUES.frostNovaDelay * power;
+            e.windup.total += ARCH_VALUES.frostNovaDelay * power;
+          }
+          if (zunder > 0) this.applyBurn(src, e, zunder, this.burnPotency(h));
+        }
+        break;
+      }
+      case 'storm': {
+        const t = focusT() ?? this.groupTarget();
+        if (!t) break;
+        this.chainLightning(src, t, ARCH_VALUES.chainDamage * m, ARCH_VALUES.chainJumps, ARCH_VALUES.chainFalloff);
         if (this.result) return;
+        if (zunder > 0 && t.alive) this.applyBurn(src, t, zunder, this.burnPotency(h));
+        if (manual && this.upgrades.has('nachzuendung'))
+          this.scheduled.push({ at: this.time + UPGRADE_VALUES.nachzuendungDelay, kind: 'afterburn', unit: h, power: UPGRADE_VALUES.nachzuendungPower });
+        break;
       }
-      if (manual && this.upgrades.has('nachzuendung'))
-        this.scheduled.push({ at: this.time + UPGRADE_VALUES.nachzuendungDelay, kind: 'afterburn', unit: h, power: UPGRADE_VALUES.nachzuendungPower });
-    } else {
-      const targets = this.aliveHeroes()
-        .slice()
-        .sort((a, b) => a.hp / a.maxHp - b.hp / b.maxHp)
-        .slice(0, 2);
-      for (const t of targets) {
-        this.heal(src, t, ABILITY_VALUES.memoryHeal * m);
-        if (manual && this.upgrades.has('nachhall'))
-          t.hots.push({ perSecond: UPGRADE_VALUES.nachhallPerSecond * h.mult, remaining: UPGRADE_VALUES.nachhallDuration, tick: 0, src });
+      case 'poison': {
+        for (const e of this.aliveEnemies()) {
+          this.applyPoison(e, Math.max(1, Math.round(ARCH_VALUES.poisonCloudStacks * power)), h);
+          e.weaken = Math.max(e.weaken, ARCH_VALUES.weakenDuration * power);
+          this.events.push({ t: 'status', uid: e.uid, status: 'weaken' });
+          if (zunder > 0) this.applyBurn(src, e, zunder, this.burnPotency(h));
+        }
+        break;
+      }
+      case 'light': {
+        for (const x of this.aliveHeroes()) {
+          this.addShield(x, ARCH_VALUES.lightDomeShield * m, src);
+          this.heal(src, x, ARCH_VALUES.lightDomeHeal * m);
+        }
+        if (manual && this.upgrades.has('nachhall')) {
+          for (const t of this.aliveHeroes().sort((a, b) => a.hp / a.maxHp - b.hp / b.maxHp).slice(0, 2))
+            t.hots.push({ perSecond: UPGRADE_VALUES.nachhallPerSecond * h.mult, remaining: UPGRADE_VALUES.nachhallDuration, tick: 0, src });
+        }
+        break;
+      }
+      case 'fire': {
+        let stacks = Math.max(1, Math.round(ABILITY_VALUES.stormBurn * power)) + zunder;
+        if (manual && this.seals.has('glut2') && !this.glut2Used) {
+          stacks += SEAL_VALUES.glut2Stacks;
+          this.glut2Used = true;
+        }
+        for (const e of this.aliveEnemies()) {
+          this.dealDamage(src, e, ABILITY_VALUES.stormDamage * m, true);
+          if (e.alive) this.applyBurn(src, e, stacks, this.burnPotency(h));
+          if (this.result) return;
+        }
+        if (manual && this.upgrades.has('nachzuendung'))
+          this.scheduled.push({ at: this.time + UPGRADE_VALUES.nachzuendungDelay, kind: 'afterburn', unit: h, power: UPGRADE_VALUES.nachzuendungPower });
+        break;
+      }
+      case 'keeper': {
+        const targets = this.aliveHeroes()
+          .slice()
+          .sort((a, b) => a.hp / a.maxHp - b.hp / b.maxHp)
+          .slice(0, 2);
+        for (const t of targets) {
+          this.heal(src, t, ABILITY_VALUES.memoryHeal * m);
+          if (manual && this.upgrades.has('nachhall'))
+            t.hots.push({ perSecond: UPGRADE_VALUES.nachhallPerSecond * h.mult, remaining: UPGRADE_VALUES.nachhallDuration, tick: 0, src });
+        }
+        break;
+      }
+      default: {
+        // guardian
+        const amount = (ABILITY_VALUES.wallShield + (this.upgrades.has('breiterWall') ? UPGRADE_VALUES.breiterWallBonus : 0)) * m;
+        for (const x of this.aliveHeroes()) this.addShield(x, amount, src);
+        interruptFocus();
+        shieldBash();
       }
     }
+    if (this.result) return;
 
     if (manual && this.count(h, 'schildspange') > 0)
       this.addShield(h, this.tv(h, 'schildspange', 'shield') * h.mult, { unit: h, kind: 'proc', label: 'Schildspange' });
@@ -594,6 +743,11 @@ export class CombatSim {
   private afterburn(h: Unit, power: number) {
     const src: Src = { unit: h, kind: 'proc', label: 'Nachzündung' };
     this.events.push({ t: 'ability', uid: h.uid, name: 'Nachzündung', echo: true });
+    if (h.archetype === 'storm') {
+      const t = this.groupTarget();
+      if (t) this.chainLightning(src, t, ARCH_VALUES.chainDamage * h.mult * power, ARCH_VALUES.chainJumps, ARCH_VALUES.chainFalloff);
+      return;
+    }
     for (const e of this.aliveEnemies()) {
       this.dealDamage(src, e, ABILITY_VALUES.stormDamage * h.mult * power, true);
       if (e.alive) this.applyBurn(src, e, 1, this.burnPotency(h));
@@ -610,6 +764,98 @@ export class CombatSim {
     s.interrupted++;
     this.events.push({ t: 'interrupt', uid: e.uid });
     this.addLog(`Unterbrochen! ${e.name}: ${w.name} abgebrochen.`, 'good');
+  }
+
+  /** Blitz trifft das Ziel und springt auf weitere lebende Gegner (je Sprung schwächer). */
+  private chainLightning(src: Src, first: Unit, dmg: number, jumps: number, falloff: number) {
+    const hit = new Set<Unit>();
+    let t: Unit | null = first;
+    let d = dmg;
+    for (let i = 0; i <= jumps && t; i++) {
+      hit.add(t);
+      this.events.push({ t: 'attack', uid: src.unit?.uid ?? '', targetUid: t.uid });
+      this.dealDamage(src, t, d, true);
+      if (this.result) return;
+      d *= falloff;
+      t = this.aliveEnemies().find((e) => !hit.has(e)) ?? null;
+    }
+  }
+
+  applySlow(e: Unit, duration: number) {
+    if (!e.alive || e.side !== 'enemy') return;
+    if (e.slow <= 0) this.events.push({ t: 'status', uid: e.uid, status: 'slow' });
+    e.slow = Math.max(e.slow, duration);
+  }
+
+  poisonMax(): number {
+    return ARCH_VALUES.poisonMax + (this.upgrades.has('nervengift') ? UPGRADE_VALUES.nervengiftStacks : 0);
+  }
+
+  applyPoison(e: Unit, stacks: number, h: Unit) {
+    if (this.result || !e.alive || stacks <= 0) return;
+    if (e.poisonStacks === 0) {
+      e.poisonTick = 0;
+      this.events.push({ t: 'status', uid: e.uid, status: 'poison' });
+    }
+    e.poisonStacks = Math.min(this.poisonMax(), e.poisonStacks + stacks);
+    e.poisonTime = ARCH_VALUES.poisonDuration;
+    const pot = h.mult * (1 + this.tv(h, 'ascheglas', 'mult')) * (this.upgrades.has('nervengift') ? 1 + UPGRADE_VALUES.nervengiftMult : 1);
+    e.poisonPotency = Math.max(e.poisonPotency, pot);
+  }
+
+  private clearAfflictions(u: Unit) {
+    u.burnStacks = 0;
+    u.burnPotency = 0;
+    u.poisonStacks = 0;
+    u.poisonPotency = 0;
+    u.slow = 0;
+  }
+
+  // ---------- Taktik: Haltung & Positionstausch ----------
+
+  setStance(st: Stance): boolean {
+    if (this.result || st === this.stance || this.stanceCd > 0) return false;
+    this.stance = st;
+    this.stanceCd = STANCE_COOLDOWN;
+    this.events.push({ t: 'stance', stance: st });
+    this.addLog(`Haltung: ${STANCES[st].name}.`, 'info');
+    return true;
+  }
+
+  swapReason(id: HeroId): string | null {
+    const h = this.hero(id);
+    if (this.result) return 'Der Kampf ist beendet.';
+    if (!h || !h.alive) return 'Bewusstlos.';
+    if (this.frontHero() === h) return 'Steht bereits vorn.';
+    if (this.swapCd > 0) return `Noch ${fmt(this.swapCd)} s.`;
+    if (this.focus < SWAP.cost) return `Zu wenig Fokus (${this.focus}/${SWAP.cost}).`;
+    return null;
+  }
+
+  /** Stellt eine Figur nach vorn (tauscht mit der bisherigen vordersten). */
+  swapToFront(id: HeroId): boolean {
+    if (this.swapReason(id)) return false;
+    const h = this.hero(id)!;
+    const front = this.frontHero()!;
+    const a = this.heroes.indexOf(front);
+    const b = this.heroes.indexOf(h);
+    this.heroes[a] = h;
+    this.heroes[b] = front;
+    this.focus -= SWAP.cost;
+    this.swapCd = SWAP.cooldown;
+    this.events.push({ t: 'swap', uid: h.uid });
+    this.addLog(`${h.name} tritt nach vorn, ${front.name} zurück.`, 'info');
+    return true;
+  }
+
+  formation(): HeroId[] {
+    return this.heroes.map((h) => h.heroId!);
+  }
+
+  /** Fortschritt bis zum nächsten Grundangriff (0–1). */
+  attackProgress(u: Unit): number {
+    if (!u.alive) return 0;
+    return Math.max(0, Math.min(1, 1 - u.attackTimer / Math.max(0.01, u.attackTimerMax)));
   }
 
   enemyBurnPotency(): number {
@@ -638,6 +884,13 @@ export class CombatSim {
       let mult = 1;
       if (target.vulnerable > 0) mult += STATUS.vulnerableBonus;
       if (target.cycleState === 'exhausted') mult += target.exhaustBonus;
+      if (target.side === 'enemy') {
+        if (target.slow > 0 && this.upgrades.has('eiseskaelte')) mult += UPGRADE_VALUES.eiseskaelteBonus;
+        if (src.kind !== 'companion') mult *= STANCES[this.stance].dealt;
+      } else {
+        mult *= STANCES[this.stance].taken * (1 - target.armor);
+        if (src.unit && src.unit.side === 'enemy' && src.unit.weaken > 0) mult *= ARCH_VALUES.weakenMult;
+      }
       dmg = Math.max(1, Math.round(amount * mult));
     }
     const hadShield = target.shield > 0;
@@ -648,15 +901,16 @@ export class CombatSim {
     }
     const rest = dmg - absorbed;
     target.hp -= rest;
-    const evKind = src.kind === 'dot' ? 'burn' : src.kind === 'fog' ? 'fog' : src.kind === 'proc' ? 'proc' : 'hit';
+    const evKind = src.kind === 'dot' ? (src.label === 'Gift' ? 'poison' : 'burn') : src.kind === 'fog' ? 'fog' : src.kind === 'proc' ? 'proc' : 'hit';
     this.events.push({ t: 'damage', uid: target.uid, amount: rest, absorbed, kind: evKind });
 
     if (target.side === 'hero') {
       this.stats.damageTaken[src.label] = (this.stats.damageTaken[src.label] ?? 0) + dmg;
     } else {
-      const key = src.kind === 'companion' ? 'Yuumi' : src.kind === 'dot' ? 'Brand' : src.kind === 'proc' ? src.label : src.unit?.heroId ? src.unit.name : src.label;
+      const key = src.kind === 'companion' ? 'Yuumi' : src.kind === 'dot' ? src.label : src.kind === 'proc' ? src.label : src.unit?.heroId ? src.unit.name : src.label;
       this.stats.damageDealt[key] = (this.stats.damageDealt[key] ?? 0) + dmg;
-      if (src.kind === 'dot') this.stats.burnDamage += dmg;
+      if (src.kind === 'dot' && src.label === 'Brand') this.stats.burnDamage += dmg;
+      if (src.kind === 'dot' && src.label === 'Gift') this.stats.poisonDamage += dmg;
       if (src.kind === 'companion') this.stats.yuumiDamage += dmg;
     }
 
@@ -809,6 +1063,10 @@ export class CombatSim {
     target.hp = 0;
     target.shield = 0;
     target.burnStacks = 0;
+    target.poisonStacks = 0;
+    target.slow = 0;
+    target.weaken = 0;
+    target.provoke = 0;
     target.windup = null;
     target.hots = [];
     this.events.push({ t: 'death', uid: target.uid });
@@ -884,6 +1142,8 @@ export class CombatSim {
       }
     }
     if (this.focus >= FOCUS.max) this.stats.focusCappedTime += dt;
+    this.stanceCd = Math.max(0, this.stanceCd - dt);
+    this.swapCd = Math.max(0, this.swapCd - dt);
 
     // geplante Zusatzeffekte
     if (this.scheduled.length) {
@@ -907,9 +1167,11 @@ export class CombatSim {
       if (!h.alive) continue;
       h.abilityCd = Math.max(0, h.abilityCd - dt);
       h.eidCd = Math.max(0, h.eidCd - dt);
+      h.provoke = Math.max(0, h.provoke - dt);
       h.attackTimer -= dt;
       if (h.attackTimer <= 0) {
         h.attackTimer += h.interval;
+        h.attackTimerMax = h.interval;
         this.heroAttack(h);
       }
     }
@@ -925,6 +1187,23 @@ export class CombatSim {
 
   private tickStatuses(u: Unit, dt: number) {
     if (u.vulnerable > 0) u.vulnerable = Math.max(0, u.vulnerable - dt);
+    if (u.slow > 0) u.slow = Math.max(0, u.slow - dt);
+    if (u.weaken > 0) u.weaken = Math.max(0, u.weaken - dt);
+    if (u.poisonStacks > 0) {
+      u.poisonTick += dt;
+      u.poisonTime -= dt;
+      if (u.poisonTick >= 1 - 1e-9) {
+        u.poisonTick -= 1;
+        const dmg = u.poisonStacks * ARCH_VALUES.poisonPerStack * u.poisonPotency;
+        this.dealDamage({ unit: null, kind: 'dot', label: 'Gift' }, u, dmg, false);
+        if (!u.alive || this.result) return;
+      }
+      if (u.poisonTime <= 0) {
+        u.poisonStacks = 0;
+        u.poisonPotency = 0;
+        u.poisonTick = 0;
+      }
+    }
     if (u.burnStacks > 0) {
       u.burnTick += dt;
       u.burnTime -= dt;
@@ -960,10 +1239,33 @@ export class CombatSim {
     this.events.push({ t: 'attack', uid: h.uid, targetUid: t.uid });
     this.dealDamage(src, t, h.atk, true);
     if (this.result) return;
-    if (h.heroId === 'ivo' && t.alive) this.applyBurn(src, t, 1, this.burnPotency(h));
-    if (h.heroId === 'sera') {
-      const target = this.mostInjured(this.heroes);
-      if (target) this.heal(src, target, h.heal);
+    switch (h.archetype) {
+      case 'fire':
+        if (t.alive) this.applyBurn(src, t, 1, this.burnPotency(h));
+        break;
+      case 'frost':
+        if (t.alive) this.applySlow(t, ARCH_VALUES.frostAutoDuration + (this.upgrades.has('eiseskaelte') ? UPGRADE_VALUES.eiseskaelteDuration : 0));
+        break;
+      case 'storm': {
+        const next = this.aliveEnemies().find((e) => e !== t);
+        if (next) this.dealDamage({ unit: h, kind: 'proc', label: 'Blitzsprung' }, next, h.atk * ARCH_VALUES.stormChain, false);
+        if (this.result) return;
+        break;
+      }
+      case 'keeper': {
+        const target = this.mostInjured(this.heroes);
+        if (target) this.heal(src, target, h.heal);
+        break;
+      }
+      case 'poison':
+        if (t.alive) this.applyPoison(t, 1, h);
+        break;
+      case 'light': {
+        const target = this.mostInjured(this.heroes);
+        const base = ARCH_VALUES.lightAutoShield + (this.upgrades.has('behutsameHaende') ? UPGRADE_VALUES.behutsameBonus : 0);
+        if (target) this.addShield(target, base * h.mult, src);
+        break;
+      }
     }
     h.autoCount++;
     const tk = h.items.filter((x) => x.id === 'taktgeber');
@@ -1016,11 +1318,13 @@ export class CombatSim {
     }
 
     e.taunt = Math.max(0, e.taunt - dt);
+    // Frost: verlangsamte Gegner handeln seltener (Angriffe, Fähigkeiten, Vorbereitungen)
+    const edt = e.slow > 0 ? dt * (1 - ARCH_VALUES.frostSlow) : dt;
 
     // Schutzphase: Nachhall solange Schild steht
     const shieldSelf = phase.abilities.find((a) => a.type === 'shieldSelf');
     if (shieldSelf && shieldSelf.type === 'shieldSelf' && e.shield > 0) {
-      e.pulseTimer += dt;
+      e.pulseTimer += edt;
       if (e.pulseTimer >= shieldSelf.pulseEvery) {
         e.pulseTimer -= shieldSelf.pulseEvery;
         const src: Src = { unit: e, kind: 'enemy', label: `${e.name}: Nachhall` };
@@ -1032,7 +1336,7 @@ export class CombatSim {
     }
 
     if (e.windup) {
-      e.windup.remaining -= dt;
+      e.windup.remaining -= edt;
       if (e.windup.remaining <= 0) {
         const w = e.windup;
         e.windup = null;
@@ -1043,7 +1347,7 @@ export class CombatSim {
 
     for (let i = 0; i < phase.abilities.length; i++) {
       const a = phase.abilities[i];
-      e.abilityTimers[i] -= dt;
+      e.abilityTimers[i] -= edt;
       if (e.abilityTimers[i] > 0) continue;
       if (a.type === 'windup') {
         if (e.windup) continue;
@@ -1061,13 +1365,19 @@ export class CombatSim {
       if (this.result) return;
     }
 
-    e.attackTimer -= dt;
+    e.attackTimer -= edt;
+    e.attackTimerMax = e.interval * phase.intervalMult;
     if (e.attackTimer <= 0) {
       e.attackTimer += e.interval * phase.intervalMult;
-      const t = def.targeting === 'back' ? this.backHeroTarget() : this.frontHero();
+      const t = def.targeting === 'back' ? this.backHeroTarget() : this.enemyFrontTarget();
       if (!t) return;
       const src: Src = { unit: e, kind: 'enemy', label: e.name };
       this.events.push({ t: 'attack', uid: e.uid, targetUid: t.uid });
+      if (t.dodge > 0 && this.rng.next() < t.dodge) {
+        this.stats.dodges++;
+        this.events.push({ t: 'dodge', uid: t.uid });
+        return;
+      }
       this.dealDamage(src, t, e.atk, true);
       if (def.attackBurn && t.alive) this.applyBurn(src, t, def.attackBurn, this.enemyBurnPotency());
     }
@@ -1088,10 +1398,9 @@ export class CombatSim {
         const t = this.mostInjured(this.enemies);
         if (!t) break;
         this.heal({ unit: e, kind: 'enemy', label: a.name }, t, a.amount * scale);
-        if (a.cleanse && t.burnStacks > 0) {
-          t.burnStacks = 0;
-          t.burnPotency = 0;
-          this.addLog(`${e.name} löscht den Brand von ${t.name}.`, 'danger');
+        if (a.cleanse && (t.burnStacks > 0 || t.poisonStacks > 0 || t.slow > 0)) {
+          this.clearAfflictions(t);
+          this.addLog(`${e.name} reinigt ${t.name} von Brand, Gift und Frost.`, 'danger');
         }
         break;
       }
@@ -1124,11 +1433,11 @@ export class CombatSim {
     const stat = this.specialStat(key, w.name, e.name, w.interruptible);
     stat.hits++;
     const src: Src = { unit: e, kind: 'enemy', label: `${e.name}: ${w.name}` };
-    this.events.push({ t: 'attack', uid: e.uid, targetUid: this.frontHero()?.uid ?? '' });
+    this.events.push({ t: 'attack', uid: e.uid, targetUid: this.enemyFrontTarget()?.uid ?? '' });
     const eff = w.effect;
     const dmgScale = this.setup.dmgScale;
     if (eff.kind === 'hitFront') {
-      const t = this.frontHero();
+      const t = this.enemyFrontTarget();
       if (!t) return;
       stat.damage += this.dealDamage(src, t, eff.damage * dmgScale, true);
       if (eff.vulnerable && t.alive) t.vulnerable = Math.max(t.vulnerable, eff.vulnerable);
@@ -1139,12 +1448,9 @@ export class CombatSim {
         if (eff.burn && t.alive) this.applyBurn(src, t, eff.burn, this.enemyBurnPotency());
       }
     } else {
-      for (const x of this.aliveEnemies()) {
-        x.burnStacks = 0;
-        x.burnPotency = 0;
-      }
+      for (const x of this.aliveEnemies()) this.clearAfflictions(x);
       for (const h of this.aliveHeroes()) h.shield = 0;
-      this.addLog(`${e.name} tilgt: Brand und Schilde verschwinden.`, 'danger');
+      this.addLog(`${e.name} tilgt: Brand, Gift, Frost und Schilde verschwinden.`, 'danger');
       for (const t of this.aliveHeroes()) {
         stat.damage += this.dealDamage(src, t, eff.damage * dmgScale, true);
         if (this.result) return;

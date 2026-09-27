@@ -1,3 +1,4 @@
+import { begin } from './helpers';
 import { describe, expect, it } from 'vitest';
 import * as A from '../src/game/actions';
 import { CombatSim } from '../src/sim/combat';
@@ -17,11 +18,12 @@ describe('Spielstand', () => {
   it('speichert und lädt verlustfrei (inkl. Relikte, Katzenentscheidung, Siegel, Story)', () => {
     let s = A.startNewGame();
     s.meta.light = 7;
+    s.meta.sealsUnlocked = true;
     s.meta.sealsOwned = ['glut1'];
     s.meta.sealsActive = ['glut1'];
     s.meta.story.courierSaved = true;
     s.meta.firstEliteLegendaryGiven = true;
-    s = A.startRun(s, 1, { seed: 123 });
+    s = begin(s, 1, { seed: 123 });
     s.run!.relics = ['mondgloeckchen', null];
     s.meta.catGuaranteeUsed = true;
     const st = memStorage();
@@ -33,7 +35,7 @@ describe('Spielstand', () => {
   });
 
   it('Neuladen im Kampf startet denselben Kampf mit demselben Seed', () => {
-    let s = A.startRun(newSave(), 1, { seed: 55 });
+    let s = begin(newSave(), 1, { seed: 55 });
     s = A.enterStation(s);
     const st = memStorage();
     writeSave(st, s);
@@ -43,7 +45,7 @@ describe('Spielstand', () => {
   });
 
   it('Neuladen bei einer Belohnung zeigt dasselbe Angebot, keine doppelte Beute', () => {
-    let s = A.startRun(newSave(), 1, { seed: 55 });
+    let s = begin(newSave(), 1, { seed: 55 });
     s = A.enterStation(s);
     s = A.combatFinished(s, { result: 'victory', heroHp: { fritz: 100, ivo: 80, sera: 80 }, stats: new CombatSim(A.buildCombatSetup(s)!).stats, enemiesAlive: [] });
     const st = memStorage();
@@ -66,7 +68,7 @@ describe('Spielstand', () => {
   });
 
   it('ungültige Expedition wird verworfen, dauerhafter Fortschritt bleibt', () => {
-    const s = A.startRun(newSave(), 1, { seed: 1 });
+    const s = begin(newSave(), 1, { seed: 1 });
     s.meta.light = 9;
     const raw = JSON.parse(JSON.stringify(s));
     raw.run.relics = ['mondgloeckchen', 'mondgloeckchen']; // Einzigartigkeit verletzt
@@ -87,7 +89,7 @@ describe('Spielstand', () => {
     const st = memStorage({ [SAVE_KEY]: JSON.stringify(old) });
     const r = loadSave(st);
     expect(r.status).toBe('ok');
-    expect(r.save.version).toBe(2);
+    expect(r.save.version).toBe(3);
     expect(r.save.settings.volume).toBeGreaterThan(0);
     expect(r.save.meta.longNight.wins).toBe(0);
   });
@@ -96,7 +98,7 @@ describe('Spielstand', () => {
     expect(importSave(JSON.stringify({ ...newSave(), version: 99 })).ok).toBe(false);
     expect(importSave('{"hallo":1}').ok).toBe(false);
     expect(importSave('nicht json').ok).toBe(false);
-    const good = importSave(exportSave(A.startRun(newSave(), 1, { seed: 1 })));
+    const good = importSave(exportSave(begin(newSave(), 1, { seed: 1 })));
     expect(good.ok).toBe(true);
   });
 });

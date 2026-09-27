@@ -1,5 +1,6 @@
 import type { CombatKind } from '../sim/combat';
 import type { EquipItem } from '../content/items';
+import type { ArchetypeId, Attrs } from '../content/builds';
 import type {
   BossId,
   EnemyId,
@@ -16,7 +17,7 @@ import type {
   UpgradeId,
 } from '../content/types';
 
-export const SAVE_VERSION = 2;
+export const SAVE_VERSION = 3;
 
 export interface Settings {
   sound: boolean;
@@ -57,6 +58,8 @@ export interface MetaState {
   tutorialsSeen: string[];
   firstEliteLegendaryGiven: boolean;
   catGuaranteeUsed: boolean;
+  sealsUnlocked: boolean; // Siegel erst nach der ersten Niederlage
+  lastArchetypes: Record<HeroId, ArchetypeId> | null; // zuletzt gewählte Ausprägungen
   runsStarted: number;
   runsWon: number;
   longNight: { wins: number; bestMods: number; history: LongNightRecord[] };
@@ -69,7 +72,7 @@ export interface Station {
   alt?: { encounter: EnemyId[]; event: GeneralEventId; catGuaranteed: boolean }; // Station 2
 }
 
-export type RunPhase = 'map' | 'combat' | 'reward' | 'levelup' | 'event' | 'camp' | 'ending' | 'result';
+export type RunPhase = 'prepare' | 'map' | 'combat' | 'reward' | 'levelup' | 'event' | 'camp' | 'ending' | 'result';
 
 export type RewardOption = { kind: 'item'; id: ItemId; q: Rarity } | { kind: 'relic'; id: RelicId };
 
@@ -158,6 +161,9 @@ export interface RunState {
   result: RunResult | null;
   yuumiEverInRun: boolean;
   manualUses: Record<HeroId, number>; // manuelle Fähigkeitseinsätze im Run (Echochronik)
+  archetype: Record<HeroId, ArchetypeId>; // Ausprägung je Held (beim Aufbruch gewählt)
+  attrs: Record<HeroId, Attrs>; // verteilte Talentpunkte
+  attrPoints: number; // noch nicht verteilte Talentpunkte
 }
 
 export interface SaveData {

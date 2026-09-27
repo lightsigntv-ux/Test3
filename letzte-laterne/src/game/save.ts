@@ -1,5 +1,6 @@
 // Versioniertes Spielstandformat mit Validierung, Migration, Export und Import.
 import { ITEMS, RELICS } from '../content/items';
+import { ARCHETYPES, emptyAttrs } from '../content/builds';
 import { SEALS, UPGRADES } from '../content/progression';
 import { HERO_IDS, RARITY_ORDER, type ItemId, type Rarity } from '../content/types';
 import { SAVE_VERSION, type MetaState, type RunState, type SaveData, type Settings } from './types';
@@ -23,6 +24,8 @@ export function defaultMeta(): MetaState {
     tutorialsSeen: [],
     firstEliteLegendaryGiven: false,
     catGuaranteeUsed: false,
+    sealsUnlocked: false,
+    lastArchetypes: null,
     runsStarted: 0,
     runsWon: 0,
     longNight: { wins: 0, bestMods: 0, history: [] },
@@ -59,7 +62,7 @@ function validRun(r: unknown): r is RunState {
   if (!isNum(r.seed) || ![1, 2, 3].includes(r.expedition as number)) return false;
   if (!Array.isArray(r.stations) || r.stations.length !== 8) return false;
   if (!isNum(r.station) || r.station < 0 || r.station > 7) return false;
-  if (!['map', 'combat', 'reward', 'levelup', 'event', 'camp', 'ending', 'result'].includes(r.phase as string)) return false;
+  if (!['prepare', 'map', 'combat', 'reward', 'levelup', 'event', 'camp', 'ending', 'result'].includes(r.phase as string)) return false;
   if (!isObj(r.hp) || !HERO_IDS.every((h) => isNum((r.hp as Json)[h]))) return false;
   if (!isStrArr(r.formation) || r.formation.length !== 3 || !HERO_IDS.every((h) => (r.formation as string[]).includes(h))) return false;
   if (!isObj(r.equipment)) return false;
@@ -73,6 +76,8 @@ function validRun(r: unknown): r is RunState {
   const real = r.relics.filter((x) => x);
   if (new Set(real).size !== real.length) return false; // einzigartige Relikte
   if (!isStrArr(r.upgrades) || !r.upgrades.every((u) => u in UPGRADES)) return false;
+  if (!isObj(r.archetype) || !HERO_IDS.every((h) => typeof (r.archetype as Json)[h] === 'string' && ((r.archetype as Json)[h] as string) in ARCHETYPES)) return false;
+  if (!isObj(r.attrs) || !isNum(r.attrPoints) || r.attrPoints < 0) return false;
   if (r.manualUses === undefined) r.manualUses = { fritz: 0, ivo: 0, sera: 0 }; // ältere Stände
   if (!isObj(r.manualUses)) return false;
   if (r.phase === 'combat' && !isObj(r.combat)) return false;
@@ -112,6 +117,22 @@ function migrate(raw: Json): Json {
       };
     }
     out.run = run;
+  }
+  if (version < 3) {
+    // Version 3: Ausprägungen, Talentpunkte, Siegel erst nach der ersten Niederlage
+    if (isObj(out.meta)) {
+      const m = out.meta as Json;
+      m.sealsUnlocked = (isStrArr(m.sealsOwned) && m.sealsOwned.length > 0) || (isNum(m.runsStarted) && isNum(m.runsWon) && m.runsStarted > m.runsWon);
+      m.lastArchetypes = null;
+    }
+    if (isObj(out.run)) {
+      out.run = {
+        ...(out.run as Json),
+        archetype: { fritz: 'guardian', ivo: 'fire', sera: 'keeper' },
+        attrs: { fritz: emptyAttrs(), ivo: emptyAttrs(), sera: emptyAttrs() },
+        attrPoints: 0,
+      };
+    }
   }
   out.version = SAVE_VERSION;
   return out;

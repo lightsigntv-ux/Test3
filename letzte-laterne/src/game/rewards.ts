@@ -178,7 +178,10 @@ export function makeItemEventOffer(
 
 export function makeLevelOffer(run: RunState): UpgradeId[] {
   const rng = rngFor(run.seed, 'level', run.level, run.upgrades.length);
-  const pool = (Object.keys(UPGRADES) as UpgradeId[]).filter((u) => !run.upgrades.includes(u));
+  const pool = (Object.keys(UPGRADES) as UpgradeId[]).filter((u) => {
+    const d = UPGRADES[u];
+    return !run.upgrades.includes(u) && (!d.archetypes || !run.archetype || d.archetypes.includes(run.archetype[d.hero]));
+  });
   // möglichst je Held eine Option
   const byHero = ['fritz', 'ivo', 'sera'].map((h) => rng.shuffle(pool.filter((u) => UPGRADES[u].hero === h)));
   const out: UpgradeId[] = [];

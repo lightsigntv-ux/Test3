@@ -34,7 +34,7 @@ export const ESCALATION = {
 export const LEVEL = {
   thresholds: [10, 30, 55], // XP für Level 2, 3, 4
   maxLevel: 4,
-  statPerLevel: 0.08,
+  statPerLevel: 0.04,
   xp: { fight: 10, hardFight: 15, elite: 20, event: 5, boss: 0 },
 };
 
