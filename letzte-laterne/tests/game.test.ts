@@ -144,7 +144,7 @@ describe('Belohnungen', () => {
     s = A.chooseReward(s, 0, { type: 'hero', hero: 'sera', idx: 0 });
     while (s.run!.phase === 'levelup') s = A.chooseUpgrade(s, s.run!.levelOffer![0]);
     const setup = A.buildCombatSetup(A.enterStation(s, 'fight'))!;
-    expect(new CombatSim(setup).focus).toBe(4);
+    expect(new CombatSim(setup).focus).toBe(5);
   });
 });
 

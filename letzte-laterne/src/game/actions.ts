@@ -212,6 +212,7 @@ export function startRun(prev: SaveData, expedition: ExpeditionId, opts: StartOp
     lastCombatAnalysis: [],
     result: null,
     yuumiEverInRun: false,
+    manualUses: { fritz: 0, ivo: 0, sera: 0 },
   };
   for (const h of HERO_IDS) run.hp[h] = heroStats(run, h).maxHp;
   // Startgegenstände aus aktiven Siegeln
@@ -325,6 +326,7 @@ export function buildCombatSetup(save: SaveData): CombatSetup | null {
     dmgScale: scale.dmg,
     focusBonus: run.nextFocusBonus + run.runFocusBonus,
     mods: run.mods.slice(),
+    manualUsesStart: { ...(run.manualUses ?? {}) },
     flags: {
       courierHelps: cp.kind === 'boss' && run.expedition === 2 && save.meta.story.courierSaved === true,
       namesFreed: cp.kind === 'boss' && run.expedition === 3 && save.meta.story.namesFreed === true,
@@ -337,6 +339,7 @@ export function buildCombatSetup(save: SaveData): CombatSetup | null {
 export interface CombatOutcome {
   result: 'victory' | 'defeat';
   heroHp: Record<HeroId, number>;
+  manualUses?: Record<HeroId, number>;
   stats: CombatStats;
   enemiesAlive: { name: string; hpPct: number; role: string }[];
 }
@@ -397,6 +400,7 @@ export function combatFinished(prev: SaveData, outcome: CombatOutcome): SaveData
   }
 
   for (const h of HERO_IDS) run.hp[h] = Math.max(0, outcome.heroHp[h]);
+  if (outcome.manualUses) run.manualUses = { ...outcome.manualUses };
   run.stats.combatsWon++;
   const xpKey = cp.stationType === 'hardFight' ? 'hardFight' : cp.kind === 'elite' ? 'elite' : cp.kind === 'boss' ? 'boss' : 'fight';
   addXp(run, LEVEL.xp[xpKey]);

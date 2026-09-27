@@ -130,6 +130,7 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
             break;
           case 'summon':
             an[ev.uid] = { cls: 'appear', until: now + 500 };
+            showHint('summon', 'Verstärkung! Herbeigerufene Gegner greifen sofort mit an. Markiere sie als Fokusziel oder triff alle zugleich mit Ivos Funkensturm.');
             break;
           case 'end':
             play(ev.result === 'victory' ? 'victory' : 'defeat');
@@ -209,11 +210,16 @@ export function CombatScreen({ onBuild }: { onBuild: () => void }) {
     if (finishing || !sim.result) return;
     setFinishing(true);
     const heroHp = { fritz: 0, ivo: 0, sera: 0 } as Record<HeroId, number>;
-    for (const h of sim.heroes) heroHp[h.heroId!] = h.alive ? h.hp : 0;
+    const manualUses = { fritz: 0, ivo: 0, sera: 0 } as Record<HeroId, number>;
+    for (const h of sim.heroes) {
+      heroHp[h.heroId!] = h.alive ? h.hp : 0;
+      manualUses[h.heroId!] = h.manualUses;
+    }
     act((s) =>
       A.combatFinished(s, {
         result: sim.result!,
         heroHp,
+        manualUses,
         stats: sim.stats,
         enemiesAlive: sim.aliveEnemies().map((e) => ({ name: e.name, hpPct: e.hp / e.maxHp, role: e.def!.role })),
       }),
@@ -532,6 +538,9 @@ function AbilityButton({ h, sim, keyNum, onCast, started }: { h: HeroId; sim: Co
         </span>
         <span className="ab-effect small">{lines[1]}</span>
         {canInterrupt && <span className="ab-interrupt">✋ unterbricht Fokusziel!</span>}
+        {sim.count(hero, 'echochronik') > 0 && (
+          <span className="ab-echo small">🔁 Echo {hero.manualUses % 3}/3{hero.manualUses % 3 === 2 ? ' – nächster Einsatz wird wiederholt!' : ''}</span>
+        )}
         {cdPct > 0 && (
           <span className="ab-cd" style={{ height: `${cdPct}%` }}>
             <span>{st.cd.toFixed(1)} s</span>

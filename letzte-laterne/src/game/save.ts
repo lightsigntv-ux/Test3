@@ -73,6 +73,8 @@ function validRun(r: unknown): r is RunState {
   const real = r.relics.filter((x) => x);
   if (new Set(real).size !== real.length) return false; // einzigartige Relikte
   if (!isStrArr(r.upgrades) || !r.upgrades.every((u) => u in UPGRADES)) return false;
+  if (r.manualUses === undefined) r.manualUses = { fritz: 0, ivo: 0, sera: 0 }; // ältere Stände
+  if (!isObj(r.manualUses)) return false;
   if (r.phase === 'combat' && !isObj(r.combat)) return false;
   if (r.phase === 'reward' && !isObj(r.reward)) return false;
   if (r.phase === 'event' && !isObj(r.event)) return false;

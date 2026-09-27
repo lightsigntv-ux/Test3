@@ -34,7 +34,7 @@ export function combatPolicy(sim: CombatSim, skill: 'good' | 'casual' | 'passive
   const hurt = heroes.some((h) => h.hp / h.maxHp < 0.55);
   const bigWindup = enemies.some((e) => e.windup && !e.windup.interruptible && e.windup.remaining < 1.2);
   if (f.ready && ((winder && sim.focusTargetUid === winder.uid) || bigWindup || sim.focus >= 5)) sim.command('fritz');
-  else if (s.ready && hurt) sim.command('sera');
+  else if (s.ready && (hurt || sim.focus >= 5)) sim.command('sera');
   else if (i.ready && sim.focus >= 3 && (enemies.length >= 2 || sim.focus >= 5 || enemies[0].def!.kind === 'boss')) sim.command('ivo');
 }
 
@@ -78,10 +78,15 @@ export function playRun(start: SaveData, opts: BotOptions = {}) {
         combats++;
         log.push(`${run.station}:${setup.kind}:${sim.result}:${sim.time.toFixed(0)}s:${setup.enemies.join('+')}`);
         const heroHp = { fritz: 0, ivo: 0, sera: 0 } as Record<HeroId, number>;
-        for (const h of sim.heroes) heroHp[h.heroId!] = h.alive ? h.hp : 0;
+        const manualUses = { fritz: 0, ivo: 0, sera: 0 } as Record<HeroId, number>;
+        for (const h of sim.heroes) {
+          heroHp[h.heroId!] = h.alive ? h.hp : 0;
+          manualUses[h.heroId!] = h.manualUses;
+        }
         save = A.combatFinished(save, {
           result: sim.result ?? 'defeat',
           heroHp,
+          manualUses,
           stats: sim.stats,
           enemiesAlive: sim.aliveEnemies().map((e) => ({ name: e.name, hpPct: e.hp / e.maxHp, role: e.def!.role })),
         });

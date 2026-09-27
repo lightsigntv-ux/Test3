@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { STATUS } from '../src/content/balance';
-import { RELIC_VALUES } from '../src/content/items';
+import { ITEM_VALUES, RELIC_VALUES } from '../src/content/items';
 import { SimClock } from '../src/sim/clock';
 import { CombatSim } from '../src/sim/combat';
 import { setup, sim, stepFor } from './helpers';
@@ -173,6 +173,19 @@ describe('Kosten, Abklingzeiten, Effektketten', () => {
     expect(s.cooldownFor(s.hero('fritz')!)).toBeGreaterThanOrEqual(STATUS.minCooldown);
   });
 
+  it('Echochronik zählt über Kämpfe hinweg (Startwert aus dem Run)', () => {
+    const s = sim({ enemies: ['nebelgaenger'], hpScale: 50, items: { fritz: ['echochronik'] } });
+    const s2 = new CombatSim({ ...setup({ enemies: ['nebelgaenger'], hpScale: 50, items: { fritz: ['echochronik'] } }), manualUsesStart: { fritz: 2 } });
+    s2.command('fritz');
+    s2.step();
+    stepFor(s2, 1);
+    expect(s2.stats.echoRepeats).toBe(1);
+    s.command('fritz');
+    s.step();
+    stepFor(s, 1);
+    expect(s.stats.echoRepeats).toBe(0);
+  });
+
   it('Echochronik: Wiederholung zählt nicht als manueller Einsatz und löst keine Schildspange aus', () => {
     const s = sim({ enemies: ['nebelgaenger'], hpScale: 50, items: { fritz: ['echochronik', 'schildspange'] }, focusBonus: 3 });
     const f = s.hero('fritz')!;
@@ -217,10 +230,10 @@ describe('Kosten, Abklingzeiten, Effektketten', () => {
     expect(s.stats.transfers).toBe(before);
   });
 
-  it('Taktgeber erzeugt höchstens 3 Fokus pro Kampf', () => {
+  it('Taktgeber erzeugt nur begrenzt Fokus pro Kampf', () => {
     const s = sim({ enemies: ['nebelgaenger'], hpScale: 100, items: { ivo: ['taktgeber'] }, atk: { fritz: 0, ivo: 0.001, sera: 0 } });
     stepFor(s, 60);
-    expect(s.hero('ivo')!.taktgeberProcs).toBe(3);
+    expect(s.hero('ivo')!.taktgeberProcs).toBe(ITEM_VALUES.taktgeberMax);
   });
 });
 

@@ -69,9 +69,9 @@ export const SEALS = {
 
 // Gegnerstärke je Expedition
 export const EXPEDITION_SCALE: Record<1 | 2 | 3, { hp: number; dmg: number }> = {
-  1: { hp: 2.4, dmg: 1.5 },
-  2: { hp: 2.6, dmg: 1.6 },
-  3: { hp: 2.8, dmg: 1.7 },
+  1: { hp: 3.1, dmg: 1.4 },
+  2: { hp: 3.5, dmg: 1.55 },
+  3: { hp: 3.6, dmg: 1.6 },
 };
 
 export const LONG_NIGHT = {

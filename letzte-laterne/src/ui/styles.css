@@ -1680,3 +1680,23 @@ body.no-anim .unit.lunge .unit-art,
 body.no-anim .yuumi-unit.pounce svg {
   transform: none !important;
 }
+
+.cat-scene {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 6px 12px;
+}
+.yuumi-unit.resting .yuumi-tail {
+  animation-duration: 5s;
+}
+.yuumi-unit.resting::after {
+  content: 'sitzt brav neben euch';
+  font-size: 0.65rem;
+  color: var(--muted);
+}
+
+.ab-echo {
+  color: var(--echo);
+  font-size: 0.7rem;
+}

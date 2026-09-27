@@ -13,13 +13,13 @@ export interface ItemDef {
 export const ITEM_VALUES = {
   zunderringStacks: 1,
   schildspangeShield: 10,
-  stimmgabelFocus: 1,
+  stimmgabelFocus: 2,
   funkenfaengerStacks: 3,
   ascheglasMult: 0.5,
   dornenDamage: 6,
   leinenRatio: 0.5,
-  taktgeberEvery: 4,
-  taktgeberMax: 3,
+  taktgeberEvery: 3,
+  taktgeberMax: 4,
   resonanzMult: 0.25,
   glutherzTarget: 14,
   glutherzSplash: 7,
@@ -54,7 +54,7 @@ export const ITEMS: Record<ItemId, ItemDef> = {
     name: 'Stimmgabel',
     rarity: 'common',
     tags: ['echo'],
-    description: 'Die Gruppe beginnt jeden Kampf mit +1 Fokus (höchstens 6).',
+    description: 'Die Gruppe beginnt jeden Kampf mit +2 Fokus (höchstens 6).',
     synergy: 'Früher Fokus für Taschenuhr, Chor der Namen und Echochronik.',
   },
   funkenfaenger: {
@@ -95,7 +95,7 @@ export const ITEMS: Record<ItemId, ItemDef> = {
     name: 'Taktgeber',
     rarity: 'rare',
     tags: ['echo'],
-    description: 'Jeder 4. Grundangriff des Trägers erzeugt 1 Fokus (höchstens 3-mal pro Kampf).',
+    description: 'Jeder 3. Grundangriff des Trägers erzeugt 1 Fokus (höchstens 4-mal pro Kampf).',
     synergy: 'Schnelle Angreifer (Ivo) laden ihn zuerst. Mehr Fokus = mehr Fähigkeiten.',
   },
   resonanzkristall: {
@@ -130,7 +130,7 @@ export const ITEMS: Record<ItemId, ItemDef> = {
     rarity: 'legendary',
     tags: ['echo'],
     description:
-      'Jeder 3. manuelle Fähigkeitseinsatz des Trägers wird nach 0,6 s einmal mit 50 % Wirkung wiederholt.',
+      'Jeder 3. manuelle Fähigkeitseinsatz des Trägers (gezählt über den ganzen Run) wird nach 0,6 s einmal mit 50 % Wirkung wiederholt.',
     synergy: 'Die Wiederholung kostet nichts und zählt nicht als manueller Einsatz.',
   },
 };

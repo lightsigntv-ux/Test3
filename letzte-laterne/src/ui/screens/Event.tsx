@@ -4,6 +4,7 @@ import * as A from '../../game/actions';
 import { lineVisible, Speaker } from '../Dialog';
 import { play } from '../audio';
 import { useGame } from '../store';
+import { YuumiArt } from '../art';
 
 export function EventScreen() {
   const { save, act } = useGame();
@@ -20,6 +21,12 @@ export function EventScreen() {
         {isNew && <span className="badge-new">NEU</span>}
         {memory && <span className="pill">Erinnerung</span>}
       </div>
+      {ev.id === 'miauen' && (
+        <div className="cat-scene">
+          <YuumiArt size={90} />
+          <span className="small muted">*miau?*</span>
+        </div>
+      )}
       <div className="event-lines">
         {ev.intro
           .filter((l) => lineVisible(l, save))

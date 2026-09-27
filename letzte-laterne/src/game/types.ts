@@ -150,6 +150,7 @@ export interface RunState {
   lastCombatAnalysis: string[];
   result: RunResult | null;
   yuumiEverInRun: boolean;
+  manualUses: Record<HeroId, number>; // manuelle Fähigkeitseinsätze im Run (Echochronik)
 }
 
 export interface SaveData {

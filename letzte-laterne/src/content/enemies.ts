@@ -209,7 +209,7 @@ export const ENEMIES: Record<EnemyId, EnemyDef> = {
     kind: 'boss',
     role: 'Boss der Vorstadt',
     description: 'Phase 1: angekündigte Glockenschläge. Phase 2 (ab 50 %): Schutzphasen mit Schild, dessen Nachhall die Gruppe trifft.',
-    maxHp: 360,
+    maxHp: 315,
     atk: 7,
     interval: 2.3,
     targeting: 'front',
@@ -261,8 +261,8 @@ export const ENEMIES: Record<EnemyId, EnemyDef> = {
     kind: 'summon',
     role: 'Beschworene Unterstützung',
     description: 'Von der Archivarin herbeigerufen. Schwach, aber lästig.',
-    maxHp: 20,
-    atk: 4,
+    maxHp: 16,
+    atk: 3.5,
     interval: 2.0,
     targeting: 'front',
     phases: single([]),
@@ -286,7 +286,7 @@ export const ENEMIES: Record<EnemyId, EnemyDef> = {
         name: 'Katalog',
         announce: '',
         intervalMult: 1,
-        abilities: [{ type: 'summon', name: 'Seitenhüter rufen', first: 2, every: 14, enemy: 'seitenwaechter', max: 2 }],
+        abilities: [{ type: 'summon', name: 'Seitenhüter rufen', first: 3, every: 16, enemy: 'seitenwaechter', max: 2 }],
       },
       {
         below: 0.5,
@@ -318,7 +318,7 @@ export const ENEMIES: Record<EnemyId, EnemyDef> = {
     role: 'Boss im Herz der Laterne',
     description:
       'Wechselt zwischen Druckphasen (10 s) und Erschöpfung (4 s, +50 % erlittener Schaden). Ab 50 %: „Letztes Licht“ trifft alle hart und ist NICHT unterbrechbar – Schilde und Heilung vorbereiten!',
-    maxHp: 560,
+    maxHp: 620,
     atk: 7,
     interval: 2.0,
     targeting: 'front',
@@ -355,7 +355,7 @@ export const ENEMIES: Record<EnemyId, EnemyDef> = {
             every: 13,
             windup: 3.5,
             interruptible: false,
-            effect: { kind: 'hitAll', damage: 24 },
+            effect: { kind: 'hitAll', damage: 27 },
             hint: '20 Schaden an allen Helden – nicht unterbrechbar',
           },
           {
@@ -422,16 +422,16 @@ export const ENCOUNTERS: Record<ExpeditionId, EncounterPools> = {
   3: {
     easy: [
       ['nebelgaenger', 'aschenwirker', 'irrlichtschuetze'],
-      ['nebelschild', 'irrlichtschuetze', 'saengerin'],
+      ['nebelgaenger', 'irrlichtschuetze', 'saengerin'],
     ],
     normal: [
-      ['nebelkoloss', 'aschenwirker', 'saengerin'],
-      ['nebelgaenger', 'nebelschild', 'irrlichtschuetze', 'aschenwirker'],
+      ['nebelgaenger', 'aschenwirker', 'saengerin'],
+      ['nebelschild', 'irrlichtschuetze', 'aschenwirker'],
       ['nebelkoloss', 'irrlichtschuetze', 'saengerin'],
     ],
     hard: [
       ['nebelkoloss', 'nebelkoloss', 'saengerin'],
-      ['nebelschild', 'aschenwirker', 'irrlichtschuetze', 'saengerin'],
+      ['nebelschild', 'aschenwirker', 'irrlichtschuetze', 'nebelgaenger'],
     ],
     elite: [
       ['hauptmann', 'saengerin'],

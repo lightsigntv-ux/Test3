@@ -35,6 +35,8 @@ export interface CombatSetup {
   focusBonus: number;
   mods: LongNightMod[];
   flags: { courierHelps: boolean; namesFreed: boolean };
+  /** Manuelle Einsätze je Held bisher im Run (für Echochronik, zählt über Kämpfe hinweg). */
+  manualUsesStart?: Partial<Record<HeroId, number>>;
 }
 
 export type SrcKind = 'basic' | 'ability' | 'proc' | 'companion' | 'dot' | 'enemy' | 'fog' | 'relic';
@@ -252,6 +254,7 @@ export class CombatSim {
       u.mult = h.mult;
       u.interval = def.interval;
       u.items = h.items.slice();
+      u.manualUses = setup.manualUsesStart?.[h.id] ?? 0;
       u.attackTimer = def.interval * (0.5 + 0.15 * this.heroes.length);
       this.heroes.push(u);
     }
@@ -644,7 +647,7 @@ export class CombatSim {
     if (target.side === 'hero') {
       this.stats.damageTaken[src.label] = (this.stats.damageTaken[src.label] ?? 0) + dmg;
     } else {
-      const key = src.kind === 'companion' ? 'Yuumi' : src.kind === 'dot' ? 'Brand' : src.unit?.heroId ? src.unit.name : src.label;
+      const key = src.kind === 'companion' ? 'Yuumi' : src.kind === 'dot' ? 'Brand' : src.kind === 'proc' ? src.label : src.unit?.heroId ? src.unit.name : src.label;
       this.stats.damageDealt[key] = (this.stats.damageDealt[key] ?? 0) + dmg;
       if (src.kind === 'dot') this.stats.burnDamage += dmg;
       if (src.kind === 'companion') this.stats.yuumiDamage += dmg;
