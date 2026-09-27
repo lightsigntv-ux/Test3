@@ -13,6 +13,7 @@ Diese Regeln sind verbindlich. Kein Dialog, kein Bild, kein Effekt darf ihnen wi
 **R3 – Hindurchsehen.** Wer die entwickelte Platte gegen ein Licht hält und den Ruf hört, wird hindurchgerufen – an den Ort und in den Augenblick des Rufes. Der Ruf ist sehr leise; hören kann ihn nur, wer wirklich lauscht. Das Fenster lässt genau *eine* Person hindurch und ist danach an sie gebunden, unabhängig von der Reihenfolge der Kalenderzeit. (Deshalb geschieht nichts, wenn in Kapitel 4 Clara die Platte ins Licht hält.)
 
 **R4 – Zwischen.** Solange der Ruf andauert (die Rufende im Bildfeld verharrt, hier ca. 8 Minuten), ist die gerufene Person *zwischen*: Sie nimmt gedämpft wahr, wie durch Wasser, kann nicht handeln, nicht sprechen, nichts berühren. Andere nehmen sie – wenn überhaupt – als blasse Gestalt, als Kälte, als Glockenton wahr. Auf der Platte erscheint sie als schwacher Schemen. Danach wird sie vollständig anwesend und fällt in erschöpften Schlaf.
+**R4b – Nachhall.** Der Ruf trägt mit sich, was ihn verursacht hat: Wer *zwischen* ist, hört – ungeordnet, ohne Zeitgefühl, wie ein Echo – auch die Laute der Minuten, die zum Ruf führten (das Läuten um 2.28, das Klopfen um 2.35, Schritte, Weinen). Sera kann diese Bruchstücke deshalb weder datieren noch einer Person zuordnen.
 
 **R5 – Gehört.** Der Ruf bleibt offen, bis die Rufende wirklich gehört wird: bis sie ausspricht, was sie rufen ließ, und jemand es annimmt und ihr glaubt. Erst dann ist das Fenster in beide Richtungen offen.
 
