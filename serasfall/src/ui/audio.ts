@@ -132,7 +132,7 @@ function noiseBurst(t: number, dur: number, peak: number, filterType: BiquadFilt
 }
 
 function bell(t: number, base: number, peak: number, bus: AudioNode, decay = 1.2) {
-  [1, 2.76, 5.4, 8.93].forEach((m, i) => tone(base * m, t, decay / (i + 1), peak / (i + 1.5), 'sine', bus, 0.002));
+  [1, 2.76, 5.4, 8.93].forEach((m, i) => { if (base * m < 16000) tone(base * m, t, decay / (i + 1), peak / (i + 1.5), 'sine', bus, 0.002); });
 }
 
 // ---------------------------------------------------------------- Geräusche

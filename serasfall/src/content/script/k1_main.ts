@@ -377,4 +377,49 @@ narr: Ihr Blick fällt auf Yuumi am Fenster. Etwas in ihrem Gesicht wird für ei
 clara[neutral]: Um drei bahren wir ihn auf. Tante Harriet wünscht, dass Sie helfen. Ich wünsche es nicht. Aber Mrs. Pryce hat nur zwei Hände, und die Hausmädchen sitzen hinter dem Wasser fest.
 clara[neutral]: Kommen Sie nicht zu spät. {pause:300}
 narr: Sie geht, bevor Sera antworten kann. Ihre Schritte auf der Galerie sind schnell und gleichmäßig, wie jemand, der sich vorgenommen hat, nicht zu weinen. {chap:2, time=nachmittag, go:toten@0.25}
+
+=== k1_gate_jeans
+kind: examine
+target: x_halle_salon
+when: ch=1 !f:k1_dressed
+priority: 30
+repeat: yes
+---
+inner: In Jeans und Avocado-Socken durch ein Trauerhaus? Erst die Kleider. Tilly ist die Treppe hinauf.
+
+=== k1_gate_jeans2
+kind: examine
+target: x_halle_dienst
+when: ch=1 !f:k1_dressed
+priority: 30
+repeat: yes
+---
+inner: Da unten ist die Küche. Und irgendwo in der Küche ist jemand, der mich in diesen Hosen nicht sehen sollte. Erst hinauf zu Tilly.
+
+=== k1_gate_jeans3
+kind: examine
+target: x_halle_biblio
+when: ch=1 !f:k1_dressed
+priority: 30
+repeat: yes
+---
+inner: Hinter der Tür sind Stimmen. Männerstimmen. Nicht in diesem Aufzug.
+
+=== k1_gate_jeans4
+kind: examine
+target: x_galerie_dienst
+when: ch=1 !f:k1_dressed
+priority: 30
+repeat: yes
+---
+inner: Tilly hat gesagt: die Treppe rauf und dann links. Nicht die Hintertreppe.
+
+=== k1_gate_jeans5
+kind: examine
+target: x_galerie_kammer
+when: ch=1 !f:k1_dressed
+priority: 30
+repeat: yes
+---
+inner: Keine Ahnung, wem dieses Zimmer gehört. Tilly wartet in der Wäschekammer.
 `;

@@ -10,6 +10,8 @@ import { CLUE_BY_ID } from '../content/clues';
 import { STATEMENT_BY_ID } from '../content/statements';
 import { DEDUCTION_BY_ID } from '../content/deductions';
 import * as audio from './audio';
+import { NPC_NAMES } from '../content/characters';
+const NPC_SHORT: Record<string, string> = { ...NPC_NAMES };
 import type { Env } from './scene/rooms';
 import type { Frame } from './scene/stage';
 import type { CatState } from './scene/figures';
@@ -17,6 +19,7 @@ import type { CatState } from './scene/figures';
 export type Overlay = 'title' | 'none' | 'notebook' | 'present' | 'menu' | 'settings' | 'log' | 'recon' | 'card' | 'ending' | 'io';
 
 export interface Toast { id: number; text: string; kind: 'clue' | 'hint' | 'thought' | 'info' }
+export type Target = { kind: 'hotspot'; h: Hotspot } | { kind: 'npc'; npc: NpcId } | { kind: 'cat' };
 
 const MOVE_SPEED = 0.23; // Bildbreiten pro Sekunde
 const CAT_SPEED = 0.32;
@@ -47,6 +50,7 @@ export class Controller {
   seraX = 0.3; targetX: number | null = null; seraWalk = 0; seraFacing: 1 | -1 = 1;
   catX = 0.24; catTarget: number | null = null; catWalk = 0; catFacing: 1 | -1 = 1; catState: CatState = 'sit'; catStateT = 0; catTimer = 3;
   keys = { left: false, right: false };
+  focusIdx = 0;
   idleT = 0;
   fade = 1;
   mystic = 0;
@@ -57,6 +61,7 @@ export class Controller {
   private pendingRecon = false;
   private musicOverride: string | null = null;
   private toastId = 0;
+  private shown = new Set<string>();
   private listeners = new Set<() => void>();
   private store = safeStore();
 
@@ -157,23 +162,33 @@ export class Controller {
 
   npcs() { return npcsIn(this.game, this.c, this.game.loc); }
 
-  /** Nächstes Ziel für „Interagieren“. */
-  nearest(): { kind: 'hotspot'; h: Hotspot } | { kind: 'npc'; npc: NpcId } | { kind: 'cat' } | null {
+  /** Alle Ziele in Reichweite, das nächste zuerst. */
+  targets(): Target[] {
     const g = this.game;
     const x = g.controlling === 'yuumi' ? this.catX : this.seraX;
-    let best: any = null, bd = 1;
-    for (const h of this.hotspots()) {
-      const d = Math.abs(h.x - x);
-      if (d <= h.r + 0.02 && d < bd) { bd = d; best = { kind: 'hotspot', h }; }
-    }
+    const out: { t: Target; d: number }[] = [];
+    for (const h of this.hotspots()) { const d = Math.abs(h.x - x); if (d <= h.r + 0.02) out.push({ t: { kind: 'hotspot', h }, d }); }
     if (g.controlling === 'sera') {
-      for (const n of this.npcs()) {
-        const d = Math.abs(n.x - x);
-        if (d < 0.07 && d < bd) { bd = d; best = { kind: 'npc', npc: n.npc }; }
-      }
-      if (this.catVisible()) { const d = Math.abs(this.catX - x); if (d < 0.05 && d < bd) { bd = d; best = { kind: 'cat' }; } }
+      for (const n of this.npcs()) { const d = Math.abs(n.x - x); if (d < 0.07) out.push({ t: { kind: 'npc', npc: n.npc }, d: d - 0.005 }); }
+      if (this.catVisible()) { const d = Math.abs(this.catX - x); if (d < 0.05) out.push({ t: { kind: 'cat' }, d: d + 0.01 }); }
     }
-    return best;
+    const list = out.sort((a, b) => a.d - b.d).map((o) => o.t);
+    const key = list.map((t) => (t.kind === 'hotspot' ? t.h.id : t.kind === 'npc' ? t.npc : 'cat')).join(',');
+    if (key !== this.targetsKey) { this.targetsKey = key; this.focusIdx = 0; }
+    return list;
+  }
+  private targetsKey = '';
+
+  /** Das aktuell gewählte Ziel für „Interagieren“ (mit ↑/↓ wechselbar, wenn mehrere in Reichweite sind). */
+  nearest(): Target | null {
+    const list = this.targets();
+    if (!list.length) return null;
+    return list[this.focusIdx % list.length];
+  }
+
+  cycleTarget(dir: 1 | -1) {
+    const n = this.targets().length;
+    if (n > 1) { this.focusIdx = (this.focusIdx + dir + n) % n; this.emit(); }
   }
 
   busy(): boolean {
@@ -205,6 +220,7 @@ export class Controller {
         else move = Math.sign(d) * Math.min(Math.abs(d), MOVE_SPEED * dt);
       }
       if (move) {
+        this.focusIdx = 0;
         this.seraX = Math.max(minX, Math.min(maxX, this.seraX + move));
         this.seraFacing = move > 0 ? 1 : -1;
         this.seraWalk += Math.abs(move) * 9;
@@ -220,7 +236,7 @@ export class Controller {
         if (Math.abs(d) < 0.004) { this.catTarget = null; const a = this.pendingAction; this.pendingAction = null; a?.(); }
         else move = Math.sign(d) * Math.min(Math.abs(d), CAT_SPEED * dt);
       }
-      if (move) { this.catX = Math.max(minX, Math.min(maxX, this.catX + move)); this.catFacing = move > 0 ? 1 : -1; this.catWalk += Math.abs(move) * 6; this.catState = 'walk'; }
+      if (move) { this.focusIdx = 0; this.catX = Math.max(minX, Math.min(maxX, this.catX + move)); this.catFacing = move > 0 ? 1 : -1; this.catWalk += Math.abs(move) * 6; this.catState = 'walk'; }
       else { this.catWalk = 0; if (this.catState === 'walk') { this.catState = 'sit'; this.catStateT = 0; } }
       this.catStateT += dt;
     }
@@ -289,7 +305,7 @@ export class Controller {
     this.doInteract(n);
   }
 
-  private doInteract(n: NonNullable<ReturnType<Controller['nearest']>>) {
+  private doInteract(n: Target) {
     const g = this.game;
     if (n.kind === 'cat') {
       const r = act(g, this.c, { type: 'pet' });
@@ -324,7 +340,7 @@ export class Controller {
     const g = this.game;
     const cat = g.controlling === 'yuumi';
     // Ziele unter dem Klick
-    let hit: ReturnType<Controller['nearest']> = null;
+    let hit: Target | null = null;
     for (const h of this.hotspots()) if (Math.hypot((h.x - x) * 1.78, h.y - y) < 0.06) hit = { kind: 'hotspot', h };
     if (!cat && !hit) for (const n of this.npcs()) if (Math.abs(n.x - x) < 0.04 && y > 0.5) hit = { kind: 'npc', npc: n.npc };
     if (!cat && !hit && this.catVisible() && Math.abs(this.catX - x) < 0.03 && y > 0.82) hit = { kind: 'cat' };
@@ -422,6 +438,7 @@ export class Controller {
     if (r.view?.text) this.lastLine = r.view.text;
     audio.setDucking(!!r.view?.important);
     if (!r.view) this.afterDialogue();
+    else this.save(); // auch mitten im Gespräch: Neuladen setzt an derselben Zeile fort
     this.emit();
   }
 
@@ -453,12 +470,12 @@ export class Controller {
       if (e.type === 'sfx') audio.sfx(e.id);
       else if (e.type === 'music') { this.musicOverride = e.id; audio.setMusic(e.id); }
       else if (e.type === 'clue') { const c = CLUE_BY_ID[e.id]; if (c) this.toast(`${c.kind === 'erinnerung' ? 'Erinnerung' : 'Notiert'}: ${c.name}`, 'clue'); audio.sfx('pen'); }
-      else if (e.type === 'statement') { const s = STATEMENT_BY_ID[e.id]; if (s) this.toast(`Aussage notiert`, 'clue'); audio.sfx('pen'); }
+      else if (e.type === 'statement') { const s = STATEMENT_BY_ID[e.id]; if (s) this.toast(`Notiert: was ${NPC_SHORT[s.speaker] ?? 'jemand'} gesagt hat`, 'clue'); audio.sfx('pen'); }
       else if (e.type === 'deduction') { audio.sfx('deduce'); }
       else if (e.type === 'chapter') this.pendingCard = e.n;
     }
-    if (ev.some((e) => e.type === 'clue' || e.type === 'statement') && !this.game.flags['tut_notebook']) {
-      this.game.flags['tut_notebook'] = true;
+    if (ev.some((e) => e.type === 'clue' || e.type === 'statement') && !this.game.flags['tut_notebook'] && !this.shown.has('nb')) {
+      this.shown.add('nb');
       this.toast('N · Notizbuch', 'hint');
     }
   }

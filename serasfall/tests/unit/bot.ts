@@ -30,6 +30,7 @@ export function runBot(c: Content, p: Policy, maxSteps = 60000): BotResult {
   const transcript: string[] = [];
   let lastChapter = -1;
   const failedExits = new Set<string>();
+  let gate: { id: string; loc: string } | null = null;
   const result = (stuck?: string): BotResult => ({ state: s, steps, stuck, chapterKnowledge, deductionChapter, seenDialogues: new Set(Object.keys(s.seen)), lines, transcript });
 
   const handleStep = (r: StepResult) => {
@@ -55,6 +56,7 @@ export function runBot(c: Content, p: Policy, maxSteps = 60000): BotResult {
       handleStep(advance(s, c, idx));
       continue;
     }
+    if (gate) { if (s.loc === gate.loc) failedExits.add(gate.id); else failedExits.clear(); gate = null; }
     const pl = plan(s, c, p, failedExits);
     if (!pl) return result(`festgefahren in Kapitel ${s.chapter} (${s.loc}, ${s.time})`);
     if (pl.type === 'deduce') {
@@ -63,15 +65,17 @@ export function runBot(c: Content, p: Policy, maxSteps = 60000): BotResult {
         transcript.push(`    ✎ Schlussfolgerung ${pl.id}: ${c.deductions[pl.id].result}`);
         s = settle(r.state, c, r.events).state;
         deductionChapter[pl.id] = s.chapter;
+        failedExits.clear();
       }
       continue;
     }
     if (pl.type === 'move') {
       const r = act(s, c, { type: 'exit', hotspot: pl.hotspot });
       if (!r) { failedExits.add(pl.hotspot.id); continue; }
-      if ('moved' in r) s = r.moved; else handleStep(r);
+      if ('moved' in r) s = r.moved; else { gate = { id: pl.hotspot.id, loc: s.loc }; handleStep(r); }
       continue;
     }
+    failedExits.clear();
     handleStep(startDialogue(s, c, pl.dlg));
   }
   return result(s.ending ? undefined : 'Schrittgrenze');

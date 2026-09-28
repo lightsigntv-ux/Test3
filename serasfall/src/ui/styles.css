@@ -33,6 +33,7 @@ button { font-family: inherit; }
 .ghostbtn { background: rgba(10, 8, 6, 0.45); color: var(--muted); border: 1px solid rgba(198, 154, 68, 0.35); border-radius: 3px; padding: 5px 12px; font-size: 16px; cursor: pointer; }
 .ghostbtn:hover, .ghostbtn:focus-visible { color: var(--text); border-color: var(--gilt); outline: none; }
 .hslabel { position: absolute; transform: translateX(-50%); font-family: var(--hand); font-size: 26px; color: #fff3d8; text-shadow: 0 1px 4px #000, 0 0 10px rgba(0, 0, 0, 0.8); pointer-events: none; white-space: nowrap; }
+.more-t { font-size: 20px; opacity: 0.75; }
 .key { display: inline-block; font-family: var(--serif); font-size: 14px; border: 1px solid rgba(255, 240, 210, 0.7); border-radius: 3px; padding: 0 5px; margin-right: 4px; vertical-align: 3px; }
 .margin-note { position: absolute; left: 28px; bottom: 22px; font-family: var(--hand); font-size: 26px; color: rgba(255, 238, 205, 0.85); text-shadow: 0 1px 4px #000; pointer-events: none; animation: fadein 1.2s ease; }
 @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
@@ -121,7 +122,7 @@ button { font-family: inherit; }
 .tab.on, .tab:hover, .tab:focus-visible { opacity: 1; background: var(--paper); outline: none; }
 .tab.close { margin-top: auto; background: transparent; color: #d9cba8; font-style: italic; }
 .tab .dot { color: #9a2a1a; }
-.page { flex: 1; background: linear-gradient(90deg, #e6d8b6 0%, var(--paper) 6%, var(--paper) 100%); border-radius: 0 4px 4px 0; padding: 26px 40px; overflow: auto; color: var(--ink); background-image: repeating-linear-gradient(transparent 0 33px, rgba(90, 110, 140, 0.18) 33px 34px); }
+.page { flex: 1; background-color: var(--paper); background-image: repeating-linear-gradient(transparent 0 33px, rgba(90, 110, 140, 0.18) 33px 34px), linear-gradient(90deg, #d9c9a2 0%, var(--paper) 5%, var(--paper) 100%); border-radius: 0 4px 4px 0; padding: 26px 40px; overflow: auto; color: var(--ink); box-shadow: inset 8px 0 18px rgba(60, 40, 10, 0.25); }
 .entries { font-family: var(--hand); font-size: 25px; line-height: 34px; }
 .entries article { margin-bottom: 16px; }
 .entries h3 { font-family: var(--hand); font-weight: 600; font-size: 28px; margin: 0; color: #3a2410; }

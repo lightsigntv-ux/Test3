@@ -3,7 +3,7 @@
 import type { Content } from '../../src/engine/core';
 import type { GameState, Hotspot, LocId, NpcId, Stance } from '../../src/engine/types';
 import type { LineView } from '../../src/engine/dialogue';
-import { autoScene } from '../../src/engine/session';
+import { autoScene, NO_CAT } from '../../src/engine/session';
 import { examineFor, hotspotsIn, npcsIn, presentFor, presentables, smalltalkFor, topicsFor } from '../../src/engine/world';
 import { openDeductions, supportCount } from '../../src/engine/deduce';
 
@@ -44,7 +44,7 @@ export function chooseIndex(v: LineView, s: GameState, c: Content, p: Policy): n
 }
 
 function candidates(st: GameState, c: Content, loc: LocId, p: Policy): Plan[] {
-  const t = { ...st, loc, yuumiLoc: st.flags['g_yuumi_lost'] ? st.yuumiLoc : loc };
+  const t = { ...st, loc, yuumiLoc: st.flags['g_yuumi_lost'] || NO_CAT.has(loc) ? st.yuumiLoc : loc };
   const out: Plan[] = [];
   const sc = autoScene(t, c);
   if (sc) out.push({ type: 'scene', dlg: sc.id });
@@ -53,7 +53,7 @@ function candidates(st: GameState, c: Content, loc: LocId, p: Policy): Plan[] {
       const d = examineFor(t, c, h.id);
       if (d && !t.seen[d.id]) out.push({ type: 'examine', hotspot: h, dlg: d.id });
     }
-    if (h.kind === 'cat' && c.locations[loc].catAllowed && !t.flags['g_yuumi_lost']) {
+    if (h.kind === 'cat' && c.locations[loc].catAllowed && !t.flags['g_yuumi_lost'] && t.yuumiLoc === loc) {
       const d = examineFor(t, c, h.id, 'yuumi');
       if (d && !t.seen[d.id]) out.push({ type: 'yuumi', hotspot: h, dlg: d.id });
     }

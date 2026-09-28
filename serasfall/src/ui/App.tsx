@@ -64,6 +64,8 @@ export function App({ ctl }: { ctl: Controller }) {
       else if (k === 'e' || k === 'E' || k === ' ' || k === 'Enter') { ctl.interact(); e.preventDefault(); }
       else if (k === 'n' || k === 'N' || k === 'Tab') { ctl.overlay = 'notebook'; if (!ctl.game.flags['tut_notebook']) ctl.game.flags['tut_notebook'] = true; audio.sfx('page'); ctl.emit(); e.preventDefault(); }
       else if (k === 'y' || k === 'Y') ctl.toggleYuumi();
+      else if (k === 'ArrowUp' || k === 'w' || k === 'W') { ctl.cycleTarget(-1); e.preventDefault(); }
+      else if (k === 'ArrowDown' || k === 's' || k === 'S') { ctl.cycleTarget(1); e.preventDefault(); }
       else if (k === 'l' || k === 'L') setLogOpen(true);
     };
     const up = (e: KeyboardEvent) => {
@@ -88,7 +90,7 @@ export function App({ ctl }: { ctl: Controller }) {
         {ov === 'none' && !ctl.view && !ctl.talkNpc && <WorldHud ctl={ctl} onLog={() => setLogOpen(true)} />}
         {ctl.talkNpc && !ctl.view && ov === 'none' && <TalkMenu ctl={ctl} npc={ctl.talkNpc} />}
         {ctl.view && <DialogueBox ctl={ctl} settings={settings} onLog={() => setLogOpen(true)} />}
-        <Toasts ctl={ctl} />
+        {(ov === 'none' || ov === 'present') && <Toasts ctl={ctl} />}
         {ov === 'present' && <PresentPicker ctl={ctl} />}
         {ov === 'notebook' && <Notebook ctl={ctl} onClose={() => { ctl.overlay = 'none'; ctl.emit(); }} />}
         {ov === 'recon' && <Recon ctl={ctl} />}
@@ -150,7 +152,7 @@ function WorldHud({ ctl, onLog }: { ctl: Controller; onLog: () => void }) {
   return (
     <>
       <div className="locname">{ctl.locName}{g.controlling === 'yuumi' ? ' · Yuumi' : ''}</div>
-      {label && <div className="hslabel" style={{ left: lx * W, top: Math.max(40, ly * H - 44) }}><span className="key">E</span> {label}</div>}
+      {label && <div className="hslabel" style={{ left: lx * W, top: Math.max(40, ly * H - 44) }}><span className="key">E</span> {label}{ctl.targets().length > 1 ? <span className="more-t"> · ↑↓ mehr</span> : null}</div>}
       {tutorial && <div className="margin-note">{tutorial}</div>}
       <div className="corner">
         <button className="ghostbtn" onClick={() => { ctl.overlay = 'notebook'; audio.sfx('page'); ctl.emit(); }} title="Notizbuch (N)">Notizbuch</button>
