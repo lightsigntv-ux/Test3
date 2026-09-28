@@ -26,6 +26,7 @@ const allConds: Cond[] = [
   ...dlgs.flatMap(condsOf),
   ...C.placements.map((p) => p.when!).filter(Boolean),
   ...Object.values(C.locations).flatMap((l) => l.hotspots.map((h) => h.when!).filter(Boolean)),
+  ...Object.values(C.locations).flatMap((l) => l.hotspots.flatMap((h) => (h.labelWhen ?? []).map(([cond]) => cond))),
 ];
 const allEffects: Effects[] = [...dlgs.flatMap(effectsOf), ...Object.values(C.deductions).map((d) => d.effects!).filter(Boolean)];
 

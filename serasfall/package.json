@@ -8,7 +8,8 @@
     "build": "tsc --noEmit && vite build",
     "build:single": "tsc --noEmit && vite build --mode single",
     "test": "vitest run",
-    "test:browser": "node tests/browser/run.mjs",
+    "test:browser": "tsx tests/browser/all.ts",
+    "shots": "tsx tests/browser/shots.mjs",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
@@ -17,6 +18,7 @@
     "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "^4.7.0",
     "playwright": "^1.56.0",
+    "tsx": "^4.23.15",
     "typescript": "^5.9.3",
     "vite": "^6.4.3",
     "vite-plugin-singlefile": "^2.3.3",

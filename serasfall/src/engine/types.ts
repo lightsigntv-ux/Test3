@@ -152,6 +152,8 @@ export interface Hotspot {
   npc?: NpcId;
   /** Katzenpunkte: nur als Yuumi erreichbar */
   catOnly?: boolean;
+  /** Beschriftung, sobald Sera mehr weiß (erste zutreffende gewinnt) */
+  labelWhen?: [Cond, string][];
 }
 
 export interface Location {

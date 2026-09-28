@@ -282,6 +282,15 @@ export class Controller {
 
   frame(): Frame {
     const g = this.game;
+    if (this.overlay === 'title') {
+      // Titelbild: die Halle bei Nacht, Yuumi schläft auf dem Fenstersitz
+      return {
+        env: { loc: 'halle', tod: 'nacht', weather: 'rain', chapter: 1, flags: {}, reduced: this.reduced },
+        sera: { id: 'sera', x: 0.5, facing: 1, walk: 0, visible: false },
+        cat: { x: 0.575, foot: 282, s: 0.9, facing: -1, state: 'sleep', t: 0, stateT: 0, walk: 0, visible: true, reduced: this.reduced },
+        npcs: [], hotspots: [], controlling: 'sera', fade: 0, mystic: 0.25,
+      };
+    }
     const near = this.overlay === 'none' && !this.view && !this.talkNpc ? this.nearest() : null;
     const npcs = this.npcs().map((n) => ({ id: n.npc, x: n.x, facing: (this.seraX > n.x ? 1 : -1) as 1 | -1, walk: 0 }));
     return {

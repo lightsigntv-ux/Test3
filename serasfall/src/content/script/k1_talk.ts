@@ -96,7 +96,7 @@ pryce[neutral]: Dreizehn. Aus dem Arbeitshaus in Bridgwater, seit letztem Herbst
 pryce[neutral]: Flink ist sie. Frech ist sie. Und sie singt falsch beim Kohlentragen. Der Herr hat’s gern gehört, weiß der Himmel warum.
 narr: Ihre Hände hören einen Augenblick auf, den Teig zu schlagen.
 pryce[neutral]: Man holt so ein Kind nicht aus dem Arbeitshaus, damit es wieder zurückmuss. Das merken Sie sich, Miss. Egal was Sie hier oben aufschnappen.
-inner: Eine Drohung, sehr höflich verpackt.
+inner: Das war kein Satz an mich. Das war ein Zaun um Tilly.
 
 === t1_pryce_herr
 kind: topic
@@ -206,7 +206,7 @@ lionel[neutral]: Der alte Herr und ich hatten ein Arrangement: Er war enttäusch
 # a
 lionel[tense]: Einsam.
 narr: Er dreht das leere Glas in der Hand, als suche er darin das Wort.
-lionel[neutral]: Man ist nicht einsam in einem Kavallerieregiment, Miss Hale. Man ist nur nie allein.
+lionel[neutral]: Ich war nicht einsam, Miss Hale. Ich war im Regiment. Dort ist keiner je allein; das ist beinahe dasselbe.
 -> END
 # b
 lionel[warm]: Siebzehn Jahre ohne Unterbrechung. Ich sollte einen Orden dafür bekommen.
@@ -306,7 +306,7 @@ npc: lionel
 when: ch=1 f:k1_library_done
 ---
 lionel[neutral]: Möchten Sie einen Sherry, Miss Hale? Nein, natürlich nicht. Es ist Vormittag, und Sie sind anständig.
-lionel[warm]: Das macht mich zum Einzigen hier, der ehrlich ist. Welch ein Tag.
+lionel[warm]: Dann bin ich hier der Einzige, der vormittags ehrlich trinkt. Welch ein Tag.
 
 === s1_penrose
 kind: smalltalk

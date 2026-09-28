@@ -34,11 +34,11 @@ narr: Als sie ihn auf die Seite rollen, sieht Sera die linke Flanke. Große dunk
 narr: Miss Clara ist vom Fenster herübergekommen. Sie sieht die Flecken an. Sehr lange. {+c:c06}
 clara[tense]: Totenflecken.
 clara[neutral]: Das Blut sinkt nach dem Tod dorthin, wo der Körper am tiefsten liegt. Immer nach unten. Blut ist nicht sentimental.
-clara[tense]: Er hat nach Hobbes drei Stunden im Sessel gesessen. Dann müssten sie in den Beinen sein, im Becken. Da ist fast nichts. Er hat vorher Stunden auf der linken Seite gelegen, auf etwas Hartem. Auf dem Boden. {+s:s18, reveals:f14, +f:g_body_laid}
+clara[tense]: Wenn er im Sessel gestorben wäre, wie Hobbes sagt, müssten sie in den Beinen sein, im Becken. Da ist fast nichts. Er hat Stunden auf der linken Seite gelegen, auf etwas Hartem. Auf dem Boden. {+s:s18, reveals:f14, +f:g_body_laid}
 pryce[tense]: Mr. Hobbes wird sich geirrt haben, Miss Clara. In dem Schrecken. {hints:f14}
 clara[angry]: Hobbes irrt sich nicht. Hobbes hat noch nie in seinem Leben ein Salzfass an den falschen Platz gestellt.
 narr: Die Stille danach ist so vollständig, dass man die Kerzen hört.
-* [mitfuehlend] Wir können später darüber reden. Jetzt ist er dran. {clara+1, pryce+1} -> d
+* [mitfuehlend] Später. Jetzt gehört die Zeit ihm. {clara+1, pryce+1} -> d
 * [direkt] Dann hat jemand ihn nach seinem Tod in den Sessel gesetzt. {clara+1} -> e
 * [schweigen] (Das Hemd glatt streichen und nichts sagen.) {pryce+1} -> d
 # e
@@ -57,7 +57,7 @@ priority: 20
 narr: Clara schließt die Tür der Dunkelkammer auf. Ein schmaler Raum ohne Fenster, Regale mit Flaschen, Schalen, Glasplatten in Holzkästen. Sie zündet eine Laterne mit rotem Glas an, und alles wird rot und still. {music:dark}
 clara[neutral]: Sie haben den Geruch bemerkt. Heute früh im Arbeitszimmer. Mein Bruder hat es jedem erzählt, der nicht schnell genug weglief.
 narr: Sie nimmt eine braune Flasche vom Tisch, deren Stopfen daneben liegt, und hält sie ins rote Licht.
-clara[neutral]: Das ist kein Gift. Das ist Fixierbad. Kaliumcyanid in Wasser. Man braucht es, damit das Bild auf der Platte bleibt und nicht schwarz wird. Der Geruch zieht durch jede Tür. {+s:s13, reveals:f19, +c:c12}
+clara[neutral]: Das ist kein Mord. Das ist Fixierbad. Kaliumcyanid in Wasser. Man braucht es, damit das Bild auf der Platte bleibt und nicht schwarz wird. Der Geruch zieht durch jede Tür. {+s:s13, reveals:f19, +c:c12}
 clara[tense]: Wenn Sie daran riechen wollen – tun Sie es nicht.
 clara[neutral]: Er hat die Flasche offen gelassen. Das hat er nie getan. Nie.
 * [direkt] Wann waren Sie zuletzt hier drin? -> a
@@ -173,7 +173,7 @@ important: yes
 narr: Zwei Kerzen, ein Stuhl auf jeder Seite des Bettes. Clara sitzt links, eine Decke um die Schultern, ein Buch auf dem Schoß, das sie nicht liest. {music:vigil}
 clara[neutral]: Sie sind gekommen.
 sera: Ich hab’s gesagt.
-clara[neutral]: Man sagt vieles.
+clara[neutral]: Das sagen viele.
 narr: Sera setzt sich auf den anderen Stuhl. Eine Weile ist da nur der Regen und das leise Zischen des Dochts.
 clara[neutral]: Er hat mir mit sieben ein Mikroskop geschenkt. Tante Harriet hat drei Tage nicht mit ihm gesprochen. Ein Mädchen mit einem Mikroskop, stellen Sie sich vor.
 clara[neutral]: Ich habe Zwiebelhaut angesehen und Flöhe und einen Tropfen aus dem Teich. Er stand hinter mir und sagte kein Wort. Er hat nur gewartet, bis ich etwas finde.

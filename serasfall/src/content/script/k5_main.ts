@@ -5,7 +5,7 @@ when: ch=5 loc=halle
 priority: 20
 important: yes
 ---
-narr: Der Regen hat aufgehört. Zum ersten Mal seit Tagen hört man, wie still das Haus ist: kein Trommeln, kein Rinnen, nur das leise Knacken alter Balken, die trocknen wollen. {music:k5}
+narr: Kein Trommeln, kein Rinnen. Nur das leise Knacken alter Balken, die trocknen wollen. {music:k5}
 narr: In der Halle brennt eine einzige Lampe, kleingedreht. Genau wie in jener Nacht. Die Kamera steht auf ihren drei Beinen, der Krepp liegt zusammengefaltet daneben.
 narr: Sera setzt sich auf die unterste Stufe, das Notizbuch auf den Knien, die Platte in ihrem schwarzen Papier neben sich.
 inner: Ich muss es einmal ganz denken. Von Anfang bis Ende. Jede Spur an ihren Platz.
@@ -17,8 +17,8 @@ when: ch=5 f:g_recon_done
 priority: 20
 important: yes
 ---
-inner: Er ist nicht ermordet worden. Sein Herz hat aufgehört. Niemand hat es angehalten. Das ist die Wahrheit, und sie ist nicht einmal die schlimmste.
-inner: Das Schlimmste ist, dass jeder in diesem Haus in jener Nacht an der falschen Tür stand. Clara bei der Frau, die sie verachtete. Lionel draußen im Regen. Mrs. Pryce an ihrem Tisch mit einem Brief nach Kanada. Hobbes im Schlaf. Miss Averley in einem Schlaf, aus dem sie keine Kanone weckt. Mrs. Penrose hinter einer abgeschlossenen Tür.
+inner: Er ist nicht ermordet worden. Sein Herz hat aufgehört. Niemand hat es angehalten. Das ist die Wahrheit. Und sie ist nicht das Schlimmste.
+inner: Das Schlimmste ist, dass jeder in diesem Haus in jener Nacht an der falschen Tür stand. Clara bei der Frau, die sie verachtete. Lionel draußen im Regen. Mrs. Pryce an ihrem Tisch mit einem Brief nach Kanada. Hobbes im Schlaf. Miss Averley hinter einer Tür, an die niemand zu klopfen wagte. Mrs. Penrose hinter einer abgeschlossenen Tür.
 inner: Und das einzige Kind im Haus ist die Treppe hinauf- und hinuntergelaufen, mit einem Brief, den niemand annehmen wollte.
 inner: Er war nicht allein. Tilly hat seine Hand gehalten.
 inner: „Wenn du die Glocke hörst, Edmund, hast du es gehalten.“ Er hat sie nicht im Wasser gehört. Er hat sie selbst geläutet, mit dem Brief für Clara auf dem Tisch. Er hat es gehalten.
@@ -44,13 +44,13 @@ clara[surprised]: Das ist – seine Hand.
 narr: Sie öffnet ihn nicht sofort. Sie hält ihn, als wäre er ein Präparat, das zerfallen könnte, wenn man es der Luft aussetzt. Dann bricht sie das Siegel. {sfx:paper, pause:600}
 letter: Clara, es ist halb zwei, und du bist gegangen, und du hattest recht. Ich schreibe es auf, weil ich es nicht sagen kann. Das weißt du. Das hast du von mir.
 letter: Ich habe dir nicht gesagt, warum London warten muss. Hier ist es. Lionel hatte Schulden, 1840 Pfund, bei Leuten, die man nicht warten lässt. Ich habe sie am 8. bezahlt. Es war fast alles, was ich an Freiem hatte. Er weiß es nicht; ich wollte, dass er fragt. Das war Hochmut. Sag es ihm, wenn ich es nicht mehr kann.
-letter: Dr. Wilkes in Bath sagt, mein Herz werde nicht mehr lange mitmachen. Monate. Harriet weiß es; ich habe sie schwören lassen. Sei ihr nicht böse. Sie hat gehorcht. Das ist ihr Unglück, seit fünfzig Jahren.
-letter: Die Institution in Bath will meine Instrumente, Platten und Sammlungen kaufen. Es reicht für die Henrietta Street, bis zum Examen. Morgen früh unterschreibe ich, dass die Sammlung dir gehört, Hobbes und Mrs. Pryce werden es bezeugen. Sollte mir vorher etwas zustoßen, dann bitte Lionel darum. Er ist besser, als er glaubt. Das hat ihm keiner gesagt, am wenigsten ich.
+letter: Dr. Wilkes in Bath gibt mir Monate. Harriet weiß es; ich habe sie schwören lassen. Sei ihr nicht böse. Sie hat gehorcht. Das ist ihr Unglück, seit fünfzig Jahren.
+letter: Die Institution in Bath will meine Sammlung kaufen. Es reicht für die Henrietta Street, bis zum Examen. Morgen früh unterschreibe ich, dass sie dir gehört. Sollte mir vorher etwas zustoßen, bitte Lionel darum. Er ist besser, als er glaubt. Das hat ihm keiner gesagt, am wenigsten ich.
 letter: Deine Mutter hat mich schwören lassen, dich wählen zu lassen. Ich habe gedacht, es genüge, dir nichts zu verbieten. Es genügt nicht. Man muss auch etwas geben.
 letter: Heute Abend hat eine Frau aus Bath meine eigenen Worte in Lucindas Stimme gesprochen. Ich habe mich geschämt, weil ich sie ihr erzählt hatte, und weil ich gehofft hatte. Du hast recht, es war Betrug. Du hast nicht recht, dass es nicht wehtut.
 letter: Die Kamera steht seit Mitternacht vor der Treppe, um Harriet zu beweisen, dass dort nichts wandelt. Sollte doch etwas auf der Platte sein: Entwickle sie trotzdem. Man verwirft kein Ergebnis, weil es einem nicht passt. Das ist das Einzige, was ich dir wirklich beigebracht habe.
 letter: Wähle, Clara. – Dein Vater, E. A. {+f:g_letter_read, +c:c30}
-narr: Clara liest bis zum Ende. Dann liest sie noch einmal die letzte Zeile, nur die letzte, und legt die Hand mit den schwarzen Fingerspitzen flach auf das Papier. {pause:1200}
+narr: Clara liest bis zum Ende. Dann sucht sie eine Zeile weiter oben und liest sie noch einmal, und legt die Hand mit den schwarzen Fingerspitzen flach auf das Papier. {pause:1200}
 clara[sad]: „Entwickle sie trotzdem.“
 narr: Sie lacht. Es ist ein kleines, zerbrochenes Lachen, und dann weint sie, mit offenen Augen, ohne sich die Tränen abzuwischen, als wolle sie sehen, wie viele es sind.
 clara[sad]: Er hat es mir geschrieben. Nachdem ich ihm gesagt habe, dass Mama sich für ihn geschämt hätte. Er hat sich hingesetzt und mir das geschrieben. Und dann – {+f:g_letter_known}
@@ -72,11 +72,11 @@ clara[sad]: Ihm. Es ist bezahlt. Sag’s ihm. Er meinte Lionel, Tilly. Er meinte
 # s_tells
 narr: Sera erzählt es ihr. Die Glocke. Die Treppe. Das Klopfen. Die Hand. Die letzten Worte. Clara hört zu, ohne zu unterbrechen, wie man einem Befund zuhört.
 clara[sad]: Sie hat an meine Tür geklopft. Und ich saß bei der Frau, die ich eine Betrügerin nenne, und wollte meine tote Mutter hören. Statt meines lebenden Vaters.
-clara[sad]: Tilly. Das Küchenmädchen. Die, der ich einmal ein T gezeigt habe und die ich danach vergessen habe.
+clara[sad]: Tilly. Der ich einmal ein T gezeigt habe und die ich danach vergessen habe.
 clara[sad]: „Es ist bezahlt. Sag’s ihm.“ Lionel. Er meinte Lionel. {hints:f03}
 # after
 clara[neutral]: Jemand muss es ihm sagen. Heute Nacht. Nicht der Coroner. Nicht Tante Harriet.
-clara[neutral]: Sie, Miss Hale. Ich kann es nicht, ohne ihn anzuschreien, und er hat genug Leute gehabt, die ihn angeschrien haben. Er zuerst.
+clara[neutral]: Sie, Miss Hale. Ich kann es nicht, ohne ihn anzuschreien, und er hat genug Leute, die ihn anschreien. Allen voran sich selbst.
 
 === k5_lionel
 kind: topic
@@ -108,7 +108,7 @@ narr: Er sieht die Klingelschnur in der Stallecke, die zum Kutscherzimmer führt
 # bell
 lionel[surprised]: Die Klingel.
 lionel[sad]: Er hat mich gebeten, zu läuten. Und ich habe ihm die Sage seiner toten Frau ins Gesicht gespottet und bin gegangen.
-lionel[sad]: Und dann hat er selbst geläutet. Und das Kind kam. Ein Küchenmädchen hat getan, was sein Sohn nicht getan hat.
+lionel[sad]: Und dann hat er selbst geläutet. Und Tilly kam. Dreizehn Jahre alt, barfuß, und sie ist gekommen.
 narr: Er dreht sich zu dem Braunen und legt die Stirn gegen seinen Hals, und seine Schultern zittern, und er gibt keinen Laut von sich.
 narr: Nach einer langen Zeit richtet er sich auf.
 lionel[neutral]: Der Coroner kommt in drei Stunden. Er wird fragen, wer zuletzt bei meinem Vater war.
@@ -129,14 +129,14 @@ lionel[angry]: Müssen. Ich habe mein ganzes Leben lang gehört, was ich muss.
 ? t:lionel>=7 -> speak
 -> silent
 # speak
-lionel[neutral]: Ich werde es ihm sagen. Alles. Den Streit, die Terrasse, das Feuer. {+f:g_lionel_confessed}
+lionel[neutral]: Ich werde es ihm sagen. Alles. Den Streit, die Terrasse, das Feuer. Und dass ich ihn bis zum Morgen habe liegen lassen. {+f:g_lionel_confessed}
 lionel[neutral]: Ich lasse nicht zu, dass ein Kind aus dem Arbeitshaus vor einem Coroner steht und erklärt, warum es bei meinem Vater war, und ich sitze daneben und sage, ich hätte geschlafen wie ein Stein.
 lionel[sad]: Es wird einen Skandal geben. Das Regiment wird mir nahelegen, den Dienst zu quittieren. Tante Harriet wird eine Woche nicht mit mir sprechen und dann für immer.
 lionel[neutral]: Und Clara bekommt ihre Sammlung. Und ihr London. Das hätte er so gewollt. Wenn er es aufgeschrieben hat, dann ist es ein Befehl. Ich habe gelernt, Befehle zu befolgen.
 lionel[warm]: Wenigstens das.
 -> END
 # silent
-lionel[sad]: Ich kann nicht, Miss Hale. Nicht vor Tante Harriet. Nicht vor einem Coroner aus Bridgwater, der meinen Vater für einen Heiden hielt.
+lionel[sad]: Ich kann nicht, Miss Hale. Nicht vor Tante Harriet. Nicht vor einem Coroner, der mit dem Pfarrer Whist spielt, der Mutters Grabstein unchristlich nannte.
 lionel[sad]: Ich werde bezahlen, was er Clara versprochen hat. Jeden Penny. Aber ich kann es nicht sagen. Noch nicht. Vielleicht nie. {+f:g_lionel_silent}
 lionel[neutral]: Sagen Sie es, wenn Sie müssen. Ich werde es nicht leugnen. Ich werde nur – schweigen. Wie er.
 inner: Wie er. Das ist das Traurigste, was er hätte sagen können. Und das Ehrlichste.
@@ -213,9 +213,9 @@ harriet[sad]: 1854 wollte ich nach Skutari. Zu den Schwestern, mit der zweiten G
 harriet[sad]: Vater hat es verboten. Eine Averley pflegt keine Soldaten. Henry war schon in der Krim. Ich habe gewartet. Ich war gut im Warten. Ende November kam der Brief.
 harriet[neutral]: Ich habe zwölf Jahre lang Geister gerufen, Miss Hale, weil ich nicht ertragen konnte, dass ich zu Hause geblieben bin, als ich hätte gehen können.
 narr: Sie dreht sich um. Ihr Gesicht ist trocken. Nur die Hand an der Jet-Brosche zittert.
-harriet[neutral]: Clara wird gehen. Wenn Lionel nicht zahlt, zahle ich. Ich habe eine Brosche, die nichts mehr bedeutet, und eine Rente, die ich nicht brauche. {+f:g_harriet_frees}
+harriet[neutral]: Clara wird gehen. Wenn Lionel nicht zahlt, zahle ich. Ich habe eine Rente, die ich nicht brauche. Und eine Brosche, die ich lange genug getragen habe. {+f:g_harriet_frees}
 harriet[neutral]: Und sagen Sie es ihr nicht. Ich will es ihr selbst sagen. Das eine Mal will ich die sein, die etwas gibt.
-harriet[tense]: Lionel verzeihe ich nicht. Nicht diese Woche. Vielleicht nächstes Jahr. Man muss ja etwas haben, worauf man hinlebt.
+harriet[tense]: Und Lionel werde ich es nicht leicht machen, was immer er getan hat. Nicht diese Woche. Vielleicht nächstes Jahr. Man muss ja etwas haben, worauf man hinlebt.
 
 === k5_penrose
 kind: topic
@@ -287,7 +287,7 @@ inner: Sie weiß es. Irgendwie weiß sie es, wie Kinder Dinge wissen, die man ih
 # choice
 tilly[neutral]: Mr. Hobbes sagt, das mit der Glocke im Wasser is Unsinn. Aber Mrs. Pryce sagt, wer sie hört, dem wird vergeben.
 tilly[warm]: Ich hab sie gehört, die Glocke. Die kleine, von Handschuh. Und Mrs. Pryce hab ich vergeben. Also stimmt’s doch, irgendwie.
-narr: Der Himmel wird heller. Irgendwo draußen ruft ein Vogel, zum ersten Mal seit Tagen, und ein zweiter antwortet.
+narr: Der Himmel wird heller. Irgendwo draußen ruft ein Vogel, und ein zweiter antwortet.
 inner: Wenn ich jetzt die Platte ins Licht halte, bin ich zu Hause. In meiner Wohnung. Der Karton, die Lampe, die Heizung, die mitzählt. Mein Leben, alles, was ich kenne. Alle, die ich kenne.
 inner: Wenn ich warte, bis die Sonne aufgeht, bleibe ich. Dann stehe ich heute früh neben Tilly vor dem Coroner. Dann fahre ich mit Clara nach London. Dann bin ich die Miss, die aus dem Wasser kam. Ohne Zeugnis, ohne Vergangenheit, für immer.
 inner: Beides ist wahr. Beides kostet etwas.

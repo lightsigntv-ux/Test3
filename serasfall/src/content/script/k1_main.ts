@@ -278,8 +278,11 @@ pryce[neutral]: Getragen. Soso. Der wird sich über seinen Rücken gefreut haben
 # jump
 pryce[neutral]: Hm. Frech ist sie auch noch.
 tilly[warm]: Ein bisschen, Mrs. Pryce.
+pryce[neutral]: Springen. Eine Gesellschafterin.
+-> potatoes
 # help
 pryce[neutral]: Helfen. Eine Gesellschafterin.
+# potatoes
 narr: Mrs. Pryce betrachtet sie einen Augenblick, dann schiebt sie ihr eine Schüssel Kartoffeln und ein Messer hin.
 pryce[neutral]: Die schälen sich nicht von selbst. Und wenn Sie schon hier sitzen, sitzen Sie nicht nutzlos.
 narr: Eine Weile hört man nur das Schaben des Messers, das Knistern im Herd und den Regen an dem kleinen hohen Fenster.
@@ -287,7 +290,7 @@ pryce[neutral]: Eine Gesellschafterin, die Kartoffeln schält. Das hab ich auch 
 tilly[neutral]: Sie schält gut, Mrs. Pryce. Ganz dünn.
 pryce[neutral]: Sie schält wie eine, die’s selber tun muss. {pause:400}
 pryce[neutral]: Na. Ist ja keine Schande.
-inner: Eine Warnung, in Freundlichkeit eingewickelt. Gesellschafterinnen schälen keine Kartoffeln. Sie lesen vor und sticken und … keine Ahnung, was sie tun. {+f:k1_kitchen_done}
+inner: Gesellschafterinnen schälen keine Kartoffeln. Sie lesen vor und sticken und … keine Ahnung, was sie tun. Das war freundlich gemeint. Und es war eine Warnung. {+f:k1_kitchen_done}
 
 === k1_library
 kind: scene
@@ -326,7 +329,7 @@ penrose[tense]: Captain.
 lionel[angry]: Riechen Sie das auch, Miss Hale, drüben im Arbeitszimmer? Bittermandel. In Lucknow hat mir ein Regimentsarzt erklärt, was das bedeutet. {+s:s12}
 lionel[angry]: Diese Frau hat ihn vergiftet. Und wir sitzen hier und warten, bis das Wasser fällt.
 penrose[neutral]: Der Captain ist erschüttert. Man sagt Dinge, wenn man erschüttert ist. Und man trinkt vor zehn.
-lionel[neutral]: Man trinkt, wann man will, Madam. Das ist der einzige Vorzug daran, der Erbe zu sein.
+lionel[neutral]: Ich trinke, wann ich will, Madam. Das ist der einzige Vorzug daran, der Erbe zu sein.
 narr: Er leert sein Glas. Seine Hand zittert nicht. Man sieht, dass er das geübt hat.
 inner: Zwei Menschen, die einander nicht ausstehen können. Und beide wirken erleichtert, dass jemand Drittes im Raum ist. {+f:k1_library_done}
 
@@ -335,7 +338,7 @@ kind: event
 when: ch=1 k:d01 f:k1_delivered f:k1_kitchen_done f:k1_library_done loc=halle,salon,arbeit,biblio,dienst,galerie
 priority: 5
 ---
-inner: Ich brauche fünf Minuten für mich. Mrs. Pryce hat gesagt, meine Kammer ist am Ende der Galerie. {+f:k1_ready}
+inner: Ich brauche fünf Minuten für mich. Miss Averley hat gesagt, meine Kammer ist am Ende der Galerie. {+f:k1_ready}
 
 === k1_quiet
 kind: scene
@@ -346,7 +349,7 @@ important: yes
 narr: Die Kammer ist klein, sauber und kalt. Ein schmales Bett, ein Waschtisch mit Krug, eine Truhe, ein Fenster, hinter dem das Moor zu einem grauen Spiegel geworden ist. {music:quiet}
 narr: Sera setzt sich auf die Bettkante. Das Korsett erlaubt es nur unter Protest.
 inner: Also. Bestandsaufnahme.
-inner: Alle hier sagen Averley Hall, die Dame in Schwarz sagt Mittwoch, und auf dem Kalender in der Küche steht 1877. Achtzehnhundertsiebenundsiebzig.
+inner: Tilly sagt Averley Hall, die Dame in Schwarz sagt Mittwoch, und auf dem Kalender in der Küche steht 1877. Achtzehnhundertsiebenundsiebzig.
 inner: Ich habe eine Glasplatte gegen eine Lampe gehalten, und jetzt bin ich hier. Das ist keine Erklärung. Das ist eine Reihenfolge.
 yuumi: (Yuumi springt auf die Fensterbank, setzt sich und schaut hinaus, als gehöre ihr das Wasser.) {sfx:bell}
 * [mitfuehlend] (Yuumi streicheln.) -> pet
@@ -403,7 +406,17 @@ when: ch=1 !f:k1_dressed
 priority: 30
 repeat: yes
 ---
-inner: Hinter der Tür sind Stimmen. Männerstimmen. Nicht in diesem Aufzug.
+inner: Hinter der Tür knistert ein Feuer, und jemand hustet. Nicht in diesem Aufzug.
+
+=== k1_gate_jeans6
+kind: examine
+target: x_halle_arbeit
+when: ch=1 !f:k1_dressed
+priority: 30
+repeat: yes
+---
+narr: Vor der Tür steht ein alter Diener im Frack. Sein Blick fällt auf ihre Hosen und kehrt nicht zurück.
+inner: Nein. Erst die Kleider.
 
 === k1_gate_jeans4
 kind: examine

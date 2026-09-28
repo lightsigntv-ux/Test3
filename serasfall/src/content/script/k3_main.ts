@@ -21,7 +21,7 @@ narr: Zitronenbäumchen in Kübeln, Farne, ein Orangenbaum, der beschlossen hat,
 yuumi: (Yuumi entdeckt einen Nachtfalter, der sich im Glas verirrt hat, und vergisst für eine Weile alles, was es auf der Welt sonst gibt.)
 narr: Sera setzt sich auf die eiserne Bank. Der Falter flattert gegen das Glas, Yuumi springt, verfehlt ihn, landet in einem Farn und tut so, als hätte sie es genau so gewollt.
 * [humor] Elegant. Wirklich. Ganz große Kunst. -> a
-* [schweigen] (Lachen. Leise. Zum ersten Mal seit Tagen.) -> b
+* [schweigen] (Lachen. Leise.) -> b
 # a
 yuumi: (Yuumi sieht sie über die Schulter an mit dem vollen Hochmut einer Katze, die gerade in einen Farn gefallen ist.)
 -> c
@@ -29,7 +29,6 @@ yuumi: (Yuumi sieht sie über die Schulter an mit dem vollen Hochmut einer Katze
 narr: Das Lachen überrascht sie selbst. Es ist das erste, seit sie hier ist, und es klingt fremd in diesem Haus.
 # c
 narr: Der Falter findet einen offenen Spalt im Glas und ist fort, hinaus in den Nebel.
-inner: Er hat es rausgeschafft. Einfach so, durch einen Spalt, den keiner gesehen hat.
 
 === k3_dunning
 kind: scene
@@ -233,7 +232,7 @@ harriet[sad]: Er wusste es, Miss Hale. Seit August. Ein Arzt in Bath. Sein Herz.
 harriet[sad]: Er hat es mir gesagt, weil jemand es wissen musste, falls – und er hat mich schwören lassen, es den Kindern nicht zu sagen. Auf Mutters Bibel.
 harriet[tense]: „Sie sollen mich nicht sterben sehen, bevor ich sterbe, Harriet.“ Das hat er gesagt.
 narr: Sie öffnet ihr Retikül, zieht einen gefalteten Brief heraus und hält ihn Sera hin, als wäre er heiß. {+c:c23}
-letter: Dr. H. Wilkes, Bath, 21. August 1877. – Werter Sir, es handelt sich um eine Angina pectoris in fortgeschrittenem Stadium. Ich kann Ihnen keine Jahre versprechen und muss Ihnen dringend raten, Aufregung jeder Art zu vermeiden.
+letter: Dr. H. Wilkes, Bath, 21. August 1877. – Sehr geehrter Herr, es handelt sich um eine Angina pectoris in fortgeschrittenem Stadium. Ich kann Ihnen keine Jahre versprechen und muss Ihnen dringend raten, Aufregung jeder Art zu vermeiden.
 harriet[sad]: Aufregung jeder Art. Und ich habe ihm eine Séance ins Haus geholt.
 * [mitfuehlend] Sie wollten ihm etwas Gutes tun. {harriet+2} -> d
 * [ehrlich] Die Séance hat ihn nicht getötet. Sein Herz hat es getan. {harriet+1} -> e
@@ -312,7 +311,7 @@ lionel[surprised]: Er hat – {pause:900}
 lionel[sad]: Er hat bezahlt. Alles. Vor einer Woche. Und er hat es mir nicht gesagt. Er wollte, dass ich frage. {+f:g_lionel_told_paid, reveals:f03}
 lionel[sad]: Und ich habe nicht gefragt. Ich habe – {pause:600}
 narr: Er setzt sich auf den Rand eines Pflanzkübels, das verkohlte Blatt zwischen den Fingern, und für eine lange Zeit sagt er gar nichts.
-lionel[sad]: Ich habe es verbrannt, Miss Hale. In jener Nacht, als ich von der Terrasse zurückkam. Er lag da, und auf dem Tisch lag die Mappe, und ich sah meinen Namen und Crabbes Briefkopf und warf alles ins Feuer, damit niemand – damit Tante Harriet nicht – {+s:s32, reveals:f13}
+lionel[sad]: Ich habe es verbrannt, Miss Hale. In jener Nacht, als ich von der Terrasse zurückkam. Er lag da. Seine Hand war schon kalt. Und das Erste, was ich tat – nicht Hobbes wecken, nicht Tante Harriet –, das Erste war, meinen Namen ins Feuer zu werfen. Die ganze Mappe. Was noch darin lag, weiß ich nicht. {+s:s32, reveals:f13}
 lionel[sad]: Ich habe meinen eigenen Freispruch verbrannt. Ohne ihn zu lesen.
 * [mitfuehlend] Sie konnten es nicht wissen. {lionel+2} -> a
 * [ehrlich] Er hätte es Ihnen sagen sollen. Sie hätten fragen sollen. Beides. {lionel+1} -> b

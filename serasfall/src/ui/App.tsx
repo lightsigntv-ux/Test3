@@ -4,7 +4,7 @@ import { Stage } from './scene/stage';
 import { W, H } from './scene/kit';
 import { Portrait } from './Portrait';
 import { Notebook } from './Notebook';
-import { Recon } from './Recon';
+import { Recon, Plate } from './Recon';
 import { CHARACTERS, NPC_NAMES } from '../content/characters';
 import { CLUE_BY_ID } from '../content/clues';
 import { STATEMENT_BY_ID } from '../content/statements';
@@ -141,7 +141,8 @@ function WorldHud({ ctl, onLog }: { ctl: Controller; onLog: () => void }) {
   let lx = 0, ly = 0;
   if (near?.kind === 'hotspot') {
     const h = near.h;
-    label = h.kind === 'exit' ? `→ ${h.label}` : h.label;
+    const lbl = h.labelWhen?.find(([cond]) => ctl.cond(cond))?.[1] ?? h.label;
+    label = h.kind === 'exit' ? `→ ${lbl}` : lbl;
     lx = h.x; ly = h.y;
   } else if (near?.kind === 'npc') { label = NPC_NAMES[near.npc]; lx = ctl.npcs().find((n) => n.npc === near.npc)!.x; ly = 0.46; }
   else if (near?.kind === 'cat') { label = 'Yuumi'; lx = ctl.catX; ly = 0.8; }
@@ -236,7 +237,10 @@ function DialogueBox({ ctl, settings, onLog }: { ctl: Controller; settings: Sett
   const talkPortrait = !isNpc && v.npc && (sp === 'sera' || sp === 'inner') ? v.npc : null;
   const g = ctl.game;
   const modernSera = g.chapter === 0 || (g.chapter === 1 && !g.flags['k1_dressed']);
+  const plate = v.dlg === 'p_glass' && v.node !== 'n1' ? 'neg' : (v.dlg === 'k4_develop' && g.flags['g_plate_dev']) || (v.dlg === 'k4_window' && v.node !== 'n1') ? 'pos' : null;
   return (
+    <>
+    {plate && <div className={`plate-show ${plate}`} aria-hidden><Plate focus="all" /></div>}
     <div className={cls} onClick={(e) => { if ((e.target as HTMLElement).closest('button')) return; next(); }} role="dialog" aria-live="polite">
       {isNpc && <div className="portrait left"><Portrait id={sp} expr={v.expr ?? 'neutral'} /></div>}
       {!isNpc && talkPortrait && <div className="portrait left dim"><Portrait id={talkPortrait} expr="neutral" /></div>}
@@ -259,6 +263,7 @@ function DialogueBox({ ctl, settings, onLog }: { ctl: Controller; settings: Sett
         {!v.choices && ready && <div className="more" aria-hidden>❧</div>}
       </div>
     </div>
+    </>
   );
 }
 

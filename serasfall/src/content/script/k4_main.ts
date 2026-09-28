@@ -123,10 +123,13 @@ narr: Die Tür geht auf. Mrs. Penrose steht darin, als hätte sie auf ein Stichw
 penrose[neutral]: Miss Averley. Ich fürchte, ich muss Ihnen etwas gestehen.
 penrose[neutral]: Ich habe Mrs. Crewe um eine Vertretung gebeten, als ich hörte, dass Miss Hale erkrankt ist. Eine Bekannte aus Bath. Ich wollte Sie nicht beunruhigen. Es war anmaßend von mir.
 harriet[surprised]: Sie – Sie haben –
-penrose[neutral]: Ich habe. Man verzeiht es mir oder nicht. {+f:k4_cover_penrose}
+penrose[neutral]: Ich habe. Verzeihen Sie es mir oder nicht. {+f:k4_cover_penrose}
 harriet[neutral]: … Wir sprechen später darüber, Mrs. Penrose.
 narr: Mrs. Penrose nickt und geht. An der Tür dreht sie sich nicht um. Aber ihre linke Hand macht eine kleine Bewegung, wie ein Vorhang, der fällt.
-harriet[neutral]: Ich glaube ihr kein Wort, Miss Hale. Aber ich glaube, dass sie es für Sie gesagt hat. Das ist beinahe interessanter.
+harriet[neutral]: Ich glaube ihr kein Wort. Aber ich glaube, dass sie es für Sie gesagt hat. Das ist beinahe interessanter.
+harriet[neutral]: Sie sagten am ersten Morgen einen Namen. Ich habe Sarah verstanden, weil ich Sarah erwartete. Wie war er?
+sera: Sera.
+harriet[neutral]: Sera. Gut. Mehr will ich heute nicht wissen. {+f:k4_named}
 -> after
 # choose
 * [ehrlich] Ich bin nicht Miss Hale. Ich heiße Sera. Ich bin hier hereingeraten, ohne es zu wollen, und ich bin geblieben, weil man mich gebraucht hat. {+f:k4_cover_truth} -> truth
@@ -139,7 +142,7 @@ harriet[neutral]: Sie werden mir das erklären, Miss – Sera. Nicht heute. Heut
 -> after
 # truth_ok
 narr: Miss Averley sieht sie lange an. Dann faltet sie den Brief zusammen, zweimal, und legt ihn auf den Stapel.
-harriet[neutral]: Sie sagten damals Sera. Ich habe Sarah gehört, weil ich Sarah hören wollte.
+harriet[neutral]: Sie sagten damals Sera. Ich habe Sarah gehört, weil ich Sarah hören wollte. {+f:k4_named}
 harriet[neutral]: Sie haben am Mittwoch Tee mit Toast für mich bestellt, als ich es selbst nicht konnte. Sie haben ihn mit gewaschen. Sie haben mich zu Lucinda gebracht.
 harriet[neutral]: Ich weiß nicht, wer Sie sind. Aber ich weiß, was Sie getan haben. Bleiben Sie. Bis Samstag. Ich werde Sie weiter Miss Hale nennen; das Haus braucht jetzt Ordnung, nicht Wahrheit. {harriet+1}
 -> after
@@ -160,6 +163,7 @@ harriet[neutral]: Sie sagen nichts. Das ist entweder sehr klug oder sehr schuldi
 harriet[neutral]: Ich habe keine Kraft für beides. Bleiben Sie, bis das Wasser fällt. Dann gehen Sie, wohin Sie gehören.
 # after
 narr: Hobbes erscheint in der Tür. Der Postbote habe ausrichten lassen: Der Coroner, Mr. Harding aus Bridgwater, und Dr. Bell kämen mit dem fallenden Wasser, spätestens Samstag in der Frühe.
+hobbes[neutral]: Der Coroner braucht Geschworene aus dem Dorf, Madam. Zwölf Männer passen nicht in einen Postkahn.
 harriet[neutral]: Morgen früh. Dann wird es amtlich. {+f:k4_post_done}
 
 === k4_lost
@@ -256,9 +260,9 @@ repeat: yes
 ---
 narr: Die Küche ist dunkel bis auf den Herd, in dem die Glut unter der Asche atmet, und eine Talgkerze auf dem Tisch. Tilly sitzt davor, die Knie angezogen, eine verbeulte Blechdose in den Händen. {music:truth}
 narr: Yuumi springt auf die Bank neben sie. Tilly legt ihr eine Hand auf den Rücken, ohne hinzusehen.
-tilly[neutral]: Sie sind gekommen.
-sera: Ich hab’s versprochen.
-tilly[sad]: Versprechen tun viele.
+tilly[neutral]: Ich dacht, Sie schlafen.
+sera: Ich hab’s versucht.
+tilly[sad]: Ich auch. Seit Dienstag.
 narr: Die Kerze tropft. Talg, gelb, der nach Hammel riecht.
 tilly[tense]: Miss. Bevor ich was sag. Sie müssen mir was sagen. Was Wahres. Von Ihnen. Weil – weil wenn ich was sag, dann gehört das Ihnen. Und dann muss ich auch was von Ihnen haben. Sonst is es nich gerecht.
 * [ehrlich] Ich bin nicht Miss Hale. Ich komme von sehr weit her. So weit, dass ich selbst nicht weiß, wie ich zurückkomme. {tilly+2, +f:k4_honest} -> honest

@@ -159,6 +159,11 @@ button { font-family: inherit; }
 .notice { background: rgba(150, 60, 30, 0.25); border: 1px solid rgba(200, 120, 80, 0.5); padding: 10px 16px; font-size: 18px; }
 .confirm { display: flex; flex-direction: column; gap: 6px; align-items: center; }
 
+/* ------------------------------------------------ Die Platte im Gespräch */
+.plate-show { position: absolute; left: 50%; top: 36px; transform: translateX(-50%); animation: fadein 1.6s ease; pointer-events: none; }
+.plate-show .plate { width: 480px; height: 256px; }
+.plate-show.neg .plate { filter: invert(0.92) sepia(0.35) contrast(0.8) blur(0.6px); border-color: #3a3024; }
+
 /* ------------------------------------------------ Rekonstruktion */
 .recon { position: absolute; inset: 0; background: rgba(4, 3, 2, 0.96); display: flex; align-items: center; justify-content: center; animation: fadein 0.6s; }
 .recon-inner { width: 980px; display: flex; flex-direction: column; align-items: center; gap: 10px; }

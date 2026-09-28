@@ -189,7 +189,7 @@ export function parseScript(src: string, source = 'script'): Dialogue[] {
         const [text, meta] = splitTrailingMeta(rest);
         let host: DNode | null = choiceHost;
         if (!host) {
-          host = prev && prev.next === undefined && !prev.choices && !pendingLabel ? prev : make({ silent: true });
+          host = prev && prev.next === undefined && !prev.choices && !prev.branch && !pendingLabel ? prev : make({ silent: true });
           choiceHost = host;
         }
         host.choices ??= [];

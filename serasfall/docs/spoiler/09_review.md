@@ -108,3 +108,54 @@ Yuumi spricht nie. Ihre Funde sind katzentypisch: Glänzendes unter dem Schrank,
 | Penrose’ „Wir sind uns begegnet“ verrät zu viel | abgelehnt | gewollt als Vorzeichen O4 |
 
 Nach der Überarbeitung wurden die Durchgänge 1, 3, 7, 9 und 12 wiederholt. Die automatischen Tests sind grün, der Bot erreicht alle drei Enden.
+
+---
+
+## Zweite Runde: Gesamtlesung am Stück (nach Einbau der Oberfläche)
+
+Ein weiterer Unteragent ohne Story-Bibel las als „Spielerin/Lektorin“ den kompletten überarbeiteten Durchlauf in Spielreihenfolge und zusätzlich die Schlüsse der beiden anderen Enden. Er meldete 38 Punkte, sortiert nach Schwere, und Hinweise zu Tempo und Enden. Umgesetzt wurde Folgendes.
+
+**Technischer Fehler, den die Lesung aufgedeckt hat**
+- **P01 (Parser):** Stand ein bedingter Sprung (`? … -> x`) direkt vor Wahlmöglichkeiten, wurde er ignoriert. Dadurch kamen z. B. Wiederholungen bei Mrs. Penrose zustande. Der Parser ist korrigiert, ein Regressionstest ergänzt.
+
+**Logik und Wissensstand**
+- Lionels schwerste Schuld wird jetzt ausgesprochen: Er fand den Vater tot und weckte niemanden (pr_lionel_c10, k5_lionel). Die verbrannte Mappe enthielt auch das ungezeichnete Blatt für Clara. Die Chronologie ist angepasst.
+- Die Enttarnung (k4_post) wird eingelöst. Harriet fragt nach dem Namen, das Flag `k4_named` steuert, ob sie später „Sera“ oder „Miss Hale“ sagt.
+- Wissensvorgriffe entschärft:
+  - Türschilder auf der Galerie werden erst benannt, wenn Sera die Bewohner kennt.
+  - Hobbes spricht von „Glocken“ statt vom Klingelzug.
+  - Die Schlüsse d04, d07 und d08 kommen ohne Vorwissen aus.
+  - Clara–London setzt kein Harriet-Gespräch mehr voraus.
+  - Stiefelkammer: „jemand hat das aufgehoben“.
+  - Das Séance-Blatt wird über den Stuhl zugeordnet, nicht über eine unbekannte Handschrift.
+- Uhr bereits bei Hobbes → Clara reagiert entsprechend.
+- „Mittwoch“/„heut früh“ je nach Kapitel.
+- „Das ist kein Gift“ → „kein Mord“.
+- Totenflecken ohne erfundene „drei Stunden“.
+- „letzte Zeile“ korrigiert.
+- London-Epilog im November 1878 (Aufnahme im Oktober).
+- Kein „Miss Hale“ auf den Karten.
+- Die echte Miss Hale kommt im Epilog vor, der Coroner-Satz zu Seras Verschwinden auch.
+- Der Postkahn kann keine Geschworenen bringen.
+- Mrs. Penrose erklärt, woher sie wusste, in wessen Haus sie fährt.
+- Vor dem Umziehen sind Salon, Küche, Bibliothek, Arbeitszimmer und Hintertreppe in der Ich-Stimme gesperrt („In Jeans durch ein Trauerhaus?“).
+
+**Stimmen und Floskeln**
+- „Man …“-Sentenzen bei Lionel, Pryce und Clara ersetzt; das „man“ bleibt Harriet und Hobbes.
+- Dreifacher „Küchenmädchen“-Beat auf einen (Hobbes) reduziert.
+- Doppeltes „Sie sind gekommen – man sagt vieles“ aufgelöst.
+- Falter-Symbol ohne ausgesprochene Moral.
+- „weiß, dass ich weiß …“ gestrichen.
+- Vier „zum ersten Mal seit Tagen“ auf zwei reduziert.
+
+**Enden**
+- **Siegel:** Die Folgen des Schweigens sind jetzt sichtbar. Der Coroner ermahnt Tilly, und Lionel „kommt nicht nach London“.
+- **Zeugin:** Der Preis wird sichtbar (Telefonnummer der Mutter). Pryce schreibt an Tilly.
+- **Echo:** Die Zeitung vermerkt die verschwundene Gesellschafterin.
+
+**Tempo**
+- Der Schreibtisch im Arbeitszimmer gibt seine drei Dokumente jetzt in zwei Schritten frei.
+
+**Bewusst nicht umgesetzt**
+- Die Aussprache-Runde in Kapitel 5 ist strukturell geblieben. Dafür ist sie gekürzt und nicht mehr gleichförmig: Harriet bleibt hart gegenüber Lionel, Penrose geht bei geringem Vertrauen wortlos, und Lionel kann schweigen.
+- Die Auslösung von „Siegel“ hängt weiterhin am Vertrauen des Captains. Das ist keine einzelne Formulierung, sondern die Summe früherer Antworten, auch wenn die letzte Wahl sie kippen kann.

@@ -8,7 +8,7 @@ when: ch>=2 ch<=4 seen:k2_dark !k:s04
 sera: Wo waren Sie in der Nacht, Miss Clara? Nach der Séance?
 clara[neutral]: Ich bin nach der Séance zu Bett gegangen. {+s:s04, lie:f06}
 clara[neutral]: Wann genau, weiß ich nicht. Ich hatte keine Uhr in der Hand.
-inner: Sie misst jeden Tag den Regen auf das Hundertstel Zoll. Und sie weiß nicht, wann sie ins Bett gegangen ist.
+inner: Eine Frau, die ihr Leben lang Dinge misst. Und sie weiß nicht, wann sie ins Bett gegangen ist.
 
 === pr_clara_c26
 kind: present
@@ -66,6 +66,7 @@ penrose[neutral]: Wir hatten das schon, meine Liebe. Viele Leute kommen im Augus
 penrose[neutral]: Setzen Sie sich.
 narr: Es ist das erste Mal, dass sie es sagt, ohne zu lächeln.
 penrose[neutral]: Er kam im August nach Bath. Er nannte keinen Namen. Er hatte schwarze Fingerspitzen, und er setzte sich auf den Stuhl, als säße er in einer Vorlesung, in der er nicht an den Vortragenden glaubt. {+s:s22, reveals:f02}
+penrose[neutral]: Und als im Herbst Miss Averleys Brief kam – ein Haus im Moor, eine Schwägerin namens Lucinda, die den Regen liebte –, wusste ich, in wessen Haus ich fahre.
 penrose[neutral]: Er sagte, er sei nicht gekommen, um mit Toten zu sprechen. Er wolle nur sehen, wie ich es mache. Und dann saß er eine Stunde da und erzählte mir von seiner Frau.
 penrose[neutral]: Von einer Glocke unter dem Moor. Von einem Versprechen, das er ihr gegeben hatte, als sie starb. Lass sie wählen. Er hat es zweimal gesagt, als müsse er es sich selbst noch einmal vorsprechen. {reveals:f20}
 penrose[sad]: Ich habe ihm am Dienstagabend seine eigenen Worte zurückgegeben, Miss Hale. In der Stimme seiner Frau. Vor seiner Schwester und seinen Kindern.
@@ -111,8 +112,8 @@ title: Die Glocke im Wasser
 when: ch>=4 f:k3_lionel_broken
 ---
 narr: Der Captain sitzt in der Bibliothek, das verkohlte Blatt auf dem Knie. Er trinkt nicht. Die Karaffe steht neben ihm, voll.
-lionel[neutral]: Wissen Sie, was das Merkwürdigste war, in dieser Nacht? Als ich hinaufging, später, mit der Lampe. Auf der Treppe.
-lionel[neutral]: In der Nacht habe ich auf der Treppe ein Glöckchen gehört. Hinter dem Vorhang am Fenstersitz. Ganz fein. Und ich dachte: Das ist sie. Die Glocke im Wasser. Mutters Glocke. Sie kommt, um mir zu sagen, dass ich – {+s:s20}
+lionel[neutral]: Wissen Sie, was das Merkwürdigste war, in dieser Nacht? Als ich hinaufging, später, mit der Lampe, hörte ich hinter dem Vorhang am Fenstersitz ein Glöckchen. Ganz fein. {+s:s20}
+lionel[neutral]: Und ich dachte: Das ist sie. Die Glocke im Wasser. Mutters Glocke. Sie kommt, um mir zu sagen, dass ich –
 narr: Er bricht ab. Sein Blick fällt auf Yuumi, die auf dem Kaminvorleger liegt, und auf das kleine Glöckchen an ihrem Hals.
 lionel[surprised]: …
 lionel[neutral]: Das war Ihre Katze. Hinter dem Vorhang. In der Nacht auf Mittwoch. Aber da waren Sie doch noch gar nicht –
@@ -219,7 +220,12 @@ kind: smalltalk
 npc: harriet
 when: ch=4 f:g_agency
 ---
+? f:k4_named -> named
+harriet[neutral]: Lesen Sie mir vor, Miss Hale. Irgendetwas. Es ist mir gleich, was. Nur nicht die Psalmen.
+-> read
+# named
 harriet[neutral]: Lesen Sie mir vor, Miss – Sera. Irgendetwas. Es ist mir gleich, was. Nur nicht die Psalmen.
+# read
 narr: Sera liest aus der Times vom Montag. Getreidepreise. Das Wetter in Kent. Miss Averley schließt die Augen und hört zu, als wäre es Musik.
 
 === s4_lionel

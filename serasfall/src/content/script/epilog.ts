@@ -20,13 +20,14 @@ letter: Am vergangenen Sonnabend hielt Mr. Harding, Coroner, in Averley Hall bei
 letter: Josiah Hobbes, Butler des Verstorbenen, gab an, den Verstorbenen am Morgen am Boden des Arbeitszimmers gefunden und ihn aus Pietät in seinen Sessel gebettet zu haben, was ihm der Coroner mit milden Worten verwies.
 # tilly
 letter: Die bemerkenswerteste Aussage machte die Küchenmagd Matilda Crane, dreizehn Jahre alt, die mit großer Schlichtheit schilderte, wie sie in der Nacht auf das Läuten des Verstorbenen hin zu ihm geeilt sei, einen Brief an seine Tochter empfangen und ihm in seiner letzten Stunde beigestanden habe.
+letter: Eine Gesellschafterin des Hauses, die sich bereit erklärt hatte auszusagen, war am Morgen nicht aufzufinden; das Gericht sah von ihrer Aussage ab.
 ? f:g_hobbes_stands -> stands
 -> son
 # stands
 letter: Während ihrer Aussage stand der alte Butler hinter ihrem Stuhl, die Hand auf der Lehne.
 # son
 ? f:g_lionel_confessed -> conf
-letter: Die Familie des Verstorbenen lehnte weitere Auskünfte ab.
+letter: Die Familie des Verstorbenen lehnte weitere Auskünfte ab. Der Coroner nahm die Aussage der Küchenmagd mit Zurückhaltung auf und ermahnte sie, die Herrschaftsräume künftig nicht ohne Geheiß zu betreten.
 -> verdict
 # conf
 letter: Der Sohn des Verstorbenen, Captain L. Averley, gab aus eigenem Antrieb Auskunft über eine schmerzliche Unterredung mit seinem Vater in der fraglichen Nacht, welche im Saal große Bewegung hervorrief.
@@ -45,16 +46,16 @@ narr: Visitenkartenformat, ein Londoner Atelier, 1883. Drei Menschen vor einem g
 narr: Am Rand, auf einem Stuhl, eine alte Dame in Grau. Nicht in Schwarz. In Grau, mit einer leeren Stelle am Kragen, wo einmal eine Brosche war.
 # echo_b
 narr: Sera dreht die Karte um. Zwei Handschriften. Eine enge, genaue. Und darunter eine große, runde, mit einem M, das aussieht wie zwei Berge.
-letter: Für Miss Hale, wo immer sie ist. Wir haben es gehört, und wir haben es gesagt. – C. A. · M. Crane
+letter: Für die Miss, die aus dem Wasser kam. Wo immer das ist. Wir haben es gehört, und wir haben es gesagt. – C. A. · M. Crane
 -> end
 # seal
 narr: Visitenkartenformat, ein Londoner Atelier, 1883. Eine Frau im Talar, allein vor einem gemalten Garten, das dunkle Haar straff zurück, eine Hand auf einem Buch. Sie lächelt nicht. Aber ihre Augen tun es.
 narr: Sera dreht die Karte um.
 ? f:g_harriet_frees -> seal_h
-letter: Für Miss Hale. Lionel hat bezahlt, jeden Penny. Er spricht nicht darüber. Er spricht über gar nichts mehr. – C. A.
+letter: Für die Miss, die aus dem Wasser kam. Lionel hat bezahlt, jeden Penny. Er kommt nicht nach London. Er spricht über gar nichts mehr. – C. A.
 -> seal_t
 # seal_h
-letter: Für Miss Hale. Tante Harriet hat ihre Jetbrosche verkauft. Lionel hat den Rest bezahlt. Er spricht nicht darüber. – C. A.
+letter: Für die Miss, die aus dem Wasser kam. Tante Harriet hat ihre Jetbrosche abgelegt und bezahlt, was sie konnte. Lionel den Rest. Er kommt nicht nach London. – C. A.
 # seal_t
 narr: Und darunter, in einer großen, runden Schrift, mit einem M, das aussieht wie zwei Berge:
 letter: M. Crane
@@ -75,28 +76,31 @@ when: ch=6 f:end_stay loc=london
 priority: 20
 important: yes
 ---
-narr: London, Januar 1878. Henrietta Street, zweiter Stock, zwei Zimmer mit einem Ofen, der raucht, wenn der Wind aus Osten kommt. {music:london}
-narr: Auf dem Fensterbrett liegt Schnee, außen. Innen liegt Yuumi, auf einem Kissen, das eigens für sie dort hingelegt wurde, und sieht den Tauben zu mit der Verachtung einer Katze, die einmal einen Heuboden erobert hat.
-narr: Am Tisch sitzt Tilly, nein, Matilda, mit einer Schiefertafel und einem Griffel, und schreibt. Die Zunge zwischen den Zähnen. Das M sieht aus wie zwei Berge. Das A hat seinen Balken. Seit Neujahr kann sie das ganze Alphabet, und sie liest die Schilder der Omnibusse laut vor, alle, jeden Tag, bis Clara droht, auszuziehen.
+narr: London, November 1878. Henrietta Street, zweiter Stock, zwei Zimmer mit einem Ofen, der raucht, wenn der Wind aus Osten kommt. {music:london}
+narr: Auf dem Fensterbrett liegt der erste Schnee, außen. Innen liegt Yuumi, auf einem Kissen, das eigens für sie dort hingelegt wurde, und sieht den Tauben zu mit der Verachtung einer Katze, die einmal einen Heuboden erobert hat.
+narr: Am Tisch sitzt Tilly, nein, Matilda, mit einer Schiefertafel und einem Griffel, und schreibt. Die Zunge zwischen den Zähnen. Das M sieht aus wie zwei Berge. Das A hat seinen Balken. Seit dem Frühjahr kann sie das ganze Alphabet, und sie liest die Schilder der Omnibusse laut vor, alle, jeden Tag, bis Clara droht, auszuziehen.
 narr: Clara kommt aus der Kälte herein, Schnee auf dem Hut, die Fingerspitzen nicht mehr schwarz, sondern blau von Tinte, und legt einen Stapel Bücher auf den Tisch.
 clara[warm]: Anatomie der Hand. Wir haben heute eine Hand gesehen, Miss Hale. Eine ganze Hand. Siebenundzwanzig Knochen. Ich habe keinen einzigen verwechselt.
 tilly[warm]: Ich weiß, wie man Hand schreibt. H. A. N. D.
-clara[warm]: Dann bist du mir heute um vier Buchstaben voraus.
+clara[warm]: Dann haben wir heute beide eine Hand gelernt.
 narr: Auf dem Kaminsims, gegen die Uhr gelehnt, ein Ausschnitt aus der Western Gazette, schon ein wenig vergilbt vom Ofenrauch.
-letter: Die bemerkenswerteste Aussage machte die Küchenmagd Matilda Crane, dreizehn Jahre alt, der eine Miss S. Hale, Gesellschafterin im Hause, zur Seite stand und deren Bericht in allen Einzelheiten bestätigte.
+letter: Die bemerkenswerteste Aussage machte die Küchenmagd Matilda Crane, dreizehn Jahre alt, der eine Gesellschafterin des Hauses zur Seite stand und deren Bericht in allen Einzelheiten bestätigte.
 ? f:g_lionel_confessed -> conf
 letter: Die Familie des Verstorbenen lehnte weitere Auskünfte ab. Die Geschworenen befanden auf natürlichen Tod infolge eines Herzleidens.
+narr: Die echte Miss Hale hat im Frühjahr eine Stelle in Clifton angetreten, mit einem Zeugnis von Miss Averley, das so warm war, dass die Agentur nachfragte. Sera hat keines. Miss Averley sagt, sie brauche keins.
 narr: Lionel schreibt einmal im Monat. Er schreibt über Pferde. Er hat Claras Gebühren bezahlt, jeden Penny, und nie ein Wort darüber verloren. Clara liest die Briefe zweimal und verbrennt keinen davon.
 -> after
 # conf
 letter: Der Sohn des Verstorbenen, Captain L. Averley, gab aus eigenem Antrieb Auskunft über eine schmerzliche Unterredung mit seinem Vater in der fraglichen Nacht. Die Geschworenen befanden auf natürlichen Tod infolge eines Herzleidens.
 narr: Lionel hat den Dienst quittiert. Er lebt in Averley, züchtet Pferde und kommt an Sonntagen nach London, in Zivil, und bringt Tilly Pfefferminz und Clara Zeitschriften, in denen etwas über Frauen in der Medizin steht, das er mit Bleistift anstreicht, wenn er sich ärgert.
 # after
+narr: Mrs. Pryce schreibt jeden Mittwoch. An Owen, und seit einem Jahr auch an Tilly. Tilly liest die Briefe laut, alle, auch die über das Wetter.
 narr: Am Abend, wenn die beiden schlafen, holt Sera einen flachen Holzkasten unter dem Bett hervor. Edmunds Platten, die Clara der Institution in Bath verkauft hat, bis auf diesen einen Kasten, den sie behalten wollte, und den sie Sera gegeben hat, ohne zu fragen, warum Sera ihn haben wollte.
 narr: Sera wickelt die Glasplatte mit der Treppe in frisches Seidenpapier. Sie schreibt nichts darauf. Sie legt sie zu den anderen, zu der Kuh und der Familie auf dem Rasen und dem Moor im Februar.
 inner: Damit sie mich findet.
 inner: In hundertachtundvierzig Jahren. An einem Dienstagabend im November, mit einer Katze in einem Karton und einer Lampe, die flackern will und es sich anders überlegt.
 inner: Manchmal, nachts, höre ich eine Heizung ticken, die es noch nicht gibt. Dann stehe ich auf und lege Kohlen nach.
+inner: Manchmal weiß ich die Telefonnummer meiner Mutter nicht mehr. Dann schreibe ich sie auf Tillys Schiefertafel und wische sie wieder weg, bevor jemand fragt.
 yuumi: (Yuumi springt vom Fensterbrett, kommt über den kalten Boden, klettert auf Seras Schoß und rollt sich dort ein, mit dem Glöckchen unter dem Kinn. Sie schnurrt, als hätte sie nie irgendwo anders gewohnt.) {sfx:purr}
 inner: Du hast recht. Wir sind zu Hause. {pause:1200}
 ! {do:ending:zeugin}

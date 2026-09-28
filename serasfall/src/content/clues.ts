@@ -49,7 +49,7 @@ export const CLUES: Clue[] = [
   { id: 'c23', name: 'Der Arztbrief', kind: 'dokument',
     note: 'Dr. Wilkes, Bath, an Edmund Averley, August. Angina pectoris, fortgeschritten. „Ich kann Ihnen keine Jahre versprechen.“ Miss Averley hat ihn aufbewahrt.' },
   { id: 'c24', name: 'Die automatische Schrift', kind: 'dokument',
-    note: 'In der Bibliothek, unter dem Séancetisch: ein Blatt in Harriets Hand, schief und fahrig: „Er kommt bald zu mir. Hab keine Angst. L.“' },
+    note: 'In der Bibliothek, unter dem Séancetisch, unter Miss Averleys Stuhl: ein Blatt, schief und fahrig beschrieben: „Er kommt bald zu mir. Hab keine Angst. L.“' },
   { id: 'c25', name: 'Das Angebot', kind: 'dokument',
     note: 'Brief der Bath Royal Literary and Scientific Institution, 10. Nov.: Man biete 700 Pfund für die Sammlung des Herrn – Instrumente, Platten, Moose und Gesteine.' },
   { id: 'c26', name: 'Das Taschentuch', kind: 'gegenstand',

@@ -54,3 +54,26 @@ inner: Ende. {reveals:f08}
     expect(c.yuumiPresent).toBe(false);
   });
 });
+
+describe('Skript-Parser: Sprung vor Wahl', () => {
+  it('ein bedingter Sprung direkt vor Wahlmöglichkeiten wird ausgewertet', () => {
+    const [d] = parseScript(`
+=== t_b
+kind: topic
+npc: tilly
+title: X
+---
+tilly: A.
+? f:x -> skip
+* [ehrlich] Eins -> skip
+* [direkt] Zwei -> skip
+# skip
+tilly: B.
+`, 't');
+    const a = d.nodes[d.start];
+    const br = d.nodes[a.next!];
+    expect(br.branch?.[0].next).toBe('skip');
+    expect(br.choices).toBeUndefined();
+    expect(d.nodes[br.next!].choices?.length).toBe(2);
+  });
+});

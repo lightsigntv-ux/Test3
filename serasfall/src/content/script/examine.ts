@@ -219,17 +219,26 @@ narr: Im Etui: eine junge Frau mit hellbraunem Haar und einem Lächeln, das übe
 narr: Das Notizbuch, letzte beschriebene Seite, in einer engen, genauen Handschrift: {+c:c13}
 letter: 13. Nov. – 5 Min. vor Mitternacht. Deckel ab. Belichtung bis zum Morgen. Wandelt etwas auf der Treppe, wird die Platte es wissen. H. wird enttäuscht sein.
 inner: Belichtung. Platte. Er hat fotografiert. Mitten in der Nacht. Und „H.“ – Harriet?
-narr: Oben auf dem Briefstapel liegt eine Visitenkarte. {+c:c22}
-letter: Mrs. E. Penrose – Sitzungen nach Vereinbarung – 14 Gay Street, Bath. (Auf der Rückseite, in derselben Handschrift:) Aug.
-narr: Darunter ein Briefbogen mit gedrucktem Kopf. Bath Royal Literary and Scientific Institution. Sie liest die ersten Zeilen – ein Angebot, siebenhundert Pfund, „für die Sammlung von Instrumenten, Platten, Moosen und Gesteinen“ – bevor sie hört, wie Hobbes sich räuspert. {+c:c25}
 hobbes[neutral]: Miss hat die Miniatur gefunden, wie ich sehe.
-inner: Und Miss hat außerdem fremde Post gelesen. Sehr gut, Miss.
+inner: Und Miss liest in fremden Notizbüchern. Sehr gut, Miss.
 
 === ex_a_tisch_1b
 kind: examine
 target: h_a_schreibtisch
-when: ch=1 f:k1_mini
+when: ch=1 f:k1_mini !k:c22
 priority: 4
+---
+narr: Hobbes sieht zum Fenster. Nur einen Atemzug lang. Oben auf dem Briefstapel liegt eine Visitenkarte. {+c:c22}
+letter: Mrs. E. Penrose – Sitzungen nach Vereinbarung – 14 Gay Street, Bath. (Auf der Rückseite, in der engen Handschrift aus dem Notizbuch:) Aug.
+narr: Darunter ein Briefbogen mit gedrucktem Kopf. Bath Royal Literary and Scientific Institution. Ein Angebot, siebenhundert Pfund, „für die Sammlung von Instrumenten, Platten, Moosen und Gesteinen“. {+c:c25}
+hobbes[neutral]: Miss.
+inner: Ein Wort, und es heißt: genug.
+
+=== ex_a_tisch_1c
+kind: examine
+target: h_a_schreibtisch
+when: ch=1 k:c22
+priority: 3
 ---
 narr: Hobbes lässt sie nicht aus den Augen. Seine Hände sind vor dem Frack gefaltet, als bete er darum, dass sie geht.
 inner: Nicht jetzt.
@@ -325,7 +334,7 @@ priority: 5
 ---
 narr: Unter dem Tisch, halb unter den Teppichrand gerutscht, liegt ein Blatt Papier. Die Schrift darauf ist fahrig, schief, als hätte jemand mit geschlossenen Augen geschrieben. {+c:c24, sfx:paper}
 letter: Er kommt bald zu mir. Hab keine Angst. L.
-inner: L. Lionel? Oder … Lucinda. Und die steilen Schleifen kenne ich: dieselbe Hand hat die schwarz geränderten Zettel an die Türen geheftet. „Um Stille wird gebeten.“ Miss Averley.
+inner: L. Lionel? Oder … Lucinda. Die Hand ist fahrig, wie im Halbschlaf geschrieben. Und das Blatt lag unter dem Stuhl, auf dem bei der Sitzung Miss Averley saß. Das Kissen ist noch eingedrückt, mit schwarzen Seidenfäden.
 
 === ex_b_tisch_y
 kind: examine
@@ -335,7 +344,7 @@ priority: 6
 ---
 narr: Sera bückt sich dorthin, wo Yuumi vom Sims aus hingestarrt hat. Unter dem Tisch, halb unter den Teppichrand gerutscht: ein Blatt Papier. {+c:c24, sfx:paper}
 letter: Er kommt bald zu mir. Hab keine Angst. L.
-inner: L. Lionel? Oder … Lucinda. Die Handschrift ist fahrig, aber die steilen Schleifen kenne ich von den Trauerzetteln an den Türen: Miss Averley.
+inner: L. Lionel? Oder … Lucinda. Die Hand ist fahrig, wie im Halbschlaf geschrieben. Und das Blatt lag unter dem Stuhl, auf dem bei der Sitzung Miss Averley saß. Das Kissen ist noch eingedrückt, mit schwarzen Seidenfäden.
 
 === ex_b_regal
 kind: examine
@@ -421,7 +430,7 @@ when: ch>=2 !k:c08 anyf:k2_listened,k2_pantry_free,k3_started
 priority: 5
 ---
 narr: Hobbes ist oben. Die Butlerkammer ist leer. Silber in Filztaschen, eine Reihe Weingläser, blank. In der untersten Schublade, unter dem Silbertuch, in ein Leinen gewickelt: eine Kristallkaraffe mit Brandyrest am Boden und zwei Gläser, gespült und poliert. {+c:c08}
-inner: Die Karaffe passt in den leeren Platz im Tantalus. Man versteckt keine Gläser, die man einfach nur abgewaschen hat.
+inner: Die Karaffe passt in den leeren Platz im Tantalus. Wer versteckt Gläser, die er nur abgewaschen hat?
 
 === ex_k_butler
 kind: examine
@@ -443,7 +452,7 @@ when: ch>=3 !k:c19
 priority: 5
 ---
 narr: Die Reitstiefel des Captains, frisch gewichst. Auf dem Fensterbrett daneben: ein Klumpen roter Erde, sorgfältig beiseitegelegt, als wolle jemand ihn aufheben. {+c:c19}
-inner: Das hat Tilly aus den Absätzen gekratzt. Rote Erde vom Rosenbeet unter der Terrasse. Und er hat geschlafen wie ein Stein.
+inner: Jemand hat das aus den Absätzen gekratzt und aufgehoben. Rote Erde, wie vom Rosenbeet unter der Terrasse. Und er hat geschlafen wie ein Stein.
 
 === ex_k_pryce
 kind: examine
@@ -472,7 +481,7 @@ pryce[neutral]: Bei dem Wasser geht keiner raus, der nicht muss, Miss. Dunning k
 kind: examine
 target: h_g_clara
 ---
-narr: Miss Claras Tür. Auf den Dielen davor ein paar helle Tropfen, dicht beieinander.
+narr: Eine Tür. Auf den Dielen davor ein paar helle Tropfen, dicht beieinander.
 inner: Kerzenwachs, vermutlich.
 
 === ex_g_clara_t
@@ -488,19 +497,19 @@ inner: Talg. Hier oben. Vor Claras Tür. Jemand hat hier mit einer Dienstbotenke
 kind: examine
 target: h_g_harriet
 ---
-narr: Miss Averleys Tür. Dahinter ist es still, eine Stille, die man hört.
+narr: Eine Tür, dunkles Holz. Dahinter ist es still. Nicht leer. Still, wie ein Stuhl, auf dem jemand sehr gerade sitzt.
 
 === ex_g_lionel
 kind: examine
 target: h_g_lionel
 ---
-narr: Die Tür des Captains. Dahinter klirrt etwas, eine Flasche an ein Glas, dann nichts mehr.
+narr: Eine Tür. Dahinter klirrt etwas, eine Flasche an ein Glas, dann nichts mehr.
 
 === ex_g_gast
 kind: examine
 target: h_g_gast
 ---
-narr: Das Gästezimmer. Mrs. Penrose wohnt hier. Unter der Tür ein Spalt, gerade breit genug für eine Hand. Oder eine Pfote.
+narr: Das Gästezimmer. Es riecht nach Rosenwasser. Unter der Tür ein Spalt, gerade breit genug für eine Hand. Oder eine Pfote.
 
 === ex_g_gelaender
 kind: examine

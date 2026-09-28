@@ -42,7 +42,7 @@ export const CHAPTERS: Chapter[] = [
   {
     n: 5, title: 'Vor dem Morgen', day: 'Samstag, 17. November, zwei Uhr früh',
     intro: [
-      'Der Regen hat aufgehört. Zum ersten Mal seit Tagen hört man im Haus, wie still es ist.',
+      'Der Regen hat aufgehört. Zum ersten Mal seit Tagen hört man, wie still das Haus ist.',
       'Niemand schläft.',
     ],
     start: { loc: 'halle', x: 0.25, time: 'nacht' }, endScene: 'k5_dawn',

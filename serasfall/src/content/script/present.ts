@@ -215,8 +215,8 @@ kind: present
 npc: hobbes
 items: c01,d01
 ---
-hobbes[neutral]: Der Klingelzug ist alt, Miss. Der Stoff auch.
-* [direkt] Er ist nicht alt geworden. Er ist gerissen. -> a
+hobbes[neutral]: Die Glocken sind alt, Miss. Die Drähte auch.
+* [direkt] Da hat jemand mit aller Kraft gezogen. -> a
 * [schweigen] (Ihn ansehen.) -> b
 # a
 hobbes[neutral]: Dann wird man ihn ersetzen, wenn das Wasser fällt.

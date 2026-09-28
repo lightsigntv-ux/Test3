@@ -40,7 +40,13 @@ when: ch>=2 anyk:c07,c08
 ---
 sera: Tilly, wann spült Mr. Hobbes eigentlich die Gläser?
 tilly[neutral]: Nach dem Frühstück. Immer. Erst Frühstück, dann Silber, dann Gläser. Wie ’n Gebet.
-tilly[neutral]: Mr. Hobbes spült nie vor dem Frühstück. Nie nich. Aber Mittwoch früh, wie ich die Kohlen raufgebracht hab, noch vor sieben, da stand er in der Kammer am Becken und hat Gläser gespült. {+s:s15}
+tilly[neutral]: Mr. Hobbes spült nie vor dem Frühstück. Nie nich.
+? ch=2 -> today
+tilly[neutral]: Aber Mittwoch früh, wie ich die Kohlen raufgebracht hab, noch vor sieben, da stand er in der Kammer am Becken und hat Gläser gespült. {+s:s15}
+-> kater
+# today
+tilly[neutral]: Aber heut früh, wie ich die Kohlen raufgebracht hab, noch vor sieben, da stand er in der Kammer am Becken und hat Gläser gespült. {+s:s15}
+# kater
 tilly[neutral]: Ich dacht, er hat ’n Kater. Hat er nie.
 tilly[surprised]: Warum?
 * [ausweichend] Nur so. Ich lerne noch, wie alles hier geht. -> a
@@ -50,7 +56,7 @@ tilly[neutral]: Das lernt man nie. Ich bin seit ’nem Jahr hier und mach immer 
 -> END
 # b
 tilly[tense]: Oh.
-tilly[neutral]: Das war er. Mittwoch. Ich hab’s doch gesehn. {pause:400}
+tilly[neutral]: Das war er. Ich hab’s doch gesehn. {pause:400}
 narr: Sie sieht zur Tür der Butlerkammer, dann auf ihre Hände.
 
 === t2_tilly_letters
@@ -200,7 +206,7 @@ narr: Mrs. Penrose erstarrt. Nicht ein Muskel in ihrem Gesicht bewegt sich. Nur 
 penrose[neutral]: Eine Katze mit Glöckchen. Wie unpraktisch für die Katze.
 penrose[neutral]: Und wie praktisch für jeden, der wissen will, wo sie gewesen ist. {hints:f16}
 narr: Sie sieht Sera an, nicht die Katze. Lange.
-inner: Sie hat diesen Klang schon einmal gehört. Nachts. Auf der Treppe. Und sie weiß, dass ich weiß, dass sie es weiß.
+inner: Sie hat diesen Klang schon einmal gehört. Nachts. Auf der Treppe. Und jetzt weiß sie, woher.
 
 === t2_clara_royalfree
 kind: topic
@@ -208,7 +214,7 @@ npc: clara
 title: London
 when: ch>=2 seen:k2_dark
 ---
-sera: Ihre Tante sagt, Sie wollen nach London. Medizin studieren.
+sera: Sie wollen nach London, habe ich gehört. Medizin studieren.
 clara[neutral]: Tante Harriet nennt es Grillen. Das Royal Free Hospital nennt es seit diesem Frühjahr Studentinnen. Sie dürfen auf die Stationen, an echte Betten. Zum ersten Mal.
 clara[neutral]: Die Schule an der Henrietta Street nimmt im Oktober neue auf. Er hatte es mir versprochen. Die Gebühren, die Wohnung, alles. Meiner Mutter zuliebe, und mir.
 clara[tense]: Und dann –
@@ -259,7 +265,12 @@ npc: clara
 items: c03,d05
 ---
 clara[neutral]: 2.39.
+? f:g_watch_given -> given
 narr: Sie nimmt die Uhr nicht. Sie sieht sie an, wie man eine Probe unter dem Mikroskop ansieht.
+-> fell
+# given
+clara[neutral]: Hobbes hat sie. Er hat sie mir gezeigt, als wäre sie ein Vogel mit gebrochenem Flügel.
+# fell
 clara[neutral]: Um zwei Uhr neununddreißig ist er gefallen. Um halb zwei – {pause:500, hints:f05}
 clara[neutral]: Um halb zwei war das Haus still. Nehme ich an.
 
@@ -288,7 +299,7 @@ kind: smalltalk
 npc: pryce
 when: ch=2
 ---
-pryce[neutral]: Tee, Miss? Man trinkt Tee in einem Trauerhaus. Tee ist das Einzige, was nicht unanständig ist.
+pryce[neutral]: Tee, Miss? Der Kessel ist heiß, und was anderes gibt’s heut nicht.
 * [ehrlich] Hätten Sie vielleicht Kaffee? {sus+1} -> a
 * [neutral] Sehr gern. {pryce+1} -> b
 # a
