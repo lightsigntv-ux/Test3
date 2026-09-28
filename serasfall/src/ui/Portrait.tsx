@@ -2,6 +2,7 @@
 import { memo } from 'react';
 import { CHARACTERS, type Look } from '../content/characters';
 import type { Expr } from '../engine/types';
+import { SeraPortrait } from './SeraPortrait';
 
 const GENTRY = new Set(['harriet', 'lionel', 'clara', 'penrose']);
 const BG: Record<string, [string, string]> = {
@@ -224,7 +225,7 @@ export const Portrait = memo(function Portrait({ id, expr = 'neutral', chapter =
       </defs>
       <g clipPath={`url(#${uid}_oval)`}>
         <rect width={300} height={380} fill={`url(#${uid}_bg)`} />
-        <g filter={`url(#${uid}_paint)`}>
+        {id === 'sera' ? <SeraPortrait expr={expr} modern={modern} mourning={!modern && chapter >= 3} /> : <g filter={`url(#${uid}_paint)`}>
           <Hair look={look} back />
           <Clothes id={id} look={look} modern={modern} />
           <path d="M132 240 L130 280 Q150 290 170 280 L168 240Z" fill={shadeHex(look.skin, -0.12)} />
@@ -246,7 +247,7 @@ export const Portrait = memo(function Portrait({ id, expr = 'neutral', chapter =
           {look.extra?.includes('spectacles') && <g stroke="#8a7a5a" strokeWidth={2} fill="none"><circle cx={132} cy={108} r={11} /><circle cx={168} cy={108} r={11} /><path d="M143 108 L157 108" /></g>}
           {look.extra?.includes('pipe') && <path d="M160 236 Q190 246 204 262 L214 256 L218 270 L200 272Z" fill="#3a2418" />}
           {id === 'dunning' && <g><ellipse cx={150} cy={104} rx={86} ry={14} fill="#2a2a1e" /><path d="M104 104 Q106 60 150 58 Q194 60 196 104Z" fill="#2a2a1e" /></g>}
-        </g>
+        </g>}
         <ellipse cx={150} cy={190} rx={138} ry={178} fill="none" stroke="#000" strokeOpacity={0.35} strokeWidth={30} />
       </g>
       <ellipse cx={150} cy={190} rx={140} ry={180} fill="none" stroke={gentry ? '#c69a44' : id === 'sera' ? '#8a7a5a' : '#4a3422'} strokeWidth={gentry ? 9 : 7} />
