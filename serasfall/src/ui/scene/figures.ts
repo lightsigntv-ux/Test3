@@ -13,7 +13,7 @@ export interface PoseOpts {
 function headAndHair(ctx: C2D, look: Look, hx: number, hy: number, hr: number, facing: number, id: string) {
   // Hals
   ctx.fillStyle = shade(look.skin, -0.1);
-  ctx.fillRect(hx - hr * 0.35, hy + hr * 0.6, hr * 0.7, hr * 0.6);
+  ctx.fillRect(hx - hr * 0.3, hy + hr * 0.6, hr * 0.6, hr * 1.25);
   // Kopf
   ctx.fillStyle = look.skin;
   ctx.beginPath(); ctx.ellipse(hx, hy, hr * 0.82, hr, 0, 0, Math.PI * 2); ctx.fill();
@@ -193,13 +193,14 @@ export function drawModernSera(ctx: C2D, look: Look, o: PoseOpts) {
   ctx.fillStyle = 'rgba(0,0,0,0.3)'; ctx.beginPath(); ctx.ellipse(x, foot, h * 0.14, h * 0.025, 0, 0, Math.PI * 2); ctx.fill();
   // weite Hosenbeine
   for (const s of [-1, 1]) {
-    const fx = x + s * h * 0.045 + s * stride * h * 0.06;
-    const g = ctx.createLinearGradient(fx - h * 0.05, 0, fx + h * 0.05, 0);
-    g.addColorStop(0, '#7f9fc0'); g.addColorStop(0.5, '#a9c2dc'); g.addColorStop(1, '#7896b8');
+    const fx = x + s * h * 0.05 + s * stride * h * 0.06;
+    const g = ctx.createLinearGradient(fx - h * 0.035, 0, fx + h * 0.035, 0);
+    g.addColorStop(0, s < 0 ? '#6f8fb2' : '#86a6c8'); g.addColorStop(0.5, s < 0 ? '#9bb6d2' : '#b4cbe2'); g.addColorStop(1, '#6f8cae');
     ctx.fillStyle = g;
-    ctx.beginPath(); ctx.moveTo(x + s * h * 0.005, hipY); ctx.lineTo(x + s * h * 0.075, hipY);
-    ctx.lineTo(fx + h * 0.05, foot - 6); ctx.lineTo(fx - h * 0.05, foot - 6); ctx.closePath(); ctx.fill();
-    ctx.fillStyle = '#c8d8a0'; ctx.beginPath(); ctx.ellipse(fx + facing * 3, foot - 3, h * 0.03, h * 0.014, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(x + s * h * 0.004, hipY); ctx.lineTo(x + s * h * 0.07, hipY);
+    ctx.lineTo(fx + s * h * 0.036, foot - 6); ctx.lineTo(fx - s * h * 0.036, foot - 6); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = '#5e7ca0'; ctx.lineWidth = 1; ctx.stroke();
+    ctx.fillStyle = '#c8d8a0'; ctx.beginPath(); ctx.ellipse(fx + s * h * 0.005 + facing * 3, foot - 3, h * 0.03, h * 0.014, 0, 0, Math.PI * 2); ctx.fill();
   }
   // weißes Top
   ctx.fillStyle = '#f7f5f0';
