@@ -35,7 +35,7 @@ kind: present
 npc: hobbes
 items: c10
 ---
-narr: Hobbes sieht das verkohlte Blatt. Seine Hand, im weißen Handschuh, macht eine kleine Bewegung, als wolle sie danach greifen und es in die Tasche stecken, wie man einem Kind ein Streichholz fortnimmt.
+narr: Hobbes sah das verkohlte Blatt. Seine Hand im weißen Handschuh zuckte kurz, als wolle sie danach greifen und es in die Tasche stecken.
 hobbes[neutral]: Das gehört in den Kamin, Miss.
 * [direkt] Sie haben die Asche umgerührt, damit man es nicht findet. -> a
 * [mitfuehlend] Sie wussten, wessen Name darauf steht. {hobbes+1} -> b
@@ -44,7 +44,7 @@ hobbes[neutral]: Ich habe den Kamin versehen, wie jeden Morgen. {pause:400}
 hobbes[neutral]: Es ist nicht an Miss, mir zu sagen, wie man einen Kamin versieht.
 -> END
 # b
-narr: Er schweigt lange.
+narr: Er schwieg lange.
 hobbes[neutral]: Ich habe in diesem Haus ein Paar kleine Stiefel geputzt, als sie mir noch nicht bis zum Knie reichten, Miss. Man vergisst nicht, wessen Stiefel man geputzt hat. {hints:f13}
 
 === t3_tilly_name
@@ -56,12 +56,12 @@ when: ch>=3 f:g_teach2 !f:g_teach3
 sera: Tilly – ist das eigentlich dein ganzer Name?
 tilly[neutral]: Nee. Matilda. Matilda Crane.
 tilly[neutral]: Das hat keiner mehr gesagt seit meiner Mutter. Im Arbeitshaus war ich „die Crane“. Hier bin ich Tilly. „Tilly! Die Kohlen!“
-narr: Sie macht Mrs. Pryces Stimme nach, erstaunlich gut, und grinst, und dann grinst sie nicht mehr.
+narr: Sie machte Mrs. Pryces Stimme nach, erstaunlich gut, und grinste. Dann grinste sie nicht mehr.
 tilly[sad]: Meine Mutter hat „Matty“ gesagt. Aber die is tot.
 * [mitfuehlend] Soll ich dir zeigen, wie man Matilda schreibt? {tilly+2, +f:g_teach3} -> a
 * [ehrlich] Das ist ein schöner Name. Er klingt nach jemandem, der mutig ist. {tilly+1, +f:g_teach3} -> b
 # a
-narr: Ein M auf der Kreidetafel des Kohlenkellers. Zwei Berge nebeneinander, sagt Sera. Tilly malt die Berge. Dann ein A, ein Dach mit einem Balken. Dann ist Mrs. Pryce an der Tür, und die Kreide verschwindet in einer Schürzentasche, als hätte es sie nie gegeben.
+narr: Ein M auf der Kreidetafel des Kohlenkellers. Zwei Berge nebeneinander, sagte Sera. Tilly malte die Berge. Dann ein A, ein Dach mit einem Balken. Dann stand Mrs. Pryce an der Tür, und die Kreide verschwand in einer Schürzentasche.
 tilly[warm]: M wie Matilda. Und wie Mrs. Pryce. Aber das sag ich ihr nich.
 -> END
 # b
@@ -101,7 +101,7 @@ npc: harriet
 when: ch=3
 ---
 harriet[neutral]: Lesen Sie mir die Times vor, Miss Hale. Die vom Montag. Eine andere haben wir nicht.
-narr: Sera liest. Ein Bericht über die Lage vor Plewna, Getreidepreise, eine Anzeige für Holloways Pillen. Miss Averley hört nicht zu. Aber sie mag, dass jemand liest.
+narr: Sera las. Ein Bericht über die Lage vor Plewna, Getreidepreise, eine Anzeige für Holloways Pillen. Miss Averley hörte nicht zu. Aber sie mochte es, wenn jemand las.
 
 === s3_harriet_cat
 kind: smalltalk
@@ -109,7 +109,7 @@ npc: harriet
 when: ch>=3 yuumi
 priority: 2
 ---
-narr: Yuumi springt, ohne zu fragen, auf Miss Averleys Schoß, dreht sich einmal und legt sich hin, in das stumpfe Schwarz des Bombasins, als wäre es für sie gewebt worden.
+narr: Yuumi sprang, ohne zu fragen, auf Miss Averleys Schoß, drehte sich einmal und legte sich hin, in das stumpfe Schwarz des Bombasins.
 harriet[surprised]: Miss Hale. Ihr Tier.
 * [neutral] Ich nehme sie sofort. -> a
 * [mitfuehlend] Sie mag Sie. Man kann sie auch dort lassen. {harriet+1} -> b
@@ -117,9 +117,9 @@ harriet[surprised]: Miss Hale. Ihr Tier.
 harriet[neutral]: Lassen Sie. {pause:500}
 -> b
 # b
-narr: Miss Averley legt die Hand auf das graue Fell, sehr vorsichtig, wie auf etwas, das zerbrechen könnte. Yuumi schnurrt.
+narr: Miss Averley legte die Hand auf das graue Fell, sehr vorsichtig. Yuumi schnurrte.
 harriet[neutral]: Sie ist warm. Das ist alles. {harriet+1}
-narr: Sie bewegt sich eine ganze Stunde lang nicht.
+narr: Sie bewegte sich eine ganze Stunde lang nicht.
 
 === s3_lionel
 kind: smalltalk

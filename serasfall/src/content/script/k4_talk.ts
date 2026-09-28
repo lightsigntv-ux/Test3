@@ -16,7 +16,7 @@ npc: clara
 items: c26,d14
 when: ch>=3
 ---
-narr: Clara sieht das Taschentuch an. Ihr Monogramm, von ihrer Mutter gestickt, in blauem Garn.
+narr: Clara sah das Taschentuch an. Ihr Monogramm, von ihrer Mutter gestickt, in blauem Garn.
 clara[tense]: Wo haben Sie das her?
 sera: Aus dem Gästezimmer. Unter dem Sessel am Kamin.
 ? t:clara>=5 -> open
@@ -24,7 +24,7 @@ clara[neutral]: Ich habe viele Taschentücher, Miss Hale. Mrs. Penrose wird es b
 inner: Mrs. Penrose wäscht keine Wäsche. Und Clara weiß das.
 -> END
 # open
-narr: Sie nimmt es nicht. Sie sieht es nur an, wie man etwas ansieht, das einem nicht mehr gehört.
+narr: Sie nahm es nicht. Sie sah es nur an.
 clara[sad]: Ich war bei ihr. In der Nacht. Von kurz vor zwei bis gegen zwanzig vor drei. {+s:s23, reveals:f06}
 clara[sad]: Ich, die ich jedes Wort von ihr für Betrug halte. Ich bin im Nachthemd durch die Galerie geschlichen und habe an ihre Tür geklopft und sie gefragt, ob es wahr war. Ob Mama wirklich –
 clara[neutral]: Sie hat mir die Wahrheit gesagt. Das ist das Merkwürdigste an dieser ganzen Nacht. Die Betrügerin hat mir die Wahrheit gesagt.
@@ -44,7 +44,7 @@ npc: penrose
 items: c26,d14
 when: ch>=3
 ---
-narr: Mrs. Penrose sieht das Taschentuch. Dann Yuumi. Dann Sera.
+narr: Mrs. Penrose sah das Taschentuch. Dann Yuumi. Dann Sera.
 penrose[warm]: Ihre Katze stiehlt. Das gefällt mir.
 penrose[neutral]: Ja, sie war bei mir. Ich habe gelogen, als ich sagte, ich hätte geschlafen. Ich lüge beruflich, meine Liebe; es wäre unprofessionell gewesen, bei Ihnen eine Ausnahme zu machen. {reveals:f06}
 penrose[neutral]: Sie kam um zwei, barfuß, mit einer Kerze, und sie fragte mich, ob es echt sei. Ob ihre Mutter gesprochen habe.
@@ -58,13 +58,13 @@ items: c22,d15,c14
 when: ch>=4
 important: yes
 ---
-narr: Die Karte. Das „Aug.“ in der engen Handschrift. Mrs. Penrose nimmt sie diesmal nicht.
+narr: Die Karte. Das „Aug.“ in der engen Handschrift. Mrs. Penrose nahm sie diesmal nicht.
 ? t:penrose>=5 -> open
 penrose[neutral]: Wir hatten das schon, meine Liebe. Viele Leute kommen im August.
 -> END
 # open
 penrose[neutral]: Setzen Sie sich.
-narr: Es ist das erste Mal, dass sie es sagt, ohne zu lächeln.
+narr: Es war das erste Mal, dass sie es sagte, ohne zu lächeln.
 penrose[neutral]: Er kam im August nach Bath. Er nannte keinen Namen. Er hatte schwarze Fingerspitzen, und er setzte sich auf den Stuhl, als säße er in einer Vorlesung, in der er nicht an den Vortragenden glaubt. {+s:s22, reveals:f02}
 penrose[neutral]: Und als im Herbst Miss Averleys Brief kam – ein Haus im Moor, eine Schwägerin namens Lucinda, die den Regen liebte –, wusste ich, in wessen Haus ich fahre.
 penrose[neutral]: Er sagte, er sei nicht gekommen, um mit Toten zu sprechen. Er wolle nur sehen, wie ich es mache. Und dann saß er eine Stunde da und erzählte mir von seiner Frau.
@@ -97,7 +97,7 @@ penrose[sad]: Und das Kind habe ich dort sitzen lassen. Ich habe ein Kind weinen
 * [ehrlich] Die Frau auf der Treppe war ich. {penrose+1, +f:g_sera_told_penrose} -> a
 * [mitfuehlend] Sie hatten Angst. Das ist menschlich. {penrose+1} -> b
 # a
-narr: Mrs. Penrose sieht sie an. Nicht wie ein Medium. Wie eine Frau, die sehr müde ist und gerade etwas hört, das sie nicht mehr erklären muss.
+narr: Mrs. Penrose sah sie an. Nicht als Medium. Nur müde, als hätte sie gerade etwas gehört, das sie nicht mehr erklären musste.
 penrose[neutral]: Ich weiß, meine Liebe. Ich wusste es in dem Augenblick, in dem Sie in die Bibliothek kamen. Ich wollte nur, dass Sie es sagen. {hints:f23}
 penrose[warm]: Gott, bin ich froh, dass ich nicht verrückt bin. Ich hatte mich schon darauf eingerichtet.
 -> END
@@ -111,10 +111,10 @@ npc: lionel
 title: Die Glocke im Wasser
 when: ch>=4 f:k3_lionel_broken
 ---
-narr: Der Captain sitzt in der Bibliothek, das verkohlte Blatt auf dem Knie. Er trinkt nicht. Die Karaffe steht neben ihm, voll.
+narr: Der Captain saß in der Bibliothek, das verkohlte Blatt auf dem Knie. Er trank nicht. Die Karaffe stand neben ihm, voll.
 lionel[neutral]: Wissen Sie, was das Merkwürdigste war, in dieser Nacht? Als ich hinaufging, später, mit der Lampe, hörte ich hinter dem Vorhang am Fenstersitz ein Glöckchen. Ganz fein. {+s:s20}
 lionel[neutral]: Und ich dachte: Das ist sie. Die Glocke im Wasser. Mutters Glocke. Sie kommt, um mir zu sagen, dass ich –
-narr: Er bricht ab. Sein Blick fällt auf Yuumi, die auf dem Kaminvorleger liegt, und auf das kleine Glöckchen an ihrem Hals.
+narr: Er brach ab. Sein Blick fiel auf Yuumi, die auf dem Kaminvorleger lag, und auf das kleine Glöckchen an ihrem Hals.
 lionel[surprised]: …
 lionel[neutral]: Das war Ihre Katze. Hinter dem Vorhang. In der Nacht auf Mittwoch. Aber da waren Sie doch noch gar nicht –
 inner: Er rechnet. Man sieht, wie er rechnet, und wie die Rechnung nicht aufgeht.
@@ -128,7 +128,7 @@ when: ch>=4 k:d04 k:c08 t:hobbes>=6
 important: yes
 ---
 sera: Mr. Hobbes. Ich weiß, dass Sie ihn nicht im Sessel gefunden haben. Und ich weiß, warum Sie die Gläser gespült haben.
-narr: Hobbes steht sehr gerade. Dann, zum ersten Mal, seit Sera ihn kennt, setzt er sich. Auf die Kante eines Stuhls in der Halle, der nicht zum Sitzen gedacht ist.
+narr: Hobbes stand sehr gerade. Dann setzte er sich, zum ersten Mal, seit Sera ihn kannte. Auf die Kante eines Stuhls in der Halle, der nicht zum Sitzen gedacht war.
 hobbes[sad]: Ich fand ihn am Boden vor dem Kamin. Um Viertel nach sechs. Auf der Seite, die Hand zum Klingelzug ausgestreckt. {+s:s25, reveals:f14}
 hobbes[sad]: Ich konnte ihn nicht auf dem Teppich liegen lassen, Miss. Master Edmund. Wie einen Betrunkenen. Wie einen – Sie hätten es auch nicht gekonnt.
 hobbes[neutral]: Ich habe ihn in den Sessel gesetzt. Ich habe die Karaffe fortgenommen und die zwei Gläser. Brandy. Den trinkt in diesem Haus nur Master Lionel. Und in der Asche habe ich gelesen, was von „Crabbe“ noch zu lesen war, und habe umgerührt, bis es nicht mehr zu lesen war. Dachte ich.
@@ -150,10 +150,10 @@ title: Der Brief aus Bath
 when: ch>=4 !f:g_harriet_told_sera t:harriet>=6 anyk:c24,c14,s39
 ---
 sera: Miss Averley. Er wusste es, nicht wahr? Dass er krank war. Seit August.
-narr: Miss Averley legt die Stickerei weg. Sie sieht nicht zum Fenster, nicht zur Tür. Sie sieht Sera an.
+narr: Miss Averley legte die Stickerei weg. Sie sah nicht zum Fenster, nicht zur Tür. Sie sah Sera an.
 harriet[sad]: Seit August. Ein Arzt in Bath. Sein Herz. Monate, nicht Jahre. {+s:s29, reveals:f01}
 harriet[sad]: Er hat mich schwören lassen, es den Kindern nicht zu sagen. „Sie sollen mich nicht sterben sehen, bevor ich sterbe, Harriet.“
-narr: Sie schließt die Schreibkassette auf, nimmt einen Brief heraus und gibt ihn Sera, ohne ihn anzusehen. {+c:c23, +f:g_harriet_told_sera}
+narr: Sie schloss die Schreibkassette auf, nahm einen Brief heraus und gab ihn Sera, ohne ihn anzusehen. {+c:c23, +f:g_harriet_told_sera}
 letter: Dr. H. Wilkes, Bath, 21. August 1877. – Angina pectoris in fortgeschrittenem Stadium. Ich kann Ihnen keine Jahre versprechen, sehr geehrter Mr. Averley, und muss Ihnen dringend raten, Aufregung jeder Art zu vermeiden.
 harriet[sad]: Aufregung jeder Art. Und ich habe ihm eine Séance ins Haus geholt.
 
@@ -164,7 +164,7 @@ title: Tilly und die Treppe
 when: ch=4 k:d16 !f:g_pryce_confessed
 ---
 sera: Mrs. Pryce. Auf der Platte, die der Herr belichtet hat, sitzt ein Mädchen auf der Haupttreppe. Mitten in der Nacht.
-narr: Die Schlüssel an ihrer Hüfte hören auf zu klirren. Sie legt die Hand darauf.
+narr: Die Schlüssel an ihrer Hüfte hörten auf zu klirren. Sie legte die Hand darauf.
 pryce[angry]: Man holt so ein Kind nicht aus dem Arbeitshaus, um es dann dem Constable zu geben, Miss. Das merken Sie sich.
 pryce[angry]: Wenn Sie ihr wehtun, dann gibt’s in diesem Haus kein warmes Essen mehr für Sie. Kein einziges.
 * [mitfuehlend] Ich will ihr nicht wehtun. Ich glaube, sie trägt etwas mit sich herum, das zu schwer für sie ist. {pryce+1} -> a
@@ -177,7 +177,7 @@ pryce[sad]: Das tun wir alle, Miss. Das Kind nur am längsten.
 pryce[neutral]: Ich hab gesagt, was ich gesagt hab.
 -> END
 # conf
-narr: Mrs. Pryce setzt sich an den Küchentisch, auf Tillys Platz.
+narr: Mrs. Pryce setzte sich an den Küchentisch, auf Tillys Platz.
 pryce[sad]: Um halb drei hat die Glocke vom Arbeitszimmer geläutet. Ich war wach, ich hab an Owen geschrieben. Ich hab das Kind gehen hören. Und ich hab mir gesagt: Das Kind ist schon auf, Agnes. Bleib sitzen. {+s:s26, reveals:f15, +f:g_pryce_confessed}
 pryce[sad]: Und wie sie zurückkam und geweint hat, hab ich nicht gefragt. Weil ich’s nicht wissen wollte.
 pryce[neutral]: Sagen Sie ihr das nicht. Das sag ich ihr selbst. Wenn ich den Mut hab.
@@ -195,7 +195,7 @@ kind: smalltalk
 npc: tilly
 when: ch=4 !f:g_tilly_spoke
 ---
-narr: Tilly schrubbt den Tisch dort, wo die Buchstaben eingeritzt sind, und schrubbt sie nicht weg.
+narr: Tilly schrubbte den Tisch dort, wo die Buchstaben eingeritzt waren, und schrubbte sie nicht weg.
 tilly[neutral]: Handschuh hat heut früh ’ne Maus gebracht, Miss. Eine tote. Auf Mrs. Pryces Kopfkissen.
 tilly[warm]: Die taugt doch was.
 
@@ -226,7 +226,7 @@ harriet[neutral]: Lesen Sie mir vor, Miss Hale. Irgendetwas. Es ist mir gleich, 
 # named
 harriet[neutral]: Lesen Sie mir vor, Miss – Sera. Irgendetwas. Es ist mir gleich, was. Nur nicht die Psalmen.
 # read
-narr: Sera liest aus der Times vom Montag. Getreidepreise. Das Wetter in Kent. Miss Averley schließt die Augen und hört zu, als wäre es Musik.
+narr: Sera las aus der Times vom Montag. Getreidepreise. Das Wetter in Kent. Miss Averley schloss die Augen und hörte zu.
 
 === s4_lionel
 kind: smalltalk

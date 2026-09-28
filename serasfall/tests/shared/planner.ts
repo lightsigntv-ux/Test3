@@ -32,8 +32,8 @@ export type Plan =
 export function chooseIndex(v: LineView, s: GameState, c: Content, p: Policy): number | undefined {
   if (!v.choices) return undefined;
   if (v.dlg === 'k5_dawn') {
-    const want = p.ending === 'go' ? 'Nach Hause' : 'Bleiben';
-    const hit = v.choices.find((ch) => ch.text.includes(want));
+    const want = p.ending === 'go' ? /nach hause/i : /bleiben/i;
+    const hit = v.choices.find((ch) => want.test(ch.text));
     if (hit) return hit.index;
   }
   const npc = c.dialogues[v.dlg].npc;

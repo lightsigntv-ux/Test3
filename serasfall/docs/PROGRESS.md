@@ -36,6 +36,7 @@ Aufruf: `npm run test:browser`. Das Skript bedient das Spiel über echte Tastend
 
 - **Durchläufe.** Alle drei Enden wurden in je einem vollständigen Durchlauf erreicht, jeweils rund 2 100 Schritte und etwa 3½ Minuten bei gekürzten Wartezeiten.
 - **Konsole.** In allen drei Durchläufen gab es 0 Konsolenfehler und 0 Warnungen.
+- **Eingabe wie von Hand (`run.ts … mensch`).** Textgeschwindigkeit „schnell“, Tasten unterschiedlich lang gehalten, Klicks unten rechts, Antworten per Ziffer, Pfeil+Leertaste oder Klick. Jede Eingabe muss genau einen Schritt auslösen. Kapitel 1–2, zwei Durchläufe: rund 1 800 Eingaben, 0 übersprungen. Vor der Korrektur waren es 3–6 Fehler pro Lauf.
 - **Neuladen mitten im Gespräch.** Nach dem Neuladen steht das Spiel an derselben Stelle. OK.
 - **Offline-Einzeldatei über `file://`.**
   - Startet und ist spielbar.

@@ -24,7 +24,7 @@ npc: harriet
 items: *
 ---
 harriet[neutral]: Nun?
-narr: Sie wartet. Als nichts weiter kommt, nimmt sie ihre Stickerei wieder auf, ohne einen Stich zu tun.
+narr: Sie wartete. Als nichts weiter kam, nahm sie ihre Stickerei wieder auf, ohne einen Stich zu tun.
 
 === pd_lionel_1
 kind: present
@@ -159,7 +159,7 @@ npc: tilly
 items: *
 ---
 tilly[neutral]: Hübsch. Was is das?
-yuumi: (Yuumi schnuppert daran und verliert sofort jedes Interesse.)
+yuumi: (Yuumi schnupperte daran und verlor sofort jedes Interesse.)
 
 === pd_dunning_1
 kind: present
@@ -202,7 +202,7 @@ hobbes[neutral]: Ich werde sie verwahren, bis der Captain darüber verfügt.
 * [neutral] (Ihm die Uhr geben.) {hobbes+1, +f:g_watch_given} -> give
 * [direkt] Ich würde sie gern noch behalten. Nur heute. -> keep
 # give
-narr: Er nimmt die Uhr in beide Hände, als wäre sie warm. Einen Augenblick lang sieht er nicht aus wie ein Butler, sondern wie ein alter Mann, der etwas verloren hat.
+narr: Er nahm die Uhr in beide Hände, vorsichtig. Einen Augenblick lang sah er nicht aus wie ein Butler, sondern wie ein alter Mann, der etwas verloren hat.
 hobbes[neutral]: Danke, Miss.
 inner: 2.39. Ich werde es mir merken, auch ohne Uhr.
 -> END
@@ -222,7 +222,7 @@ hobbes[neutral]: Die Glocken sind alt, Miss. Die Drähte auch.
 hobbes[neutral]: Dann wird man ihn ersetzen, wenn das Wasser fällt.
 -> END
 # b
-narr: Hobbes hält dem Blick stand, genau so lange, wie es die Höflichkeit verlangt. Dann sieht er auf einen Punkt über ihrer Schulter.
+narr: Hobbes hielt dem Blick stand, genau so lange, wie es die Höflichkeit verlangte. Dann sah er auf einen Punkt über ihrer Schulter.
 hobbes[neutral]: Ich habe in der Nacht keine Glocke gehört, Miss. Mein Zimmer liegt hinter der Kammer. Ich schlafe fest.
 inner: Das ist das erste Mal, dass er von sich spricht. Und es ist eine Entschuldigung.
 
@@ -241,10 +241,10 @@ kind: present
 npc: tilly
 items: c03
 ---
-narr: Tilly sieht die Uhr an, und das Blut weicht aus ihrem Gesicht, bis die Sommersprossen darauf aussehen wie Tinte auf Papier.
+narr: Tilly sah die Uhr an, und das Blut wich aus ihrem Gesicht, bis die Sommersprossen darauf aussahen wie Tinte auf Papier.
 tilly[tense]: Das – das is die Uhr vom Herrn.
 tilly[tense]: Die hat er immer rausgeholt, wenn er – wenn einer zu spät war. {hints:f10}
-narr: Sie dreht sich um und schrubbt einen Topf, der schon sauber ist.
+narr: Sie drehte sich um und schrubbte einen Topf, der schon sauber war.
 inner: Sie hat die Uhr nicht zum ersten Mal gesehen, seit er tot ist. Ich weiß nicht, woher ich das weiß. Ich weiß es.
 
 === pr_pryce_s07
@@ -254,7 +254,7 @@ items: s07
 ---
 pryce[neutral]: Das Kind hört Gespenster, seit es aus dem Arbeitshaus ist. Dort gibt’s genug davon.
 pryce[neutral]: Und diesmal hatte das Gespenst Handschuhe an und frisst mir die Sahne weg. Na?
-yuumi: (Yuumi putzt sich demonstrativ das Maul.)
+yuumi: (Yuumi putzte sich demonstrativ das Maul.)
 
 === pr_harriet_c22
 kind: present
@@ -268,11 +268,11 @@ harriet[neutral]: Mrs. Penrose verteilt ihre Karten großzügig. Das gehört zu 
 harriet[neutral]: Legen Sie sie zurück, Miss Hale.
 -> END
 # open
-narr: Harriet nimmt die Karte. Sie dreht sie um, sieht das „Aug.“ in der engen Handschrift und legt sie mit der Schrift nach unten auf den Tisch, bevor sie sie zurückschiebt.
+narr: Harriet nahm die Karte. Sie drehte sie um, sah das „Aug.“ in der engen Handschrift und legte sie mit der Schrift nach unten auf den Tisch, bevor sie sie zurückschob.
 harriet[neutral]: Ich fand sie im September in seinem Schreibtisch, als ich Siegellack suchte. Ich dachte, er suche Lucinda. {+s:s38, reveals:f25}
 harriet[sad]: Ein Mann, der dreißig Jahre lang über Klopfgeister gelacht hat, fährt nach Bath zu einem Medium. Was hätten Sie gedacht, Miss Hale?
 harriet[neutral]: Also schrieb ich ihr. Ich dachte, ich tue ihm damit einen Gefallen.
-narr: Ihre Hand liegt noch dort, wo die Karte gelegen hat.
+narr: Ihre Hand lag noch dort, wo die Karte gelegen hatte.
 
 === pr_penrose_c22
 kind: present
@@ -281,7 +281,7 @@ items: c22
 when: ch<=3
 ---
 penrose[neutral]: Meine Karte. Ich verteile viele, meine Liebe. Das ist, wie man in Bath überlebt.
-narr: Sie betrachtet die Rückseite, die drei Buchstaben in der engen Schrift. Ihr Daumen streicht einmal darüber, bevor sie die Karte zurückgibt.
+narr: Sie betrachtete die Rückseite, die drei Buchstaben in der engen Schrift. Ihr Daumen strich einmal darüber, bevor sie die Karte zurückgab.
 penrose[neutral]: August. Ein heißer Monat. Viele Leute kommen im August.
 inner: Sie weiß genau, wer diese Karte mitgenommen hat.
 `;

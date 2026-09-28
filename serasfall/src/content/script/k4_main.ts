@@ -5,73 +5,73 @@ when: ch=4 loc=dunkel
 priority: 20
 important: yes
 ---
-narr: Rotes Licht. Es macht alle Hände gleich und alle Gesichter fremd. Die Tür ist zu, der Spalt darunter mit einem Tuch verstopft. {music:develop}
-clara[neutral]: Er hat eine Tanninplatte genommen. Trockenkollodium. Die sind langsam wie Schnecken, deshalb. Eine nasse Platte hätte er nach zehn Minuten entwickeln müssen.
-clara[neutral]: Und er hat die Lampe in der Halle brennen lassen, kleingedreht, damit die Treppe überhaupt zu sehen ist. Von Mitternacht bis halb sieben, als Hobbes den Deckel aufgesetzt hat. Das reicht für ein Gespenst von einer Treppe.
-narr: Sie legt die Platte in eine flache Schale. Glas, milchig, ohne Bild.
-clara[neutral]: Pyrogallol und Ammoniak. Halten Sie die Laterne. Höher. Nicht über die Schale, daneben.
-narr: Sie gießt. Die Flüssigkeit läuft in einer glatten Welle über das Glas. Clara wiegt die Schale, langsam, hin und her, wie man ein Kind wiegt. {sfx:liquid}
-clara[neutral]: Jetzt nichts sagen. Zählen.
-* [neutral] (Leise zählen.) -> a
+narr: In der Dunkelkammer gab es nur das rote Licht der Laterne. Hände und Gesichter sahen darin fremd aus. Die Tür war zu, und Clara hatte ein Tuch in den Spalt darunter gestopft. {music:develop}
+clara[neutral]: Er hat eine Tanninplatte genommen. Trockenkollodium. Die brauchen ewig, darum. Eine nasse Platte hätte er nach zehn Minuten entwickeln müssen.
+clara[neutral]: Und er hat die Lampe in der Halle brennen lassen, kleingedreht, damit man die Treppe überhaupt sieht. Von Mitternacht bis halb sieben, bis Hobbes den Deckel aufgesetzt hat. Das reicht gerade so für eine Treppe.
+narr: Sie legte die Platte in eine flache Schale. Das Glas war milchig, ohne Bild.
+clara[neutral]: Pyrogallol und Ammoniak. Halten Sie die Laterne. Höher. Nicht über die Schale – daneben.
+narr: Sie goss. Die Flüssigkeit lief in einer glatten Welle über das Glas. Clara bewegte die Schale langsam hin und her. {sfx:liquid}
+clara[neutral]: Jetzt nicht reden. Zählen Sie.
+* [neutral] (Leise mitzählen.) -> a
 * [schweigen] (Die Luft anhalten.) -> a
 # a
-narr: Eins. Zwei. Zwölf. Dreißig. Auf dem Glas beginnt etwas dunkler zu werden, wo es hell war. Die Umrisse einer Treppe. Ein Geländer. Ein Fenster, dahinter nichts.
-narr: Und Spuren. Blasse, unterbrochene Bahnen, die über die Stufen ziehen, als hätte jemand mit einer Nadel ins Dunkel gekratzt, und an zwei Stellen helle Flecken, wo ein Licht lange an einem Ort geblieben ist.
-clara[surprised]: Da ist jemand gegangen. Mehr als einer.
-clara[neutral]: Fixieren. Die Flasche. Nein – die mit dem Stopfen. Gut.
-narr: Der Bittermandelgeruch steigt auf, süß und falsch. Clara spült die Platte unter dem Wasser aus einem Krug, hält sie gegen die Laterne, dann legt sie ein schwarzes Samttuch dahinter.
-clara[neutral]: Gegen Schwarz sieht man eine Kollodiumplatte als Positiv. Wie ein Ambrotyp. Er hat mir das gezeigt, da war ich vierzehn.
-narr: Die Treppe. Grau auf Schwarz, weich, als läge sie unter Wasser. Über die Stufen und den Hallenboden ziehen blasse Lichtbahnen, eine davon breit und ruhig wie ein Fluss. Oben an der Galerie, vor einer der Türen, ein heller Fleck. Unten, an der Dienstbotentür, eine kurze Spur zur Kamera hin. {+c:c29, +f:g_plate_dev}
-narr: Und auf der fünften Stufe von unten sitzt ein Mädchen. Blass, unscharf, aber da. Eine Haube. Eine Kerze auf der Stufe neben ihr, ein heller Fleck. Das Gesicht in den Händen.
-clara[tense]: Eine Dienstbotin. Auf der Haupttreppe. Mitten in der Nacht. Lange genug still, dass die Platte sie festhält. Zehn Minuten, mindestens. {hints:f09}
-narr: Und neben dem Mädchen, noch blasser, fast nur ein Hauch auf dem Glas: eine zweite Gestalt. Eine Frau, die auf der Stufe sitzt, den Kopf zur Seite geneigt. Helles Haar. Und auf ihrem Schoß, klein, rund, mit zwei spitzen Ohren –
+narr: Eins. Zwei. Zwölf. Dreißig. Wo in der Halle Licht gewesen war, wurde das Glas dunkel. Die Umrisse einer Treppe erschienen, ein Geländer, ein Fenster, dahinter nichts.
+narr: Und da waren Spuren. Dünne, unterbrochene Linien zogen über die Stufen. An zwei Stellen gab es helle Flecken, wo ein Licht lange an einem Ort geblieben war.
+clara[surprised]: Da ist jemand gegangen. Nein – mehrere.
+clara[neutral]: Jetzt fixieren. Die Flasche da. Nein, die mit dem Stopfen. Gut.
+narr: Es roch nach Bittermandel. Clara spülte die Platte mit Wasser aus einem Krug ab und hielt sie gegen die Laterne. Dann legte sie ein schwarzes Samttuch dahinter.
+clara[neutral]: Vor schwarzem Grund sieht man eine Kollodiumplatte als Positiv. Wie bei einer Ambrotypie. Das hat er mir gezeigt, da war ich vierzehn.
+narr: Da war die Treppe, grau auf Schwarz, ganz weich. Blasse Lichtbahnen zogen über die Stufen und den Hallenboden, eine davon breit und gleichmäßig. Oben auf der Galerie, vor einer der Türen, war ein heller Fleck. Unten führte eine kurze Spur von der Dienstbotentür zur Kamera. {+c:c29, +f:g_plate_dev}
+narr: Auf der fünften Stufe von unten saß ein Mädchen. Blass und unscharf, aber es war da. Es trug eine Haube und hatte das Gesicht in den Händen, und neben ihm auf der Stufe war ein heller Fleck: eine Kerze.
+clara[tense]: Ein Dienstmädchen. Auf der Haupttreppe, mitten in der Nacht. Und sie hat so lange stillgesessen, dass die Platte sie festhält. Zehn Minuten mindestens. {hints:f09}
+narr: Neben dem Mädchen war eine zweite Gestalt, noch blasser, kaum zu erkennen. Eine Frau mit hellem Haar saß auf der Stufe und hatte den Kopf zur Seite geneigt. Auf ihrem Schoß war etwas Kleines, Rundes mit zwei spitzen Ohren –
 inner: Nein.
-inner: Das ist Yuumi. So sitzt sie. Genau so, eine Pfote eingerollt, als hätte sie Angst, sie könne ihr weglaufen.
+inner: Das ist Yuumi. So sitzt sie immer, eine Pfote untergeschlagen. Genau so.
 inner: Das ist – {pause:900}
 inner: Das bin ich.
-clara[neutral]: Eine Doppelbelichtung. Oder ein Fehler in der Schicht. Oder er hat eine alte Platte genommen, auf der schon etwas war.
-clara[angry]: Er wollte beweisen, dass nichts auf der Treppe wandelt. Und jetzt sitzt ein Gespenst darauf. Wenn Tante Harriet das sieht, lässt sie es rahmen.
-narr: Sie lacht. Es ist kein gutes Lachen, und es hört mitten drin auf.
+clara[neutral]: Eine Doppelbelichtung. Oder ein Fehler in der Schicht. Oder die Platte war nicht neu, und es war schon etwas darauf.
+clara[angry]: Er wollte beweisen, dass nichts auf der Treppe wandelt. Und jetzt sitzt da ein Gespenst. Wenn Tante Harriet das sieht, lässt sie es einrahmen.
+narr: Sie lachte kurz. Es klang nicht gut, und sie hörte mittendrin auf.
 clara[sad]: Sein letztes Experiment. Und es ist missglückt.
-* [mitfuehlend] Es ist nicht missglückt. Es hat gesehen, was in dieser Nacht passiert ist. {clara+1} -> b
-* [ehrlich] Ich glaube nicht, dass das ein Fehler ist. -> c
-* [schweigen] (Nichts sagen können.) -> d
+* [mitfuehlend] Es ist nicht missglückt. Es hat gesehen, was in der Nacht passiert ist. {clara+1} -> b
+* [ehrlich] Ich glaube nicht, dass das ein Fehler in der Schicht ist. -> c
+* [schweigen] (Kein Wort herausbringen.) -> d
 # b
-clara[neutral]: Gesehen. Ja. Es hat gesehen. Und keiner von uns.
+clara[neutral]: Gesehen. Ja. Das Glas hat es gesehen. Und keiner von uns.
 -> e
 # c
-clara[neutral]: Dann ist es ein Geist, Miss Hale? Sagen Sie das nicht. Nicht Sie auch noch.
+clara[neutral]: Was dann, Miss Hale? Ein Geist? Sagen Sie das nicht. Nicht Sie auch noch.
 -> e
 # d
-narr: Sera sagt nichts. Ihre Hände, die die Laterne halten, sind ganz ruhig. Nur das Licht darin zittert.
+narr: Sera brachte kein Wort heraus. Sie hielt die Laterne ganz ruhig. Nur die Flamme darin flackerte.
 # e
-clara[neutral]: Wer vorbeigeht, zeichnet kaum. Nur wo jemand langsam ging oder stehen blieb, hat die Flamme geschrieben. Die Platte sagt nicht, wer. Nur wo. Und in welcher Reihenfolge, wenn man weiß, wer wann ging.
-clara[neutral]: Die breite hier ist eine Lampe, keine Kerze. Die kurze unten, von der Dienstbotentür zur Kamera, ist Hobbes am Morgen, als er den Deckel aufgesetzt hat.
-narr: Ihr Finger fährt über dem Glas entlang, ohne es zu berühren, und bleibt bei einer blassen Bahn stehen, die von oben bis zur Tür des Arbeitszimmers hinunterführt und wieder hinauf.
+clara[neutral]: Wer schnell vorbeigeht, hinterlässt kaum etwas. Nur wo jemand langsam ging oder stehen blieb, hat sich die Flamme eingezeichnet. Die Platte sagt nicht, wer. Nur wo. Und in welcher Reihenfolge, wenn man weiß, wer wann unterwegs war.
+clara[neutral]: Die breite hier ist eine Lampe, keine Kerze. Die kurze unten, von der Dienstbotentür zur Kamera, ist Hobbes am Morgen. Da hat er den Deckel aufgesetzt.
+narr: Ihr Finger fuhr über das Glas, ohne es zu berühren, und blieb bei einer blassen Bahn stehen. Sie führte von oben zur Tür des Arbeitszimmers hinunter und wieder hinauf.
 clara[neutral]: Und diese hier – {pause:500}
 ? t:clara>=6 -> confess
-clara[neutral]: Die bin ich. Um eins. Ich habe ihm gute Nacht gesagt. Mehr nicht. {hints:f05}
-inner: Mehr nicht. Das sagt man, wenn es mehr war.
+clara[neutral]: Die bin ich. Um eins. Ich war bei ihm, um gute Nacht zu sagen. Mehr nicht. {hints:f05}
+inner: „Mehr nicht.“ Das glaube ich ihr nicht so ganz.
 -> f
 # confess
-clara[sad]: Die bin ich. Um eins war ich bei ihm in der Dunkelkammer. Hier. An diesem Tisch. Wir haben gestritten. {+s:s33, reveals:f05}
-clara[sad]: Er sagte, ich müsse warten. Ein, zwei Jahre, London sei im Augenblick nicht möglich. Er sagte nicht, warum. Er sagte nie, warum.
+clara[sad]: Die bin ich. Um eins war ich bei ihm in der Dunkelkammer. Hier, an diesem Tisch. Wir haben gestritten. {+s:s33, reveals:f05}
+clara[sad]: Er hat gesagt, ich soll warten. Ein, zwei Jahre, London gehe im Augenblick nicht. Warum, hat er nicht gesagt. Er hat nie gesagt, warum.
 clara[sad]: Und ich habe gesagt, Mama hätte sich für ihn geschämt. Das war das Letzte, was ich zu ihm gesagt habe.
-narr: Sie steht ganz still im roten Licht. Dann nimmt sie die Platte vom Samt, sehr vorsichtig, an den Kanten.
+narr: Sie stand ganz still im roten Licht. Dann nahm sie die Platte vom Samt, sehr vorsichtig, nur an den Kanten.
 # f
-clara[neutral]: Nehmen Sie sie mit. Heute Nacht. Ich will sie nicht in meinem Zimmer haben. Morgen mache ich einen Abzug, wenn es hell genug ist.
-narr: Sie gibt Sera die Platte, in schwarzes Papier gewickelt. Sie ist leicht. Viel zu leicht für das, was darauf ist. {+f:k4_plate_held}
-narr: In ihrer Kammer legt Sera die Platte in die Truhe, zu ihrer Jeans und den Socken mit den Avocados, und liegt bis zum Morgengrauen wach. Yuumi schläft auf ihren Füßen, als wäre nichts. {time=morgen, go:kammer@0.5}
+clara[neutral]: Nehmen Sie sie mit, heute Nacht. Ich will sie nicht bei mir im Zimmer haben. Morgen mache ich einen Abzug, wenn es hell genug ist.
+narr: Sie wickelte die Platte in schwarzes Papier und gab sie Sera. Die Platte war erstaunlich leicht. {+f:k4_plate_held}
+narr: In ihrer Kammer legte Sera die Platte in die Truhe, zu ihrer Jeans und den Socken mit den Avocados. Dann lag sie bis zum Morgengrauen wach. Yuumi schlief tief und fest auf ihren Füßen. {time=morgen, go:kammer@0.5}
 
 === k4_morning
 kind: scene
 when: ch=4 loc=kammer tod=morgen
 priority: 20
 ---
-narr: Freitag. Der Regen hat nachgelassen, aber das Licht ist gelblich und schwer, als halte der Himmel die Luft an. {music:k4}
-inner: Ich war da. In der Nacht, in der er starb, saß ich auf dieser Treppe, neben einem weinenden Mädchen, mit Yuumi auf dem Schoß. Und ich weiß nicht, wie.
-inner: Das Flüstern aus dem Glas. Die Glocke, das Klopfen, das Licht. Das war kein Traum. Das war diese Treppe.
-inner: Gut. Eins nach dem anderen. Wer ist das Mädchen? Clara sagt: eine Dienstbotin, mit einer Talgkerze. Im Haus gibt es gerade genau zwei Frauen, die Talg brennen.
+narr: Freitag. Der Regen hatte nachgelassen, aber das Licht war gelblich und trüb, und die Luft war schwer. {music:k4}
+inner: Ich war da. In der Nacht, in der er gestorben ist, saß ich auf dieser Treppe. Neben einem Mädchen, das geweint hat, und mit Yuumi auf dem Schoß. Ich habe keine Ahnung, wie das gehen soll.
+inner: Das Flüstern aus dem Glas. Die Glocke, das Klopfen, das Licht. Das habe ich nicht geträumt. Das war alles hier, auf dieser Treppe.
+inner: Okay. Eins nach dem anderen. Wer ist das Mädchen? Clara sagt, ein Dienstmädchen mit einer Talgkerze. Im Moment gibt es im Haus genau zwei Frauen, die Talgkerzen benutzen.
 inner: Und eine davon ist dreizehn.
 
 === t4_tilly_stairs_early
@@ -80,29 +80,29 @@ npc: tilly
 title: Das Mädchen auf der Treppe
 when: ch=4 k:d16 !f:g_tilly_spoke t:tilly<8 tod=morgen,mittag
 ---
-sera: Tilly. Ich muss dich etwas fragen. Über die Nacht, in der der Herr starb.
-narr: Tilly lässt den Löffel in den Topf fallen. Er sinkt.
-tilly[tense]: Ich hab geschlafen, Miss. Ich hab’s doch gesagt. Ich hab – {pause:300}
-* [direkt] Du warst auf der Treppe. Ich weiß es. {tilly-2} -> a
-* [mitfuehlend] Schon gut. Nicht jetzt. Wenn du willst, später. Ich bin da. {tilly+1} -> b
+sera: Tilly, ich muss dich was fragen. Wegen der Nacht, in der der Herr gestorben ist.
+narr: Tilly ließ den Löffel in den Topf fallen. Er ging unter.
+tilly[tense]: Ich hab geschlafen, Miss. Hab ich doch gesagt. Ich hab – {pause:300}
+* [direkt] Du warst auf der Treppe. Ich weiß das. {tilly-2} -> a
+* [mitfuehlend] Schon gut. Nicht jetzt. Später, wenn du magst. Ich bin da. {tilly+1} -> b
 # a
-tilly[angry]: Nein! Nein, war ich nich! Sie – Sie sind genau wie alle!
-narr: Sie rennt zur Hoftür hinaus, ohne Umhang, und Mrs. Pryce sieht Sera an, wie man jemanden ansieht, der gerade einen Teller zerbrochen hat, den man selbst sehr gern hatte.
-pryce[angry]: Was haben Sie zu ihr gesagt? {pryce-1}
-inner: Zu früh. Viel zu früh. Das war dumm.
+tilly[angry]: Nein! War ich nich! Sie sind genau wie alle andern!
+narr: Sie rannte ohne Umhang zur Hoftür hinaus. Mrs. Pryce stemmte die Hände in die Hüften und sah Sera an.
+pryce[angry]: Was haben Sie zu ihr gesagt, Miss? {pryce-1}
+inner: Mist. Das war zu früh. Viel zu früh.
 -> END
 # b
-tilly[neutral]: Später.
-narr: Sie fischt den Löffel aus dem Topf mit den Fingern, verbrennt sich und sagt nichts dazu.
+tilly[neutral]: Später, Miss.
+narr: Sie fischte den Löffel mit den Fingern aus dem Topf, verbrannte sich und sagte nichts dazu.
 
 === k4_post_call
 kind: event
 when: ch=4 k:d16 tod=morgen
 priority: 5
 ---
-narr: Draußen ruft jemand über das Wasser, lang gezogen, und eine Glocke bimmelt. Ein Boot mit einer Laterne am Bug kommt über die Weiden, ein Mann darin in einem gelben Ölzeug. {sfx:bellBoat, time=mittag}
-inner: Die Post. Ausgerechnet heute.
-narr: Wenig später hört man Hobbes durch die Halle gehen, mit einem Tablett voller Briefe, und die Tür zum Salon. {+f:g_post_arrived}
+narr: Draußen rief jemand lang gezogen über das Wasser, und eine Glocke bimmelte. Ein Boot mit einer Laterne am Bug kam über die überfluteten Weiden. Darin saß ein Mann in gelbem Ölzeug. {sfx:bellBoat, time=mittag}
+inner: Die Post. Ob auf den Briefmarken die junge Queen Victoria ist? Auf den Marken ist sie ja nie älter geworden … egal. Ausgerechnet heute.
+narr: Wenig später ging Hobbes mit einem Tablett voller Briefe durch die Halle. Dann hörte man die Tür zum Salon. {+f:g_post_arrived}
 
 === k4_post
 kind: scene
@@ -110,80 +110,80 @@ when: ch=4 loc=salon f:g_post_arrived
 priority: 20
 important: yes
 ---
-narr: Miss Averley sitzt am Fenster, einen Stapel Briefe auf dem Schoß, die vor dem Hochwasser abgeschickt wurden. Rechnungen. Eine Zeitschrift der Meteorologischen Gesellschaft. Ein Brief an Edmund Averley, Esq., den niemand mehr öffnen wird. Und einer an sie: dickes cremefarbenes Papier, ein gedruckter Absender. {music:tension}
+narr: Miss Averley saß am Fenster, auf dem Schoß einen Stapel Briefe, die noch vor dem Hochwasser abgeschickt worden waren. Rechnungen. Eine Zeitschrift der Meteorologischen Gesellschaft. Ein Brief an Edmund Averley, Esq., den niemand mehr öffnen würde. Und einer an sie, auf dickem cremefarbenem Papier, mit gedrucktem Absender. {music:tension}
 harriet[neutral]: Mrs. Crewe’s Agentur für Damen in Stellung. Oxford Street.
-narr: Sie öffnet ihn mit dem silbernen Messer, liest. Liest noch einmal. Dann legt sie ihn auf den Schoß, glättet ihn mit der flachen Hand und sieht Sera an. {+c:c31, +f:g_agency}
-harriet[neutral]: Miss Sarah Hale bedauert zutiefst. Sie liegt seit Montag mit Influenza bei ihrer Schwester in Bristol und wird ihre Stellung frühestens zu Weihnachten antreten können. {reveals:f22}
-harriet[neutral]: Wer, Miss Hale, sind dann Sie?
-inner: Da ist sie. Die Frage, auf die ich seit Mittwoch warte.
+narr: Sie öffnete ihn mit dem silbernen Brieföffner und las. Dann las sie noch einmal. Schließlich legte sie den Brief auf den Schoß, strich ihn mit der flachen Hand glatt und sah Sera an. {+c:c31, +f:g_agency}
+harriet[neutral]: Miss Sarah Hale bedauert zutiefst. Sie liegt seit Montag mit Influenza bei ihrer Schwester in Bristol. Sie kann ihre Stellung frühestens zu Weihnachten antreten. {reveals:f22}
+harriet[neutral]: Wer sind dann Sie, Miss Hale?
+inner: Da ist sie. Die Frage, vor der ich seit Mittwoch Angst habe.
 ? t:penrose>=6 f:k1_library_done -> penrose
 -> choose
 # penrose
-narr: Die Tür geht auf. Mrs. Penrose steht darin, als hätte sie auf ein Stichwort gewartet. Vielleicht hat sie das.
-penrose[neutral]: Miss Averley. Ich fürchte, ich muss Ihnen etwas gestehen.
-penrose[neutral]: Ich habe Mrs. Crewe um eine Vertretung gebeten, als ich hörte, dass Miss Hale erkrankt ist. Eine Bekannte aus Bath. Ich wollte Sie nicht beunruhigen. Es war anmaßend von mir.
+narr: Die Tür ging auf, und Mrs. Penrose kam herein. Genau im richtigen Moment. Sera fragte sich, wie lange sie schon vor der Tür gestanden hatte.
+penrose[neutral]: Miss Averley. Ich muss Ihnen leider etwas gestehen.
+penrose[neutral]: Ich habe Mrs. Crewe um eine Vertretung gebeten, als ich hörte, dass Miss Hale krank ist. Eine Bekannte aus Bath. Ich wollte Sie nicht beunruhigen. Das war anmaßend, ich weiß.
 harriet[surprised]: Sie – Sie haben –
-penrose[neutral]: Ich habe. Verzeihen Sie es mir oder nicht. {+f:k4_cover_penrose}
-harriet[neutral]: … Wir sprechen später darüber, Mrs. Penrose.
-narr: Mrs. Penrose nickt und geht. An der Tür dreht sie sich nicht um. Aber ihre linke Hand macht eine kleine Bewegung, wie ein Vorhang, der fällt.
-harriet[neutral]: Ich glaube ihr kein Wort. Aber ich glaube, dass sie es für Sie gesagt hat. Das ist beinahe interessanter.
-harriet[neutral]: Sie sagten am ersten Morgen einen Namen. Ich habe Sarah verstanden, weil ich Sarah erwartete. Wie war er?
+penrose[neutral]: Ja, das habe ich. Ob Sie mir verzeihen, liegt bei Ihnen. {+f:k4_cover_penrose}
+harriet[neutral]: … Darüber sprechen wir später, Mrs. Penrose.
+narr: Mrs. Penrose nickte und ging. An der Tür drehte sie sich nicht um. Nur ihre linke Hand machte eine kleine Bewegung nach unten, wie ein Theatervorhang, der fällt.
+harriet[neutral]: Ich glaube ihr kein Wort. Aber ich glaube, dass sie es für Sie gesagt hat. Und das finde ich beinahe interessanter.
+harriet[neutral]: Sie haben am ersten Morgen einen Namen gesagt. Ich habe Sarah verstanden, weil ich Sarah erwartet habe. Wie lautete er?
 sera: Sera.
-harriet[neutral]: Sera. Gut. Mehr will ich heute nicht wissen. {+f:k4_named}
+harriet[neutral]: Sera. Gut. Mehr möchte ich heute nicht wissen. {+f:k4_named}
 -> after
 # choose
-* [ehrlich] Ich bin nicht Miss Hale. Ich heiße Sera. Ich bin hier hereingeraten, ohne es zu wollen, und ich bin geblieben, weil man mich gebraucht hat. {+f:k4_cover_truth} -> truth
-* [luege] Die Agentur hat mich als Vertretung geschickt. Man hat Ihnen wohl nicht geschrieben. {+f:k4_cover_lie} -> lie
-* [schweigen] (Nichts sagen. Sie ansehen.) -> silent
+* [ehrlich] Ich bin nicht Miss Hale. Ich heiße Sera. Ich bin hier hereingeraten, ohne es zu wollen. Und ich bin geblieben, weil ich gebraucht wurde. {+f:k4_cover_truth} -> truth
+* [luege] Die Agentur hat mich als Vertretung geschickt. Offenbar hat man Ihnen nicht geschrieben. {+f:k4_cover_lie} -> lie
+* [schweigen] (Schweigen und sie ansehen.) -> silent
 # truth
 ? t:harriet>=5 -> truth_ok
-harriet[angry]: Hereingeraten. In ein Haus, das vom Wasser umschlossen ist. {harriet-1}
+harriet[angry]: Hereingeraten. In ein Haus, das ringsum von Wasser umgeben ist. {harriet-1}
 harriet[neutral]: Sie werden mir das erklären, Miss – Sera. Nicht heute. Heute habe ich einen Bruder zu begraben, sobald man es mir erlaubt.
 -> after
 # truth_ok
-narr: Miss Averley sieht sie lange an. Dann faltet sie den Brief zusammen, zweimal, und legt ihn auf den Stapel.
-harriet[neutral]: Sie sagten damals Sera. Ich habe Sarah gehört, weil ich Sarah hören wollte. {+f:k4_named}
-harriet[neutral]: Sie haben am Mittwoch Tee mit Toast für mich bestellt, als ich es selbst nicht konnte. Sie haben ihn mit gewaschen. Sie haben mich zu Lucinda gebracht.
-harriet[neutral]: Ich weiß nicht, wer Sie sind. Aber ich weiß, was Sie getan haben. Bleiben Sie. Bis Samstag. Ich werde Sie weiter Miss Hale nennen; das Haus braucht jetzt Ordnung, nicht Wahrheit. {harriet+1}
+narr: Miss Averley sah sie lange an. Dann faltete sie den Brief zweimal und legte ihn auf den Stapel.
+harriet[neutral]: Sie haben damals Sera gesagt. Ich habe Sarah verstanden, weil ich Sarah hören wollte. {+f:k4_named}
+harriet[neutral]: Sie haben am Mittwoch Tee und Toast für mich bestellt, als ich selbst dazu nicht imstande war. Sie haben geholfen, ihn zu waschen. Sie haben mich zu Lucinda gebracht.
+harriet[neutral]: Wer Sie sind, ist mir nicht bekannt. Aber was Sie getan haben, habe ich gesehen. Bleiben Sie. Bis Samstag. Ich werde Sie weiter Miss Hale nennen. Das Haus braucht jetzt Ordnung, nicht die Wahrheit. {harriet+1}
 -> after
 # lie
 ? sus<5 -> lie_ok
-harriet[tense]: Man hat mir nicht geschrieben. Man schreibt immer, Miss Hale. Oder wie immer Sie heißen.
-harriet[neutral]: Sie schälen Kartoffeln. Sie wissen nicht, wie man knickst. Sie fragen nach Kaffee. Sie gehen nicht zur Kirche. {harriet-2}
-harriet[neutral]: Ich habe keine Kraft für eine Lüge mehr in diesem Haus. Gehen Sie mir aus den Augen, bis ich Sie rufe.
-inner: Das hat gesessen. Und es war verdient.
+harriet[tense]: Man hat mir nicht geschrieben. Man schreibt immer, Miss Hale. Oder wie auch immer Sie heißen.
+harriet[neutral]: Sie schälen Kartoffeln. Sie können nicht knicksen. Sie verlangen Kaffee. Und Sie gehen nicht zur Kirche. {harriet-2}
+harriet[neutral]: Ich habe keine Kraft mehr für noch eine Lüge in diesem Haus. Gehen Sie mir aus den Augen, bis ich Sie rufen lasse.
+inner: Autsch. Das hat gesessen. Aber sie hat ja recht.
 -> after
 # lie_ok
-harriet[neutral]: Man hat mir nicht geschrieben. Das Wasser, vermutlich. {pause:400}
-harriet[neutral]: Sie sind eine seltsame Vertretung, Miss Hale. Aber Sie sind hier, und die andere nicht. {sus+1}
+harriet[neutral]: Man hat mir nicht geschrieben. Vermutlich wegen des Wassers. {pause:400}
+harriet[neutral]: Sie sind eine sonderbare Vertretung, Miss Hale. Aber Sie sind hier, und die andere ist es nicht. {sus+1}
 -> after
 # silent
-narr: Die Standuhr schweigt. Draußen fällt ein Tropfen von der Dachrinne, dann noch einer.
-harriet[neutral]: Sie sagen nichts. Das ist entweder sehr klug oder sehr schuldig. {pause:500}
-harriet[neutral]: Ich habe keine Kraft für beides. Bleiben Sie, bis das Wasser fällt. Dann gehen Sie, wohin Sie gehören.
+narr: Die Standuhr stand still. Draußen fiel ein Tropfen von der Dachrinne, dann noch einer.
+harriet[neutral]: Sie sagen nichts. Das ist entweder sehr klug, oder Sie haben etwas zu verbergen. {pause:500}
+harriet[neutral]: Für beides fehlt mir die Kraft. Bleiben Sie, bis das Wasser fällt. Dann gehen Sie dorthin, wo Sie hingehören.
 # after
-narr: Hobbes erscheint in der Tür. Der Postbote habe ausrichten lassen: Der Coroner, Mr. Harding aus Bridgwater, und Dr. Bell kämen mit dem fallenden Wasser, spätestens Samstag in der Frühe.
-hobbes[neutral]: Der Coroner braucht Geschworene aus dem Dorf, Madam. Zwölf Männer passen nicht in einen Postkahn.
-harriet[neutral]: Morgen früh. Dann wird es amtlich. {+f:k4_post_done}
+narr: Hobbes erschien in der Tür. Der Postbote habe etwas ausrichten lassen: Der Coroner, Mr. Harding aus Bridgwater, und Dr. Bell kämen mit dem fallenden Wasser, spätestens Samstag in der Frühe.
+hobbes[neutral]: Der Coroner benötigt Geschworene aus dem Dorf, Madam. Zwölf Männer passen nicht in einen Postkahn.
+harriet[neutral]: Also morgen früh. Dann wird es amtlich. {+f:k4_post_done}
 
 === k4_lost
 kind: event
 when: ch=4 f:k4_post_done !f:k4_found !f:g_yuumi_lost
 priority: 6
 ---
-narr: Das Licht wird gelb, dann grün, dann fast schwarz. Über dem Moor rollt ein Donner, so tief, dass die Fensterscheiben summen. {sfx:thunder, time=nachmittag}
-inner: Yuumi hasst Gewitter. Wo ist –
-inner: Wo ist Yuumi? {+f:g_yuumi_lost, music:worry}
+narr: Das Licht wurde gelb, dann grünlich, dann fast schwarz. Über dem Moor donnerte es so tief, dass die Fensterscheiben summten. {sfx:thunder, time=nachmittag}
+inner: Yuumi hasst Gewitter. Beim ersten Donner verkriecht sie sich immer, irgendwo ganz hinten. Wo ist –
+inner: Wo ist Yuumi? Oh nein. Wenn ihr hier was passiert, wie soll ich das Fritz sagen? {+f:g_yuumi_lost, music:worry}
 
 === k4_lost_kitchen
 kind: scene
 when: ch=4 f:g_yuumi_lost loc=dienst !f:k4_found
 priority: 20
 ---
-tilly[tense]: Miss! Die Katze! Die is raus, wie Dunning mit der Post reinkam – durch die Hoftür, wie der Blitz, ich hab noch gerufen –
-pryce[neutral]: Bei dem Wetter. Die kommt wieder, wenn sie Hunger hat. Katzen sind nicht dumm.
-tilly[tense]: Die kennt sich doch hier nich aus! Die weiß doch nich, wo die Gräben sind!
-narr: Tilly ist schon an der Hoftür, den Umhang halb über den Schultern. {+f:k4_search}
+tilly[tense]: Miss! Die Katze! Die is raus, wie Dunning mit der Post reinkam! Durch die Hoftür, zack, weg war sie. Ich hab noch gerufen –
+pryce[neutral]: Bei dem Wetter? Die kommt schon wieder, wenn sie Hunger kriegt. Katzen sind nicht dumm, na?
+tilly[tense]: Die kennt sich hier doch gar nich aus! Die weiß nich, wo die Gräben sind!
+narr: Tilly war schon an der Hoftür und zog sich im Laufen den Umhang über die Schultern. {+f:k4_search}
 
 === k4_found
 kind: scene
@@ -191,65 +191,65 @@ when: ch=4 f:g_yuumi_lost loc=stall
 priority: 20
 important: yes
 ---
-narr: Der Hof ist ein einziges Rauschen. Regen peitscht quer über die Pflastersteine, der Braune wiehert in seiner Box. Ein Blitz – und für einen Augenblick ist alles weiß, das Wasser, die Weiden, das Boot. {sfx:thunder}
-narr: Dann, in der Stille danach, ganz fein, von oben: ein Glöckchen. {sfx:bellFar}
-tilly[surprised]: Da! Oben! Auf dem Heuboden!
-narr: Die Leiter zum Heuboden hat drei Sprossen zu wenig, und das Kleid hat zu viele Stoffbahnen. Sera greift nach der Leiter, rutscht ab. Das nasse Schwarz läuft ihr in grauen Rinnsalen über die Handgelenke; Mrs. Pryces Farbe hält nicht, was sie versprochen hat.
-tilly[neutral]: Ich mach das. Ich bin leicht.
-* [mitfuehlend] Sei vorsichtig. {tilly+1} -> a
-* [direkt] Nein, ich – gut. Ich halte die Leiter. {tilly+1} -> a
+narr: Im Hof rauschte der Regen. Er schlug quer über die Pflastersteine, und der Braune wieherte in seiner Box. Ein Blitz – für einen Augenblick war alles weiß, das Wasser, die Weiden, das Boot. {sfx:thunder}
+narr: Dann war es kurz still, und von oben kam ein feines Klingeln. Ein Glöckchen. {sfx:bellFar}
+tilly[surprised]: Da! Da oben, auf dem Heuboden!
+narr: Der Leiter zum Heuboden fehlten drei Sprossen. Und das Kleid war noch für eine Krinoline geschnitten, für Salons in den Sechzigern und nicht für Leitern, dachte Sera. Sie griff zu und rutschte ab. Mrs. Pryces schwarze Farbe hielt nicht und lief ihr in grauen Streifen über die Handgelenke.
+tilly[neutral]: Lassen Sie mich. Ich bin leicht, Miss.
+* [mitfuehlend] Pass bitte auf dich auf. {tilly+1} -> a
+* [direkt] Nein, ich – na gut. Ich halte die Leiter. {tilly+1} -> a
 # a
-narr: Tilly klettert, barfuß, die Schuhe hat sie unten stehen lassen, die Röcke in den Bund gestopft. Oben verschwindet sie im Dunkel.
-tilly[warm]: Komm, Handschuh. Komm her. Is doch nur Donner. Der tut nix. Der schreit nur.
-narr: Eine lange Minute. Donner. Dann Tillys Gesicht in der Luke, voller Heu, und in ihren Armen ein nasses, graues, empörtes Bündel. {sfx:meowAngry}
-yuumi: (Yuumi faucht den Donner an, das Heu, den Regen, die ganze Welt. Dann entdeckt sie Sera, und das Fauchen wird mitten drin ein kleines, klägliches Miauen.) {sfx:meow}
-narr: Tilly reicht sie hinunter. Sera drückt sie an sich, und Yuumi gräbt die Krallen in das schwarze Kleid und lässt nicht mehr los. {-f:g_yuumi_lost, +f:k4_found}
-narr: Tilly kommt die Leiter herunter und setzt sich ins Stroh, außer Atem. Sera setzt sich daneben. Draußen donnert es noch, aber weiter weg.
-tilly[neutral]: Die hatte Angst. Die hat sich ins Heu gewühlt, ganz hinten, wo’s trocken is. Ich hab das auch mal gemacht. Im Arbeitshaus, im Holzschuppen.
-tilly[sad]: Wenn man Angst hat, versteckt man sich, und dann hofft man, dass einer kommt. Und dann kommt keiner. Und dann hofft man, dass keiner kommt.
+narr: Tilly kletterte barfuß hinauf. Die Schuhe hatte sie unten stehen lassen und die Röcke in den Bund gestopft. Oben verschwand sie im Dunkeln.
+tilly[warm]: Komm, Handschuh. Komm her zu mir. Is doch nur Donner. Der tut nix. Der schreit bloß.
+narr: Eine lange Minute verging. Es donnerte. Dann tauchte Tillys Gesicht in der Luke auf, voller Heu, und in ihren Armen ein nasses, graues, sehr empörtes Bündel. {sfx:meowAngry}
+yuumi: (Yuumi fauchte den Donner an und das Heu und den Regen. Dann sah sie Sera, und das Fauchen wurde zu einem kleinen, kläglichen Miauen.) {sfx:meow}
+narr: Tilly reichte sie hinunter. Sera drückte sie an sich. Yuumi krallte sich in das schwarze Kleid und ließ nicht mehr los. {-f:g_yuumi_lost, +f:k4_found}
+narr: Tilly kam die Leiter herunter und setzte sich außer Atem ins Stroh. Sera setzte sich neben sie. Draußen donnerte es noch, aber weiter weg.
+tilly[neutral]: Die hatte Angst. Die hat sich ins Heu gewühlt, ganz hinten, wo’s trocken is. Das hab ich auch mal gemacht. Im Arbeitshaus, im Holzschuppen.
+tilly[sad]: Wenn man Angst hat, versteckt man sich. Und dann hofft man, dass einer kommt. Und dann kommt keiner. Und irgendwann hofft man, dass keiner kommt.
 * [mitfuehlend] Heute ist jemand gekommen. Du. {tilly+2} -> b
-* [ehrlich] Danke, Tilly. Ich hätte sie allein nicht gefunden. {tilly+2} -> c
+* [ehrlich] Danke, Tilly. Allein hätte ich sie nie gefunden. {tilly+2} -> c
 # b
 tilly[surprised]: Ich?
-tilly[neutral]: Ja. Ich. {pause:500}
+tilly[neutral]: Ja. Ich war das. {pause:500}
 -> d
 # c
-tilly[warm]: Sie hätten sie gefunden. Sie wären nur nich raufgekommen, mit dem Rock.
+tilly[warm]: Gefunden hätten Sie sie schon. Sie wärn bloß nich raufgekommen mit dem Rock.
 # d
-narr: Tilly streckt die Hand aus. Yuumi riecht daran, dann stößt sie den Kopf gegen Tillys Finger, einmal, zweimal. Tilly lacht, und in dem Lachen ist etwas, das beinahe ein Schluchzen ist.
+narr: Tilly streckte die Hand aus. Yuumi roch daran und stieß dann den Kopf gegen Tillys Finger, einmal, zweimal. Tilly lachte und schluchzte dabei fast.
 tilly[sad]: Miss. Wenn ich – wenn einer was weiß. Was Schlimmes. Und er sagt’s nich, weil er Angst hat. Is das auch schlimm?
-* [mitfuehlend] Angst haben ist nie schlimm. Allein damit bleiben ist schlimm. {tilly+1} -> e
-* [ehrlich] Ich glaube, es hängt davon ab, wem man es sagt. {tilly+1} -> e
+* [mitfuehlend] Angst haben ist nicht schlimm. Schlimm ist nur, wenn man damit allein bleibt. {tilly+1} -> e
+* [ehrlich] Ich glaube, es kommt drauf an, wem man es sagt. {tilly+1} -> e
 # e
 tilly[neutral]: Hm.
-narr: Sie steht auf, zupft sich Heu aus der Haube und sieht zur Hoftür.
-tilly[neutral]: Heut Nacht. Wenn Mrs. Pryce schläft. In der Küche.
-narr: Dann ist sie fort, barfuß über die Pflastersteine, die Schuhe in der Hand.
+narr: Sie stand auf, zupfte sich Heu aus der Haube und sah zur Hoftür.
+tilly[neutral]: Heut Nacht. In der Küche. Wenn Mrs. Pryce schläft.
+narr: Dann war sie weg, barfuß über die Pflastersteine, die Schuhe in der Hand.
 
 === k4_paws
 kind: scene
 when: ch=4 f:k4_found loc=kammer
 priority: 20
 ---
-narr: In ihrer Kammer rubbelt Sera Yuumi mit einem Handtuch trocken. Yuumi hält es für eine unerhörte Zumutung und schnurrt dabei. {music:quiet, sfx:purr}
-narr: Beim Hinsetzen zieht Yuumi die linke Vorderpfote hoch.
-inner: Du humpelst. Zeig mal –
-narr: Es klopft, und bevor Sera antworten kann, steht Clara in der Tür, einen Stapel Wetterbücher unter dem Arm.
-clara[neutral]: Tilly sagt, Ihre Katze war auf dem Heuboden. Im Gewitter. Tilly sagt es der ganzen Küche. Tilly ist sehr stolz.
-clara[neutral]: Sie humpelt.
-narr: Clara legt die Bücher ab, kniet sich hin, ohne auf ihr Kleid zu achten, und nimmt die Pfote in ihre Hand mit den schwarzen Fingerspitzen.
+narr: In ihrer Kammer rubbelte Sera Yuumi mit einem Handtuch trocken. Yuumi fand das eine Frechheit und schnurrte trotzdem. {music:quiet, sfx:purr}
+narr: Beim Hinsetzen zog Yuumi die linke Vorderpfote hoch.
+inner: Du humpelst ja. Zeig mal her, Süße –
+narr: Es klopfte. Bevor Sera antworten konnte, stand Clara schon in der Tür, einen Stapel Wetterbücher unter dem Arm.
+clara[neutral]: Tilly sagt, Ihre Katze war im Gewitter auf dem Heuboden. Tilly sagt es der ganzen Küche. Tilly ist sehr stolz.
+clara[neutral]: Sie humpelt. Links vorn.
+narr: Clara legte die Bücher ab und kniete sich hin, ohne auf ihr Kleid zu achten. Sie nahm die Pfote in ihre Hand mit den schwarzen Fingerspitzen.
 clara[neutral]: Felis catus. Mit Glöckchen. Sie wollen wohl, dass die Vögel gewarnt sind.
-narr: Mit zwei Fingern zieht sie einen Holzsplitter aus dem Ballen, so schnell, dass Yuumi erst hinterher protestiert.
-clara[neutral]: Ein Splitter von der Leiter. Sie wird es überleben. Das ist die erste Operation meines Lebens, Miss Hale. Die Patientin hat mich gebissen, aber nur symbolisch.
-* [humor] Sie wird eine Beschwerde an die Royal Free schreiben. {clara+1} -> a
-* [mitfuehlend] Sie haben sehr ruhige Hände. {clara+1} -> b
+narr: Mit zwei Fingern zog sie einen Holzsplitter aus dem Ballen. Es ging so schnell, dass Yuumi erst hinterher protestierte.
+clara[neutral]: Ein Splitter von der Leiter. Sie wird es überleben. Das war die erste Operation meines Lebens, Miss Hale. Die Patientin hat nach mir geschnappt, aber nur der Form halber.
+* [humor] Sie wird sich bei der Royal Free beschweren. {clara+1} -> a
+* [mitfuehlend] Sie haben wirklich ruhige Hände. {clara+1} -> b
 # a
 clara[warm]: Man wird ihr nicht glauben. Sie ist eine Frau.
 -> c
 # b
 clara[neutral]: Das hat er auch immer gesagt.
 # c
-narr: Sie steht auf, nimmt die Bücher und bleibt einen Moment an der Tür stehen, als wolle sie noch etwas sagen. Dann geht sie.
+narr: Sie stand auf und nahm die Bücher. An der Tür blieb sie kurz stehen und öffnete den Mund. Dann ging sie doch.
 
 === k4_tilly
 kind: scene
@@ -258,23 +258,23 @@ priority: 20
 important: yes
 repeat: yes
 ---
-narr: Die Küche ist dunkel bis auf den Herd, in dem die Glut unter der Asche atmet, und eine Talgkerze auf dem Tisch. Tilly sitzt davor, die Knie angezogen, eine verbeulte Blechdose in den Händen. {music:truth}
-narr: Yuumi springt auf die Bank neben sie. Tilly legt ihr eine Hand auf den Rücken, ohne hinzusehen.
-tilly[neutral]: Ich dacht, Sie schlafen.
-sera: Ich hab’s versucht.
+narr: Die Küche war dunkel. Nur die Glut im Herd leuchtete, und auf dem Tisch brannte eine Talgkerze. Tilly saß davor, die Knie angezogen, eine verbeulte Blechdose in den Händen. {music:truth}
+narr: Yuumi sprang auf die Bank neben sie. Tilly legte ihr eine Hand auf den Rücken, ohne hinzusehen.
+tilly[neutral]: Ich dacht, Sie schlafen schon.
+sera: Hab ich versucht.
 tilly[sad]: Ich auch. Seit Dienstag.
-narr: Die Kerze tropft. Talg, gelb, der nach Hammel riecht.
-tilly[tense]: Miss. Bevor ich was sag. Sie müssen mir was sagen. Was Wahres. Von Ihnen. Weil – weil wenn ich was sag, dann gehört das Ihnen. Und dann muss ich auch was von Ihnen haben. Sonst is es nich gerecht.
-* [ehrlich] Ich bin nicht Miss Hale. Ich komme von sehr weit her. So weit, dass ich selbst nicht weiß, wie ich zurückkomme. {tilly+2, +f:k4_honest} -> honest
-* [ehrlich] Ich habe Angst, Tilly. Die ganze Zeit, seit ich hier bin. Ich tue nur so, als wüsste ich, was ich tue. {tilly+2, +f:k4_honest} -> honest
+narr: Die Kerze tropfte. Der gelbe Talg roch nach Hammel.
+tilly[tense]: Miss. Bevor ich was sag. Sie müssen mir was sagen. Was Wahres. Von Ihnen. Weil – weil wenn ich was sag, dann gehört das Ihnen. Und dann muss ich auch was von Ihnen haben. Sonst is das nich gerecht.
+* [ehrlich] Ich bin nicht Miss Hale. Ich komme von ganz weit weg. So weit, dass ich nicht mal weiß, wie ich wieder nach Hause komme. {tilly+2, +f:k4_honest} -> honest
+* [ehrlich] Ich hab Angst, Tilly. Die ganze Zeit schon, seit ich hier bin. Ich tu nur so, als wüsste ich, was ich mache. {tilly+2, +f:k4_honest} -> honest
 * [ausweichend] Du musst mir nichts sagen, wenn du nicht willst. {tilly-1} -> dodge
 # dodge
 tilly[sad]: Dann sag ich nix.
-narr: Sie bläst die Kerze nicht aus. Aber sie dreht sich zum Herd, und die Blechdose verschwindet unter ihrer Schürze.
-inner: Sie wollte etwas von mir. Und ich habe ihr eine Höflichkeit gegeben. {do:hint_tilly}
+narr: Sie blies die Kerze nicht aus. Aber sie drehte sich zum Herd, und die Blechdose verschwand unter ihrer Schürze.
+inner: Sie wollte was Ehrliches von mir hören. Und ich war nur höflich. Mist. {do:hint_tilly}
 -> END
 # honest
-tilly[neutral]: Das dacht ich mir. {pause:500}
+tilly[neutral]: Hab ich mir gedacht. {pause:500}
 tilly[neutral]: Das mit dem Weit-weg. Und das mit der Angst.
 ? t:tilly<6 -> hurt
 -> open
@@ -282,53 +282,53 @@ tilly[neutral]: Das mit dem Weit-weg. Und das mit der Angst.
 tilly[sad]: Sie warn nich immer nett zu mir, Miss. Sie haben gedrängelt. Da is man vorsichtig.
 tilly[neutral]: Aber Sie sind gekommen. Heut Nacht. Das zählt auch. {tilly+2}
 # open
-narr: Sie öffnet die Blechdose. Darin: ein Knopf, ein Stück rotes Band, ein glatter grauer Stein, ein welkes Rosenblatt. Und ein Brief, zweimal gefaltet, mit einem kleinen schwarzen Fingerabdruck am Rand. Kohle.
-tilly[sad]: Das hat mir der Herr gegeben. In der Nacht.
-tilly[sad]: Die Glocke hat geläutet, die vom Arbeitszimmer. Ich schlaf doch in der Küche, beim Herd. Mrs. Pryce hatte noch Licht, aber die kam nich. Also bin ich hin. {+s:s27, reveals:f08|f09|f10}
-tilly[sad]: Der Herr saß am Schreibtisch, ganz grau im Gesicht, und hat mir das hier gegeben. „Für Miss Clara. Nur für sie. Hol sie. Schnell, Kind.“
+narr: Sie öffnete die Blechdose. Darin lagen ein Knopf, ein Stück rotes Band, ein glatter grauer Stein und ein welkes Rosenblatt. Und ein Brief, zweimal gefaltet, mit einem kleinen schwarzen Fingerabdruck am Rand. Kohle.
+tilly[sad]: Den hat mir der Herr gegeben. In der Nacht.
+tilly[sad]: Die Glocke vom Arbeitszimmer hat geläutet. Ich schlaf ja in der Küche, beim Herd. Bei Mrs. Pryce war noch Licht, aber die kam nich. Also bin ich hin. {+s:s27, reveals:f08|f09|f10}
+tilly[sad]: Der Herr saß am Schreibtisch, ganz grau im Gesicht. Und er hat mir das hier gegeben. „Für Miss Clara. Nur für sie. Hol sie. Schnell, Kind.“
 tilly[tense]: Und ich bin die große Treppe rauf. Die darf ich nich, nie, aber die is schneller. Und ich hab an Miss Claras Tür geklopft. Ich hab so lang geklopft. Und keiner hat aufgemacht.
-tilly[sad]: Und ich hab mich nich getraut, reinzugehen, und nich, Miss Averley zu wecken. Also bin ich wieder runter, zum Herrn, um zu sagen, dass keiner aufmacht.
+tilly[sad]: Und ich hab mich nich getraut, reinzugehen. Und Miss Averley wecken hab ich mich auch nich getraut. Also bin ich wieder runter zum Herrn, um zu sagen, dass keiner aufmacht.
 tilly[sad]: Und da lag er. Vor dem Kamin. Er hat noch gelebt.
-narr: Ihre Stimme wird ganz dünn, wie ein Faden, der sich vom Rand einer Spule wickelt. {pause:800}
-tilly[sad]: Ich hab mich hingekniet und seine Hand gehalten. Die war kalt. Ich wusst nich, was man macht. Man lernt das nich, im Arbeitshaus. Man lernt nur, wie man still is.
+narr: Ihre Stimme wurde ganz dünn. {pause:800}
+tilly[sad]: Ich hab mich hingekniet und seine Hand gehalten. Die war kalt. Ich wusst nich, was man macht. Im Arbeitshaus lernt man so was nich. Da lernt man bloß, still zu sein.
 tilly[sad]: Er hat was gesagt. Ganz leise. „Es ist bezahlt. Sag’s ihm.“ {+s:s28, reveals:f26}
 tilly[sad]: Und ich weiß doch nich, wem. Und was bezahlt. Und dann hat er nix mehr gesagt. Und dann hat er aufgehört.
-narr: Die Kerze brennt. Yuumi schnurrt. Sonst nichts.
+narr: Die Kerze brannte. Yuumi schnurrte. Sonst war nichts zu hören.
 tilly[sad]: Ich bin raus. Und hab mich auf die Treppe gesetzt. Auf die große. Ich konnt nich mehr gehen. Und ich hab gedacht –
-narr: Sie sagt es, und es ist derselbe Satz, dieselbe Stimme, dasselbe kleine Brechen in der Mitte, wie aus dem Glas, wie in der Nacht auf den Stufen.
+narr: Dann sagte sie es. Es war derselbe Satz wie aus dem Glas, mit derselben Stimme, die in der Mitte ein bisschen brach.
 tilly[sad]: Wenn mich doch nur einer hören tät. {pause:1200, +f:g_tilly_spoke, +c:c30, mood:mystisch}
-inner: Da ist es.
-inner: Das war sie. Das Flüstern im Glas. Das Weinen neben mir auf der Treppe. Das Klopfen oben. Das war alles sie.
+inner: Das ist er. Der Satz.
+inner: Das war Tilly. Das Flüstern im Glas, das Weinen neben mir auf der Treppe, das Klopfen oben. Das war alles Tilly.
 ? f:p_said_hear -> heard_a
 * [mitfuehlend] Ich hab dich gehört. {tilly+2} -> heard
 * [ehrlich] Ich war da, Tilly. Ich hab dich gehört. {tilly+2} -> heard
 # heard_a
-* [mitfuehlend] „Ich hör dich.“ – Das hab ich damals gesagt. Ich hab dich gehört, Tilly. {tilly+2} -> heard
+* [mitfuehlend] „Ich hör dich.“ – Das hab ich damals gesagt. Ich hab dich wirklich gehört, Tilly. {tilly+2} -> heard
 * [ehrlich] Ich war da, Tilly. Ich hab dich gehört. {tilly+2} -> heard
 # heard
-narr: Tilly sieht auf. Ihre Augen sind rot und sehr hell im Kerzenlicht.
+narr: Tilly sah auf. Ihre Augen waren rot und glänzten im Kerzenlicht.
 tilly[surprised]: Das Glöckchen.
-tilly[surprised]: Da war ’n Glöckchen, auf der Treppe, direkt neben mir. Ich hab gedacht, das is die Glocke aus dem Wasser, die kommt ihn holen. Ich hab die Schürze übers Gesicht gezogen.
+tilly[surprised]: Da war ’n Glöckchen, auf der Treppe, direkt neben mir. Ich hab gedacht, das is die Glocke aus dem Wasser, die kommt ihn holen. Da hab ich mir die Schürze übers Gesicht gezogen.
 tilly[neutral]: Das warn Sie. Mit der Katze.
 * [ehrlich] Ja. Das waren wir. -> yes
 * [mitfuehlend] Ich weiß nicht, wie. Aber ja. -> yes
 # yes
-tilly[neutral]: Dann warn Sie wirklich der Geist.
+tilly[neutral]: Dann warn Sie ja wirklich der Geist.
 tilly[warm]: Aber ’n guter.
-narr: Aus dem dunklen Flur hinter der Tür kommt ein Geräusch, ein Schlüsselbund, der klirrt, und bricht ab, als hätte jemand die Hand darumgelegt.
-narr: Mrs. Pryce steht in der Tür, im Nachthemd, ein Tuch um die Schultern. Wie lange sie schon dort steht, sagt sie nicht.
+narr: Aus dem dunklen Flur hinter der Tür kam ein leises Klirren von Schlüsseln. Es hörte sofort wieder auf.
+narr: Mrs. Pryce stand in der Tür, im Nachthemd, ein Tuch um die Schultern. Wie lange sie schon dort stand, sagte sie nicht.
 pryce[sad]: Tilly. Cariad.
-narr: Sie kommt herein und setzt sich auf Tillys Bank, wo sie noch nie gesessen hat. Sie zieht Tilly an sich, Haube und Heu und alles, und hält sie fest.
-pryce[sad]: Ich hab die Glocke gehört. Ich hab dich gehen hören. Und ich hab mir gesagt, das Kind ist schon auf, Agnes, bleib sitzen. {+s:s26, reveals:f15, +f:g_pryce_confessed}
-pryce[sad]: Und wie du zurückkamst und geweint hast, hab ich nicht gefragt. Weil ich’s nicht wissen wollte. Gott vergib mir. Du vergibst mir nicht, und das ist recht.
+narr: Sie kam herein und setzte sich auf Tillys Bank. Dort hatte sie noch nie gesessen. Sie zog Tilly an sich, mit Haube und Heu und allem, und hielt sie fest.
+pryce[sad]: Ich hab die Glocke gehört. Ich hab dich gehen hören. Und ich hab mir gesagt: Das Kind ist schon auf, Agnes, bleib sitzen. {+s:s26, reveals:f15, +f:g_pryce_confessed}
+pryce[sad]: Und wie du zurückkamst und geweint hast, hab ich nicht gefragt. Weil ich’s nicht wissen wollte. Gott vergib mir. Du vergibst mir nicht, und das ist auch recht so.
 tilly[sad]: Doch. {pause:500}
 tilly[neutral]: Doch, Mrs. Pryce.
-narr: Die beiden sitzen da, im Talglicht, und Sera nimmt den Brief, den Tilly ihr hinhält, und steckt ihn in ihr Kleid, ungeöffnet. Er gehört ihr nicht. Er gehört Clara.
+narr: Die beiden saßen im Kerzenlicht da. Tilly hielt Sera den Brief hin, und Sera steckte ihn ungeöffnet in ihr Kleid. Er war für Clara, nicht für sie.
 tilly[neutral]: Miss. Sie geben ihn ihr. Ja? Morgen. Ich kann nich.
 * [mitfuehlend] Wir geben ihn ihr. Zusammen. Du musst nichts sagen. Du musst nur dabei sein. {tilly+1, +f:k4_together} -> end
-* [ehrlich] Ja. Ich gebe ihn ihr. {+f:k4_alone} -> end
+* [ehrlich] Ja. Ich geb ihn ihr. {+f:k4_alone} -> end
 # end
-narr: Später, in ihrer Kammer, sitzt Sera auf der Bettkante und hält den Brief in der Hand, ohne ihn zu öffnen. Er ist leicht. Wie die Platte. {+f:k4_night_done}
+narr: Später saß Sera in ihrer Kammer auf der Bettkante. Sie hielt den Brief in der Hand und öffnete ihn nicht. {+f:k4_night_done}
 -> END
 
 === k4_night_call
@@ -336,24 +336,24 @@ kind: event
 when: ch=4 f:k4_found tod=nachmittag,abend
 priority: 3
 ---
-narr: Draußen zieht das Gewitter ab. Der Himmel über dem Moor ist blass gewaschen, und zum ersten Mal seit Tagen sieht man einen Stern. {time=abend}
-inner: Tilly hat gesagt: heute Nacht, in der Küche, wenn Mrs. Pryce schläft. Bis dahin ist noch Zeit. {+f:k4_evening}
+narr: Draußen zog das Gewitter ab. Der Himmel über dem Moor wurde klar, und zum ersten Mal seit Tagen sah man einen Stern. {time=abend}
+inner: Tilly hat gesagt: heute Nacht, in der Küche, wenn Mrs. Pryce schläft. Bis dahin ist noch Zeit. Ich könnte ja noch … was wollte ich gerade? Ach ja. Warten. {+f:k4_evening}
 
 === k4_to_night
 kind: event
 when: ch=4 f:k4_evening tod=abend anyk:d14,d15,d17 loc=kammer,dienst,halle
 priority: 3
 ---
-narr: Die Lichter im Haus gehen eins nach dem anderen aus. Irgendwo schließt Hobbes die letzte Tür ab, zweimal, wie jeden Abend. {time=nacht}
-inner: Jetzt. Die Küche.
+narr: Im Haus gingen die Lichter eins nach dem anderen aus. Irgendwo schloss Hobbes die letzte Tür ab, zweimal, wie jeden Abend. {time=nacht}
+inner: Okay. Jetzt. Ab in die Küche.
 
 === k4_to_night_b
 kind: event
 when: ch=4 f:k4_evening tod=abend loc=kammer
 priority: 2
 ---
-narr: Die Lichter im Haus gehen eins nach dem anderen aus. Irgendwo schließt Hobbes die letzte Tür ab, zweimal, wie jeden Abend. {time=nacht}
-inner: Jetzt. Die Küche.
+narr: Im Haus gingen die Lichter eins nach dem anderen aus. Irgendwo schloss Hobbes die letzte Tür ab, zweimal, wie jeden Abend. {time=nacht}
+inner: Okay. Jetzt. Ab in die Küche.
 
 === k4_window
 kind: scene
@@ -361,21 +361,21 @@ when: ch=4 f:k4_night_done loc=kammer
 priority: 20
 important: yes
 ---
-narr: Die Kerze auf dem Waschtisch. Der Brief an Clara unter dem Kissen. Die Platte in ihrem schwarzen Papier, in der Truhe, zwischen Jeans und Unterröcken. {music:window}
-inner: Ich muss es wissen.
-narr: Sie wickelt die Platte aus. Hält sie an den Kanten, wie Clara es ihr gezeigt hat. Hebt sie vor die Kerzenflamme.
-narr: Die Treppe. Die Lichtspuren. Das Mädchen. Die blasse Frau mit der Katze auf dem Schoß. Das Licht fällt hindurch, warm, zitternd. {mood:mystisch, pause:900}
-narr: Und dann, sehr leise, als käme es aus dem Glas selbst, oder von weit her, oder aus ihr –
-narr: Ein Ticken. Gleichmäßig. Metallisch. Wie eine Heizung, die mitzählt. {sfx:radiator}
-narr: Und darunter ein Brummen, tief und vertraut, das Geräusch eines Kühlschranks in einer Küche, in der niemand ist. {sfx:fridge}
+narr: Die Kerze stand auf dem Waschtisch. Der Brief an Clara lag unter dem Kissen, die Platte in ihrem schwarzen Papier in der Truhe, zwischen Jeans und Unterröcken. {music:window}
+inner: Ich muss es einfach wissen.
+narr: Sie wickelte die Platte aus und hielt sie an den Kanten, so wie Clara es ihr gezeigt hatte. Dann hob sie sie vor die Kerzenflamme.
+narr: Sie sah die Treppe, die Lichtspuren, das Mädchen und die blasse Frau mit der Katze auf dem Schoß. Das Kerzenlicht fiel hindurch und flackerte. {mood:mystisch, pause:900}
+narr: Dann hörte sie etwas. Sehr leise. Es kam aus dem Glas, oder von weit weg –
+narr: Ein Ticken. Gleichmäßig und metallisch. Sera kannte dieses Ticken. {sfx:radiator}
+narr: Und darunter ein tiefes, vertrautes Brummen. Ein Kühlschrank in einer leeren Küche. {sfx:fridge}
 inner: Das ist –
 inner: Das ist meine Wohnung.
-narr: Sie lässt die Platte sinken. Die Geräusche verschwinden. Nur der Regen, der letzte, und Yuumi, die auf dem Bett sitzt und sie ansieht, mit ihren goldgelben, völlig unbeeindruckten Augen.
-inner: Es ist offen. Seit Tilly es gesagt hat. Seit jemand sie gehört hat.
-inner: Ich könnte jetzt nach Hause. Einfach so. Die Platte ins Licht halten und zuhören.
-narr: Sie sieht zum Fenster. Über dem Moor ist es schwarz, und in dem Schwarz steht ein einzelner Stern.
-inner: Nein. Nicht so. Nicht, bevor Clara ihren Brief hat. Nicht, bevor ich weiß, was in dieser Nacht wirklich passiert ist, von Anfang bis Ende.
-inner: Morgen früh kommt der Coroner. Und die Glocke im Wasser, hat Miss Averley gesagt, läutet nur, solange es dunkel ist. Mit dem ersten Licht verstummt sie.
-inner: Vielleicht ist das nur eine Sage. Aber vor drei Tagen war eine Glasplatte für mich auch nur eine Glasplatte.
-inner: Ich habe bis zum Morgen. {chap:5, time=nacht, go:halle@0.25}
+narr: Sie ließ die Platte sinken, und die Geräusche waren weg. Nur der letzte Regen war noch zu hören. Yuumi saß auf dem Bett und sah sie mit ihren goldgelben Augen an, völlig unbeeindruckt.
+inner: Es ist offen. Seit Tilly den Satz gesagt hat und jemand ihr zugehört hat.
+inner: Ich könnte jetzt nach Hause. Zu Fritz. Einfach die Platte ins Licht halten und zuhören.
+narr: Sie sah zum Fenster. Über dem Moor war es schwarz, nur ein einzelner Stern stand am Himmel.
+inner: Nein. Nicht so. Erst muss Clara ihren Brief haben. Und ich will wissen, was in dieser Nacht wirklich passiert ist, von Anfang bis Ende.
+inner: Morgen früh kommt der Coroner. Und Miss Averley hat gesagt, die Glocke im Wasser läutet nur, solange es dunkel ist. Beim ersten Licht hört sie auf.
+inner: Vielleicht ist das nur eine Sage. Hume würde sagen: ganz sicher. Aber vor drei Tagen hätte ich auch nicht geglaubt, dass man durch eine Glasplatte in ein anderes Jahrhundert fällt.
+inner: Ich habe Zeit bis zum Morgen. {chap:5, time=nacht, go:halle@0.25}
 `;
