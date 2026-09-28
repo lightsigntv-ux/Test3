@@ -59,6 +59,7 @@ export function App({ ctl }: { ctl: Controller }) {
       if (ctl.view) return; // Dialog behandelt eigene Tasten
       if (k === 'Escape') { if (ctl.talkNpc) ctl.closeTalk(); else { ctl.overlay = 'menu'; ctl.emit(); } e.preventDefault(); return; }
       if (ctl.talkNpc) return;
+      if (e.repeat && (k === 'e' || k === 'E' || k === ' ' || k === 'Enter' || k === 'n' || k === 'N' || k === 'Tab' || k === 'y' || k === 'Y')) { e.preventDefault(); return; }
       if (k === 'ArrowLeft' || k === 'a' || k === 'A') ctl.keys.left = true;
       else if (k === 'ArrowRight' || k === 'd' || k === 'D') ctl.keys.right = true;
       else if (k === 'e' || k === 'E' || k === ' ' || k === 'Enter') { ctl.interact(); e.preventDefault(); }
@@ -165,6 +166,8 @@ function WorldHud({ ctl, onLog }: { ctl: Controller; onLog: () => void }) {
 }
 
 // ------------------------------------------------------------------ Dialog
+const ARM_LINE_MS = 220;
+const ARM_CHOICES_MS = 450;
 const MOOD_VOICE: Record<string, 'normal' | 'sad' | 'angry' | 'soft'> = { sad: 'sad', angry: 'angry', tense: 'normal', warm: 'soft', surprised: 'normal', neutral: 'normal' };
 
 function DialogueBox({ ctl, settings, onLog }: { ctl: Controller; settings: Settings; onLog: () => void }) {
@@ -175,9 +178,12 @@ function DialogueBox({ ctl, settings, onLog }: { ctl: Controller; settings: Sett
   const key = `${v.dlg}/${v.node}`;
   const firstRef = useRef<HTMLButtonElement>(null);
   const [sel, setSel] = useState(0);
+  // Schutz gegen Überspringen: Ist der Text fertig, nimmt die Box erst nach einer kurzen Pause Eingaben an.
+  // Sonst trifft ein Druck, der eigentlich nur den Text vervollständigen sollte, schon die nächste Zeile oder eine Antwort.
+  const [armed, setArmed] = useState(false);
 
   useEffect(() => {
-    setShown(0); setReady(false); setSel(0);
+    setShown(0); setReady(false); setSel(0); setArmed(false);
     const ms = CHAR_MS[settings.textSpeed];
     let i = 0, timer = 0;
     const start = () => {
@@ -199,6 +205,12 @@ function DialogueBox({ ctl, settings, onLog }: { ctl: Controller; settings: Sett
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
 
+  useEffect(() => {
+    if (!ready) return;
+    const t = window.setTimeout(() => setArmed(true), v.choices ? ARM_CHOICES_MS : ARM_LINE_MS);
+    return () => clearTimeout(t);
+  }, [ready, key, v.choices]);
+
   const complete = useCallback(() => {
     if (!ready) { setShown(full.length); setReady(true); return true; }
     return false;
@@ -206,29 +218,35 @@ function DialogueBox({ ctl, settings, onLog }: { ctl: Controller; settings: Sett
 
   const next = useCallback(() => {
     if (complete()) return;
+    if (!armed) return;
     if (!v.choices) ctl.advance();
-  }, [complete, v, ctl]);
+  }, [complete, armed, v, ctl]);
 
-  useEffect(() => { if (ready && v.choices) firstRef.current?.focus(); }, [ready, v.choices]);
+  const choose = useCallback((index: number) => { if (armed) ctl.advance(index); }, [armed, ctl]);
+
+  useEffect(() => { if (armed && v.choices) firstRef.current?.focus(); }, [armed, v.choices]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (ctl.overlay !== 'none') return;
       const k = e.key;
       if (k === 'l' || k === 'L') { onLog(); return; }
+      const confirm = k === ' ' || k === 'Enter' || k === 'e' || k === 'E';
+      // Gehaltene Taste wiederholt sich nicht durch den Dialog
+      if (e.repeat && (confirm || /^[1-9]$/.test(k))) { e.preventDefault(); return; }
       if (v.choices && ready) {
         const n = v.choices.length;
-        if (/^[1-9]$/.test(k) && +k <= n) { ctl.advance(v.choices[+k - 1].index); e.preventDefault(); return; }
+        if (/^[1-9]$/.test(k) && +k <= n) { choose(v.choices[+k - 1].index); e.preventDefault(); return; }
         if (k === 'ArrowDown' || k === 's') { setSel((s) => (s + 1) % n); e.preventDefault(); return; }
         if (k === 'ArrowUp' || k === 'w') { setSel((s) => (s - 1 + n) % n); e.preventDefault(); return; }
-        if (k === 'Enter' || k === ' ' || k === 'e' || k === 'E') { ctl.advance(v.choices[sel].index); e.preventDefault(); return; }
+        if (confirm) { choose(v.choices[sel].index); e.preventDefault(); return; }
         return;
       }
-      if (k === ' ' || k === 'Enter' || k === 'e' || k === 'E') { next(); e.preventDefault(); }
+      if (confirm) { next(); e.preventDefault(); }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [v, ready, sel, next, ctl, onLog]);
+  }, [v, ready, sel, next, choose, ctl, onLog]);
 
   const sp = v.speaker ?? 'narr';
   const isNpc = !!CHARACTERS[sp]?.look && sp !== 'sera';
@@ -252,15 +270,15 @@ function DialogueBox({ ctl, settings, onLog }: { ctl: Controller; settings: Sett
           <span>{full.slice(0, shown)}</span><span className="rest" aria-hidden>{full.slice(shown)}</span>
         </div>
         {v.choices && ready && (
-          <div className="choices" role="menu">
+          <div className={`choices${armed ? ' armed' : ''}`} role="menu">
             {v.choices.map((c, i) => (
-              <button key={c.index} ref={i === 0 ? firstRef : undefined} className={`choice ${i === sel ? 'sel' : ''}`} onMouseEnter={() => setSel(i)} onClick={() => ctl.advance(c.index)} role="menuitem">
+              <button key={c.index} ref={i === 0 ? firstRef : undefined} className={`choice ${i === sel ? 'sel' : ''}`} onMouseMove={() => { if (i !== sel) setSel(i); }} onClick={() => choose(c.index)} onKeyUp={(e) => e.preventDefault()} role="menuitem">
                 <span className="num">{i + 1}</span>{c.text}
               </button>
             ))}
           </div>
         )}
-        {!v.choices && ready && <div className="more" aria-hidden>❧</div>}
+        {!v.choices && armed && <div className="more" aria-hidden>❧</div>}
       </div>
     </div>
     </>

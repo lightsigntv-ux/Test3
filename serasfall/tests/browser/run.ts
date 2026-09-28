@@ -13,6 +13,10 @@ import { DEDUCTION_BY_ID } from '../../src/content/deductions';
 const url = process.argv[2] ?? 'http://localhost:4173/';
 const which = process.argv[3] ?? 'echo';
 const shots = process.argv[4] ?? 'tests/browser/out';
+// Modus „mensch“: Textgeschwindigkeit „schnell“, Tasten werden wie von Hand gedrückt und gehalten,
+// jede Eingabe wird darauf geprüft, dass sie genau einen Schritt auslöst (nichts übersprungen).
+const human = process.argv[5] === 'mensch';
+const humanStopChapter = Number(process.argv[6] ?? 99);
 fs.mkdirSync(shots, { recursive: true });
 const POLICIES: Record<string, Policy> = {
   echo: { name: 'echo', order: KIND, ending: 'go' },
@@ -43,12 +47,47 @@ async function focusOn(page: Page, id: string) {
   }
 }
 
+// Zählt, welche Aktionen eine Eingabe tatsächlich auslöst.
+const instrument = (page: Page) => page.evaluate(() => {
+  const c = (window as any).__serasfall;
+  if (c.__wrapped) return; c.__wrapped = true; c.__calls = [];
+  // Zustand der Box genau im Moment der Eingabe festhalten (nicht vorher abfragen, sonst Wettlauf)
+  const mark = (e: Event) => { if ((e as KeyboardEvent).repeat) return; if (!document.querySelector('.dlg')) return; c.__calls.push(`#${document.querySelector('.dlg .more, .dlg .choices.armed') ? 'bereit' : 'läuft'}`); };
+  window.addEventListener('keydown', mark, true);
+  window.addEventListener('mousedown', mark, true);
+  for (const fn of ['advance', 'talkTopic', 'talkSmall', 'closeCard', 'openPresent']) {
+    const o = c[fn].bind(c);
+    c[fn] = (...a: unknown[]) => { const ev = (window as any).event as Event | undefined; c.__calls.push(`${fn}:${a[0] ?? ''}@${ev ? ev.type + (ev instanceof KeyboardEvent ? ' ' + ev.key : '') : '-'}`); return o(...a); };
+  }
+});
+const takeCallsRaw = (page: Page): Promise<string[]> => page.evaluate(() => { const c = (window as any).__serasfall; const r = c.__calls ?? []; c.__calls = []; return r; });
+let lastRaw: string[] = [];
+let readyAtInput: boolean | null = null;
+const takeCalls = async (page: Page) => {
+  lastRaw = await takeCallsRaw(page);
+  const marks = lastRaw.filter((x) => x.startsWith('#'));
+  readyAtInput = marks.length ? marks[marks.length - 1] === '#bereit' : null;
+  lastRaw = lastRaw.filter((x) => !x.startsWith('#'));
+  return lastRaw.map((x) => x.split('@')[0]);
+};
+const skips: string[] = [];
+let presses = 0;
+const rnd = (a: number, b: number) => a + Math.floor(Math.random() * (b - a));
+/** Eine Taste wie von Hand drücken: kurz oder länger halten. */
+async function handPress(page: Page, key: string) {
+  await page.keyboard.down(key);
+  await page.waitForTimeout(rnd(40, 260));
+  await page.keyboard.up(key);
+}
+
 async function main() {
   const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
   const ctx = await browser.newContext({ viewport: { width: 1280, height: 720 } });
   await ctx.addInitScript(() => {
-    try { if (!localStorage.getItem('serasfall.settings')) localStorage.setItem('serasfall.settings', JSON.stringify({ textSpeed: 'sofort', reducedMotion: true, volumes: { muted: true } })); } catch { /* */ }
+    try { if (!localStorage.getItem('serasfall.settings')) localStorage.setItem('serasfall.settings', JSON.stringify({ textSpeed: (window as any).__speed ?? 'sofort', reducedMotion: true, volumes: { muted: true } })); } catch { /* */ }
   });
+  if (human) await ctx.addInitScript(() => { (window as any).__speed = 'schnell'; });
+  await ctx.addInitScript('window.__name = (f) => f;'); // Hilfsfunktion, die tsx in übergebene Funktionen einbaut
   const page = await ctx.newPage();
   page.on('console', (m) => { if (m.type() === 'error' || m.type() === 'warning') errors.push(`${m.type()}: ${m.text()}`); });
   page.on('pageerror', (e) => errors.push(`pageerror: ${e}`));
@@ -57,6 +96,7 @@ async function main() {
   await shot(page, '00_title');
   await page.getByRole('button', { name: 'Neues Spiel' }).click();
   await page.waitForTimeout(300);
+  if (human) await instrument(page);
   await shot(page, '01_card');
 
   const failed = new Set<string>();
@@ -102,6 +142,7 @@ async function main() {
         const before = `${s.view.dlg}/${s.view.node}`;
         await page.reload(); await page.waitForTimeout(500);
         await page.getByRole('button', { name: 'Fortsetzen' }).click(); await page.waitForTimeout(300);
+        if (human) await instrument(page);
         const after = await snap(page);
         const now = after.view ? `${after.view.dlg}/${after.view.node}` : 'kein Dialog';
         report.push(`Neuladen mitten im Gespräch: vorher ${before}, nachher ${now} → ${before === now ? 'OK' : 'FEHLER'}`);
@@ -109,6 +150,41 @@ async function main() {
         reloaded = true;
         continue;
       }
+      if (human) {
+        if (s.game.chapter >= humanStopChapter) { report.push(`Mensch-Modus bis Kapitel ${humanStopChapter} gespielt`); break; }
+        await takeCalls(page);
+        const where = `${s.view.dlg}/${s.view.node}`;
+        const box = await page.locator('.dlg').boundingBox();
+        const shown = await page.locator('.dlg .choices.armed').count() > 0;
+        const lineDone = await page.locator('.dlg .more').count() > 0;
+        presses++;
+        if (s.view.choices) {
+          if (!shown) { await page.waitForTimeout(40); presses--; continue; }
+          const idx = chooseIndex(s.view, s.game, C, policy);
+          const pos = s.view.choices.findIndex((c) => c.index === idx);
+          const r = Math.random();
+          if (r < 0.4) await handPress(page, String(pos + 1));
+          else if (r < 0.7) { for (let i = 0; i < pos; i++) await handPress(page, 'ArrowDown'); await handPress(page, 'Space'); }
+          else await page.locator('.dlg .choices .choice').nth(pos).click();
+          await page.waitForTimeout(rnd(150, 400));
+          const calls = await takeCalls(page);
+          if (calls.length !== 1 || calls[0] !== `advance:${idx}`) skips.push(`${where} (Wahl ${idx}, Weg ${r < 0.4 ? 'Ziffer' : r < 0.7 ? 'Pfeil+Leertaste' : 'Klick'}): ${lastRaw.join(', ') || 'nichts'}`);
+        } else {
+          const r = Math.random();
+          if (r < 0.7) await handPress(page, 'Space');
+          else if (r < 0.85) await handPress(page, 'Enter');
+          else await page.mouse.click(box!.x + box!.width - 50, box!.y + box!.height - 25); // unten rechts „weiter“
+          await page.waitForTimeout(rnd(120, 450));
+          const calls = await takeCalls(page);
+          // Fertige Zeile: genau ein Schritt. Laufender Text: der Druck vervollständigt nur, er darf nichts weiterschalten.
+          const done = readyAtInput ?? lineDone;
+          const ok = done ? calls.length === 1 && calls[0] === 'advance:' : calls.length === 0;
+          if (!ok) skips.push(`${where}: ${lastRaw.join(', ') || 'nichts'}${done ? '' : ' (Text lief noch)'}`);
+        }
+        continue;
+      }
+      // Warten, bis die Box Eingaben annimmt (Schutz gegen Überspringen)
+      await page.locator('.dlg .more, .dlg .choices.armed').first().waitFor({ timeout: 3000 }).catch(() => {});
       if (s.view.choices) {
         const idx = chooseIndex(s.view, s.game, C, policy);
         const pos = s.view.choices.findIndex((c) => c.index === idx);
@@ -201,13 +277,14 @@ async function main() {
       continue;
     }
   }
+  if (human) report.push(`Eingaben im Gespräch: ${presses}, davon fehlerhaft (übersprungen/doppelt): ${skips.length}${skips.length ? '\n  ' + skips.slice(0, 30).join('\n  ') : ''}`);
   const fin = await snap(page);
   report.push(`Endzustand: Kapitel ${fin.game.chapter}, Ende ${fin.ending ?? 'keins'}`);
   const real = errors.filter((e) => !/favicon/i.test(e));
   report.push(`Konsolenfehler/-warnungen: ${real.length ? '\n  ' + real.join('\n  ') : 'keine'}`);
   console.log(report.join('\n'));
   await browser.close();
-  if (!fin.ending || real.length) process.exit(1);
+  if ((!human && !fin.ending) || real.length || skips.length) process.exit(1);
 }
 
 main().catch((e) => { console.error('FEHLER', e); console.log(report.join('\n')); process.exit(1); });

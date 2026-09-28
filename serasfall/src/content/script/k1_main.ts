@@ -5,52 +5,52 @@ when: ch=1 loc=halle
 priority: 20
 important: yes
 ---
-narr: Ein Ruck. Der Vorhang wird aufgezogen, Kerzenlicht fällt herein. {sfx:curtain, music:k1}
+narr: Jemand riss den Vorhang auf. Kerzenlicht fiel herein. {sfx:curtain, music:k1}
 tilly[surprised]: Jesses!
-narr: Vor ihr steht ein Mädchen, vielleicht dreizehn, mit einer Haube, die ihr zu groß ist, und einem Kohleneimer, der ihr gleich aus der Hand fallen wird.
-inner: Gut. Ich bin nicht in meiner Wohnung. Ich liege auf einer gepolsterten Bank in einem Fenster, und draußen, im ersten Grau, ist … Wasser. Sehr viel Wasser.
+narr: Vor ihr stand ein Mädchen, vielleicht dreizehn Jahre alt. Es trug eine Haube, die ihm zu groß war, und hielt einen Kohleneimer, der gleich herunterzufallen drohte.
+inner: Okay. Das ist nicht meine Wohnung. Ich liege auf einer gepolsterten Bank in einer Fensternische. Und draußen ist … Wasser. Sehr viel Wasser.
 tilly[tense]: Sind Sie ’n Geist, Miss? Sagen Sie’s ehrlich. Ich hab heut Nacht schon einen gehört.
-* [humor] Wenn ich einer wäre, hätte ich mir wärmere Socken ausgesucht. {tilly+1} -> w_humor
-* [ehrlich] Ehrlich gesagt weiß ich nicht genau, was ich bin. Verwirrt, vor allem. {tilly+1} -> w_honest
+* [humor] Wenn ich ein Geist wäre, hätte ich mir wärmere Socken ausgesucht. {tilly+1} -> w_humor
+* [ehrlich] Ehrlich gesagt weiß ich gerade selbst nicht so genau, was los ist. {tilly+1} -> w_honest
 * [direkt] Wo bin ich hier? -> w_direct
 # w_humor
 tilly[surprised]: … Geister reden nich von Socken.
 tilly[neutral]: Glaub ich.
 -> w_cat
 # w_honest
-tilly[neutral]: Verwirrt kenn ich. Verwirrt bin ich jeden Morgen, wenn Mrs. Pryce „Tilly!“ ruft.
+tilly[neutral]: Das kenn ich. Das hab ich jeden Morgen, wenn Mrs. Pryce „Tilly!“ ruft.
 -> w_cat
 # w_direct
 tilly[surprised]: Na, in Averley, Miss. Averley Hall. Wo solln Sie denn sonst sein, mitten im Wasser?
 -> w_cat
 # w_cat
-yuumi: (Aus den Falten des Vorhangs schiebt sich ein grauer Kopf. Ein Glöckchen klingelt.) {sfx:bell}
+yuumi: (Aus dem Vorhang schob sich ein grauer Kopf. Ein Glöckchen klingelte.) {sfx:bell}
 tilly[surprised]: Da! Das hab ich heut Nacht gehört! Hat was geklingelt auf der Treppe, so ganz fein. {+s:s07}
 tilly[warm]: Und die hat ja Handschuhe an!
 inner: Yuumi. Gott sei Dank. Wenigstens du bist echt.
-yuumi: (Yuumi streckt sich, gähnt und betrachtet Tilly wie ein interessantes neues Möbelstück.)
+yuumi: (Yuumi streckte sich, gähnte und sah Tilly neugierig an.)
 tilly[neutral]: Sie sind aber nich von hier, Miss. Das seh ich an Ihren … an Ihren Hosen.
-inner: Jeans. Ich trage Jeans, einen Pullover mit einem Loch am Ellbogen und Socken mit Avocados drauf. In einem Haus, in dem das Mädchen mit dem Kohleneimer eine Schürze bis zu den Knöcheln trägt.
+inner: Jeans, ein Pulli mit Loch am Ellbogen und Socken mit Avocados drauf. Und das Mädchen trägt eine Schürze bis zu den Knöcheln, Wollstrümpfe, derbe Schnürschuhe. Das ist kein Kostüm. So sahen Dienstmädchen um 1870 aus.
 tilly[tense]: Wenn Mrs. Pryce Sie so sieht – oder Mr. Hobbes! Heut is kein Tag für so was, Miss. Heut gar nich.
-* [mitfuehlend] Was ist denn heute? Du siehst aus, als hättest du nicht geschlafen. {tilly+1} -> w_day
+* [mitfuehlend] Was ist denn heute? Du siehst ganz müde aus. {tilly+1} -> w_day
 * [direkt] Kannst du mir helfen? Ich brauche andere Kleider. -> w_help
 # w_day
 tilly[sad]: Ich hab geschlafen, Miss. Ehrlich. Ich schlaf immer. Wie ’n Sack Rüben. {+s:s08, lie:f09}
-inner: Das kam zu schnell. Und es waren zu viele Rüben.
+inner: Das kam sehr schnell. Zu schnell, finde ich.
 # w_help
 tilly[neutral]: Oben in der Wäschekammer steht die Truhe von der Miss, die früher bei Miss Averley war. Die is weg, aber ihre Sachen nich.
 tilly[tense]: Kommen Sie. Schnell, bevor der Herd ausgeht. Die Treppe rauf und dann links. Und bringen Sie die Katze mit.
-narr: Tilly packt ihren Eimer und huscht die Stufen hinauf, dicht an der Wand, als dürfe sie die Mitte nicht berühren. {+f:k1_follow}
+narr: Tilly griff nach ihrem Eimer und lief die Treppe hinauf. Sie hielt sich dicht an der Wand und trat nicht auf die Mitte der Stufen. {+f:k1_follow}
 
 === k1_linen
 kind: scene
 when: ch=1 loc=galerie f:k1_follow
 priority: 20
 ---
-narr: Die Wäschekammer riecht nach Lavendel und Stärke. Tilly kniet vor einer Truhe und wirft Stoff heraus, als grabe sie nach einem Schatz.
+narr: Die Wäschekammer roch nach Lavendel und Stärke. Tilly kniete vor einer Truhe und warf Kleider, Unterröcke und Strümpfe auf den Boden.
 tilly[neutral]: Miss Finch war größer als Sie. Und breiter. Aber sie hat’s dagelassen, weil’s nich mehr modern war, sagt Mrs. Pryce.
-narr: Ein dunkelgrünes Wollkleid. Unterröcke. Ein Mieder mit Schnüren. Tilly hält das Mieder hoch wie ein Beweisstück.
-inner: Ein Korsett. Natürlich. Ich werde in einem Korsett in Ohnmacht fallen, und niemand wird sich wundern.
+narr: Ein dunkelgrünes Wollkleid, Unterröcke und ein Korsett mit Schnüren. Tilly hielt das Korsett hoch und grinste.
+inner: Das Kleid ist ein paar Jahre alt, der Rock ist noch für eine Krinoline geschnitten. Kein Wunder, dass Miss Finch es dagelassen hat. Und ein Korsett. Natürlich.
 * [humor] Ist das zum Anziehen oder zum Fesseln? {tilly+1} -> l_a
 * [mitfuehlend] Warum hilfst du mir eigentlich? {tilly+1} -> l_b
 # l_a
@@ -59,13 +59,13 @@ tilly[warm]: Beides, Miss.
 # l_b
 tilly[neutral]: Weiß nich.
 tilly[sad]: Weil Sie auf der Treppe waren. Und weil keiner – weil man halt hilft.
-inner: Weil keiner was? Sie beißt sich auf die Lippe, als hätte sie zu viel gesagt.
+inner: Weil keiner was? Sie beißt sich auf die Lippe. Da wollte sie eigentlich noch was sagen.
 # l_c
-narr: Tilly schnürt, zieht und zupft, und Sera lernt eine Menge neuer Wörter für Luftnot.
-narr: Dann, von unten, eine Männerstimme – nicht laut, aber so, dass sie durch das ganze Haus trägt. {sfx:voiceFar}
+narr: Tilly schnürte und zog und zupfte. Sera bekam kaum noch Luft und hielt sich am Regal fest.
+narr: Dann rief unten eine Männerstimme. Nicht laut, aber man hörte sie im ganzen Haus. {sfx:voiceFar}
 hobbes: Mrs. Pryce! Mrs. Pryce, bitte. Sofort.
 tilly[tense]: Das is Mr. Hobbes. So ruft der nie. Nie. {pause:500}
-narr: Tilly wird weiß um den Mund. Nicht erschrocken. Eher wie jemand, der auf etwas gewartet hat.
+narr: Tilly wurde blass. Sie sah nicht überrascht aus. Eher so, als hätte sie darauf gewartet.
 tilly[sad]: Ich muss runter. Miss – Sie sagen keinem, wo Sie das Kleid herhaben. Und ich sag keinem, wo ich Sie gefunden hab. Ja?
 * [ehrlich] Versprochen. {tilly+2, +f:k1_pact} -> l_end
 * [direkt] Tilly, was ist passiert? -> l_q
@@ -74,9 +74,9 @@ tilly[tense]: Weiß nich! Versprechen Sie’s?
 * [ehrlich] Versprochen. {tilly+1, +f:k1_pact} -> l_end
 * [schweigen] (Nicken.) {+f:k1_pact} -> l_end
 # l_end
-narr: Tilly ist fort, bevor die Tür zufällt. Yuumi sitzt auf Miss Finchs Unterröcken und sieht sehr zufrieden aus. {+f:k1_dressed}
-inner: Okay. Atmen. Ich trage ein Korsett, und irgendwo unten ist etwas Schlimmes passiert. In dieser Reihenfolge darf ich panisch werden.
-inner: Oder ich gehe hinunter und finde heraus, wo ich bin.
+narr: Tilly war schon weg, bevor die Tür zufiel. Yuumi saß auf Miss Finchs Unterröcken und sah sehr zufrieden aus. {+f:k1_dressed}
+inner: Okay. Ruhig atmen. Ich trage ein Korsett, und unten ist irgendwas Schlimmes passiert. Fritz würde jetzt sagen: eins nach dem anderen.
+inner: Also gut. Ich gehe runter und finde raus, wo ich bin.
 
 === k1_harriet
 kind: scene
