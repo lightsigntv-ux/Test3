@@ -106,6 +106,41 @@ export function voiceBlip(speaker: string, ch: string, mood: 'normal' | 'sad' | 
   o.start(t); o.stop(t + len + 0.02);
 }
 
+// Kurzes, eigentümliches Nuscheln am Zeilenanfang: [Halbton, Dauer ms, Lautstärke]
+const LEADS: Record<string, [number, number, number][]> = {
+  sera: [[4, 70, 1], [7, 110, 0.8]],            // helles „Hm?“
+  harriet: [[0, 160, 1], [-3, 200, 0.8]],       // strenges „Hm.“
+  lionel: [[3, 60, 1], [0, 60, 0.9], [-2, 90, 0.7]], // knappes „Hah-hm“
+  clara: [[5, 45, 1], [2, 60, 0.7]],            // scharfes „Tss“
+  penrose: [[0, 120, 0.8], [4, 110, 1], [7, 180, 0.7]], // singendes „Mmh-ah“
+  hobbes: [[-2, 90, 0.8], [-2, 70, 0.6]],        // Räuspern
+  pryce: [[2, 80, 1], [-1, 110, 0.8]],          // „Na?“
+  tilly: [[5, 40, 1], [8, 40, 0.9], [5, 40, 0.8], [10, 50, 0.9]], // Plappern
+  dunning: [[-3, 180, 0.9]],                    // Brummen
+};
+export function voiceLead(speaker: string, mood: 'normal' | 'sad' | 'angry' | 'soft' = 'normal'): void {
+  if (!ctx) return;
+  const def = CHARACTERS[speaker]; const pat = LEADS[speaker];
+  if (!def || !pat) return;
+  const v = def.voice;
+  const moodShift = mood === 'sad' ? -3 : mood === 'angry' ? 2 : mood === 'soft' ? -1 : 0;
+  const slow = mood === 'sad' ? 1.3 : mood === 'angry' ? 0.8 : 1;
+  let t = ctx.currentTime + 0.01;
+  for (const [semi, ms, amp] of pat) {
+    const d = (ms * slow) / 1000;
+    const f = v.base * Math.pow(2, (semi + moodShift) / 12);
+    const o = ctx.createOscillator(); o.type = v.wave;
+    o.frequency.setValueAtTime(f, t); o.frequency.linearRampToValueAtTime(f * (mood === 'sad' ? 0.92 : 0.97), t + d);
+    const lfo = ctx.createOscillator(); lfo.frequency.value = 6; const lg = ctx.createGain(); lg.gain.value = f * 0.015; lfo.connect(lg); lg.connect(o.frequency);
+    const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = Math.min(v.bright * 0.8, 3500); bp.Q.value = 1.2;
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.22 * amp, t + 0.015); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+    o.connect(bp); bp.connect(g); g.connect(voiceBus);
+    o.start(t); lfo.start(t); o.stop(t + d + 0.02); lfo.stop(t + d + 0.02);
+    t += d * 0.85;
+  }
+}
+
 // ---------------------------------------------------------------- Bausteine
 function env(g: GainNode, t: number, a: number, peak: number, d: number) {
   g.gain.setValueAtTime(0.0001, t);

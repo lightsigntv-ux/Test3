@@ -168,6 +168,7 @@ function WorldHud({ ctl, onLog }: { ctl: Controller; onLog: () => void }) {
 }
 
 // ------------------------------------------------------------------ Dialog
+const LEAD_SPEAKERS = new Set(['sera', 'harriet', 'lionel', 'clara', 'penrose', 'hobbes', 'pryce', 'tilly', 'dunning']);
 const ARM_LINE_MS = 220;
 const ARM_CHOICES_MS = 450;
 const MOOD_VOICE: Record<string, 'normal' | 'sad' | 'angry' | 'soft'> = { sad: 'sad', angry: 'angry', tense: 'normal', warm: 'soft', surprised: 'normal', neutral: 'normal' };
@@ -189,6 +190,7 @@ function DialogueBox({ ctl, settings, onLog }: { ctl: Controller; settings: Sett
     const ms = CHAR_MS[settings.textSpeed];
     let i = 0, timer = 0;
     const start = () => {
+      if (v.speaker && LEAD_SPEAKERS.has(v.speaker)) audio.voiceLead(v.speaker, MOOD_VOICE[v.expr ?? 'neutral']);
       if (ms === 0) { setShown(full.length); setReady(true); return; }
       const step = () => {
         i++;
