@@ -10,6 +10,7 @@ import { CLUE_BY_ID } from '../content/clues';
 import { STATEMENT_BY_ID } from '../content/statements';
 import { DEDUCTION_BY_ID } from '../content/deductions';
 import * as audio from './audio';
+import titleMusicUrl from '../assets/Titelmusik.mp3';
 import { CHAR_MS, loadSettings, saveSettings, type Settings } from './settings';
 import type { NpcId } from '../engine/types';
 
@@ -83,6 +84,7 @@ export function App({ ctl }: { ctl: Controller }) {
 
   const g = ctl.game;
   const ov = ctl.overlay;
+  useTitleMusic(ov === 'title' || ((ov === 'settings' || ov === 'io') && ctl.returnTo === 'title'), settings);
 
   return (
     <div className="viewport" onPointerDown={() => audio.initAudio()}>
@@ -457,7 +459,7 @@ function Log({ ctl, onClose }: { ctl: Controller; onClose: () => void }) {
 
 function Title({ ctl, onSettings }: { ctl: Controller; onSettings: () => void }) {
   const first = useRef<HTMLButtonElement>(null);
-  useEffect(() => { first.current?.focus(); audio.setMusic('title'); }, []);
+  useEffect(() => { first.current?.focus(); audio.setMusic('none'); }, []);
   const [confirmNew, setConfirmNew] = useState(false);
   return (
     <div className="title" role="dialog" aria-label="Titel">
@@ -509,3 +511,22 @@ function Ending({ ctl }: { ctl: Controller }) {
 }
 
 export default App;
+
+// ------------------------------------------------------------------ Titelmusik (nur Startbildschirm, leise)
+function useTitleMusic(on: boolean, settings: Settings) {
+  const ref = useRef<HTMLAudioElement | null>(null);
+  const v = settings.volumes;
+  const vol = v.muted ? 0 : Math.min(1, 0.35 * v.master * v.music * 2);
+  useEffect(() => {
+    if (!on) { ref.current?.pause(); return; }
+    let el = ref.current;
+    if (!el) { el = new Audio(titleMusicUrl); el.loop = true; ref.current = el; }
+    el.volume = vol;
+    const tryPlay = () => { el!.play().then(() => remove()).catch(() => { /* Browser erlaubt Ton erst nach einer Eingabe */ }); };
+    const remove = () => { window.removeEventListener('pointerdown', tryPlay); window.removeEventListener('keydown', tryPlay); };
+    window.addEventListener('pointerdown', tryPlay); window.addEventListener('keydown', tryPlay);
+    tryPlay();
+    return () => { remove(); };
+  }, [on, vol]);
+  useEffect(() => () => { ref.current?.pause(); }, []);
+}
