@@ -265,7 +265,7 @@ important: yes
 narr: Der Fenstersitz auf dem Halbpodest. Der Vorhang war aufgezogen. Hinter der Scheibe lag das Moor, grau und glatt, und darüber wurde ein Streifen Himmel langsam heller. {music:dawn}
 narr: Sera setzte sich. Sie hatte die Platte in ihrem schwarzen Papier auf dem Schoß. Auf dem Sims stand eine Kerze.
 narr: Leise Schritte auf der Treppe, barfuß. Es war Tilly. Sie trug Yuumi im Arm, und Yuumi ließ es sich sehr zufrieden gefallen.
-tilly[neutral]: Handschuh wollt zu Ihnen. Sie hat an der Küchentür gekratzt.
+tilly[neutral]: Grauchen wollt zu Ihnen. Sie hat an der Küchentür gekratzt.
 narr: Tilly setzte sich neben sie auf den Rand des Polsters. In jener Nacht hatte sie eine Stufe tiefer gesessen. Yuumi rollte sich zwischen ihnen ein.
 tilly[neutral]: Sie gehn weg, Miss. Oder?
 tilly[neutral]: Dahin, wo Sie herkommen. Wo’s anders is.
@@ -286,7 +286,7 @@ tilly[neutral]: Durchs Glas.
 inner: Sie weiß es. Keine Ahnung, woher. Aber sie weiß es.
 # choice
 tilly[neutral]: Mr. Hobbes sagt, das mit der Glocke im Wasser is Unsinn. Aber Mrs. Pryce sagt, wer sie hört, dem wird vergeben.
-tilly[warm]: Ich hab sie gehört, die Glocke. Die kleine, von Handschuh. Und Mrs. Pryce hab ich vergeben. Also stimmt’s doch, irgendwie.
+tilly[warm]: Ich hab sie gehört, die Glocke. Die kleine, von Grauchen. Und Mrs. Pryce hab ich vergeben. Also stimmt’s doch, irgendwie.
 narr: Der Himmel wurde heller. Draußen rief ein Vogel, und ein zweiter antwortete.
 inner: Wenn ich jetzt die Platte ins Licht halte, bin ich zu Hause. In meiner Wohnung, mit dem Karton, der Lampe und der Heizung. Und gegen elf kommt Fritz. Mein ganzes Leben. Alle, die ich kenne.
 inner: Wenn ich warte, bis die Sonne aufgeht, bleibe ich. Dann stehe ich heute früh neben Tilly vor dem Coroner. Dann fahre ich mit Clara nach London. Dann bin ich die Miss, die aus dem Wasser kam. Ohne Zeugnis und ohne Vergangenheit, für immer.
@@ -295,9 +295,9 @@ inner: Beides stimmt. Und beides kostet was.
 * [mitfuehlend] (Die Platte sinken lassen und bleiben.) -> stay
 # go
 narr: Sera wickelte die Platte aus. Tilly sah es und verstand. Ihr Gesicht blieb ganz ruhig.
-tilly[neutral]: Handschuh muss mit. Die gehört zu Ihnen.
+tilly[neutral]: Grauchen muss mit. Die gehört zu Ihnen.
 yuumi: (Yuumi hatte andere Pläne. Sie grub sich tiefer in Tillys Schürze und schnurrte. Als Tilly sie hochhob, hing sie mit allen vier Pfoten im Stoff fest.) {sfx:purr}
-tilly[warm]: Geh mit deiner Miss, Handschuh. Geh schon. Ich hab doch jetzt Buchstaben.
+tilly[warm]: Geh mit deiner Miss, Grauchen. Geh schon. Ich hab doch jetzt Buchstaben.
 narr: Sie löste Yuumis Krallen, eine nach der anderen, und legte sie Sera in den Arm.
 ? f:g_teach3 -> gift
 -> light

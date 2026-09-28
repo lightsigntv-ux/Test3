@@ -147,7 +147,7 @@ kind: yuumi
 target: pet
 when: ch=3
 ---
-yuumi: (Yuumi rollte sich auf den Rücken, alle vier weißen Pfoten in der Luft, und fing Seras Hand mit allen gleichzeitig.)
+yuumi: (Yuumi rollte sich auf den Rücken, alle vier grauen Pfoten in der Luft, und fing Seras Hand mit allen gleichzeitig.)
 inner: Au. Ja. Ich weiß. Ich habe dich zu wenig gestreichelt, weil ich zu viel nachgedacht habe.
 
 === y_pet_4

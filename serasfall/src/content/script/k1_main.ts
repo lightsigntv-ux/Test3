@@ -26,11 +26,11 @@ tilly[surprised]: Na, in Averley, Miss. Averley Hall. Wo solln Sie denn sonst se
 # w_cat
 yuumi: (Aus dem Vorhang schob sich ein grauer Kopf. Ein Glöckchen klingelte.) {sfx:bell}
 tilly[surprised]: Da! Das hab ich heut Nacht gehört! Hat was geklingelt auf der Treppe, so ganz fein. {+s:s07}
-tilly[warm]: Und die hat ja Handschuhe an!
+tilly[warm]: Und die is ja ganz grau! Wie ’n Mäuschen. Grauchen!
 inner: Yuumi. Gott sei Dank. Wenigstens du bist echt.
 yuumi: (Yuumi streckte sich, gähnte und sah Tilly neugierig an.)
 tilly[neutral]: Sie sind aber nich von hier, Miss. Das seh ich an Ihren … an Ihren Hosen.
-inner: Jeans, ein Pulli mit Loch am Ellbogen und Socken mit Avocados drauf. Und das Mädchen trägt eine Schürze bis zu den Knöcheln, Wollstrümpfe, derbe Schnürschuhe. Das ist kein Kostüm. So sahen Dienstmädchen um 1870 aus.
+inner: Weite Jeans, eine oversized Strickjacke in Creme und Socken mit Avocados drauf. Mein Lieblingsoutfit, aber hier völlig falsch. Und das Mädchen trägt eine Schürze bis zu den Knöcheln, Wollstrümpfe, derbe Schnürschuhe. Das ist kein Kostüm. So sahen Dienstmädchen um 1870 aus.
 tilly[tense]: Wenn Mrs. Pryce Sie so sieht – oder Mr. Hobbes! Heut is kein Tag für so was, Miss. Heut gar nich.
 * [mitfuehlend] Was ist denn heute? Du siehst ganz müde aus. {tilly+1} -> w_day
 * [direkt] Kannst du mir helfen? Ich brauche andere Kleider. -> w_help

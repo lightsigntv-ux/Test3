@@ -572,7 +572,7 @@ inner: So sagt sie mir, dass ich hier nicht frieren soll. Lieb von ihr. Trotzdem
 kind: examine
 target: h_ka_truhe
 ---
-narr: Unter Miss Finchs Unterröcken lagen, sorgfältig zusammengefaltet, eine Jeans, ein Pullover mit Loch am Ellbogen und zwei Socken mit Avocados.
+narr: Unter Miss Finchs Unterröcken lagen, sorgfältig zusammengefaltet, eine weite Jeans, eine cremefarbene Strickjacke und zwei Socken mit Avocados.
 inner: Zwischen Rosshaar-Unterröcken aus den Sechzigern meine Jeans. Beweisstück A, dass ich nicht verrückt bin. Oder dass ich es sehr gründlich bin.
 
 === ex_ka_spiegel

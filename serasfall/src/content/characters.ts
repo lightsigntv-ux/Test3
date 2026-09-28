@@ -12,7 +12,7 @@ export interface Voice {
 export interface Look {
   skin: string;
   hair: string;
-  hairStyle: 'bun' | 'bunLoose' | 'short' | 'bald' | 'cap' | 'swept' | 'childCap' | 'blondUp';
+  hairStyle: 'bun' | 'bunLoose' | 'short' | 'bald' | 'cap' | 'swept' | 'childCap' | 'blondUp' | 'blondLong';
   dress: string;
   trim: string;
   age: number; // 0..1 Falten
@@ -34,7 +34,7 @@ export const CHARACTERS: Record<string, CharDef> = {
   sera: {
     id: 'sera', name: 'Sera', short: 'Sera', role: 'als Miss Hale',
     voice: { base: 330, wave: 'triangle', spread: 3, every: 2, length: 55, bright: 2600 },
-    look: { skin: '#f1d6c2', hair: '#e6c67a', hairStyle: 'blondUp', dress: '#2f4a3a', trim: '#d9cfb8', age: 0, eyes: '#4a6a78' },
+    look: { skin: '#f3dccb', hair: '#ecd08e', hairStyle: 'blondLong', dress: '#2f4a3a', trim: '#d9cfb8', age: 0, eyes: '#4a6a78' },
   },
   inner: { id: 'inner', name: 'Sera (Gedanken)', short: '', role: '', voice: { base: 300, wave: 'sine', spread: 2, every: 3, length: 60, bright: 1600 } },
   narr: { id: 'narr', name: '', short: '', role: '', voice: { base: 180, wave: 'sine', spread: 1, every: 99, length: 60, bright: 900 } },

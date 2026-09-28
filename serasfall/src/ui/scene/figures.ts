@@ -26,6 +26,22 @@ function headAndHair(ctx: C2D, look: Look, hx: number, hy: number, hr: number, f
   const hair = look.hair;
   ctx.fillStyle = hair;
   switch (look.hairStyle) {
+    case 'blondLong': {
+      // lange Haare: Oberkopf, Pony zur Seite, lange Strähnen über den Rücken
+      ctx.beginPath(); ctx.ellipse(hx - facing * hr * 0.05, hy - hr * 0.35, hr * 0.95, hr * 0.75, 0, Math.PI, 0); ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(hx - facing * hr * 0.2, hy - hr * 0.9);
+      ctx.quadraticCurveTo(hx - facing * hr * 1.25, hy - hr * 0.2, hx - facing * hr * 1.05, hy + hr * 2.6);
+      ctx.quadraticCurveTo(hx - facing * hr * 0.55, hy + hr * 3.1, hx - facing * hr * 0.1, hy + hr * 2.4);
+      ctx.quadraticCurveTo(hx - facing * hr * 0.35, hy + hr * 0.8, hx - facing * hr * 0.2, hy - hr * 0.2);
+      ctx.fill();
+      ctx.strokeStyle = shade(hair, 0.2); ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.moveTo(hx - facing * hr * 0.7, hy - hr * 0.2); ctx.quadraticCurveTo(hx - facing * hr * 0.95, hy + hr * 1.2, hx - facing * hr * 0.7, hy + hr * 2.6); ctx.stroke();
+      // Strähne vorn
+      ctx.strokeStyle = hair; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(hx + facing * hr * 0.5, hy - hr * 0.7); ctx.quadraticCurveTo(hx + facing * hr * 0.95, hy, hx + facing * hr * 0.55, hy + hr * 1.4); ctx.stroke();
+      break;
+    }
     case 'bun': case 'blondUp': case 'bunLoose':
       ctx.beginPath(); ctx.ellipse(hx, hy - hr * 0.35, hr * 0.9, hr * 0.7, 0, Math.PI, 0); ctx.fill();
       ctx.beginPath(); ctx.ellipse(hx - facing * hr * 0.75, hy - hr * 0.3, hr * (look.hairStyle === 'bunLoose' ? 0.55 : 0.42), hr * 0.42, 0, 0, Math.PI * 2); ctx.fill();
@@ -100,8 +116,13 @@ export function drawPerson(ctx: C2D, id: string, look: Look, o: PoseOpts): void 
     ctx.beginPath(); ctx.moveTo(x - h * 0.085, shoulderY); ctx.lineTo(x + h * 0.085, shoulderY); ctx.lineTo(x + h * 0.06, waistY + 2); ctx.lineTo(x - h * 0.06, waistY + 2); ctx.fill();
     if (look.extra?.includes('shawl')) { ctx.fillStyle = '#16100c'; ctx.beginPath(); ctx.moveTo(x - h * 0.1, shoulderY); ctx.lineTo(x + h * 0.1, shoulderY); ctx.lineTo(x, shoulderY + h * 0.2); ctx.fill(); }
     // Kragen
-    ctx.fillStyle = id === 'sera' ? '#e8e0cc' : trim;
+    ctx.fillStyle = id === 'sera' ? '#f4efe2' : trim;
     ctx.fillRect(x - h * 0.03, shoulderY - 2, h * 0.06, 4);
+    if (id === 'sera') {
+      ctx.beginPath(); ctx.ellipse(x, shoulderY + 1, h * 0.045, h * 0.018, 0, 0, Math.PI); ctx.fill();
+      ctx.fillStyle = '#d8c490'; ctx.beginPath(); ctx.arc(x, shoulderY + h * 0.03, 2.2, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = shade(dress, 0.25); ctx.fillRect(x - h * 0.062, waistY - 2, h * 0.124, 4);
+    }
     if (look.extra?.includes('jet')) { ctx.fillStyle = '#050405'; ctx.beginPath(); ctx.arc(x, shoulderY + 7, 3, 0, Math.PI * 2); ctx.fill(); }
     // Arme
     ctx.strokeStyle = shade(dress, -0.15); ctx.lineWidth = h * 0.04; ctx.lineCap = 'round';
@@ -157,29 +178,47 @@ export function drawPerson(ctx: C2D, id: string, look: Look, o: PoseOpts): void 
 /** Sera in der Kleidung ihrer jeweiligen Lage. */
 export function seraLook(base: Look, chapter: number, flags: Record<string, true>, loc: string): Look {
   const modern = chapter === 0 || (chapter === 1 && !flags['k1_dressed']);
-  if (modern) return { ...base, dress: '#e8dcc4', trim: '#3a5a8a', hairStyle: 'blondUp' };
+  if (modern) return { ...base, dress: '#e8dcc4', trim: '#3a5a8a' };
   if (chapter >= 3 || (chapter === 2 && flags['k2_black'])) return { ...base, dress: '#1a181c', trim: '#2a2830' };
   return base;
 }
 
 export function drawModernSera(ctx: C2D, look: Look, o: PoseOpts) {
-  // Pullover + Jeans: eigene Silhouette statt Rock
-  const { x, foot, h, facing, t } = o;
+  // Heute: weite helle Jeans, weißes Top, oversized Strickjacke in Creme, Avocado-Socken
+  const { x, foot, h, facing } = o;
   const bob = o.walk ? Math.abs(Math.sin(o.walk * Math.PI)) * h * 0.012 : 0;
   const stride = o.walk ? Math.sin(o.walk * Math.PI) : 0;
   const hipY = foot - h * 0.46 - bob, shoulderY = foot - h * 0.78 - bob;
   ctx.save();
   ctx.fillStyle = 'rgba(0,0,0,0.3)'; ctx.beginPath(); ctx.ellipse(x, foot, h * 0.14, h * 0.025, 0, 0, Math.PI * 2); ctx.fill();
-  ctx.strokeStyle = '#3a5a8a'; ctx.lineWidth = h * 0.06; ctx.lineCap = 'round';
-  for (const s of [-1, 1]) { ctx.beginPath(); ctx.moveTo(x + s * h * 0.035, hipY); ctx.lineTo(x + s * h * 0.035 + s * stride * h * 0.06, foot - 5); ctx.stroke(); }
-  ctx.fillStyle = '#c8d8a0';
-  for (const s of [-1, 1]) { ctx.beginPath(); ctx.ellipse(x + s * h * 0.035 + s * stride * h * 0.06 + facing * 3, foot - 3, h * 0.03, h * 0.014, 0, 0, Math.PI * 2); ctx.fill(); }
-  ctx.fillStyle = '#e8dcc4';
-  ctx.beginPath(); ctx.moveTo(x - h * 0.1, shoulderY); ctx.lineTo(x + h * 0.1, shoulderY); ctx.lineTo(x + h * 0.1, hipY + h * 0.04); ctx.lineTo(x - h * 0.1, hipY + h * 0.04); ctx.fill();
-  ctx.strokeStyle = '#d8ccb4'; ctx.lineWidth = h * 0.045; ctx.lineCap = 'round';
-  for (const s of [-1, 1]) { ctx.beginPath(); ctx.moveTo(x + s * h * 0.1, shoulderY + 4); ctx.lineTo(x + s * h * 0.12 - stride * h * 0.03, hipY + h * 0.02); ctx.stroke(); }
-  ctx.fillStyle = shade(look.skin, -0.12);
-  for (const s of [-1, 1]) { ctx.beginPath(); ctx.ellipse(x + s * h * 0.12 - stride * h * 0.03, hipY + h * 0.045, h * 0.011, h * 0.015, 0, 0, Math.PI * 2); ctx.fill(); }
+  // weite Hosenbeine
+  for (const s of [-1, 1]) {
+    const fx = x + s * h * 0.045 + s * stride * h * 0.06;
+    const g = ctx.createLinearGradient(fx - h * 0.05, 0, fx + h * 0.05, 0);
+    g.addColorStop(0, '#7f9fc0'); g.addColorStop(0.5, '#a9c2dc'); g.addColorStop(1, '#7896b8');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.moveTo(x + s * h * 0.005, hipY); ctx.lineTo(x + s * h * 0.075, hipY);
+    ctx.lineTo(fx + h * 0.05, foot - 6); ctx.lineTo(fx - h * 0.05, foot - 6); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#c8d8a0'; ctx.beginPath(); ctx.ellipse(fx + facing * 3, foot - 3, h * 0.03, h * 0.014, 0, 0, Math.PI * 2); ctx.fill();
+  }
+  // weißes Top
+  ctx.fillStyle = '#f7f5f0';
+  ctx.fillRect(x - h * 0.07, shoulderY, h * 0.14, hipY - shoulderY + h * 0.02);
+  // Strickjacke, lang und weit
+  const cg = ctx.createLinearGradient(x - h * 0.14, 0, x + h * 0.14, 0);
+  cg.addColorStop(0, '#d9cbb0'); cg.addColorStop(0.5, '#efe4d0'); cg.addColorStop(1, '#d4c4a6');
+  ctx.fillStyle = cg;
+  for (const s of [-1, 1]) {
+    ctx.beginPath(); ctx.moveTo(x + s * h * 0.02, shoulderY); ctx.lineTo(x + s * h * 0.115, shoulderY + 3);
+    ctx.lineTo(x + s * h * 0.13, hipY + h * 0.1); ctx.lineTo(x + s * h * 0.04, hipY + h * 0.1); ctx.closePath(); ctx.fill();
+  }
+  ctx.strokeStyle = '#cdbd9e'; ctx.lineWidth = 1;
+  for (let i = 0; i < 4; i++) { const yy = hipY + h * 0.02 + i * 3; ctx.beginPath(); ctx.moveTo(x - h * 0.13, yy); ctx.lineTo(x - h * 0.04, yy); ctx.moveTo(x + h * 0.04, yy); ctx.lineTo(x + h * 0.13, yy); ctx.stroke(); }
+  // weite Ärmel
+  ctx.strokeStyle = '#e4d7bf'; ctx.lineWidth = h * 0.055; ctx.lineCap = 'round';
+  for (const s of [-1, 1]) { ctx.beginPath(); ctx.moveTo(x + s * h * 0.11, shoulderY + 5); ctx.lineTo(x + s * h * 0.13 - stride * h * 0.03, hipY + h * 0.01); ctx.stroke(); }
+  ctx.fillStyle = shade(look.skin, -0.08);
+  for (const s of [-1, 1]) { ctx.beginPath(); ctx.ellipse(x + s * h * 0.13 - stride * h * 0.03, hipY + h * 0.045, h * 0.011, h * 0.015, 0, 0, Math.PI * 2); ctx.fill(); }
   ctx.restore();
   headAndHair(ctx, look, x + facing * h * 0.0075, foot - h * 0.9 - bob, h * 0.075, facing, 'sera');
 }
@@ -188,7 +227,7 @@ export function drawModernSera(ctx: C2D, look: Look, o: PoseOpts) {
 export type CatState = 'walk' | 'sit' | 'groom' | 'sleep' | 'stretch' | 'look';
 export interface CatPose { x: number; foot: number; s: number; facing: 1 | -1; state: CatState; t: number; stateT: number; walk: number; reduced?: boolean; controlled?: boolean; alpha?: number }
 
-const FUR = '#8e9096', FUR_D = '#6a6c72', FUR_L = '#b4b6ba', PAW = '#f2efe8', EYE = '#e8b830';
+const FUR = '#8e9096', FUR_D = '#7e8086', FUR_L = '#979a9f', PAW = '#8a8c92', EYE = '#e8b830';
 
 export function drawCat(ctx: C2D, p: CatPose): void {
   const { x, foot, s, facing, t } = p;
@@ -216,8 +255,6 @@ export function drawCat(ctx: C2D, p: CatPose): void {
     const blink = p.reduced ? false : (t % 4.3) < 0.13;
     if (eyes === 'closed' || blink) { ctx.strokeStyle = '#2a2a2a'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(6, -3, 2, 0.2, Math.PI - 0.2); ctx.stroke(); }
     else { ctx.fillStyle = EYE; ctx.beginPath(); ctx.ellipse(6, -3, 2.4, eyes === 'half' ? 1.2 : 2.4, 0, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = '#1a1a10'; ctx.fillRect(6.3, -4.8, 0.9, 3.6); }
-    // Streifen
-    ctx.strokeStyle = FUR_D; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(-2, -9); ctx.lineTo(-1, -5); ctx.moveTo(1, -10); ctx.lineTo(1.5, -6); ctx.stroke();
     ctx.restore();
   };
   const collar = (cx: number, cy: number) => {
@@ -231,7 +268,6 @@ export function drawCat(ctx: C2D, p: CatPose): void {
     const bob = Math.abs(Math.sin(ph)) * 1.2;
     tail(-18, -22, 0);
     ctx.fillStyle = FUR; ctx.beginPath(); ctx.ellipse(0, -18 - bob, 20, 9, 0, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = FUR_D; for (let i = -1; i <= 1; i++) { ctx.beginPath(); ctx.ellipse(i * 7, -25 - bob, 2, 5, 0.3, 0, Math.PI * 2); ctx.fill(); }
     const legs = [[-13, 0], [-8, Math.PI], [9, Math.PI], [14, 0]];
     ctx.strokeStyle = FUR; ctx.lineWidth = 4; ctx.lineCap = 'round';
     for (const [lx, off] of legs) { const sw = Math.sin(ph + off) * 4; ctx.beginPath(); ctx.moveTo(lx, -14 - bob); ctx.lineTo(lx + sw, -2); ctx.stroke(); ctx.fillStyle = PAW; ctx.beginPath(); ctx.ellipse(lx + sw + 1, -1.5, 3, 1.8, 0, 0, Math.PI * 2); ctx.fill(); }

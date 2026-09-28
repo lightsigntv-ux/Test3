@@ -71,7 +71,7 @@ export const RECON: ReconQuestion[] = [
   {
     id: 'r12', prompt: 'Die blasse Frau neben ihr auf der Treppe, mit der Katze auf dem Schoß, war …',
     options: ['eine Doppelbelichtung', 'Lucinda', 'ich'], correct: 2, needs: ['c29'],
-    doubt: 'Ich kenne doch jemanden mit hellem Haar und einer Katze, die Handschuhe hat.',
+    doubt: 'Ich kenne doch jemanden mit hellem Haar und einer kleinen grauen Katze.',
     after: 'Ich. Ich war da und habe sie gehört. Ich war nur noch nicht ganz angekommen.',
   },
 ];

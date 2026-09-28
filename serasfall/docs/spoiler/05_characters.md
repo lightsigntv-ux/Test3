@@ -19,7 +19,7 @@ Stimmenblätter und Blindtest: siehe **05b_voices.md**.
 - **Haltung zu Yuumi:** ihr Anker. Spricht mit ihr, als verstünde sie jedes Wort, und weiß, dass sie es nicht tut.
 
 ## Yuumi
-- Kleine graue Katze, helle Pfoten („Handschuhe“), goldgelbe Augen, Glöckchen am roten Halsband.
+- Kleine graue Katze, einfarbig grau, goldgelbe Augen, Glöckchen am roten Halsband.
 - Echte Katzenlogik: neugierig, eigensinnig, schläft an warmen Orten, jagt Kerzenschatten, hasst nasse Pfoten, sitzt auf Papier, das man gerade lesen will, reibt den Kopf an Stuhlbeinen, starrt in Ecken.
 - Kann: in Spalten kriechen, auf Regale/Simse/Balken springen, unter Möbel greifen und Dinge hervorangeln, an Türen lauschen (Sera wartet dann in der Nähe und hört mit), sich bei Menschen einschmeicheln.
 - Kann nicht: lesen, öffnen, tragen (außer sehr Leichtem im Maul), Menschen „erkennen“.

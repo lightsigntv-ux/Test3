@@ -196,7 +196,7 @@ npc: tilly
 when: ch=4 !f:g_tilly_spoke
 ---
 narr: Tilly schrubbte den Tisch dort, wo die Buchstaben eingeritzt waren, und schrubbte sie nicht weg.
-tilly[neutral]: Handschuh hat heut früh ’ne Maus gebracht, Miss. Eine tote. Auf Mrs. Pryces Kopfkissen.
+tilly[neutral]: Grauchen hat heut früh ’ne Maus gebracht, Miss. Eine tote. Auf Mrs. Pryces Kopfkissen.
 tilly[warm]: Die taugt doch was.
 
 === s4_tilly_after

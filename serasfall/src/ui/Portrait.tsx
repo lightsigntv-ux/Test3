@@ -22,6 +22,22 @@ const FACES: Record<Expr, Face> = {
 function Hair({ look, back }: { look: Look; back: boolean }) {
   const h = look.hair;
   switch (look.hairStyle) {
+    case 'blondLong': {
+      const hl = shadeHex(h, 0.22), dk = shadeHex(h, -0.1);
+      return back ? (
+        <g>
+          <path d="M82 170 Q74 84 150 76 Q226 84 218 170 Q232 270 222 380 L78 380 Q68 270 82 170Z" fill={dk} />
+          <path d="M96 160 Q92 250 104 380 M204 160 Q208 250 196 380" stroke={h} strokeWidth={10} fill="none" opacity={0.7} />
+        </g>
+      ) : (
+        <g>
+          <path d="M90 172 Q82 88 150 82 Q218 88 210 172 Q206 132 184 118 Q166 110 152 104 Q146 122 118 128 Q98 138 90 172Z" fill={h} />
+          <path d="M92 150 Q82 230 96 300 Q102 336 84 376 L112 376 Q122 310 110 240 Q104 200 106 162Z" fill={h} />
+          <path d="M208 150 Q218 230 204 300 Q198 336 216 376 L188 376 Q178 310 190 240 Q196 200 194 162Z" fill={h} />
+          <path d="M112 112 Q140 96 176 110 M100 190 Q96 250 106 310 M200 190 Q204 250 194 310" stroke={hl} strokeWidth={2.4} fill="none" opacity={0.8} />
+        </g>
+      );
+    }
     case 'bun': case 'bunLoose': case 'blondUp':
       return back ? (
         <g>
@@ -103,14 +119,20 @@ function Clothes({ id, look, modern }: { id: string; look: Look; modern: boolean
     case 'sera':
       return modern ? (
         <g>
-          <path d={shoulders} fill="#e8dcc4" />
-          <path d="M120 276 Q150 296 180 276" stroke="#cfc2a6" strokeWidth={8} fill="none" />
-          <circle cx={96} cy={350} r={5} fill="#b8aa8e" />
+          {/* oversized Strickjacke in Creme über weißem Top, feine Goldkette */}
+          <path d="M30 380 Q40 284 150 270 Q260 284 270 380Z" fill="#efe4d0" />
+          <path d="M122 276 L150 380 L178 276 Q150 290 122 276Z" fill="#fbfaf6" />
+          <path d="M122 276 L150 380 M178 276 L150 380" stroke="#d8c8ac" strokeWidth={5} fill="none" />
+          <path d="M60 330 Q66 300 80 290 M240 330 Q234 300 220 290" stroke="#dccdb2" strokeWidth={3} fill="none" />
+          <path d="M132 280 Q150 306 168 280" stroke="#d6b25e" strokeWidth={1.4} fill="none" />
+          <circle cx={150} cy={304} r={2.6} fill="#d6b25e" />
         </g>
       ) : (
         <g>
           <path d={shoulders} fill={d} />
-          <path d="M130 272 Q150 286 170 272 L168 282 Q150 294 132 282Z" fill={t} />
+          <path d="M126 270 Q150 292 174 270 L172 284 Q150 302 128 284Z" fill="#f4efe2" />
+          <path d="M128 284 Q150 300 172 284" stroke="#e2d8c2" strokeWidth={2} fill="none" strokeDasharray="3 3" />
+          <ellipse cx={150} cy={300} rx={8} ry={10} fill="#e9dcc0" stroke="#b8964a" strokeWidth={2} />
           <path d="M90 320 Q150 340 210 320" stroke={shadeHex(d, 0.12)} strokeWidth={2} fill="none" />
         </g>
       );
@@ -139,6 +161,7 @@ function FaceFeatures({ look, e, id }: { look: Look; e: Face; id: string }) {
         <circle cx={cx + 2} cy={eyeY - 2} r={1.4} fill="#ffffff" opacity={0.9} />
         <path d={`M${cx - 12} ${eyeY - ry * (1 - e.lid * 2)} Q${cx} ${eyeY - ry - 3 + e.lid * 8} ${cx + 12} ${eyeY - ry * (1 - e.lid * 2)} L${cx + 12} ${eyeY - ry - 6} L${cx - 12} ${eyeY - ry - 6}Z`} fill={skin} />
         <path d={`M${cx - 12} ${eyeY - ry * (1 - e.lid * 2) + 0.5} Q${cx} ${eyeY - ry - 2 + e.lid * 8} ${cx + 12} ${eyeY - ry * (1 - e.lid * 2) + 0.5}`} stroke="#3a2418" strokeWidth={1.8} fill="none" />
+        {id === 'sera' && <path d={`M${cx - side * 11} ${eyeY - ry * (1 - e.lid * 2) - 1} L${cx - side * 16} ${eyeY - ry * (1 - e.lid * 2) - 5}`} stroke="#2a1a12" strokeWidth={2} fill="none" strokeLinecap="round" />}
         {e.mouth === 'smile' && <path d={`M${cx - 10} ${eyeY + ry + 2} Q${cx} ${eyeY + ry - 1} ${cx + 10} ${eyeY + ry + 2}`} stroke={shadeHex(skin, -0.25)} strokeWidth={1.2} fill="none" />}
       </g>
     );
@@ -146,7 +169,7 @@ function FaceFeatures({ look, e, id }: { look: Look; e: Face; id: string }) {
   const brow = (cx: number, side: number) => {
     const tilt = e.browTilt * side * 10;
     const thick = id === 'hobbes' || id === 'dunning' ? 4 : id === 'lionel' ? 3.5 : 2.6;
-    const col = id === 'hobbes' ? '#e8e6e0' : shadeHex(look.hair, -0.2);
+    const col = id === 'hobbes' ? '#e8e6e0' : shadeHex(look.hair, id === 'sera' ? -0.4 : -0.2);
     return <path key={'b' + cx} d={`M${cx - 13} ${browY + tilt} Q${cx} ${browY - 4} ${cx + 13} ${browY - tilt}`} stroke={col} strokeWidth={thick} fill="none" strokeLinecap="round" />;
   };
   const my = 232;
@@ -159,11 +182,16 @@ function FaceFeatures({ look, e, id }: { look: Look; e: Face; id: string }) {
     case 'o': mouth = <ellipse cx={150} cy={my + 2} rx={6} ry={8} fill="#4a1e1a" stroke="#8a4a42" strokeWidth={1.5} />; break;
     default: mouth = <path d={`M137 ${my} Q150 ${my + 2 + e.smile * 3} 163 ${my}`} stroke="#8a4a42" strokeWidth={2.6} fill="none" strokeLinecap="round" />;
   }
+  const lips = id === 'sera' && (e.mouth === 'line' || e.mouth === 'smile' || e.mouth === 'down' || e.mouth === 'tight')
+    ? <path d={`M137 ${my} Q144 ${my - 4} 150 ${my - 1} Q156 ${my - 4} 163 ${my} Q150 ${my + 8 + e.smile * 2} 137 ${my}Z`} fill="#d98f8c" opacity={0.85} /> : null;
   return (
     <g>
+      {id === 'sera' && <g fill="#f0a4a0" opacity={0.18}><ellipse cx={114} cy={206} rx={13} ry={7} /><ellipse cx={186} cy={206} rx={13} ry={7} /></g>}
+      {lips}
       {eye(128, 1)}{eye(172, -1)}
       {brow(128, 1)}{brow(172, -1)}
-      <path d="M150 180 Q146 204 140 210 Q150 216 160 210" stroke={shadeHex(skin, -0.3)} strokeWidth={1.8} fill="none" strokeLinecap="round" />
+      {id === 'sera' ? <path d="M148 196 Q146 206 144 208 Q150 212 156 208" stroke={shadeHex(skin, -0.25)} strokeWidth={1.5} fill="none" strokeLinecap="round" />
+        : <path d="M150 180 Q146 204 140 210 Q150 216 160 210" stroke={shadeHex(skin, -0.3)} strokeWidth={1.8} fill="none" strokeLinecap="round" />}
       {mouth}
     </g>
   );
@@ -200,7 +228,7 @@ export const Portrait = memo(function Portrait({ id, expr = 'neutral', chapter =
           <Hair look={look} back />
           <Clothes id={id} look={look} modern={modern} />
           <path d="M132 240 L130 280 Q150 290 170 280 L168 240Z" fill={shadeHex(look.skin, -0.12)} />
-          <ellipse cx={150} cy={178} rx={id === 'tilly' ? 52 : 56} ry={id === 'tilly' ? 66 : 72} fill={`url(#${uid}_face)`} />
+          <ellipse cx={150} cy={178} rx={id === 'tilly' ? 52 : id === 'sera' ? 53 : 56} ry={id === 'tilly' ? 66 : id === 'sera' ? 68 : 72} fill={`url(#${uid}_face)`} />
           <ellipse cx={96} cy={182} rx={8} ry={14} fill={shadeHex(look.skin, -0.15)} />
           <ellipse cx={204} cy={182} rx={8} ry={14} fill={shadeHex(look.skin, -0.15)} />
           {id === 'penrose' && <g><circle cx={96} cy={200} r={3.5} fill="#d8c070" /><circle cx={204} cy={200} r={3.5} fill="#d8c070" /></g>}

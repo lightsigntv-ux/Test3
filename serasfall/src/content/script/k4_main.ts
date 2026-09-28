@@ -200,7 +200,7 @@ tilly[neutral]: Lassen Sie mich. Ich bin leicht, Miss.
 * [direkt] Nein, ich – na gut. Ich halte die Leiter. {tilly+1} -> a
 # a
 narr: Tilly kletterte barfuß hinauf. Die Schuhe hatte sie unten stehen lassen und die Röcke in den Bund gestopft. Oben verschwand sie im Dunkeln.
-tilly[warm]: Komm, Handschuh. Komm her zu mir. Is doch nur Donner. Der tut nix. Der schreit bloß.
+tilly[warm]: Komm, Grauchen. Komm her zu mir. Is doch nur Donner. Der tut nix. Der schreit bloß.
 narr: Eine lange Minute verging. Es donnerte. Dann tauchte Tillys Gesicht in der Luke auf, voller Heu, und in ihren Armen ein nasses, graues, sehr empörtes Bündel. {sfx:meowAngry}
 yuumi: (Yuumi fauchte den Donner an und das Heu und den Regen. Dann sah sie Sera, und das Fauchen wurde zu einem kleinen, kläglichen Miauen.) {sfx:meow}
 narr: Tilly reichte sie hinunter. Sera drückte sie an sich. Yuumi krallte sich in das schwarze Kleid und ließ nicht mehr los. {-f:g_yuumi_lost, +f:k4_found}

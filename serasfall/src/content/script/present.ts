@@ -253,7 +253,7 @@ npc: pryce
 items: s07
 ---
 pryce[neutral]: Das Kind hört Gespenster, seit es aus dem Arbeitshaus ist. Dort gibt’s genug davon.
-pryce[neutral]: Und diesmal hatte das Gespenst Handschuhe an und frisst mir die Sahne weg. Na?
+pryce[neutral]: Und diesmal war das Gespenst grau und frisst mir die Sahne weg. Na?
 yuumi: (Yuumi putzte sich demonstrativ das Maul.)
 
 === pr_harriet_c22
