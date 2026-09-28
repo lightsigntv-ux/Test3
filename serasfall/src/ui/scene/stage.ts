@@ -1,7 +1,8 @@
 // Bühne: malt Raum, Figuren, Katze, Licht und Textur in ein Canvas.
 import { W, H, grain, radial, hex, type C2D } from './kit';
 import { ROOMS, roomKey, type Env } from './rooms';
-import { drawPerson, drawCat, drawModernSera, seraLook, type CatPose } from './figures';
+import { drawPerson, drawCat, seraLook, type CatPose } from './figures';
+import { drawSera } from './sera';
 import { CHARACTERS, type Look } from '../../content/characters';
 import type { Hotspot } from '../../engine/types';
 
@@ -64,7 +65,7 @@ export class Stage {
       const look = seraLook(base, env.chapter, env.flags, env.loc);
       const modern = env.chapter === 0 || (env.chapter === 1 && !env.flags['k1_dressed']);
       const opts = { x: f.sera.x * W, foot: FOOT, h: PERSON_H * 0.97, facing: f.sera.facing, t, walk: f.sera.walk, reduced: env.reduced, alpha: f.controlling === 'yuumi' ? 0.85 : 1 };
-      if (modern) drawModernSera(ctx, look, opts); else drawPerson(ctx, 'sera', look, opts);
+      drawSera(ctx, look, opts, modern);
     }
     if (f.cat.visible) drawCat(ctx, { ...f.cat, x: f.cat.x * W, foot: f.cat.foot, controlled: f.controlling === 'yuumi' });
     room.front?.(ctx, env, t);
