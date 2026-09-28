@@ -65,7 +65,7 @@ export const CLUES: Clue[] = [
   { id: 'c31', name: 'Der Brief der Agentur', kind: 'dokument',
     note: 'Mrs. Crewes Agentur, London: Miss Sarah Hale liege mit Influenza in Bristol und bedaure, ihre Stellung nicht antreten zu können.' },
   { id: 'c32', name: 'Die angehaltenen Uhren', kind: 'beobachtung',
-    note: 'Alle Uhren im Haus stehen auf 6.25. So hält man es hier, wenn jemand stirbt: Man hält die Zeit an. Nur – ist das die Zeit, zu der er starb?' },
+    note: 'Die Uhren in Halle und Arbeitszimmer stehen auf 6.25. So hält man es hier, wenn jemand stirbt: Man hält die Zeit an. Nur – ist das die Zeit, zu der er starb?' },
   { id: 'e01', name: 'Kerzenschein (Traum?)', kind: 'erinnerung',
     note: 'Bevor ich hier aufwachte: ein Licht, das die Treppe hinaufwanderte. Wie durch Wasser.' },
   { id: 'e02', name: 'Klopfen (Traum?)', kind: 'erinnerung',

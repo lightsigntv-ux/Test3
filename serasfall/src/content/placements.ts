@@ -48,7 +48,7 @@ export const PLACEMENTS: Placement[] = [
   { npc: 'hobbes', loc: 'halle', x: 0.72, when: c('ch=3') },
   { npc: 'pryce', loc: 'dienst', x: 0.42, when: c('ch=3') },
   { npc: 'tilly', loc: 'dienst', x: 0.62, when: c('ch=3') },
-  { npc: 'dunning', loc: 'stall', x: 0.7, when: c('ch>=3') },
+  { npc: 'dunning', loc: 'stall', x: 0.66, when: c('ch>=3') },
 
   // ---------- Kapitel 4 ----------
   { npc: 'tilly', loc: 'stall', x: 0.3, when: c('ch=4 f:k4_search !f:k4_found') },

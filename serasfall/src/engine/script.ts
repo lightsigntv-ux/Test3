@@ -124,9 +124,9 @@ export function parseScript(src: string, source = 'script'): Dialogue[] {
     };
     let auto = 0;
     let pendingLabel: string | null = null;
-    let prev: DNode | null = null; // zuletzt erzeugter Knoten, dessen next noch offen ist
-    let pendingChoicesNode: DNode | null = null; // Knoten mit Wahlmöglichkeiten, die ohne Ziel weiterführen
-    let choiceHost: DNode | null = null; // aktueller Wahlblock
+    let prev = null as DNode | null; // zuletzt erzeugter Knoten, dessen next noch offen ist
+    let pendingChoicesNode = null as DNode | null; // Knoten mit Wahlmöglichkeiten, die ohne Ziel weiterführen
+    let choiceHost = null as DNode | null; // aktueller Wahlblock
     const make = (n: Omit<DNode, 'id'>): DNode => {
       const nid = pendingLabel ?? `n${++auto}`;
       pendingLabel = null;

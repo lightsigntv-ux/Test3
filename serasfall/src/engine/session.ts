@@ -12,12 +12,15 @@ export interface Outcome {
   step?: StepResult;
 }
 
+/** Orte, an die Yuumi nicht mitkommt. */
+export const NO_CAT = new Set(['zwischen', 'kapelle', 'dunkel']);
+
 export function enterLocation(state: GameState, c: Content, loc: LocId, x: number): GameState {
   const s = clone(state);
   s.loc = loc;
   s.x = x;
-  if (!s.flags['g_yuumi_lost'] && c.locations[loc]?.catAllowed !== false) s.yuumiLoc = loc;
-  else if (!s.flags['g_yuumi_lost']) s.yuumiLoc = loc;
+  s.flags[`v_${loc}`] = true;
+  if (!s.flags['g_yuumi_lost'] && !NO_CAT.has(loc)) s.yuumiLoc = loc;
   s.controlling = 'sera';
   return s;
 }
@@ -40,6 +43,7 @@ export function settle(state: GameState, c: Content, events: GameEvent[]): { sta
       else specials.push(e.id);
     }
   }
+  if (!s.flags['g_yuumi_lost'] && s.yuumiLoc !== s.loc && !NO_CAT.has(s.loc)) { s = clone(s); s.yuumiLoc = s.loc; }
   return { state: s, specials };
 }
 
