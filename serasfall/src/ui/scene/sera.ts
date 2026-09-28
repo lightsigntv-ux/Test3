@@ -12,11 +12,12 @@ function lg(ctx: C2D, x0: number, x1: number, stops: [number, string][]) {
 }
 
 export function drawSera(ctx: C2D, look: Look, o: PoseOpts, modern: boolean) {
-  const { x, foot, h, facing: f, t } = o;
+  const { foot, h, facing: f, t } = o;
+  const x = o.x + (o.walk || o.reduced ? 0 : Math.sin(t * 0.5) * h * 0.004);
   const walk = o.walk ? Math.sin(o.walk * Math.PI) : 0;
   const bob = o.walk ? Math.abs(walk) * h * 0.012 : o.reduced ? 0 : Math.sin(t * 1.6) * h * 0.003;
-  const hr = h * 0.072;
-  const hy = foot - h * 0.9 - bob, hx = x + f * hr * 0.12;
+  const hr = h * 0.092;
+  const hy = foot - h * 0.885 - bob, hx = x + f * hr * 0.12;
   const shY = foot - h * 0.775 - bob, waistY = foot - h * 0.58 - bob, hipY = foot - h * 0.47 - bob;
   ctx.save();
   if (o.alpha !== undefined) ctx.globalAlpha = o.alpha;
@@ -35,7 +36,7 @@ export function drawSera(ctx: C2D, look: Look, o: PoseOpts, modern: boolean) {
   ctx.closePath(); ctx.fill();
 
   const arm = (s: number, color: string, w: number, endY: number, hand = true) => {
-    const sx = x + s * h * 0.085, ex = x + s * h * 0.095 - walk * s * h * 0.03;
+    const sx = x + s * h * 0.085, ex = x + s * h * 0.095 + walk * s * h * 0.05;
     ctx.strokeStyle = color; ctx.lineWidth = w;
     ctx.beginPath(); ctx.moveTo(sx, shY + 5); ctx.quadraticCurveTo(sx + s * h * 0.03, (shY + endY) / 2, ex, endY); ctx.stroke();
     if (hand) { ctx.fillStyle = SKIN_D; ctx.beginPath(); ctx.ellipse(ex, endY + h * 0.018, h * 0.012, h * 0.017, 0, 0, Math.PI * 2); ctx.fill(); }
@@ -107,15 +108,16 @@ export function drawSera(ctx: C2D, look: Look, o: PoseOpts, modern: boolean) {
   const ex1 = hx + f * hr * 0.18, ex2 = hx + f * hr * 0.58, ey = hy - hr * 0.02;
   if (blink) { ctx.strokeStyle = '#3a2418'; ctx.lineWidth = 1; for (const ex of [ex1, ex2]) { ctx.beginPath(); ctx.moveTo(ex - 2.2, ey); ctx.lineTo(ex + 2.2, ey); ctx.stroke(); } }
   else {
-    for (const [ex, w] of [[ex1, 2.6], [ex2, 2]] as const) {
-      ctx.fillStyle = '#fbf7f2'; ctx.beginPath(); ctx.ellipse(ex, ey, w, 1.8, 0, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#4a6a78'; ctx.beginPath(); ctx.arc(ex + f * 0.4, ey + 0.2, 1.4, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#10151a'; ctx.beginPath(); ctx.arc(ex + f * 0.4, ey + 0.2, 0.6, 0, Math.PI * 2); ctx.fill();
-      ctx.strokeStyle = '#2a1a14'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(ex - w, ey - 0.8); ctx.quadraticCurveTo(ex, ey - 2.6, ex + w + f * 0.8, ey - 1.4); ctx.stroke();
+    for (const [ex, w] of [[ex1, 3.6], [ex2, 2.9]] as const) {
+      ctx.fillStyle = '#fbf7f2'; ctx.beginPath(); ctx.ellipse(ex, ey, w, 2.7, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#4a6a78'; ctx.beginPath(); ctx.arc(ex + f * 0.5, ey + 0.3, 2.2, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#10151a'; ctx.beginPath(); ctx.arc(ex + f * 0.5, ey + 0.3, 1, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(ex + f * 0.5 + 0.8, ey - 0.6, 0.7, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#2a1a14'; ctx.lineWidth = 1.3; ctx.beginPath(); ctx.moveTo(ex - w, ey - 1); ctx.quadraticCurveTo(ex, ey - 3.6, ex + w + f * 1.2, ey - 2.2); ctx.stroke();
     }
   }
   ctx.strokeStyle = '#a8844a'; ctx.lineWidth = 0.9;
-  for (const ex of [ex1, ex2]) { ctx.beginPath(); ctx.moveTo(ex - 2.4, ey - 4); ctx.quadraticCurveTo(ex, ey - 5.2, ex + 2.4, ey - 4.2); ctx.stroke(); }
+  for (const ex of [ex1, ex2]) { ctx.beginPath(); ctx.moveTo(ex - 3, ey - 5.5); ctx.quadraticCurveTo(ex, ey - 7, ex + 3, ey - 5.8); ctx.stroke(); }
   // Nase, Wange, Mund (Sprechen)
   ctx.strokeStyle = SKIN_D; ctx.lineWidth = 0.9; ctx.beginPath(); ctx.moveTo(hx + f * hr * 0.55, ey + 2); ctx.lineTo(hx + f * hr * 0.66, ey + hr * 0.3); ctx.lineTo(hx + f * hr * 0.5, ey + hr * 0.34); ctx.stroke();
   ctx.fillStyle = 'rgba(240,160,156,0.3)'; ctx.beginPath(); ctx.ellipse(hx + f * hr * 0.15, hy + hr * 0.3, hr * 0.2, hr * 0.12, 0, 0, Math.PI * 2); ctx.fill();
@@ -141,6 +143,11 @@ export function drawSera(ctx: C2D, look: Look, o: PoseOpts, modern: boolean) {
   ctx.beginPath(); ctx.moveTo(hx - f * hr * 0.6, hy); ctx.quadraticCurveTo(hx - f * hr * 0.8, hy + hr * 1.6, hx - f * hr * 0.55 + sway, hy + hr * 3); ctx.stroke();
   ctx.globalAlpha = o.alpha ?? 1;
 
+  // Lichtkante: warmes Licht von vorn-oben auf Haar und Schulter
+  ctx.strokeStyle = 'rgba(255,236,190,0.35)'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(hx, hy, hr * 0.98, -Math.PI / 2 - 0.2 + (f > 0 ? 0.3 : -1.2), -Math.PI / 2 + (f > 0 ? 1.4 : 0.1)); ctx.stroke();
+  ctx.strokeStyle = 'rgba(255,236,190,0.18)'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(x + f * h * 0.08, shY + 2); ctx.lineTo(x + f * h * 0.12, hipY); ctx.stroke();
   if (o.highlight) { ctx.strokeStyle = 'rgba(255,230,170,0.35)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.ellipse(x, foot, h * 0.2, h * 0.035, 0, 0, Math.PI * 2); ctx.stroke(); }
   ctx.restore();
 }

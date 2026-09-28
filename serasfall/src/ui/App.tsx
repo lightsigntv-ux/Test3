@@ -156,7 +156,7 @@ function WorldHud({ ctl, onLog }: { ctl: Controller; onLog: () => void }) {
   return (
     <>
       <div className="locname">{ctl.locName}{g.controlling === 'yuumi' ? ' · Yuumi' : ''}</div>
-      {label && <div className="hslabel" style={{ left: lx * W, top: Math.max(40, ly * H - 44) }}><span className="key">E</span> {label}{ctl.targets().length > 1 ? <span className="more-t"> · ↑↓ mehr</span> : null}</div>}
+      {label && <div className="hslabel" style={{ left: lx * W, top: Math.max(40, ly * H - 44 - (Math.abs(lx - ctl.seraX) < 0.09 && ly * H > 250 ? 90 : 0)) }}><span className="key">E</span> {label}{ctl.targets().length > 1 ? <span className="more-t"> · ↑↓ mehr</span> : null}</div>}
       {tutorial && <div className="margin-note">{tutorial}</div>}
       <div className="corner">
         <button className="ghostbtn" onClick={() => { ctl.overlay = 'notebook'; audio.sfx('page'); ctl.emit(); }} title="Notizbuch (N)">Notizbuch</button>
